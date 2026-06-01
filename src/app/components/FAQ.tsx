@@ -35,7 +35,7 @@ export function FAQ() {
     // Q01: Audit purchase process
     {
       question: "Comment se passe l'achat de l'audit ?",
-      answer: "Vous achetez l'audit, on planifie un kickoff 20 min, puis livraison sous 72h–5j : diagnostic + priorités + maquettes correctives."
+      answer: "Vous achetez l'audit, on planifie un kickoff 30 min, puis livraison sous 72h–5j : diagnostic + priorités + maquettes correctives."
     },
     // Q02: Confidentiality
     {

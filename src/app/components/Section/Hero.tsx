@@ -111,7 +111,7 @@ export function HeroSection({
                     size="m"
                     className="w-full"
                   >
-                    Réserver un appel (20 min)
+                    Réserver un appel (30 min)
                   </ButtonPrimary>
                   <p className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted text-center">
                     {CTA_PRIMARY.subtext}

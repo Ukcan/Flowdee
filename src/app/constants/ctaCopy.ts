@@ -7,7 +7,7 @@
  */
 
 export const CTA_PRIMARY = {
-  label: "Réserver un appel (20 min)",
+  label: "Réserver un appel (30 min)",
   subtext: "Sans engagement • Réponse sous 24h",
 } as const;
 

@@ -71,11 +71,11 @@ export function FinalCTA() {
           >
             {/* <TechnicalLabel sectionId="CONTACT_FORM_01" /> */}
             <h2 className="heading-1 text-text-primary">
-              Réservez un appel (20 min) ou achetez l'audit
+              Réservez un appel (30 min) ou achetez l'audit
             </h2>
             
             <p className="body-large text-text-secondary">
-              Discutons de votre projet pendant 20 minutes, sans engagement.
+              Discutons de votre projet pendant 30 minutes, sans engagement.
             </p>
 
             <div className="inline-block px-4 py-2 bg-accent-tint rounded-lg cursor-default select-none">

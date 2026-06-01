@@ -297,7 +297,7 @@ export const translations: Record<Language, Translations> = {
       badge: 'UX/UI Design & IA',
       title: 'Chez Flowdee on améliore la conversion et activation via UX/UI testable — accéléré par l\'IA, sans sacrifier la qualité.',
       description: 'De l\'audit au prototype testé : je résous les frictions d\'onboarding, checkout, dashboards. L\'IA accélère les tâches répétitives, je garde le jugement UX.',
-      ctaPrimary: 'Réserver un appel (20 min)',
+      ctaPrimary: 'Réserver un appel (30 min)',
       ctaSecondary: 'Case studies',
     },
 
@@ -583,7 +583,7 @@ export const translations: Record<Language, Translations> = {
       badge: 'UX/UI Design × AI',
       title: 'At Flowdee we improve conversion & activation with testable UX/UI — AI-accelerated, without sacrificing quality.',
       description: 'From audit to tested prototype: I solve onboarding, checkout, and dashboard frictions. AI speeds up repetitive tasks, I keep the UX judgment.',
-      ctaPrimary: 'Book 20 min',
+      ctaPrimary: 'Book 30 min',
       ctaSecondary: 'Case studies',
     },
 

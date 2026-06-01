@@ -399,7 +399,7 @@ export function UseCases() {
             transition={{ delay: 0.4 }}
             className="flex flex-col sm:flex-row justify-center items-center gap-8 mt-16"
           >
-            <ButtonPrimary onClick={scrollToContact} size="l" className="px-12">Réserver un appel (20 min)</ButtonPrimary>
+            <ButtonPrimary onClick={scrollToContact} size="l" className="px-12">Réserver un appel (30 min)</ButtonPrimary>
           </motion.div>
         </div>
       </section>
