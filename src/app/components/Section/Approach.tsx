@@ -1,4 +1,4 @@
-import image_8d0fbd868add68a87847282f9a6dae596b7a8035 from 'figma:asset/8d0fbd868add68a87847282f9a6dae596b7a8035.png';
+import image_8d0fbd868add68a87847282f9a6dae596b7a8035 from 'figma:asset/8d0fbd868add68a87847282f9a6dae596b7a8035.jpg';
 import React from 'react';
 import { motion } from 'motion/react';
 import { Target, Cpu, TrendingUp, Check } from 'lucide-react';

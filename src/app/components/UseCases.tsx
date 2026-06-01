@@ -1,6 +1,6 @@
-import image_14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71 from 'figma:asset/14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71.png';
-import image_5d01d94ee99e37b8c24f102a36d51d884f769ccd from 'figma:asset/5d01d94ee99e37b8c24f102a36d51d884f769ccd.png';
-import image_527f60f73fe096905f75e234d997f79c2f990c15 from 'figma:asset/527f60f73fe096905f75e234d997f79c2f990c15.png';
+import image_14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71 from 'figma:asset/14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71.jpg';
+import image_5d01d94ee99e37b8c24f102a36d51d884f769ccd from 'figma:asset/5d01d94ee99e37b8c24f102a36d51d884f769ccd.jpg';
+import image_527f60f73fe096905f75e234d997f79c2f990c15 from 'figma:asset/527f60f73fe096905f75e234d997f79c2f990c15.jpg';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, X, BarChart3, Target, CheckCircle2, Zap, Check } from 'lucide-react';
