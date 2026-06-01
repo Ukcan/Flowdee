@@ -314,7 +314,7 @@ export const translations: Record<Language, Translations> = {
         partner: 'Design Partner',
       },
       price: {
-        auditFrom: 'À partir de 960€',
+        auditFrom: 'À partir de 279€',
         sprintFrom: 'À partir de 2 500€',
         partnerQuote: 'Sur devis',
       },
@@ -600,7 +600,7 @@ export const translations: Record<Language, Translations> = {
         partner: 'Design Partner',
       },
       price: {
-        auditFrom: 'From €960',
+        auditFrom: 'From €279',
         sprintFrom: 'From €2,500',
         partnerQuote: 'Custom quote',
       },

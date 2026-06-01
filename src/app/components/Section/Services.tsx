@@ -29,7 +29,7 @@ export function ServicesSection() {
       plan: 'Audit',
       timeline: '72H–5\u00A0JOURS',
       title: 'Audit UX',
-      price: '960\u00A0€',
+      price: '279\u00A0€',
       description: 'Diagnostic complet de tes frictions + maquettes correctives prioritaires.',
       forWho: '',
       deliverables: [
@@ -38,7 +38,7 @@ export function ServicesSection() {
         'Maquettes correctives (3–5)',
         'Checklist QA avant release',
       ],
-      ctaPrimaryLabel: 'Acheter l\u2019audit\u00A0— 960\u00A0€',
+      ctaPrimaryLabel: 'Acheter l\u2019audit\u00A0— 279\u00A0€',
       ctaPrimaryAction: 'audit',
       ctaSecondaryLabel: 'Parler avant d\u2019acheter',
       ctaSecondaryAction: 'calendar',

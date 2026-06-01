@@ -12,7 +12,7 @@ export const CTA_PRIMARY = {
 } as const;
 
 export const CTA_SECONDARY = {
-  label: "Acheter l'audit (960€)",
+  label: "Acheter l'audit (279€)",
   subtext: "Livraison 72h–5j • Paiement sécurisé",
 } as const;
 

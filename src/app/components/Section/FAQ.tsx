@@ -15,12 +15,12 @@ export function FAQSection() {
   const faqs = [
     {
       question: "L'audit est gratuit ? Quel est le catch ?",
-      answer: "Non, l'audit est payant (960€) parce qu'il livre des maquettes correctives prêtes à implémenter, pas juste un PDF théorique. Vous payez pour du concret : backlog priorisé + 3-5 maquettes + checklist QA.\n\nLivraison : 72h-5 jours max.",
+      answer: "Non, l'audit est payant (279€) parce qu'il livre des maquettes correctives prêtes à implémenter, pas juste un PDF théorique. Vous payez pour du concret : backlog priorisé + 3-5 maquettes + checklist QA.\n\nLivraison : 72h-5 jours max.",
       isHighlighted: true
     },
     {
       question: "Combien ça coûte et quels délais ?",
-      answer: "• Audit UX : 960€ | Livraison 72h-5 jours\n• Sprint Design : Dès 2,400€ | Livraison 1-2 semaines\n• Partnership : Sur devis | Ongoing\n\nPaiement sécurisé. Démarrage sous 48h si dispo.",
+      answer: "• Audit UX : 279€ | Livraison 72h-5 jours\n• Sprint Design : Dès 2,400€ | Livraison 1-2 semaines\n• Partnership : Sur devis | Ongoing\n\nPaiement sécurisé. Démarrage sous 48h si dispo.",
       isHighlighted: true
     },
     {

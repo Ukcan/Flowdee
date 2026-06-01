@@ -125,7 +125,7 @@ export function HeroSection({
                     size="m"
                     className="w-full"
                   >
-                    Voir l'offre Audit (dès 960€)
+                    Voir l'offre Audit (dès 279€)
                   </ButtonSecondary>
                   <p className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted text-center">
                     {CTA_SECONDARY.subtext}
