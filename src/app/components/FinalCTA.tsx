@@ -56,7 +56,7 @@ export function FinalCTA() {
   return (
     <section
       id="contact"
-      className="relative pt-24 md:pt-32 pb-32 bg-bg-base text-text-primary overflow-hidden border-t border-border-0"
+      className="relative pt-24 md:pt-32 pb-32 bg-transparent text-text-primary overflow-hidden border-t border-border-0"
       aria-label="Contact form"
     >
       <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
