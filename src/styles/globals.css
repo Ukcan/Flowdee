@@ -345,7 +345,7 @@
     overflow: hidden;
     background-color: transparent;
     color: var(--text-primary);
-    border: 1.5px solid var(--accent-primary);
+    border: 1px solid var(--accent-border);
     border-radius: var(--radius-button);
     cursor: pointer;
     font-family: var(--font-body);
