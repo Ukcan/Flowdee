@@ -127,6 +127,9 @@ export default function App() {
           {/* Master Background Layer (Grid + Vignette) */}
           <BackgroundGrid />
 
+          {/* Aurora — slow drifting colour background (over the flat grid) */}
+          <div className="aurora-bg" aria-hidden="true" />
+
           {/* BG / FX_KeylinesParallaxFlow_Dark — parallax keylines, dark mode only */}
           <DecorKeylinesParallaxFlow />
 

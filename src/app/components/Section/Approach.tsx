@@ -38,7 +38,7 @@ export function ApproachSection() {
   return (
     <section
       id="approche"
-      className="bg-bg-base py-24 md:py-32 relative overflow-hidden border-t border-border-0"
+      className="section-aurora py-24 md:py-32 relative overflow-hidden border-t border-border-0"
       aria-label="Notre Approche"
     >
       <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">

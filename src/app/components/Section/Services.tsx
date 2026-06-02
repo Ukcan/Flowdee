@@ -119,7 +119,7 @@ export function ServicesSection() {
   return (
     <section
       id="services"
-      className="relative py-24 md:py-32 overflow-hidden bg-surface-1 border-t border-border-0"
+      className="relative py-24 md:py-32 overflow-hidden section-aurora border-t border-border-0"
       aria-label="Service packages"
     >
       <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">

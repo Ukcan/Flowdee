@@ -491,3 +491,72 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* === AURORA — slow drifting colour illusion (background layer) === */
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* Light theme (ivory) tones */
+  background: linear-gradient(
+    130deg,
+    #F5F0E8 0%,
+    #F0EAE0 25%,
+    #EFEDE4 50%,
+    #F1ECE2 75%,
+    #F5F0E8 100%
+  );
+  background-size: 300% 300%;
+  animation: auroraShift 26s ease-in-out infinite;
+}
+
+.dark .aurora-bg {
+  /* Navy theme tones — navy → blue → violet → teal → navy */
+  background: linear-gradient(
+    130deg,
+    #141A24 0%,
+    #162032 25%,
+    #1B1B2E 50%,
+    #13242B 75%,
+    #141A24 100%
+  );
+  background-size: 300% 300%;
+}
+
+@keyframes auroraShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Section-scoped aurora — animated colour background applied directly to a section.
+   Sits behind the section content naturally (no extra layer, no particles). */
+.section-aurora {
+  background: linear-gradient(
+    130deg,
+    #F5F0E8 0%,
+    #F0EAE0 25%,
+    #EFEDE4 50%,
+    #F1ECE2 75%,
+    #F5F0E8 100%
+  );
+  background-size: 300% 300%;
+  animation: auroraShift 26s ease-in-out infinite;
+}
+
+.dark .section-aurora {
+  background: linear-gradient(
+    130deg,
+    #141A24 0%,
+    #162032 25%,
+    #1B1B2E 50%,
+    #13242B 75%,
+    #141A24 100%
+  );
+  background-size: 300% 300%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-bg { animation-duration: 60s; }
+}

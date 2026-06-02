@@ -20,7 +20,7 @@ export function ProblemCards() {
   return (
     <section
       id="problems"
-      className="relative py-24 md:py-32 bg-bg-base overflow-hidden"
+      className="relative py-24 md:py-32 section-aurora overflow-hidden"
       aria-label="Problems we solve"
     >
       {/* Actionable hover states for problem cards */}
