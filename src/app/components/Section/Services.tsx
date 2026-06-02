@@ -172,7 +172,7 @@ export function ServicesSection() {
                         shadow-[0_4px_14px_-4px_var(--accent-primary)]
                       "
                     >
-                      <Star size={11} weight="fill" aria-hidden="true" />
+                      <Star size={11} weight="fill" aria-hidden="true" className="text-[color:var(--surface-0)]" />
                       Le plus choisi
                     </span>
                   </div>
