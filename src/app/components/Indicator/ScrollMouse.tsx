@@ -140,7 +140,7 @@ export function ScrollMouseIndicator() {
               viewBox="0 0 20 30"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="text-text-muted"
+              className="text-accent-primary"
               animate={{ rotate: isAtBottom ? 180 : 0 }}
               transition={{ duration: 0.4, ease: 'easeInOut' }}
             >
@@ -208,7 +208,7 @@ export function ScrollMouseIndicator() {
                     width: i === currentIndex ? 8 : 3,
                     height: 3,
                     backgroundColor: i === currentIndex
-                      ? 'var(--text-muted)'
+                      ? 'var(--accent-primary)'
                       : 'var(--border-1)',
                   }}
                 />
