@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { UserX, ShoppingCart, GitBranch } from 'lucide-react';
+import { UserMinus, ShoppingCartSimple, Path } from '@phosphor-icons/react';
 import { useTranslation } from '../contexts/LanguageContext';
 import { CTA_SECONDARY } from '../constants/ctaCopy';
 import { TechnicalLabel } from './TechnicalLabel';
@@ -84,7 +84,7 @@ export function ProblemCards() {
                 {/* Slot 1: Icon */}
                 <div className="h-[64px] flex items-center justify-center">
                   <div className="w-[56px] h-[56px] flex items-center justify-center bg-surface-1 rounded-[16px]">
-                    <UserX size={28} className="text-accent-primary" />
+                    <UserMinus size={28} weight="duotone" className="text-accent-primary" />
                   </div>
                 </div>
 
@@ -155,7 +155,7 @@ export function ProblemCards() {
                 {/* Slot 1: Icon */}
                 <div className="h-[64px] flex items-center justify-center">
                   <div className="w-[56px] h-[56px] flex items-center justify-center bg-surface-1 rounded-[16px]">
-                    <ShoppingCart size={28} className="text-accent-primary" />
+                    <ShoppingCartSimple size={28} weight="duotone" className="text-accent-primary" />
                   </div>
                 </div>
 
@@ -225,7 +225,7 @@ export function ProblemCards() {
                 {/* Slot 1: Icon */}
                 <div className="h-[64px] flex items-center justify-center">
                   <div className="w-[56px] h-[56px] flex items-center justify-center bg-surface-1 rounded-[16px]">
-                    <GitBranch size={28} className="text-accent-primary" />
+                    <Path size={28} weight="duotone" className="text-accent-primary" />
                   </div>
                 </div>
 
