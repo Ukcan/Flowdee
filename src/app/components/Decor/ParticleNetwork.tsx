@@ -97,7 +97,7 @@ export function ParticleNetwork() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.55)`;
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.38)`;
         ctx.fill();
       }
 
@@ -110,7 +110,7 @@ export function ParticleNetwork() {
           const dy = a.y - c.y;
           const dist = Math.hypot(dx, dy);
           if (dist < LINK_DIST) {
-            const alpha = (1 - dist / LINK_DIST) * 0.18;
+            const alpha = (1 - dist / LINK_DIST) * 0.10;
             ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
@@ -125,7 +125,7 @@ export function ParticleNetwork() {
         const mdy = a.y - mouse.y;
         const mdist = Math.hypot(mdx, mdy);
         if (mdist < MOUSE_DIST) {
-          const alpha = (1 - mdist / MOUSE_DIST) * 0.35;
+          const alpha = (1 - mdist / MOUSE_DIST) * 0.22;
           ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
@@ -205,7 +205,7 @@ export function ParticleNetwork() {
         inset: 0,
         zIndex: 0,
         pointerEvents: 'none',
-        opacity: 0.7,
+        opacity: 0.55,
       }}
     />
   );
