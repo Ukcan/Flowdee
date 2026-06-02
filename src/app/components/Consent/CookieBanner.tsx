@@ -97,7 +97,7 @@ export function CookieBanner({ forceShow, onClose }: { forceShow?: boolean, onCl
                       </h3>
                       <div className="flex items-center gap-2 mt-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-accent-primary animate-pulse" />
-                        <p className="text-text-primary font-body text-[10px] font-medium uppercase tracking-[0.25em]">
+                        <p className="text-text-primary font-body text-[10px] font-medium uppercase tracking-[0.15em] whitespace-nowrap">
                           {texts.badge}
                         </p>
                       </div>
