@@ -167,7 +167,7 @@ export function ServicesSection() {
                         inline-flex items-center gap-1.5
                         font-body text-[11px] px-3 py-1.5
                         bg-accent-primary text-on-accent
-                        font-bold whitespace-nowrap tracking-[0.02em] lowercase
+                        font-bold whitespace-nowrap tracking-[0.02em] normal-case
                         rounded-full
                         shadow-[0_4px_14px_-4px_var(--accent-primary)]
                       "
