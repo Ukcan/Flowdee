@@ -99,7 +99,7 @@ export function ProblemCards() {
                 <div className="flex flex-col items-center w-full">
                   {/* Slot 3: Stat */}
                   <div className="h-[44px] flex items-center justify-center w-full">
-                    <span className="font-display text-[32px] text-accent-primary leading-none tracking-[-0.01em]" style={{ fontWeight: 300 }}>
+                    <span className="font-display text-[26px] text-accent-primary leading-none tracking-[-0.01em] whitespace-nowrap" style={{ fontWeight: 700 }}>
                       40-60% drop
                     </span>
                   </div>
@@ -174,7 +174,7 @@ export function ProblemCards() {
                 <div className="flex flex-col items-center w-full">
                   {/* Slot 3: Stat */}
                   <div className="h-[44px] flex items-center justify-center w-full">
-                    <span className="font-display text-[32px] text-accent-primary leading-none tracking-[-0.01em]" style={{ fontWeight: 300 }}>
+                    <span className="font-display text-[26px] text-accent-primary leading-none tracking-[-0.01em] whitespace-nowrap" style={{ fontWeight: 700 }}>
                       69.8%
                     </span>
                   </div>
@@ -249,7 +249,7 @@ export function ProblemCards() {
                 <div className="flex flex-col items-center w-full">
                   {/* Slot 3: Stat */}
                   <div className="h-[44px] flex items-center justify-center w-full">
-                    <span className="font-display text-[32px] text-accent-primary leading-none tracking-[-0.01em]" style={{ fontWeight: 300 }}>
+                    <span className="font-display text-[26px] text-accent-primary leading-none tracking-[-0.01em] whitespace-nowrap" style={{ fontWeight: 700 }}>
                       22% abandon
                     </span>
                   </div>
