@@ -1,5 +1,5 @@
 import React from 'react';
-import { Envelope as Mail, Phone, MapPin } from '@phosphor-icons/react';
+import { Envelope as Mail, MapPin } from '@phosphor-icons/react';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { CTA_PRIMARY, CTA_SECONDARY } from '../../constants/ctaCopy';
 import { CALENDAR_LINK, AUDIT_LINK } from '../../constants/links';
@@ -70,13 +70,9 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
                 <Mail size={16} weight="duotone" className="w-4 h-4 shrink-0 text-accent-primary group-hover:opacity-70 transition-opacity" />
                 <span>contact@flowdee.fr</span>
               </a>
-              <a href="tel:+33612345678" className="flex items-center gap-2 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-secondary hover:text-accent-primary transition-all group">
-                <Phone size={16} weight="duotone" className="w-4 h-4 shrink-0 text-accent-primary group-hover:opacity-70 transition-opacity" />
-                <span>+33 6 12 34 56 78</span>
-              </a>
               <div className="flex items-center gap-2 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-secondary">
                 <MapPin size={16} weight="duotone" className="w-4 h-4 shrink-0 text-accent-primary" />
-                <span>Bordeaux | Nice - Remote</span>
+                <span>Bordeaux · Nice · Remote</span>
               </div>
             </div>
           </div>
@@ -110,7 +106,7 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
                   onClick={onOpenPrivacy}
                   className="text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
                 >
-                  Politique de confidentialités
+                  Politique de confidentialité
                 </button>
                 <button onClick={onOpenCookies} className="text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
                   Paramètres cookies
@@ -125,7 +121,7 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
             <div className="space-y-6">
               <h3 className="font-heading text-[13px] font-medium uppercase tracking-[0.08em] text-text-primary">{t.footer.followMe}</h3>
               <div className="flex gap-3">
-                <a href="#" className="group/li relative w-[44px] h-[44px] flex items-center justify-center text-text-secondary overflow-hidden rounded-full transition-all duration-200" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/in/benjamin-duffau/" target="_blank" rel="noopener noreferrer" className="group/li relative w-[44px] h-[44px] flex items-center justify-center text-text-secondary overflow-hidden rounded-full transition-all duration-200" aria-label="LinkedIn">
                   {/* Hover BG (wave overlay) — gentle wave rising from bottom */}
                   <span className="absolute inset-0 invisible translate-y-full opacity-0 group-hover/li:visible group-hover/li:translate-y-0 group-hover/li:opacity-100 transition-all duration-500 ease-out pointer-events-none">
                     {/* Wave crest */}
