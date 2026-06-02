@@ -13,18 +13,18 @@ import { ButtonSecondary } from './Button/Secondary';
 const featuredCase = {
   tag: 'EdTech SaaS',
   title: 'Simulation & Serious Game Dashboard',
-  headerTitle: '+65% ENGAGEMENT ÉTUDIANT',
+  headerTitle: 'ENGAGEMENT ÉTUDIANT EN FORTE HAUSSE',
   headerSubtitle: 'EdTech SaaS B2B2C',
   imageBefore: image_527f60f73fe096905f75e234d997f79c2f990c15,
   imageAfter: image_5d01d94ee99e37b8c24f102a36d51d884f769ccd,
   problemShort: 'Apprentissage passif & correction manuelle chronophage',
   actionShort: 'Gamification UX + Dashboard Analytics Professeur',
-  resultShort: '+65% engagement, -3h/semaine correction',
+  resultShort: 'Engagement en forte hausse, correction fortement réduite',
   scope: 'SaaS / Serious Game',
   duration: '12 semaines',
   metrics: [
-    { label: '+65% engagement', positive: true },
-    { label: '-3h/sem correction', positive: true }
+    { label: 'Engagement en forte hausse', positive: true },
+    { label: 'Temps de correction réduit', positive: true }
   ],
   deliverables: [
     'User Flow Étudiant vs Prof',
@@ -37,10 +37,10 @@ const featuredCase = {
   challenge: 'Transformer un contenu pédagogique dense en expérience engageante, tout en fournissant aux professeurs un outil de suivi précis et automatisé.',
   solution: 'Interface de simulation immersive accessible sur desktop/tablette, couplée à un dashboard professeur automatisant les corrections et soulignant les points de blocage via data-viz.',
   results: [
-    'Engagement étudiant augmenté de 65%',
-    'Gain de temps de correction : 3h/semaine par professeur',
-    'Taux de complétion des modules passé de 40% à 92%',
-    'Score moyen aux évaluations +24%'
+    'Engagement étudiant en forte hausse',
+    'Temps de correction fortement réduit',
+    'Taux de complétion fortement amélioré',
+    'Score moyen en hausse'
   ],
   tools: ['Figma', 'Unity WebGL', 'React', 'GPT-4']
 };
@@ -48,16 +48,16 @@ const featuredCase = {
 const otherUseCases = [
   {
     tag: 'Application web SaaS',
-    title: 'Réduction de 40% du temps d\'activation',
+    title: 'Temps d\'activation nettement réduit',
     image: 'https://images.unsplash.com/photo-1646708198974-4c4893e8a2d7?auto=format&fit=crop&q=80&w=1080',
-    problemShort: 'Onboarding complexe (8 étapes)',
-    actionShort: 'Simplification à 3 étapes + templates',
-    resultShort: '+40% activation, -25% drop-off',
+    problemShort: 'Onboarding trop complexe',
+    actionShort: 'Parcours raccourci + templates',
+    resultShort: 'Activation nettement améliorée, drop-off réduit',
     scope: 'Onboarding',
     duration: '6 semaines',
     metrics: [
-      { label: '+40% activation', positive: true },
-      { label: '-25% drop-off', positive: true }
+      { label: 'Activation nettement améliorée', positive: true },
+      { label: 'Drop-off réduit', positive: true }
     ],
     deliverables: [
       { name: 'Audit heuristique' },
@@ -66,12 +66,12 @@ const otherUseCases = [
       { name: 'UI specs' }
     ],
     iaNote: 'IA : synthèse de 12 interviews + variantes CTA',
-    challenge: 'Les utilisateurs abandonnaient face à un formulaire complexe de 8 étapes.',
-    solution: 'Simplification du parcours à 3 étapes essentielles et ajout de templates pré-configurés.',
+    challenge: 'Les utilisateurs abandonnaient face à un formulaire trop long et complexe.',
+    solution: 'Simplification du parcours recentré sur les étapes essentielles et ajout de templates pré-configurés.',
     results: [
-      'Temps d\'activation réduit de 12 à 7 minutes',
-      'Taux de complétion passé de 45% à 85%',
-      '40% d\'augmentation des comptes actifs'
+      'Temps d\'activation nettement réduit',
+      'Taux de complétion fortement amélioré',
+      'Forte hausse des comptes actifs'
     ],
     tools: ['Figma', 'Notion', 'Hotjar', 'GPT-4']
   },
@@ -79,14 +79,14 @@ const otherUseCases = [
     tag: 'E-commerce',
     title: 'Optimisation du tunnel d\'achat',
     image: image_14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71,
-    problemShort: '68% abandon panier mobile',
+    problemShort: 'Fort taux d’abandon panier sur mobile',
     actionShort: 'Checkout one-page + Apple/Google Pay',
-    resultShort: '+32% conversion, -18% abandon',
+    resultShort: 'Conversion mobile améliorée, abandon panier réduit',
     scope: 'Checkout',
     duration: '8 semaines',
     metrics: [
-      { label: '+32% conversion', positive: true },
-      { label: '-18% abandon panier', positive: true }
+      { label: 'Conversion mobile améliorée', positive: true },
+      { label: 'Abandon panier réduit', positive: true }
     ],
     deliverables: [
       { name: 'User flow mapping' },
@@ -98,9 +98,9 @@ const otherUseCases = [
     challenge: 'Le tunnel d\'achat comportait 5 pages avec de nombreux champs obligatoires.',
     solution: 'Refonte complète en checkout one-page et intégration de méthodes de paiement rapides.',
     results: [
-      'Conversion mobile passée de 1.8% à 2.4%',
-      'Abandon panier réduit de 68% à 50%',
-      '+470K€ de revenus mensuels additionnels'
+      'Conversion mobile améliorée',
+      'Abandon panier nettement réduit',
+      'Revenus additionnels significatifs'
     ],
     tools: ['Figma', 'Google Analytics', 'Hotjar', 'Claude']
   }
@@ -240,15 +240,15 @@ export function UseCases() {
               {/* Section Résultats */}
               <div>
                 <h3 className="font-heading text-[18px] text-accent-primary tracking-[-0.01em] mb-6" style={{ fontWeight: 500 }}>
-                  RÉSULTATS MESURÉS
+                  IMPACT OBSERVÉ
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-8 bg-surface-0 border border-border-0 flex flex-col items-center justify-center rounded-[24px]">
-                    <span className="font-display text-[42px] text-accent-primary leading-none tracking-wide" style={{ fontWeight: 300 }}>+65%</span>
+                    <span className="font-display text-[42px] text-accent-primary leading-none tracking-wide" style={{ fontWeight: 300 }}>Hausse</span>
                     <span className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted mt-2">ENGAGEMENT</span>
                   </div>
                   <div className="p-8 bg-surface-0 border border-border-0 flex flex-col items-center justify-center rounded-[24px]">
-                    <span className="font-display text-[42px] text-accent-primary leading-none tracking-wide" style={{ fontWeight: 300 }}>-3H</span>
+                    <span className="font-display text-[42px] text-accent-primary leading-none tracking-wide" style={{ fontWeight: 300 }}>Réduit</span>
                     <span className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted mt-2">CORRECTION / SEM</span>
                   </div>
                 </div>
@@ -282,7 +282,7 @@ export function UseCases() {
               viewport={{ once: true }}
               className="heading-1 text-text-primary mt-4 text-center"
             >
-              Autres réalisations & Impact
+              Résultats observés sur des cas concrets
             </motion.h2>
           </div>
 
