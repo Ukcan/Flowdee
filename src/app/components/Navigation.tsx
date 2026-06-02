@@ -106,7 +106,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
   };
 
   const openAudit = () => {
-    window.open(AUDIT_LINK, '_blank', 'noopener,noreferrer');
+    window.location.href = AUDIT_LINK;
   };
 
   return (

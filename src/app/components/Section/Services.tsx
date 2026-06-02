@@ -241,7 +241,7 @@ export function ServicesSection() {
                       service.ctaPrimaryAction === 'calendar'
                         ? () => window.dispatchEvent(new CustomEvent('flowdee:open-calendar'))
                         : service.ctaPrimaryAction === 'audit'
-                        ? () => window.open(AUDIT_LINK, '_blank', 'noopener,noreferrer')
+                        ? () => { window.location.href = AUDIT_LINK; }
                         : scrollToContact
                     }
                     size="m"

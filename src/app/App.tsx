@@ -24,6 +24,7 @@ import { ScrollMouseIndicator } from './components/Indicator/ScrollMouse';
 import { DecorKeylinesParallaxFlow } from './components/Decor/KeylinesParallaxFlow';
 import { ParticleNetwork } from './components/Decor/ParticleNetwork';
 import { CalendarModal } from './components/CalendarModal';
+import { ThankYouModal } from './components/ThankYouModal';
 
 /**
  * BackgroundGrid Component
@@ -198,6 +199,9 @@ export default function App() {
 
           {/* In-site booking modal (Google Calendar embed) */}
           <CalendarModal />
+
+          {/* Post-payment thank-you modal (shown on ?payment=success) */}
+          <ThankYouModal />
 
           {/* Cookie Consent Banner */}
           <CookieBanner 

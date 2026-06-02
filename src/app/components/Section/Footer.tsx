@@ -170,7 +170,7 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
             {CTA_PRIMARY.label}
           </ButtonPrimary>
           <ButtonSecondary
-            onClick={() => window.open(AUDIT_LINK, '_blank', 'noopener,noreferrer')}
+            onClick={() => { window.location.href = AUDIT_LINK; }}
             size="l"
             className="px-12"
           >
