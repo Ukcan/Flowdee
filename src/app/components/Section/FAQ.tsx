@@ -15,35 +15,28 @@ export function FAQSection() {
   
   const faqs = [
     {
-      question: "L'audit est gratuit ? Quel est le catch ?",
-      answer: "Non, l'audit est payant (279€) parce qu'il livre des maquettes correctives prêtes à implémenter, pas juste un PDF théorique. Vous payez pour du concret : backlog priorisé + 3-5 maquettes + checklist QA.\n\nLivraison : 72h-5 jours max.",
-      isHighlighted: true
+      question: "Qu’est-ce que je reçois concrètement avec l’audit ?",
+      answer: "Un livrable actionnable, pas un PDF théorique : un backlog priorisé impact/effort, 3 à 5 maquettes correctives prêtes à implémenter, et une checklist QA."
     },
     {
-      question: "Combien ça coûte et quels délais ?",
-      answer: "• Audit UX : 279€ | Livraison 72h-5 jours\n• Sprint Design : Dès 2,400€ | Livraison 1-2 semaines\n• Partnership : Sur devis | Ongoing\n\nPaiement sécurisé. Démarrage sous 48h si dispo.",
-      isHighlighted: true
+      question: "Et si je n’ai pas besoin d’une refonte complète ?",
+      answer: "C’est tout l’intérêt : on cible les frictions qui comptent et on corrige par priorité, sans refonte inutile. Vous gardez votre existant, on optimise ce qui bloque vos conversions."
     },
     {
-      question: "Comment vous différenciez-vous ?",
-      answer: "On ne fait pas de \"joli design\". On supprime les frictions qui coûtent tes conversions. Approche data-driven : audit heuristique + tests + metrics.\n\nIA accélère la prod (30+ interviews → JSON structuré), mais validation reste UX (heuristiques, tests users).\n\nRésultats clients 2024 : +40% activation, +32% checkout.",
-      isHighlighted: true
+      question: "L’audit couvre-t-il l’UX, le SEO, l’accessibilité et la microcopy ?",
+      answer: "Oui : UX — clarté, parcours, CTA, formulaires ; accessibilité ; SEO on-page ; microcopy — titres, aides, erreurs, réassurances. Les corrections sont priorisées par impact."
     },
     {
-      question: t.faq.questions.q3.question,
-      answer: t.faq.questions.q3.answer
+      question: "Combien de temps ça prend et combien ça coûte ?",
+      answer: "Audit UX : dès 279 €, livré en 72 h à 5 jours. Sprint Design + Tests : dès 2 400 €, 1 à 2 semaines. Design Partner : sur devis, en continu. Paiement sécurisé."
     },
     {
-      question: t.faq.questions.q4.question,
-      answer: t.faq.questions.q4.answer
+      question: "Comment utiliser le livrable avec Figma, votre équipe dev ou Claude Code ?",
+      answer: "Les maquettes sont livrées dans Figma avec des specs claires, directement exploitables par votre équipe de développement — et pensées pour être reprises facilement par un assistant comme Claude Code afin d’accélérer l’implémentation."
     },
     {
-      question: t.faq.questions.q5.question,
-      answer: t.faq.questions.q5.answer
-    },
-    {
-      question: "Comment se passe l'achat de l'audit ?",
-      answer: "Vous achetez l'audit, on planifie un kickoff 30 min, puis livraison sous 72h–5j : diagnostic + priorités + maquettes correctives."
+      question: "Quelle offre choisir si je ne suis pas sûr ?",
+      answer: "Réservez un appel de 30 minutes : on regarde votre situation ensemble et je vous oriente vers le format le plus adapté. Sans engagement."
     },
     {
       question: "Quelle garantie de confidentialité ?",
