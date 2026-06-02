@@ -123,7 +123,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
       onTouchMove={handleMouseMove}
     >
       <div className="absolute inset-0">
-        <ImageWithFallback src={after} alt="After" className="w-full h-full object-cover" />
+        <ImageWithFallback src={after} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 right-6 z-20">
           <span className="font-body text-[11px] bg-accent-primary text-on-accent font-medium px-6 py-2 uppercase tracking-widest rounded-full shadow-panel" style={{ fontWeight: 500 }}>
             OPTIMISÉ
@@ -134,7 +134,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
         className="absolute inset-0 border-r border-accent-primary z-10"
         style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
       >
-        <ImageWithFallback src={before} alt="Wireframe" className="w-full h-full object-cover" />
+        <ImageWithFallback src={before} alt="Interface avant refonte — version initiale" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 left-6 z-20">
           <span className="font-body text-[11px] bg-surface-0 text-text-primary border border-border-0 font-bold px-6 py-2 uppercase tracking-widest rounded-full">
             WIREFRAME
