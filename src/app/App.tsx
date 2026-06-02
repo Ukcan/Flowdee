@@ -23,6 +23,7 @@ import { ScrollMouseIndicator } from './components/Indicator/ScrollMouse';
 // import { DecorKeylines } from './components/Decor/Keylines'; // Disabled — Zero Deletion Policy
 import { DecorKeylinesParallaxFlow } from './components/Decor/KeylinesParallaxFlow';
 import { ParticleNetwork } from './components/Decor/ParticleNetwork';
+import { CalendarModal } from './components/CalendarModal';
 
 /**
  * BackgroundGrid Component
@@ -194,6 +195,9 @@ export default function App() {
 
           {/* Sticky Bottom CTA — Disabled per user request */}
           {/* <StickyCTA /> */}
+
+          {/* In-site booking modal (Google Calendar embed) */}
+          <CalendarModal />
 
           {/* Cookie Consent Banner */}
           <CookieBanner 

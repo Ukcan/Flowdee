@@ -108,7 +108,7 @@ export function ServicesSection() {
         scrollToCaseStudies();
         break;
       case 'calendar':
-        window.open(CALENDAR_LINK, '_blank', 'noopener,noreferrer');
+        window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
         break;
       case 'contact':
       default:
@@ -239,7 +239,7 @@ export function ServicesSection() {
                   <ButtonPrimary
                     onClick={
                       service.ctaPrimaryAction === 'calendar'
-                        ? () => window.open(CALENDAR_LINK, '_blank', 'noopener,noreferrer')
+                        ? () => window.dispatchEvent(new CustomEvent('flowdee:open-calendar'))
                         : service.ctaPrimaryAction === 'audit'
                         ? () => window.open(AUDIT_LINK, '_blank', 'noopener,noreferrer')
                         : scrollToContact
@@ -321,7 +321,7 @@ export function ServicesSection() {
             </p>
             <a
               href={CALENDAR_LINK}
-              target="_blank"
+              onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('flowdee:open-calendar')); }}
               rel="noopener noreferrer"
               className="group/pri relative !overflow-hidden inline-flex items-center gap-2 mt-2 px-6 py-3 min-h-[44px] rounded-[var(--radius-button)] bg-accent-primary text-on-accent border-[1.5px] border-transparent hover:!border-accent-primary transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
               aria-label="Réserver un appel découverte"

@@ -102,7 +102,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
   };
 
   const openCalendar = () => {
-    window.open(CALENDAR_LINK, '_blank', 'noopener,noreferrer');
+    window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
   };
 
   const openAudit = () => {

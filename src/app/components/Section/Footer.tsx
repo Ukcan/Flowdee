@@ -163,7 +163,7 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
         {/* Global CTAs */}
         <div className="pt-12 pb-12 border-t border-border-0 flex flex-col sm:flex-row justify-center items-center gap-6">
           <ButtonPrimary
-            onClick={() => window.open(CALENDAR_LINK, '_blank', 'noopener,noreferrer')}
+            onClick={() => window.dispatchEvent(new CustomEvent('flowdee:open-calendar'))}
             size="l"
             className="px-12"
           >

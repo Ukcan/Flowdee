@@ -36,7 +36,7 @@ export function FinalCTA() {
     });
 
     if (choice === 'call') {
-      window.open(CALENDAR_LINK, '_blank', 'noopener,noreferrer');
+      window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
     } else {
       window.open(AUDIT_LINK, '_blank', 'noopener,noreferrer');
     }

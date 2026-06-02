@@ -20,7 +20,7 @@ export function HeroSection({
   const { t } = useTranslation();
   
   const openCalendar = () => {
-    window.open(CALENDAR_LINK, '_blank', 'noopener,noreferrer');
+    window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
   };
 
   const scrollToSection = (section: string) => {
