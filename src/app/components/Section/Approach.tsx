@@ -24,7 +24,7 @@ const defaultPillars = [
     key: 'impact',
     icon: TrendingUp,
     title: 'IMPACT MESURABLE',
-    description: '+40% activation, +32% checkout clients 2024. Résultats trackables ou remboursé.',
+    description: 'Des résultats orientés conversion, trackables et vérifiables sur vos KPIs.',
   },
 ];
 
