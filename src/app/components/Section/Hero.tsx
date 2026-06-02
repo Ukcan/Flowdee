@@ -3,7 +3,6 @@ import { motion } from 'motion/react';
 import { Button } from '../ui/button';
 import { ButtonPrimary } from '../Button/Primary';
 import { ButtonSecondary } from '../Button/Secondary';
-import { ArrowRight } from 'lucide-react';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { CTA_PRIMARY, CTA_SECONDARY } from '../../constants/ctaCopy';
 import { TechnicalLabel } from '../TechnicalLabel';

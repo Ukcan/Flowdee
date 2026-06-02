@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { ButtonPrimary } from '../Button/Primary';
-import { Cookie, Settings, ShieldCheck, ChevronLeft, X } from 'lucide-react';
+import { Cookie, GearSix as Settings, ShieldCheck, CaretLeft as ChevronLeft, X } from '@phosphor-icons/react';
 
 /**
  * CookieBanner Component - Ultra Simple & Robust Version
@@ -89,7 +89,7 @@ export function CookieBanner({ forceShow, onClose }: { forceShow?: boolean, onCl
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-surface-1 rounded-[16px] flex items-center justify-center text-accent-primary shrink-0 border border-border-0">
-                      <Cookie size={24} />
+                      <Cookie size={24} weight="duotone" />
                     </div>
                     <div>
                       <h3 className="text-text-primary font-heading text-[18px] tracking-[-0.01em] leading-[1.1]" style={{ fontWeight: 400 }}>

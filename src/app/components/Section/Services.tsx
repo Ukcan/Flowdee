@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Check, Briefcase, PhoneCall, ArrowRight } from 'lucide-react';
+import { Check, Briefcase, PhoneCall, ArrowRight } from '@phosphor-icons/react';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { ButtonPrimary } from '../Button/Primary';
 import { CALENDAR_LINK, AUDIT_LINK } from '../../constants/links';
@@ -213,7 +213,7 @@ export function ServicesSection() {
                           bg-[#8A9E8C]/10 text-[#8A9E8C]
                         "
                       >
-                        <Check size={12} strokeWidth={2.5} />
+                        <Check size={12} weight="bold" />
                       </div>
                       <span className="font-body text-[14px] text-text-secondary font-normal">
                         {deliverable}
@@ -291,7 +291,7 @@ export function ServicesSection() {
           onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') scrollToContact(); }}
         >
           <div className="flex items-center gap-3">
-            <Briefcase size={18} className="text-text-muted group-hover:text-accent-primary transition-colors" />
+            <Briefcase size={18} weight="duotone" className="text-text-muted group-hover:text-accent-primary transition-colors" />
             <span className="font-body font-medium uppercase tracking-[0.15em] text-text-muted text-[14px]">
               Besoin d'un partenariat long-terme ?
             </span>
@@ -311,7 +311,7 @@ export function ServicesSection() {
         >
           <div className="flex flex-col items-center gap-4">
             <div className="flex items-center justify-center w-12 h-12 rounded-full bg-accent-bg border border-accent-border group-hover:bg-accent-primary/20 transition-all duration-300">
-              <PhoneCall className="w-5 h-5 text-accent-primary" />
+              <PhoneCall weight="duotone" className="w-5 h-5 text-accent-primary" />
             </div>
             <p className="font-body text-[15px] text-text-primary font-normal max-w-md">
               Vous ne savez pas quoi choisir ? Réservez un appel : je recommande le format le plus rentable.
@@ -339,7 +339,7 @@ export function ServicesSection() {
                 <div className="w-full h-full" style={{ backgroundColor: 'var(--accent-hover)' }} />
               </span>
               <span className="relative z-10 inline-flex items-center gap-2 transition-colors duration-200">
-                <PhoneCall className="w-4 h-4" />
+                <PhoneCall weight="duotone" className="w-4 h-4" />
                 <span className="font-body text-[14px]">Réserver un appel</span>
               </span>
             </a>

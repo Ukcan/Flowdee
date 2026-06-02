@@ -3,7 +3,7 @@ import image_5d01d94ee99e37b8c24f102a36d51d884f769ccd from 'figma:asset/5d01d94e
 import image_527f60f73fe096905f75e234d997f79c2f990c15 from 'figma:asset/527f60f73fe096905f75e234d997f79c2f990c15.jpg';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, X, BarChart3, Target, CheckCircle2, Zap, Check } from 'lucide-react';
+import { ArrowRight, X } from '@phosphor-icons/react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { CTA_PRIMARY } from '../constants/ctaCopy';
 import { TechnicalLabel } from './TechnicalLabel';

@@ -1,7 +1,7 @@
 import image_8d0fbd868add68a87847282f9a6dae596b7a8035 from 'figma:asset/8d0fbd868add68a87847282f9a6dae596b7a8035.jpg';
 import React from 'react';
 import { motion } from 'motion/react';
-import { Target, Cpu, TrendingUp, Check } from 'lucide-react';
+import { Target, Cpu, TrendUp as TrendingUp, Check } from '@phosphor-icons/react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { TechnicalLabel } from '../TechnicalLabel';
 import { EditableText } from '../Editable/Text';
@@ -119,7 +119,7 @@ export function ApproachSection() {
                   className="card-surface text-center flex flex-col items-center p-10 bg-surface-0"
                 >
                   <div className="mb-6 p-4 bg-surface-1 text-accent-primary rounded-[16px]">
-                    <Icon size={36} className="text-accent-primary" />
+                    <Icon size={36} weight="duotone" className="text-accent-primary" />
                   </div>
                   <EditableText
                     contentKey={`approach.pillar.${pillar.key}.title`}
@@ -176,7 +176,7 @@ export function ApproachSection() {
                     className="flex items-center gap-4 p-4 bg-bg-base border border-border-0 hover:border-border-1 transition-colors rounded-[16px] group"
                   >
                     <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: 'rgba(138, 158, 140, 0.15)', color: '#8A9E8C' }}>
-                      <Check size={12} strokeWidth={3} />
+                      <Check size={12} weight="bold" />
                     </div>
                     <EditableText
                       contentKey={`approach.guardrail.${item.key}`}

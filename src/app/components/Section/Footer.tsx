@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Linkedin, Twitter, Github } from 'lucide-react';
+import { Envelope as Mail, Phone, MapPin } from '@phosphor-icons/react';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { CTA_PRIMARY, CTA_SECONDARY } from '../../constants/ctaCopy';
 import { CALENDAR_LINK, AUDIT_LINK } from '../../constants/links';
@@ -67,15 +67,15 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
             
             <div className="space-y-3">
               <a href="mailto:contact@flowdee.fr" className="flex items-center gap-2 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-secondary hover:text-accent-primary transition-all group">
-                <Mail size={16} className="w-4 h-4 shrink-0 text-accent-primary group-hover:opacity-70 transition-opacity" />
+                <Mail size={16} weight="duotone" className="w-4 h-4 shrink-0 text-accent-primary group-hover:opacity-70 transition-opacity" />
                 <span>contact@flowdee.fr</span>
               </a>
               <a href="tel:+33612345678" className="flex items-center gap-2 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-secondary hover:text-accent-primary transition-all group">
-                <Phone size={16} className="w-4 h-4 shrink-0 text-accent-primary group-hover:opacity-70 transition-opacity" />
+                <Phone size={16} weight="duotone" className="w-4 h-4 shrink-0 text-accent-primary group-hover:opacity-70 transition-opacity" />
                 <span>+33 6 12 34 56 78</span>
               </a>
               <div className="flex items-center gap-2 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-secondary">
-                <MapPin size={16} className="w-4 h-4 shrink-0 text-accent-primary" />
+                <MapPin size={16} weight="duotone" className="w-4 h-4 shrink-0 text-accent-primary" />
                 <span>Bordeaux | Nice - Remote</span>
               </div>
             </div>
