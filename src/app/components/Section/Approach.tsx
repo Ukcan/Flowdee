@@ -2,6 +2,7 @@ import image_8d0fbd868add68a87847282f9a6dae596b7a8035 from 'figma:asset/8d0fbd86
 import React from 'react';
 import { motion } from 'motion/react';
 import { Target, Cpu, TrendUp as TrendingUp, Check } from '@phosphor-icons/react';
+import { ParallaxHeading } from '../Decor/ParallaxHeading';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { TechnicalLabel } from '../TechnicalLabel';
 import { EditableText } from '../Editable/Text';
@@ -44,19 +45,21 @@ export function ApproachSection() {
       <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
         <div className="flex flex-col items-center mb-16">
           {/* <TechnicalLabel sectionId="APPROACH_CORE_01" /> */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="heading-1 text-text-primary text-center mt-4"
-          >
-            <EditableText
-              contentKey="approach.title"
-              defaultValue="NOTRE APPROCHE"
-              as="span"
-              className="heading-1 text-text-primary"
-            />
-          </motion.h1>
+          <ParallaxHeading>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="heading-1 text-text-primary text-center mt-4"
+            >
+              <EditableText
+                contentKey="approach.title"
+                defaultValue="NOTRE APPROCHE"
+                as="span"
+                className="heading-1 text-text-primary"
+              />
+            </motion.h1>
+          </ParallaxHeading>
         </div>
 
         {/* Bloc Citation / Profil */}

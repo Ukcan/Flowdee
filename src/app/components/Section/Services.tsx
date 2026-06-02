@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Check, Briefcase, PhoneCall, ArrowRight } from '@phosphor-icons/react';
+import { ParallaxHeading } from '../Decor/ParallaxHeading';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { ButtonPrimary } from '../Button/Primary';
 import { CALENDAR_LINK, AUDIT_LINK } from '../../constants/links';
@@ -125,15 +126,17 @@ export function ServicesSection() {
       <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
         {/* Section title */}
         <div className="flex flex-col items-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="heading-1 text-center text-text-primary mt-4"
-          >
-            {t.services.title}
-          </motion.h2>
+          <ParallaxHeading>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="heading-1 text-center text-text-primary mt-4"
+            >
+              {t.services.title}
+            </motion.h2>
+          </ParallaxHeading>
         </div>
 
         {/* Cards grid — 3 columns desktop, 2 tablet, 1 mobile */}

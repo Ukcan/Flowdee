@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { ParallaxHeading } from '../Decor/ParallaxHeading';
 import {
   Accordion,
   AccordionContent,
@@ -60,15 +61,17 @@ export function FAQSection() {
       <div className="max-w-[800px] mx-auto px-8 md:px-16 relative z-10">
         <div className="flex flex-col items-center mb-16">
           {/* <TechnicalLabel sectionId="FAQ_TERMINAL_01" /> */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="heading-1 text-center text-text-primary mt-4"
-          >
-            {t.faq.title}
-          </motion.h1>
+          <ParallaxHeading>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="heading-1 text-center text-text-primary mt-4"
+            >
+              {t.faq.title}
+            </motion.h1>
+          </ParallaxHeading>
         </div>
 
         <motion.div
