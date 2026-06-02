@@ -45,7 +45,7 @@ export function ParticleNetwork() {
     // When the user prefers reduced motion we keep a calmer, slower drift
     // rather than freezing the field entirely.
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const speed = reduceMotion ? 0.22 : 0.7;
+    const speed = reduceMotion ? 0.12 : 0.38;
 
     let width = 0;
     let height = 0;
@@ -138,8 +138,8 @@ export function ParticleNetwork() {
         }
 
         // velocity damping to avoid runaway from attraction
-        a.vx = Math.max(-1.1, Math.min(1.1, a.vx));
-        a.vy = Math.max(-1.1, Math.min(1.1, a.vy));
+        a.vx = Math.max(-0.55, Math.min(0.55, a.vx));
+        a.vy = Math.max(-0.55, Math.min(0.55, a.vy));
       }
     };
 
