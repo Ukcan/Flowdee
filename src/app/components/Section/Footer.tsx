@@ -70,9 +70,9 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
                 <Mail size={16} weight="duotone" className="w-4 h-4 shrink-0 text-accent-primary group-hover:opacity-70 transition-opacity" />
                 <span>contact@flowdee.fr</span>
               </a>
-              <div className="flex items-center gap-2 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-secondary">
-                <MapPin size={16} weight="duotone" className="w-4 h-4 shrink-0 text-accent-primary" />
-                <span>Bordeaux · Nice · Remote</span>
+              <div className="flex items-start gap-2 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-secondary">
+                <MapPin size={16} weight="duotone" className="w-4 h-4 shrink-0 mt-px text-accent-primary" />
+                <span>Bordeaux · Nice · À{' '}distance</span>
               </div>
             </div>
           </div>
