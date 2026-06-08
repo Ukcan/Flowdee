@@ -24,6 +24,7 @@ import { ScrollMouseIndicator } from './components/Indicator/ScrollMouse';
 // import { DecorKeylines } from './components/Decor/Keylines'; // Disabled — Zero Deletion Policy
 import { DecorKeylinesParallaxFlow } from './components/Decor/KeylinesParallaxFlow';
 import { ParticleNetwork } from './components/Decor/ParticleNetwork';
+import { ScrollReveal } from './components/Decor/ScrollReveal';
 import { CalendarModal } from './components/CalendarModal';
 import { ThankYouModal } from './components/ThankYouModal';
 
@@ -172,15 +173,48 @@ export default function App() {
 
           {/* Main Content */}
           <main id="main-content" className="relative z-10">
+            {/* Hero — pas de ScrollTrigger, entre dès le chargement */}
             <HeroSection />
-            <TrustedClientsSection />
-            <ProblemsSection />
-            <DeliverablesSection />
-            <ServicesSection />
-            <CaseStudiesSection />
-            <ApproachSection />
-            <FAQSection />
-            <FinalCTASection />
+
+            {/* Logos clients — fade simple, léger */}
+            <ScrollReveal variant="fadeUp" delay={0.1} duration={0.6} threshold="top 92%">
+              <TrustedClientsSection />
+            </ScrollReveal>
+
+            {/* Problèmes — stagger sur les cards */}
+            <ScrollReveal variant="stagger" staggerAmount={0.18} threshold="top 85%">
+              <ProblemsSection />
+            </ScrollReveal>
+
+            {/* Livrables — slide depuis la gauche */}
+            <ScrollReveal variant="fadeLeft" duration={0.75} threshold="top 82%">
+              <DeliverablesSection />
+            </ScrollReveal>
+
+            {/* Services — fadeUp standard */}
+            <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%">
+              <ServicesSection />
+            </ScrollReveal>
+
+            {/* Case Studies — stagger sur les cards */}
+            <ScrollReveal variant="stagger" staggerAmount={0.2} threshold="top 80%">
+              <CaseStudiesSection />
+            </ScrollReveal>
+
+            {/* Approche — scaleUp pour effet "pop" */}
+            <ScrollReveal variant="scaleUp" duration={0.75} threshold="top 82%">
+              <ApproachSection />
+            </ScrollReveal>
+
+            {/* FAQ — fadeUp, légèrement différé */}
+            <ScrollReveal variant="fadeUp" delay={0.05} duration={0.7} threshold="top 85%">
+              <FAQSection />
+            </ScrollReveal>
+
+            {/* Final CTA — fadeIn + scale, impact maximal */}
+            <ScrollReveal variant="scaleUp" duration={0.9} threshold="top 80%">
+              <FinalCTASection />
+            </ScrollReveal>
           </main>
 
           {/* Footer */}
