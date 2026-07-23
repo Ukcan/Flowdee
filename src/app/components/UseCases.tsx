@@ -123,7 +123,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
       onTouchMove={handleMouseMove}
     >
       <div className="absolute inset-0">
-        <ImageWithFallback src={after} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-contain" />
+        <ImageWithFallback src={after} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 right-6 z-20">
           <span className="font-body text-[11px] bg-accent-primary text-on-accent font-medium px-6 py-2 uppercase tracking-widest rounded-full shadow-panel" style={{ fontWeight: 500 }}>
             OPTIMISÉ
@@ -134,7 +134,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
         className="absolute inset-0 border-r border-accent-primary z-10"
         style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
       >
-        <ImageWithFallback src={before} alt="Interface avant refonte — version initiale" className="w-full h-full object-contain" />
+        <ImageWithFallback src={before} alt="Interface avant refonte — version initiale" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 left-6 z-20">
           <span className="font-body text-[11px] bg-surface-0 text-text-primary border border-border-0 font-bold px-6 py-2 uppercase tracking-widest rounded-full">
             WIREFRAME
@@ -171,7 +171,7 @@ export function UseCases() {
         className="bg-bg-base py-24 md:py-32 border-b border-border-0 overflow-hidden relative"
         aria-label="Featured Case Study"
       >
-        <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
+        <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
           {/* Header */}
           <div className="flex flex-col items-center mb-20 text-center">
             {/* <TechnicalLabel sectionId="CASE_STUDY_FEATURED" /> */}
@@ -196,12 +196,12 @@ export function UseCases() {
 
           <div className="flex flex-col lg:flex-row items-stretch justify-between gap-16 w-full">
             {/* Colonne LEFT */}
-            <div className="w-full lg:w-1/2 flex flex-col gap-6">
+            <div className="w-full lg:w-3/5 flex flex-col gap-6">
               <BeforeAfterSlider before={featuredCase.imageBefore} after={featuredCase.imageAfter} />
             </div>
 
             {/* Colonne RIGHT */}
-            <div className="w-full lg:w-1/2 flex flex-col gap-[47.99px]">
+            <div className="w-full lg:w-2/5 flex flex-col gap-[47.99px]">
               {/* Section Problème */}
               <div className="border-l-2 border-accent-primary pl-8 relative">
                 <h3 className="font-heading text-[18px] text-accent-primary tracking-[-0.01em] mb-4" style={{ fontWeight: 500 }}>
