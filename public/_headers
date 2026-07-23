@@ -1,0 +1,14 @@
+# En-têtes de sécurité Flowdee — appliqués par Cloudflare (Workers Assets)
+# Format Cloudflare _headers : un motif d'URL, puis les en-têtes indentés.
+# La CSP est calibrée pour le site : Google Fonts + Fontshare (polices),
+# images Unsplash, iframe Google Calendar (prise de RDV).
+# ⚠️ Si tu embarques un micro-test (Figma Make), ajoute son domaine dans "frame-src".
+
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src 'self' https://fonts.gstatic.com https://cdn.fontshare.com data:; img-src 'self' data: https:; connect-src 'self'; frame-src https://calendar.google.com; object-src 'none'; base-uri 'self'; form-action 'self' mailto:; frame-ancestors 'none'; upgrade-insecure-requests
