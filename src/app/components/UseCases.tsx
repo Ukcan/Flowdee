@@ -3,7 +3,7 @@ import image_5d01d94ee99e37b8c24f102a36d51d884f769ccd from 'figma:asset/5d01d94e
 import image_527f60f73fe096905f75e234d997f79c2f990c15 from 'figma:asset/527f60f73fe096905f75e234d997f79c2f990c15.jpg';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, X } from '@phosphor-icons/react';
+import { ArrowRight, ArrowsHorizontal, X } from '@phosphor-icons/react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { CTA_PRIMARY } from '../constants/ctaCopy';
 import { TechnicalLabel } from './TechnicalLabel';
@@ -194,10 +194,19 @@ export function UseCases() {
             </motion.p>
           </div>
 
-          <div className="flex flex-col lg:flex-row items-stretch justify-between gap-16 w-full">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-16 w-full">
             {/* Colonne LEFT */}
-            <div className="w-full lg:w-3/5 flex flex-col gap-6">
+            <div className="w-full lg:w-3/5 flex flex-col gap-4">
               <BeforeAfterSlider before={featuredCase.imageBefore} after={featuredCase.imageAfter} />
+              <div className="flex items-center justify-between gap-4 flex-wrap pt-1">
+                <span className="font-body text-[13px] text-text-secondary inline-flex items-center gap-2">
+                  <ArrowsHorizontal size={16} weight="bold" className="text-accent-primary" />
+                  Glissez pour comparer le wireframe et la version optimisée
+                </span>
+                <span className="font-body text-[11px] uppercase tracking-[0.2em] text-text-muted">
+                  {featuredCase.scope} · {featuredCase.duration}
+                </span>
+              </div>
             </div>
 
             {/* Colonne RIGHT */}
