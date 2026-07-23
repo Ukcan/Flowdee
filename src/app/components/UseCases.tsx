@@ -194,9 +194,9 @@ export function UseCases() {
             </motion.p>
           </div>
 
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-16 w-full">
-            {/* Colonne LEFT */}
-            <div className="w-full lg:w-3/5 flex flex-col gap-4">
+          <div className="flex flex-col gap-14 w-full">
+            {/* Comparateur avant/après — pleine largeur */}
+            <div className="w-full flex flex-col gap-4">
               <BeforeAfterSlider before={featuredCase.imageBefore} after={featuredCase.imageAfter} />
               <div className="flex items-center justify-between gap-4 flex-wrap pt-1">
                 <span className="font-body text-[13px] text-text-secondary inline-flex items-center gap-2">
@@ -209,65 +209,67 @@ export function UseCases() {
               </div>
             </div>
 
-            {/* Colonne RIGHT */}
-            <div className="w-full lg:w-2/5 flex flex-col gap-[47.99px]">
-              {/* Section Problème */}
-              <div className="border-l-2 border-accent-primary pl-8 relative">
+            {/* Détails — 3 colonnes équilibrées */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+              {/* Problème */}
+              <div className="border-l-2 border-accent-primary pl-6">
                 <h3 className="font-heading text-[18px] text-accent-primary tracking-[-0.01em] mb-4" style={{ fontWeight: 500 }}>
                   LE PROBLÈME
                 </h3>
-                <p className="font-body text-[16px] leading-[1.7] text-text-secondary">
+                <p className="font-body text-[15px] leading-[1.7] text-text-secondary">
                   Apprentissage passif & déconnecté → baisse d'intérêt des élèves. Correction manuelle chronophage pour les professeurs. Besoin d'une solution immersive pour le distanciel.
                 </p>
               </div>
 
-              {/* Section Action */}
-              <div className="border-l-2 border-border-1 pl-8 relative">
+              {/* Action */}
+              <div className="border-l-2 border-border-1 pl-6">
                 <h3 className="font-heading text-[18px] text-text-primary tracking-[-0.01em] mb-4" style={{ fontWeight: 500 }}>
                   NOTRE ACTION
                 </h3>
-                <ul className="font-body text-[15px] leading-[1.7] text-text-secondary space-y-3">
-                  <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-accent-primary rounded-full" />
-                    Gamification UX : systèmes de récompenses & progression
+                <ul className="font-body text-[14px] leading-[1.6] text-text-secondary space-y-3">
+                  <li className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-accent-primary rounded-full mt-2 shrink-0" />
+                    Gamification UX : récompenses & progression
                   </li>
-                  <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-accent-primary rounded-full" />
-                    Dashboard Prof : automatisation des notes & analytics
+                  <li className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-accent-primary rounded-full mt-2 shrink-0" />
+                    Dashboard Prof : notes & analytics automatisés
                   </li>
-                  <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-accent-primary rounded-full" />
-                    Interface immersive adaptée aux supports digitaux (BYOD)
+                  <li className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-accent-primary rounded-full mt-2 shrink-0" />
+                    Interface immersive multi-supports (BYOD)
                   </li>
-                  <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-accent-primary rounded-full" />
-                    IA : Analyse prédictive des points de blocage pédagogiques
+                  <li className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-accent-primary rounded-full mt-2 shrink-0" />
+                    IA : analyse prédictive des blocages pédagogiques
                   </li>
                 </ul>
               </div>
 
-              {/* Section Résultats */}
-              <div>
-                <h3 className="font-heading text-[18px] text-accent-primary tracking-[-0.01em] mb-6" style={{ fontWeight: 500 }}>
+              {/* Impact */}
+              <div className="border-l-2 border-border-1 pl-6">
+                <h3 className="font-heading text-[18px] text-accent-primary tracking-[-0.01em] mb-4" style={{ fontWeight: 500 }}>
                   IMPACT OBSERVÉ
                 </h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-8 bg-surface-0 border border-border-0 flex flex-col items-center justify-center rounded-[24px]">
-                    <span className="font-display text-[42px] text-accent-primary leading-none tracking-wide" style={{ fontWeight: 300 }}>Hausse</span>
-                    <span className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted mt-2">ENGAGEMENT</span>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="p-5 bg-surface-0 border border-border-0 flex flex-col items-center justify-center rounded-[20px]">
+                    <span className="font-display text-[30px] text-accent-primary leading-none tracking-wide" style={{ fontWeight: 300 }}>Hausse</span>
+                    <span className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted mt-2 text-center">ENGAGEMENT</span>
                   </div>
-                  <div className="p-8 bg-surface-0 border border-border-0 flex flex-col items-center justify-center rounded-[24px]">
-                    <span className="font-display text-[42px] text-accent-primary leading-none tracking-wide" style={{ fontWeight: 300 }}>Réduit</span>
-                    <span className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted mt-2">CORRECTION / SEM</span>
+                  <div className="p-5 bg-surface-0 border border-border-0 flex flex-col items-center justify-center rounded-[20px]">
+                    <span className="font-display text-[30px] text-accent-primary leading-none tracking-wide" style={{ fontWeight: 300 }}>Réduit</span>
+                    <span className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted mt-2 text-center">CORRECTION / SEM</span>
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Bouton Case Study */}
-              <ButtonPrimary 
+            {/* CTA centré */}
+            <div className="flex justify-center">
+              <ButtonPrimary
                 onClick={() => setSelectedCase(featuredCase)}
                 size="l"
-                className="w-full mt-4"
+                className="mt-2"
               >
                 Voir l'étude de cas complète →
               </ButtonPrimary>
