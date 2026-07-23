@@ -118,7 +118,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
 
   return (
     <div 
-      className="relative w-full aspect-[16/9] cursor-ew-resize overflow-hidden select-none rounded-[16px] border border-border-0 bg-surface-1 shadow-panel"
+      className="relative w-full aspect-[1600/782] cursor-ew-resize overflow-hidden select-none rounded-[16px] border border-border-0 bg-surface-1 shadow-panel"
       onMouseMove={handleMouseMove}
       onTouchMove={handleMouseMove}
     >
