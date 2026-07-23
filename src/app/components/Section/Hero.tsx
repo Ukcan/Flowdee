@@ -8,7 +8,7 @@ import { CTA_PRIMARY, CTA_SECONDARY } from '../../constants/ctaCopy';
 import { TechnicalLabel } from '../TechnicalLabel';
 // ScrollMouseIndicator moved to global App-level — see /components/Indicator/ScrollMouse.tsx
 
-import { CALENDAR_LINK } from '../../constants/links';
+import { AUDIT_LINK } from '../../constants/links';
 
 interface HeroSectionProps {
   imageUrl?: string;
@@ -23,6 +23,10 @@ export function HeroSection({
     window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
   };
 
+  const openAuditCheckout = () => {
+    window.location.href = AUDIT_LINK;
+  };
+
   const scrollToSection = (section: string) => {
     const element = document.getElementById(section);
     if (element) {
@@ -32,7 +36,7 @@ export function HeroSection({
 
   return (
     <section 
-      className="relative min-h-[100vh] flex items-center py-32 md:py-40 bg-transparent overflow-hidden"
+      className="relative min-h-[100svh] md:min-h-[100vh] flex items-center py-24 md:py-40 bg-transparent overflow-hidden"
       aria-label="Hero section"
       id="hero"
     >
@@ -46,7 +50,7 @@ export function HeroSection({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="space-y-[32px]"
+            className="space-y-6 md:space-y-[32px]"
           >
             {/* Eyebrow */}
             <motion.div
@@ -67,7 +71,7 @@ export function HeroSection({
               transition={{ duration: 0.5, delay: 0.2 }}
               className="heading-display text-text-primary"
             >
-              Identifiez ce qui bloque vos conversions, puis corrigez-le dans le bon ordre.
+              Découvrez pourquoi votre site ne convertit pas.
             </motion.h1>
 
             {/* Body Text / Sous-titre */}
@@ -85,7 +89,7 @@ export function HeroSection({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.35 }}
-              className="flex flex-wrap gap-3 justify-center"
+              className="hidden sm:flex flex-wrap gap-3 justify-center"
             >
               {['Livrable priorisé', 'Recommandations concrètes', 'Sans refonte inutile'].map((p) => (
                 <span key={p} className="px-4 py-1.5 bg-surface-1 text-text-primary font-body text-[12px] font-bold tracking-[0.04em] uppercase rounded-full cursor-default select-none border border-border-1">
@@ -99,10 +103,39 @@ export function HeroSection({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-col gap-8 pt-8 items-center"
+              className="flex flex-col gap-4 md:gap-8 pt-2 md:pt-8 items-center"
             >
               {/* CTAs Row */}
-              <div className="flex flex-col sm:flex-row gap-[16px] justify-center w-full max-w-[480px] mx-auto">
+              <div className="flex sm:hidden flex-col gap-3 justify-center w-full max-w-[360px] mx-auto">
+                <ButtonPrimary
+                  onClick={openAuditCheckout}
+                  size="m"
+                  className="w-full"
+                >
+                  Acheter l'audit — 279 €
+                </ButtonPrimary>
+                <p className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted text-center">
+                  Livraison 72h–5j • Paiement sécurisé
+                </p>
+
+                <ButtonSecondary
+                  onClick={openCalendar}
+                  size="m"
+                  className="w-full mt-1"
+                >
+                  Réserver un appel
+                </ButtonSecondary>
+
+                <button
+                  type="button"
+                  onClick={() => scrollToSection('services')}
+                  className="font-body text-[13px] text-text-secondary underline underline-offset-4 decoration-border-1 hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-ring transition-colors"
+                >
+                  Voir ce que l'audit analyse
+                </button>
+              </div>
+
+              <div className="hidden sm:flex sm:flex-row gap-[16px] justify-center w-full max-w-[480px] mx-auto">
                 {/* Primary CTA */}
                 <div className="flex-1 flex flex-col gap-2">
                   <ButtonPrimary

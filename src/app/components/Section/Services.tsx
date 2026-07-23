@@ -120,10 +120,10 @@ export function ServicesSection() {
   return (
     <section
       id="services"
-      className="relative py-24 md:py-32 overflow-hidden bg-surface-1 border-t border-border-0"
+      className="services-blueprint-section relative py-24 md:py-32 overflow-hidden bg-surface-1 border-t border-border-0"
       aria-label="Service packages"
     >
-      <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
+      <div className="max-w-[1240px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-12 relative z-10">
         {/* Section title */}
         <div className="flex flex-col items-center mb-16">
           <ParallaxHeading>
@@ -140,7 +140,7 @@ export function ServicesSection() {
         </div>
 
         {/* Cards grid — 3 columns desktop, 2 tablet, 1 mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
+        <div className="services-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-7 mb-16">
           {services.map((service, index) => {
             const isFeatured = service.featured;
 
@@ -152,7 +152,7 @@ export function ServicesSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={`
-                  card-surface flex flex-col relative transition-all duration-200 p-8 lg:p-10
+                  card-surface services-card flex flex-col relative transition-all duration-200 p-7 lg:p-8
                   ${isFeatured
                     ? 'bg-surface-0 border-accent-primary/40'
                     : 'bg-surface-0 border-border-0'

@@ -7,6 +7,7 @@ import { CTA_SECONDARY } from '../constants/ctaCopy';
 import { TechnicalLabel } from './TechnicalLabel';
 import { ButtonPrimary } from './Button/Primary';
 import { ButtonSecondary } from './Button/Secondary';
+import { AUDIT_LINK } from '../constants/links';
 
 export function ProblemCards() {
   const { t } = useTranslation();
@@ -16,6 +17,10 @@ export function ProblemCards() {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  };
+
+  const openAuditCheckout = () => {
+    window.location.href = AUDIT_LINK;
   };
   
   return (
@@ -292,7 +297,27 @@ export function ProblemCards() {
             <p className="font-body text-[16px] text-text-secondary max-w-[700px] mx-auto font-normal">
               Si un seul de ces points vous parle, l’audit est le moyen le plus rapide de le corriger.
             </p>
-            <div className="flex flex-row items-center justify-center gap-4 flex-wrap">
+            <div className="flex sm:hidden flex-col items-center justify-center gap-3 w-full max-w-[360px] mx-auto">
+              <ButtonPrimary
+                onClick={openAuditCheckout}
+                size="m"
+                className="w-full"
+              >
+                Acheter l'audit — 279 €
+              </ButtonPrimary>
+              <p className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted text-center">
+                Livraison 72h–5j • Paiement sécurisé
+              </p>
+              <ButtonSecondary
+                onClick={scrollToContact}
+                size="m"
+                className="w-full"
+              >
+                Réserver un appel
+              </ButtonSecondary>
+            </div>
+
+            <div className="hidden sm:flex flex-row items-center justify-center gap-4 flex-wrap">
               <ButtonPrimary
                 onClick={scrollToContact}
                 size="m"
