@@ -45,6 +45,19 @@ const featuredCase = {
   tools: ['Figma', 'Unity WebGL', 'React', 'GPT-4']
 };
 
+// Écrans comparables (avant/après). Pour ajouter un slot, ajoute une entrée ici
+// avec son wireframe (before) et sa version finale (after).
+const compareScreens = [
+  {
+    label: 'Catalogue',
+    sublabel: 'Liste des simulations',
+    before: featuredCase.imageBefore,
+    after: featuredCase.imageAfter,
+  },
+  // Exemple :
+  // { label: 'Dashboard prof', sublabel: 'Analytics & notes', before: imageWireframeDashboard, after: imageOptimiseDashboard },
+];
+
 const otherUseCases = [
   {
     tag: 'Application web SaaS',
@@ -156,6 +169,8 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
 
 export function UseCases() {
   const [selectedCase, setSelectedCase] = useState<any | null>(null);
+  const [screenIdx, setScreenIdx] = useState(0);
+  const screen = compareScreens[screenIdx];
   
   const scrollToContact = () => {
     const element = document.getElementById('contact');
@@ -195,17 +210,48 @@ export function UseCases() {
           </div>
 
           <div className="flex flex-col gap-14 w-full">
-            {/* Comparateur avant/après — pleine largeur */}
-            <div className="w-full flex flex-col gap-4">
-              <BeforeAfterSlider before={featuredCase.imageBefore} after={featuredCase.imageAfter} />
-              <div className="flex items-center justify-between gap-4 flex-wrap pt-1">
-                <span className="font-body text-[13px] text-text-secondary inline-flex items-center gap-2">
-                  <ArrowsHorizontal size={16} weight="bold" className="text-accent-primary" />
-                  Glissez pour comparer le wireframe et la version optimisée
-                </span>
-                <span className="font-body text-[11px] uppercase tracking-[0.2em] text-text-muted">
-                  {featuredCase.scope} · {featuredCase.duration}
-                </span>
+            {/* Sélecteur d'écrans + comparateur */}
+            <div className="flex flex-col lg:flex-row gap-6 w-full">
+              {/* Slots — écrans à comparer */}
+              <div
+                className="flex lg:flex-col gap-3 lg:w-[210px] shrink-0 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0"
+                role="tablist"
+                aria-label="Choisir un écran à comparer"
+              >
+                {compareScreens.map((s, i) => {
+                  const active = i === screenIdx;
+                  return (
+                    <button
+                      key={s.label}
+                      role="tab"
+                      aria-selected={active}
+                      onClick={() => setScreenIdx(i)}
+                      className={`group flex items-center gap-3 shrink-0 text-left rounded-[14px] border p-2 pr-4 transition-colors duration-200 cursor-pointer ${active ? 'border-accent-primary bg-accent-bg' : 'border-border-0 bg-surface-0 hover:border-border-1'}`}
+                    >
+                      <span className="block w-16 h-11 rounded-[8px] overflow-hidden border border-border-0 shrink-0">
+                        <ImageWithFallback src={s.after} alt="" className="w-full h-full object-cover" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className={`block font-body text-[13px] font-semibold truncate ${active ? 'text-accent-primary' : 'text-text-primary'}`}>{s.label}</span>
+                        <span className="block font-body text-[11px] text-text-muted truncate">{s.sublabel}</span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Comparateur */}
+              <div className="flex-1 min-w-0 flex flex-col gap-4">
+                <BeforeAfterSlider key={screenIdx} before={screen.before} after={screen.after} />
+                <div className="flex items-center justify-between gap-4 flex-wrap pt-1">
+                  <span className="font-body text-[13px] text-text-secondary inline-flex items-center gap-2">
+                    <ArrowsHorizontal size={16} weight="bold" className="text-accent-primary" />
+                    Glissez pour comparer le wireframe et la version optimisée
+                  </span>
+                  <span className="font-body text-[11px] uppercase tracking-[0.2em] text-text-muted">
+                    {featuredCase.scope} · {featuredCase.duration}
+                  </span>
+                </div>
               </div>
             </div>
 
