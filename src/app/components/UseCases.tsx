@@ -500,8 +500,8 @@ export function UseCases() {
                 <div className="grid grid-cols-12 gap-0">
                   <div className="col-span-12 md:col-span-7 p-8 md:p-12 border-b md:border-b-0 md:border-r border-border-0 space-y-12">
                     <div className="space-y-6">
-                      <h3 className="font-heading text-[24px] text-accent-primary flex items-center gap-4 tracking-[-0.01em]" style={{ fontWeight: 500 }}>
-                        <span className="w-10 h-10 border-2 border-accent-primary text-accent-primary rounded-full flex items-center justify-center" style={{ fontWeight: 300 }}>01</span>
+                      <h3 className="font-heading text-[24px] text-accent-primary flex items-center gap-4 tracking-[-0.01em]" style={{ fontWeight: 700 }}>
+                        <span className="w-10 h-10 border-2 border-accent-primary text-accent-primary rounded-full flex items-center justify-center text-[15px] leading-none shrink-0" style={{ fontWeight: 600 }}>01</span>
                         LE DÉFI
                       </h3>
                       <p className="body-large">
@@ -510,8 +510,8 @@ export function UseCases() {
                     </div>
 
                     <div className="space-y-6">
-                      <h3 className="font-heading text-[24px] text-text-primary flex items-center gap-4 tracking-[-0.01em]" style={{ fontWeight: 500 }}>
-                        <span className="w-10 h-10 border-2 border-text-primary text-text-primary rounded-full flex items-center justify-center" style={{ fontWeight: 300 }}>02</span>
+                      <h3 className="font-heading text-[24px] text-text-primary flex items-center gap-4 tracking-[-0.01em]" style={{ fontWeight: 700 }}>
+                        <span className="w-10 h-10 border-2 border-text-primary text-text-primary rounded-full flex items-center justify-center text-[15px] leading-none shrink-0" style={{ fontWeight: 600 }}>02</span>
                         LA SOLUTION
                       </h3>
                       <p className="body-large">
@@ -526,7 +526,7 @@ export function UseCases() {
                       <div className="grid grid-cols-1 gap-6">
                         {selectedCase.metrics.map((m: any, i: number) => (
                           <div key={i} className="flex flex-col border-l-4 border-accent-primary pl-4">
-                            <span className="font-display text-4xl text-accent-primary leading-none" style={{ fontWeight: 300 }}>{m.label}</span>
+                            <span className="font-display text-[26px] text-accent-primary leading-tight" style={{ fontWeight: 600 }}>{m.label}</span>
                             <span className="font-body text-[10px] font-bold text-text-muted uppercase tracking-widest mt-2">IMPACT LOG</span>
                           </div>
                         ))}
