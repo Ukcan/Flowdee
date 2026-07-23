@@ -118,12 +118,12 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
 
   return (
     <div 
-      className="relative w-full h-[400px] lg:h-[600px] cursor-ew-resize overflow-hidden select-none rounded-[16px] border border-border-0 bg-surface-1 shadow-panel"
+      className="relative w-full aspect-[16/9] cursor-ew-resize overflow-hidden select-none rounded-[16px] border border-border-0 bg-surface-1 shadow-panel"
       onMouseMove={handleMouseMove}
       onTouchMove={handleMouseMove}
     >
       <div className="absolute inset-0">
-        <ImageWithFallback src={after} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-cover" />
+        <ImageWithFallback src={after} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-contain" />
         <div className="absolute bottom-6 right-6 z-20">
           <span className="font-body text-[11px] bg-accent-primary text-on-accent font-medium px-6 py-2 uppercase tracking-widest rounded-full shadow-panel" style={{ fontWeight: 500 }}>
             OPTIMISÉ
@@ -134,7 +134,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
         className="absolute inset-0 border-r border-accent-primary z-10"
         style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
       >
-        <ImageWithFallback src={before} alt="Interface avant refonte — version initiale" className="w-full h-full object-cover" />
+        <ImageWithFallback src={before} alt="Interface avant refonte — version initiale" className="w-full h-full object-contain" />
         <div className="absolute bottom-6 left-6 z-20">
           <span className="font-body text-[11px] bg-surface-0 text-text-primary border border-border-0 font-bold px-6 py-2 uppercase tracking-widest rounded-full">
             WIREFRAME
