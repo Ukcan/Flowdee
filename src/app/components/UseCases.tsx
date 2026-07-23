@@ -301,12 +301,12 @@ export function UseCases() {
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-5 bg-surface-0 border border-border-0 flex flex-col items-center justify-center rounded-[20px]">
-                    <span className="font-display text-[30px] text-accent-primary leading-none tracking-wide" style={{ fontWeight: 300 }}>Hausse</span>
-                    <span className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted mt-2 text-center">ENGAGEMENT</span>
+                    <span className="font-display text-[22px] text-accent-primary leading-tight tracking-tight" style={{ fontWeight: 600 }}>Hausse</span>
+                    <span className="font-body text-[11px] font-medium uppercase tracking-[0.1em] text-text-muted mt-2 text-center leading-tight">ENGAGEMENT</span>
                   </div>
                   <div className="p-5 bg-surface-0 border border-border-0 flex flex-col items-center justify-center rounded-[20px]">
-                    <span className="font-display text-[30px] text-accent-primary leading-none tracking-wide" style={{ fontWeight: 300 }}>Réduit</span>
-                    <span className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted mt-2 text-center">CORRECTION / SEM</span>
+                    <span className="font-display text-[22px] text-accent-primary leading-tight tracking-tight" style={{ fontWeight: 600 }}>Réduit</span>
+                    <span className="font-body text-[11px] font-medium uppercase tracking-[0.1em] text-text-muted mt-2 text-center leading-tight">CORRECTION / SEM</span>
                   </div>
                 </div>
               </div>
