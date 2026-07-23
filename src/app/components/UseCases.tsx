@@ -255,6 +255,8 @@ export function UseCases() {
               </div>
             </div>
 
+            {/* Bloc détails — carte de fond */}
+            <div className="rounded-[28px] border border-border-0 bg-surface-1 shadow-panel p-8 md:p-12 flex flex-col gap-10">
             {/* Détails — 3 colonnes équilibrées */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
               {/* Problème */}
@@ -315,10 +317,10 @@ export function UseCases() {
               <ButtonPrimary
                 onClick={() => setSelectedCase(featuredCase)}
                 size="l"
-                className="mt-2"
               >
                 Voir l'étude de cas complète →
               </ButtonPrimary>
+            </div>
             </div>
           </div>
         </div>
