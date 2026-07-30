@@ -97,7 +97,7 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
                   </button>
                 ))}
                 <a
-                  href="https://ukcan.github.io/benjamin-duffau-cv/"
+                  href="https://cv.flowdee.fr/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"

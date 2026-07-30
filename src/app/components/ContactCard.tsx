@@ -136,10 +136,10 @@ export const ContactCard: React.FC = () => {
           <p className="font-['Satoshi'] text-xs text-gray-600 dark:text-gray-400 text-center">
             Or reach me directly at{' '}
             <a 
-              href="mailto:alex@designer.com" 
+              href="mailto:contact@flowdee.fr"
               className="text-[#7d5fff] hover:underline focus:outline-none focus:ring-2 focus:ring-[#7d5fff] rounded"
             >
-              alex@designer.com
+              contact@flowdee.fr
             </a>
           </p>
         </div>

@@ -24,8 +24,24 @@ export function FinalCTA() {
     
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Enregistre le lead via Netlify Forms (n'empêche pas la suite si échec)
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          'form-name': 'contact',
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message: formData.message,
+          choice,
+          'bot-field': '',
+        }).toString(),
+      });
+    } catch {
+      // on continue quand même vers Calendar / paiement
+    }
 
     const successMessage = choice === 'call'
       ? 'Message envoyé ! Redirection vers le calendrier...'
