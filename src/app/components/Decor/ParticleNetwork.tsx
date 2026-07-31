@@ -15,6 +15,9 @@ interface Particle {
   y: number;
   vx: number;
   vy: number;
+  z: number;   // depth 0.25..1 — nearer particles parallax more
+  dx: number;  // drawn x (position + parallax offset)
+  dy: number;  // drawn y
 }
 
 function readAccentRGB(): [number, number, number] {
@@ -58,15 +61,24 @@ export function ParticleNetwork() {
 
     const LINK_DIST = 140;
     const MOUSE_DIST = 180;
+    const PARALLAX = reduceMotion ? 0 : 26; // max px shift for the nearest layer
+    const parallax = { x: 0, y: 0 };
 
     const buildParticles = () => {
       const count = Math.min(110, Math.max(28, Math.floor((width * height) / 16000)));
-      particles = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * speed,
-        vy: (Math.random() - 0.5) * speed,
-      }));
+      particles = Array.from({ length: count }, () => {
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        return {
+          x,
+          y,
+          vx: (Math.random() - 0.5) * speed,
+          vy: (Math.random() - 0.5) * speed,
+          z: 0.25 + Math.random() * 0.75,
+          dx: x,
+          dy: y,
+        };
+      });
     };
 
     const resize = () => {
@@ -85,7 +97,17 @@ export function ParticleNetwork() {
       ctx.clearRect(0, 0, width, height);
       const [r, g, b] = rgb;
 
-      // Move + draw dots
+      // Ease the parallax offset toward the cursor (centre-relative, normalized)
+      let tx = 0;
+      let ty = 0;
+      if (mouse.x > -9000 && width > 0) {
+        tx = (mouse.x - width / 2) / (width / 2);
+        ty = (mouse.y - height / 2) / (height / 2);
+      }
+      parallax.x += (tx * PARALLAX - parallax.x) * 0.06;
+      parallax.y += (ty * PARALLAX - parallax.y) * 0.06;
+
+      // Move (physics on x/y) + draw dots at dx/dy (position + depth parallax)
       for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
@@ -95,41 +117,44 @@ export function ParticleNetwork() {
         if (p.y < -20) p.y = height + 20;
         if (p.y > height + 20) p.y = -20;
 
+        p.dx = p.x + parallax.x * p.z;
+        p.dy = p.y + parallax.y * p.z;
+
         ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
+        ctx.arc(p.dx, p.dy, 1.6, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.38)`;
         ctx.fill();
       }
 
-      // Links between nearby particles
+      // Links between nearby particles (using drawn positions)
       for (let i = 0; i < particles.length; i++) {
         const a = particles[i];
         for (let j = i + 1; j < particles.length; j++) {
           const c = particles[j];
-          const dx = a.x - c.x;
-          const dy = a.y - c.y;
+          const dx = a.dx - c.dx;
+          const dy = a.dy - c.dy;
           const dist = Math.hypot(dx, dy);
           if (dist < LINK_DIST) {
             const alpha = (1 - dist / LINK_DIST) * 0.10;
             ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(c.x, c.y);
+            ctx.moveTo(a.dx, a.dy);
+            ctx.lineTo(c.dx, c.dy);
             ctx.stroke();
           }
         }
 
         // Link to mouse
-        const mdx = a.x - mouse.x;
-        const mdy = a.y - mouse.y;
+        const mdx = a.dx - mouse.x;
+        const mdy = a.dy - mouse.y;
         const mdist = Math.hypot(mdx, mdy);
         if (mdist < MOUSE_DIST) {
           const alpha = (1 - mdist / MOUSE_DIST) * 0.22;
           ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
+          ctx.moveTo(a.dx, a.dy);
           ctx.lineTo(mouse.x, mouse.y);
           ctx.stroke();
           // gentle attraction toward cursor
