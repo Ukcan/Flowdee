@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap');
+/* Typographie : Geist Sans (variable, self-hosted via @fontsource-variable/geist, importe dans main.tsx).
+   Plus d'@import externe bloquant (Inter/Satoshi retires). */
 
 @custom-variant dark (&:is(.dark *));
 
@@ -110,10 +110,10 @@
 }
 
 @theme inline {
-  --font-display: "Satoshi", "Inter", sans-serif;
-  --font-heading: "Inter", sans-serif;
-  --font-body: "Inter", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-display: "Geist Variable", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-heading: "Geist Variable", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Geist Variable", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --color-bg-base: var(--bg-base);
   --color-bg-depth: var(--bg-depth);
@@ -187,7 +187,7 @@
 
   body {
     @apply bg-bg-base text-text-primary;
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-body);
     font-weight: 400;
     font-size: 16px;
     line-height: 1.65;
@@ -218,6 +218,14 @@
     letter-spacing: -0.01em;
     line-height: 1.2;
   }
+
+  /* Les controles natifs heritent de Geist (au lieu de la police par defaut du navigateur) */
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
 }
 
 @layer components {
@@ -227,8 +235,8 @@
     font-family: var(--font-display);
     font-size: clamp(2.45rem, 4.4vw, 4.25rem);
     font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
     color: var(--text-primary);
   }
 

@@ -67,11 +67,11 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
         </div>
 
         <div className="space-y-3">
-          <h3 className="font-['Poppins'] text-lg font-semibold text-[#343030] dark:text-white group-hover:text-[#7d5fff] transition-colors">
+          <h3 className="text-lg font-semibold text-[#343030] dark:text-white group-hover:text-[#7d5fff] transition-colors">
             {title}
           </h3>
           
-          <p className="font-['Satoshi'] text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+          <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
             {description}
           </p>
 
@@ -80,7 +80,7 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
               <Badge
                 key={tag}
                 variant="secondary"
-                className="font-['Satoshi'] text-xs px-2 py-1 bg-gray-100 dark:bg-neutral-800 text-gray-700 dark:text-gray-300"
+                className="text-xs px-2 py-1 bg-gray-100 dark:bg-neutral-800 text-gray-700 dark:text-gray-300"
               >
                 {tag}
               </Badge>
