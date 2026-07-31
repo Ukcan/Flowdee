@@ -298,8 +298,30 @@
 
   .bg-vignette {
     @apply absolute inset-0;
-    background: radial-gradient(ellipse at 50% 30%, transparent 50%, var(--bg-depth) 100%);
-    opacity: 0.4;
+    background: radial-gradient(ellipse at 50% 30%, transparent 48%, var(--bg-depth) 100%);
+    opacity: 0.5;
+  }
+
+  /* Depth glow — soft gold halo behind the hero headline (dark theme only) */
+  .bg-hero-glow {
+    @apply absolute inset-x-0 top-0 z-[-1] pointer-events-none;
+    height: 100vh;
+    background:
+      radial-gradient(
+        42% 30% at 50% 30%,
+        color-mix(in srgb, var(--accent-primary) 34%, transparent) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        70% 55% at 50% 32%,
+        color-mix(in srgb, var(--accent-primary) 16%, transparent) 0%,
+        transparent 72%
+      );
+    opacity: 0;
+  }
+
+  .dark .bg-hero-glow {
+    opacity: 0.85;
   }
 
   /* === BUTTONS (Mercury) === */

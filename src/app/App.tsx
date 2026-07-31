@@ -134,6 +134,9 @@ export default function App() {
           {/* Aurora — slow drifting colour background (over the flat grid) */}
           <div className="aurora-bg" aria-hidden="true" />
 
+          {/* Depth: soft gold halo behind the hero headline (dark theme) */}
+          <div className="bg-hero-glow" aria-hidden="true" />
+
           {/* BG / FX_KeylinesParallaxFlow_Dark — parallax keylines, dark mode only */}
           <DecorKeylinesParallaxFlow />
 
