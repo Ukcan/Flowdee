@@ -59,6 +59,21 @@ export default function App() {
     document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
   }, []);
 
+  // Subtle mouse-follow on the hero depth glow (parallax with the constellation)
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const glow = document.querySelector('.bg-hero-glow') as HTMLElement | null;
+    if (!glow) return;
+    const onMove = (e: MouseEvent) => {
+      const nx = e.clientX / window.innerWidth - 0.5;
+      const ny = e.clientY / window.innerHeight - 0.5;
+      glow.style.setProperty('--glow-x', `${(nx * 40).toFixed(1)}px`);
+      glow.style.setProperty('--glow-y', `${(ny * 30).toFixed(1)}px`);
+    };
+    window.addEventListener('mousemove', onMove, { passive: true });
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
+
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);

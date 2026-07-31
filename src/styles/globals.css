@@ -311,6 +311,16 @@
       radial-gradient(42% 30% at 50% 30%, rgba(212, 178, 115, 0.34) 0%, rgba(212, 178, 115, 0) 60%),
       radial-gradient(70% 55% at 50% 32%, rgba(212, 178, 115, 0.16) 0%, rgba(212, 178, 115, 0) 72%);
     opacity: 0;
+    transform: translate3d(var(--glow-x, 0px), var(--glow-y, 0px), 0);
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg-hero-glow {
+      transform: none;
+      transition: none;
+    }
   }
 
   .dark .bg-hero-glow {
