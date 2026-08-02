@@ -151,25 +151,25 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-4">
             {/* Hairline separator */}
-            <div className="h-5 w-px bg-border-0 mr-1" />
-            {/* Secondary CTA - Outline */}
-            <ButtonSecondary
+            <div className="h-5 w-px bg-border-0" />
+            {/* Action secondaire discrète : réserver un appel */}
+            <button
+              onClick={openCalendar}
+              className="font-body text-[13px] font-medium text-text-secondary hover:text-accent-primary underline-offset-4 hover:underline rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-base)]"
+              aria-label="Réserver un appel de 30 minutes"
+            >
+              Réserver un appel
+            </button>
+
+            {/* CTA primaire dominant : commander l'audit */}
+            <ButtonPrimary
               onClick={openAudit}
               size="s"
-              aria-label="Purchase audit"
+              aria-label="Commander l'audit à 279 euros"
             >
-              {CTA_SECONDARY.label}
-            </ButtonSecondary>
-            
-            {/* Primary CTA */}
-            <ButtonPrimary
-              onClick={openCalendar}
-              size="s"
-              aria-label="Book a call"
-            >
-              {CTA_PRIMARY.label}
+              Commander mon audit — 279 €
             </ButtonPrimary>
           </div>
 
@@ -217,27 +217,31 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
               ))}
             </div>
             
-            <div className="mt-auto space-y-4 relative z-10">
+            <div className="mt-auto space-y-3 relative z-10">
+              {/* CTA primaire dominant : commander l'audit */}
               <ButtonPrimary
+                onClick={() => {
+                  openAudit();
+                  setMobileMenuOpen(false);
+                }}
+                size="l"
+                className="w-full"
+              >
+                Commander mon audit — 279 €
+              </ButtonPrimary>
+              <p className="font-body text-[11px] text-center text-text-muted">
+                Paiement sécurisé · Livraison sous 3 à 5 jours
+              </p>
+              {/* Action secondaire discrète : réserver un appel */}
+              <button
                 onClick={() => {
                   openCalendar();
                   setMobileMenuOpen(false);
                 }}
-                size="l"
-                className="w-full"
+                className="w-full min-h-[44px] font-body text-[15px] text-text-secondary hover:text-accent-primary underline underline-offset-4 decoration-border-1 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
               >
-                {t.nav.bookCall}
-              </ButtonPrimary>
-              <ButtonSecondary
-                onClick={() => {
-                  scrollToSection('contact');
-                  setMobileMenuOpen(false);
-                }}
-                size="l"
-                className="w-full"
-              >
-                {CTA_SECONDARY.label}
-              </ButtonSecondary>
+                Réserver un appel
+              </button>
             </div>
           </motion.div>
         )}

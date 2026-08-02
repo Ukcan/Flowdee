@@ -1,171 +1,164 @@
 import React from 'react';
-import { motion } from 'motion/react';
-import { Button } from '../ui/button';
+import { motion, useReducedMotion } from 'motion/react';
 import { ButtonPrimary } from '../Button/Primary';
 import { ButtonSecondary } from '../Button/Secondary';
-import { useTranslation } from '../../contexts/LanguageContext';
-import { CTA_PRIMARY, CTA_SECONDARY } from '../../constants/ctaCopy';
-import { TechnicalLabel } from '../TechnicalLabel';
-// ScrollMouseIndicator moved to global App-level — see /components/Indicator/ScrollMouse.tsx
-
 import { AUDIT_LINK } from '../../constants/links';
 
-interface HeroSectionProps {
-  imageUrl?: string;
-}
+/**
+ * Hero — optimisée conversion (offre d'audit 279 €).
+ * Identité, couleurs, fond animé et structure centrée conservés.
+ * CTA primaire unique et dominant = achat de l'audit. « Réserver un appel » = action secondaire discrète.
+ */
 
-export function HeroSection({ 
-  imageUrl
-}: HeroSectionProps = {}) {
-  const { t } = useTranslation();
-  
-  const openCalendar = () => {
-    window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
-  };
+const BADGES = ['Rapport priorisé', 'Corrections par écran', "Plan d'action clair"];
+
+// Données du mockup de rapport (aperçu illustratif, décoratif).
+const REPORT_ISSUES = [
+  { title: 'Proposition de valeur peu claire dans le hero', impact: 'Impact élevé', effort: 'Effort faible' },
+  { title: 'CTA principal noyé, hiérarchie à revoir', impact: 'Impact élevé', effort: 'Effort moyen' },
+  { title: 'Checkout : formulaire trop long, friction', impact: 'Impact moyen', effort: 'Effort faible' },
+];
+
+export function HeroSection() {
+  const reduce = useReducedMotion();
+
+  // Animation d'apparition, désactivée si prefers-reduced-motion.
+  const anim = (delay: number) =>
+    reduce
+      ? {}
+      : { initial: { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5, delay } };
 
   const openAuditCheckout = () => {
     window.location.href = AUDIT_LINK;
   };
-
-  const scrollToSection = (section: string) => {
-    const element = document.getElementById(section);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  const openCalendar = () => {
+    window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
+  };
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
   };
 
+  const focusRing =
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-base)]';
+
   return (
-    <section 
-      className="relative min-h-[100svh] md:min-h-[100vh] flex items-center py-24 md:py-40 bg-transparent overflow-hidden"
-      aria-label="Hero section"
+    <section
+      className="relative min-h-[100svh] md:min-h-[100vh] flex items-center py-16 md:py-24 bg-transparent overflow-hidden"
+      aria-label="Audit UX Flowdee"
       id="hero"
     >
-      {/* Content */}
-      <div className="relative z-10 max-w-[1184px] mx-auto px-8 md:px-16 w-full">
-        <div className="flex flex-col items-center text-center">
-          {/* <TechnicalLabel sectionId="HERO_01" className="mb-8" /> */}
-          
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6 md:space-y-[32px]"
-          >
-            {/* Eyebrow */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="relative inline-block"
-            >
-              <span className="relative z-10 font-body text-[12px] px-5 py-2 bg-accent-tint text-[color:var(--accent-eyebrow)] font-bold tracking-[0.08em] uppercase rounded-full border border-accent-primary/40">
-                Audit UX · SEO · Accessibilité · Microcopy
+      <div className="relative z-10 max-w-[1120px] mx-auto px-6 sm:px-8 md:px-16 w-full">
+        <div className="flex flex-col items-center text-center gap-5 md:gap-6">
+          {/* Eyebrow */}
+          <motion.div {...anim(0.05)} className="inline-block">
+            <span className="font-body text-[12px] px-5 py-2 bg-accent-tint text-[color:var(--accent-eyebrow)] font-bold tracking-[0.08em] uppercase rounded-full border border-accent-primary/40">
+              Audit UX · SEO · Accessibilité · Microcopy
+            </span>
+          </motion.div>
+
+          {/* H1 */}
+          <motion.h1 {...anim(0.12)} className="heading-display text-text-primary max-w-[18ch]">
+            Comprenez ce qui freine vos conversions — et quoi corriger en priorité.
+          </motion.h1>
+
+          {/* Description */}
+          <motion.p {...anim(0.2)} className="body-large max-w-[680px] mx-auto">
+            Recevez sous 3 à 5 jours un audit priorisé de votre landing page, site ou tunnel, avec les problèmes
+            identifiés et les corrections concrètes à appliquer.
+          </motion.p>
+
+          {/* Badges */}
+          <motion.div {...anim(0.26)} className="flex flex-wrap gap-2.5 justify-center">
+            {BADGES.map((b) => (
+              <span
+                key={b}
+                className="px-4 py-1.5 bg-surface-1 text-text-primary font-body text-[12px] font-bold tracking-[0.04em] uppercase rounded-full cursor-default select-none border border-border-1"
+              >
+                {b}
               </span>
-            </motion.div>
+            ))}
+          </motion.div>
 
-            {/* H1 */}
-            <motion.h1
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="heading-display text-text-primary"
-            >
-              Découvrez pourquoi votre site ne convertit pas.
-            </motion.h1>
+          {/* CTA group */}
+          <motion.div {...anim(0.32)} className="w-full flex flex-col items-center gap-3.5 pt-1">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full max-w-[520px]">
+              <ButtonPrimary onClick={openAuditCheckout} size="l" className={`flex-1 ${focusRing}`}>
+                Commander mon audit — 279 €
+              </ButtonPrimary>
+              <ButtonSecondary
+                onClick={() => scrollToSection('case-studies')}
+                size="l"
+                className={`flex-1 ${focusRing}`}
+              >
+                Voir un exemple de rapport
+              </ButtonSecondary>
+            </div>
 
-            {/* Body Text / Sous-titre */}
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="body-large max-w-[700px] mx-auto"
-            >
-              Flowdee analyse votre landing, site ou tunnel pour repérer les frictions qui freinent vos visiteurs : clarté de l’offre, CTA, formulaire, preuve, SEO, accessibilité et microcopy.
-            </motion.p>
+            {/* Ligne de confiance */}
+            <p className="font-body text-[11px] sm:text-[12px] font-medium tracking-wide text-text-muted">
+              Paiement sécurisé · Démarrage confirmé sous 24&nbsp;h · Livraison sous 3 à 5 jours ouvrés
+            </p>
 
-            {/* Proof Pills */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.35 }}
-              className="hidden sm:flex flex-wrap gap-3 justify-center"
+            {/* Action secondaire discrète : réserver un appel */}
+            <button
+              type="button"
+              onClick={openCalendar}
+              className={`font-body text-[13px] text-text-secondary underline underline-offset-4 decoration-border-1 hover:text-text-primary rounded transition-colors ${focusRing}`}
             >
-              {['Livrable priorisé', 'Recommandations concrètes', 'Sans refonte inutile'].map((p) => (
-                <span key={p} className="px-4 py-1.5 bg-surface-1 text-text-primary font-body text-[12px] font-bold tracking-[0.04em] uppercase rounded-full cursor-default select-none border border-border-1">
-                  {p}
+              ou réserver un appel de 30&nbsp;min
+            </button>
+          </motion.div>
+
+          {/* Aperçu du rapport (preuve au-dessus de la ligne de flottaison) */}
+          <motion.div
+            {...(reduce
+              ? {}
+              : { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.55, delay: 0.42 } })}
+            className="w-full max-w-[560px] mt-1"
+            aria-hidden="true"
+          >
+            <div className="text-left card-surface bg-surface-0 border border-border-1 rounded-[20px] p-5 md:p-6 shadow-panel">
+              {/* En-tête du rapport */}
+              <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-border-0">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-accent-primary shadow-[0_0_0_3px_var(--accent-bg)]" />
+                  <span className="font-body text-[13px] font-semibold text-text-primary">Rapport d’audit — aperçu</span>
+                </div>
+                <span className="font-body text-[10px] font-bold uppercase tracking-[0.08em] text-accent-primary bg-accent-tint px-2.5 py-1 rounded-full whitespace-nowrap">
+                  12 points priorisés
                 </span>
-              ))}
-            </motion.div>
+              </div>
 
-            {/* CTA Group */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-col gap-4 md:gap-8 pt-2 md:pt-8 items-center"
-            >
-              {/* CTAs Row */}
-              <div className="flex sm:hidden flex-col gap-3 justify-center w-full max-w-[360px] mx-auto">
-                <ButtonPrimary
-                  onClick={openAuditCheckout}
-                  size="m"
-                  className="w-full"
-                >
-                  Acheter l'audit — 279 €
-                </ButtonPrimary>
-                <p className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted text-center">
-                  Livraison 72h–5j • Paiement sécurisé
+              {/* Problèmes priorisés */}
+              <ul className="mt-3.5 space-y-2.5">
+                {REPORT_ISSUES.map((it, i) => (
+                  <li key={it.title} className="flex items-start gap-3">
+                    <span className="mt-0.5 shrink-0 w-6 h-6 rounded-md bg-surface-1 border border-border-1 flex items-center justify-center font-body text-[11px] font-bold text-accent-primary tabular-nums">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-body text-[13.5px] font-semibold text-text-primary leading-snug">{it.title}</p>
+                      <div className="mt-1 flex flex-wrap items-center gap-1.5">
+                        <span className="font-body text-[10px] font-bold uppercase tracking-wide text-accent-primary bg-accent-tint px-2 py-0.5 rounded">
+                          {it.impact}
+                        </span>
+                        <span className="font-body text-[10px] font-bold uppercase tracking-wide text-text-muted bg-surface-1 px-2 py-0.5 rounded">
+                          {it.effort}
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Pied du rapport */}
+              <div className="mt-3.5 pt-3 border-t border-border-0">
+                <p className="font-body text-[10.5px] uppercase tracking-[0.06em] text-text-muted">
+                  Backlog priorisé impact / effort · maquettes correctives incluses
                 </p>
-
-                <ButtonSecondary
-                  onClick={openCalendar}
-                  size="m"
-                  className="w-full mt-1"
-                >
-                  Réserver un appel
-                </ButtonSecondary>
-
-                <button
-                  type="button"
-                  onClick={() => scrollToSection('services')}
-                  className="font-body text-[13px] text-text-secondary underline underline-offset-4 decoration-border-1 hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-ring transition-colors"
-                >
-                  Voir ce que l'audit analyse
-                </button>
               </div>
-
-              <div className="hidden sm:flex sm:flex-row gap-[16px] justify-center w-full max-w-[480px] mx-auto">
-                {/* Primary CTA */}
-                <div className="flex-1 flex flex-col gap-2">
-                  <ButtonPrimary
-                    onClick={openCalendar}
-                    size="m"
-                    className="w-full"
-                  >
-                    Trouver mes points de friction
-                  </ButtonPrimary>
-                  <p className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted text-center">
-                    {CTA_PRIMARY.subtext}
-                  </p>
-                </div>
-                
-                {/* Secondary CTA */}
-                <div className="flex-1 flex flex-col gap-2">
-                  <ButtonSecondary
-                    onClick={() => scrollToSection('contact')}
-                    size="m"
-                    className="w-full"
-                  >
-                    Voir ce que l’audit analyse
-                  </ButtonSecondary>
-                  <p className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted text-center">
-                    {CTA_SECONDARY.subtext}
-                  </p>
-                </div>
-              </div>
-
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>
