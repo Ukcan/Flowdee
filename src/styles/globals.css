@@ -316,8 +316,8 @@
     @apply absolute inset-x-0 top-0 z-[-1] pointer-events-none;
     height: 100vh;
     background:
-      radial-gradient(46% 34% at 50% 30%, rgba(216, 182, 120, 0.60) 0%, rgba(216, 182, 120, 0) 62%),
-      radial-gradient(74% 58% at 50% 33%, rgba(216, 182, 120, 0.30) 0%, rgba(216, 182, 120, 0) 76%);
+      radial-gradient(48% 36% at 50% 30%, rgba(216, 182, 120, 0.80) 0%, rgba(216, 182, 120, 0) 64%),
+      radial-gradient(78% 60% at 50% 33%, rgba(216, 182, 120, 0.44) 0%, rgba(216, 182, 120, 0) 78%);
     opacity: 0;
     transform: translate3d(var(--glow-x, 0px), var(--glow-y, 0px), 0);
     transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
