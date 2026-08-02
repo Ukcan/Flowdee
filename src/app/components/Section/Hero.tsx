@@ -6,18 +6,31 @@ import { AUDIT_LINK } from '../../constants/links';
 
 /**
  * Hero — optimisée conversion (offre d'audit 279 €).
- * Identité, couleurs, fond animé et structure centrée conservés.
+ * Identité, couleurs, fond animé, H1, sous-titre et CTA principal conservés.
  * CTA primaire unique et dominant = achat de l'audit. « Réserver un appel » = action secondaire discrète.
  */
 
-const BADGES = ['Rapport priorisé', 'Corrections par écran', "Plan d'action clair"];
+const BENEFITS = ['Rapport priorisé', 'Recommandations illustrées', "Plan d'action clair"];
 
-// Données du mockup de rapport (aperçu illustratif, décoratif).
+// Aperçu illustratif du livrable (carte décorative, aria-hidden).
 const REPORT_ISSUES = [
-  { title: 'Proposition de valeur peu claire dans le hero', impact: 'Impact élevé', effort: 'Effort faible' },
-  { title: 'CTA principal noyé, hiérarchie à revoir', impact: 'Impact élevé', effort: 'Effort moyen' },
-  { title: 'Checkout : formulaire trop long, friction', impact: 'Impact moyen', effort: 'Effort faible' },
+  {
+    title: 'Proposition de valeur difficile à comprendre',
+    impact: 'Impact élevé',
+    effort: 'Effort faible',
+    reco: 'recentrer le H1 sur le bénéfice client et isoler une seule action primaire.',
+  },
+  { title: 'CTA principal concurrencé par plusieurs actions', impact: 'Impact élevé', effort: 'Effort moyen' },
+  { title: 'Formulaire trop long avant la validation', impact: 'Impact moyen', effort: 'Effort faible' },
 ];
+
+function CheckIcon() {
+  return (
+    <svg className="w-3.5 h-3.5 shrink-0 text-accent-primary" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M4 10.5l3.5 3.5L16 5.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export function HeroSection() {
   const reduce = useReducedMotion();
@@ -57,31 +70,33 @@ export function HeroSection() {
             </span>
           </motion.div>
 
-          {/* H1 */}
+          {/* H1 (inchangé) */}
           <motion.h1 {...anim(0.12)} className="heading-display text-text-primary max-w-[18ch]">
             Comprenez ce qui freine vos conversions — et quoi corriger en priorité.
           </motion.h1>
 
-          {/* Description */}
+          {/* Description (inchangée) */}
           <motion.p {...anim(0.2)} className="body-large max-w-[680px] mx-auto">
             Recevez sous 3 à 5 jours un audit priorisé de votre landing page, site ou tunnel, avec les problèmes
             identifiés et les corrections concrètes à appliquer.
           </motion.p>
 
-          {/* Badges */}
-          <motion.div {...anim(0.26)} className="flex flex-wrap gap-2.5 justify-center">
-            {BADGES.map((b) => (
-              <span
-                key={b}
-                className="px-4 py-1.5 bg-surface-1 text-text-primary font-body text-[12px] font-bold tracking-[0.04em] uppercase rounded-full cursor-default select-none border border-border-1"
-              >
+          {/* Bénéfices — ligne légère avec coches discrètes (plus de capsules pleines) */}
+          <motion.ul
+            {...anim(0.26)}
+            className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-body text-[13px] sm:text-[14px] text-text-secondary"
+            aria-label="Ce que comprend l'audit"
+          >
+            {BENEFITS.map((b) => (
+              <li key={b} className="inline-flex items-center gap-1.5">
+                <CheckIcon />
                 {b}
-              </span>
+              </li>
             ))}
-          </motion.div>
+          </motion.ul>
 
           {/* CTA group */}
-          <motion.div {...anim(0.32)} className="w-full flex flex-col items-center gap-3.5 pt-1">
+          <motion.div {...anim(0.32)} className="w-full flex flex-col items-center gap-4 pt-1">
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full max-w-[520px]">
               <ButtonPrimary onClick={openAuditCheckout} size="l" className={`flex-1 ${focusRing}`}>
                 Commander mon audit — 279 €
@@ -95,9 +110,9 @@ export function HeroSection() {
               </ButtonSecondary>
             </div>
 
-            {/* Ligne de confiance */}
-            <p className="font-body text-[11px] sm:text-[12px] font-medium tracking-wide text-text-muted">
-              Paiement sécurisé · Démarrage confirmé sous 24&nbsp;h · Livraison sous 3 à 5 jours ouvrés
+            {/* Réassurance sous les CTA (lisible, non « mention légale ») */}
+            <p className="font-body text-[13px] sm:text-[14px] font-medium text-text-secondary tracking-[0.01em]">
+              Paiement sécurisé · Confirmation sous 24&nbsp;h · Livraison sous 3 à 5 jours ouvrés
             </p>
 
             {/* Action secondaire discrète : réserver un appel */}
@@ -110,7 +125,7 @@ export function HeroSection() {
             </button>
           </motion.div>
 
-          {/* Aperçu du rapport (preuve au-dessus de la ligne de flottaison) */}
+          {/* Aperçu du livrable (preuve au-dessus de la ligne de flottaison) */}
           <motion.div
             {...(reduce
               ? {}
@@ -119,19 +134,21 @@ export function HeroSection() {
             aria-hidden="true"
           >
             <div className="text-left card-surface bg-surface-0 border border-border-1 rounded-[20px] p-5 md:p-6 shadow-panel">
-              {/* En-tête du rapport */}
+              {/* En-tête */}
               <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-border-0">
-                <div className="flex items-center gap-2.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-accent-primary shadow-[0_0_0_3px_var(--accent-bg)]" />
-                  <span className="font-body text-[13px] font-semibold text-text-primary">Rapport d’audit — aperçu</span>
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <span className="w-2.5 h-2.5 rounded-full bg-accent-primary shadow-[0_0_0_3px_var(--accent-bg)] shrink-0" />
+                  <span className="font-body text-[13px] font-semibold text-text-primary truncate">
+                    Extrait anonymisé d’un rapport d’audit
+                  </span>
                 </div>
-                <span className="font-body text-[10px] font-bold uppercase tracking-[0.08em] text-accent-primary bg-accent-tint px-2.5 py-1 rounded-full whitespace-nowrap">
-                  12 points priorisés
+                <span className="font-body text-[10px] font-bold uppercase tracking-[0.08em] text-accent-primary bg-accent-tint px-2.5 py-1 rounded-full whitespace-nowrap shrink-0">
+                  Aperçu du livrable
                 </span>
               </div>
 
               {/* Problèmes priorisés */}
-              <ul className="mt-3.5 space-y-2.5">
+              <ul className="mt-3.5 space-y-3">
                 {REPORT_ISSUES.map((it, i) => (
                   <li key={it.title} className="flex items-start gap-3">
                     <span className="mt-0.5 shrink-0 w-6 h-6 rounded-md bg-surface-1 border border-border-1 flex items-center justify-center font-body text-[11px] font-bold text-accent-primary tabular-nums">
@@ -139,27 +156,43 @@ export function HeroSection() {
                     </span>
                     <div className="flex-1 min-w-0">
                       <p className="font-body text-[13.5px] font-semibold text-text-primary leading-snug">{it.title}</p>
-                      <div className="mt-1 flex flex-wrap items-center gap-1.5">
-                        <span className="font-body text-[10px] font-bold uppercase tracking-wide text-accent-primary bg-accent-tint px-2 py-0.5 rounded">
-                          {it.impact}
-                        </span>
-                        <span className="font-body text-[10px] font-bold uppercase tracking-wide text-text-muted bg-surface-1 px-2 py-0.5 rounded">
-                          {it.effort}
-                        </span>
-                      </div>
+                      {/* Impact / Effort — importance visuelle réduite (texte simple, sans capsule) */}
+                      <p className="mt-0.5 font-body text-[11px] text-text-muted">
+                        {it.impact} · {it.effort}
+                      </p>
+                      {/* Recommandation concrète (uniquement sur le 1er point) */}
+                      {it.reco && (
+                        <p className="mt-2 max-w-[46ch] font-body text-[12px] leading-snug text-text-secondary border-l-2 border-accent-primary/50 pl-2.5">
+                          <span className="font-semibold text-accent-primary">Correction proposée :</span> {it.reco}
+                        </p>
+                      )}
                     </div>
                   </li>
                 ))}
               </ul>
 
-              {/* Pied du rapport */}
+              {/* Pied */}
               <div className="mt-3.5 pt-3 border-t border-border-0">
                 <p className="font-body text-[10.5px] uppercase tracking-[0.06em] text-text-muted">
-                  Backlog priorisé impact / effort · maquettes correctives incluses
+                  Backlog priorisé · Recommandations illustrées · Correctifs directement exploitables
                 </p>
               </div>
             </div>
           </motion.div>
+
+          {/* Preuve humaine discrète (contenu réel, non décoratif) */}
+          <motion.p
+            {...anim(0.5)}
+            className="flex items-center justify-center gap-2 font-body text-[12px] text-text-muted max-w-[520px]"
+          >
+            <span
+              className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-surface-1 border border-border-1 text-[9px] font-bold text-accent-primary shrink-0"
+              aria-hidden="true"
+            >
+              BD
+            </span>
+            Audit réalisé manuellement par Benjamin Duffau, UX/UI Designer depuis 2020.
+          </motion.p>
         </div>
       </div>
     </section>
