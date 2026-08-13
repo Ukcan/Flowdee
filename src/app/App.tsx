@@ -27,6 +27,7 @@ import { ParticleNetwork } from './components/Decor/ParticleNetwork';
 import { ScrollReveal } from './components/Decor/ScrollReveal';
 import { CalendarModal } from './components/CalendarModal';
 import { ThankYouModal } from './components/ThankYouModal';
+import { syncAnalyticsWithConsent } from './constants/analytics';
 
 /**
  * BackgroundGrid Component
@@ -57,6 +58,10 @@ export default function App() {
     // Measure scrollbar width
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+
+    // Charge Google Analytics si un consentement a déjà été enregistré
+    // lors d'une session précédente.
+    syncAnalyticsWithConsent();
   }, []);
 
   // Subtle mouse-follow on the hero depth glow (parallax with the constellation)

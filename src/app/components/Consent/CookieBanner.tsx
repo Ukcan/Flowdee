@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { ButtonPrimary } from '../Button/Primary';
 import { Cookie, GearSix as Settings, ShieldCheck, CaretLeft as ChevronLeft, X } from '@phosphor-icons/react';
+import { syncAnalyticsWithConsent } from '../../constants/analytics';
 
 /**
  * CookieBanner Component - Ultra Simple & Robust Version
@@ -17,7 +18,7 @@ export function CookieBanner({ forceShow, onClose }: { forceShow?: boolean, onCl
   const [showSettings, setShowSettings] = useState(false);
   const [preferences, setPreferences] = useState({
     essential: true,
-    analytics: true,
+    analytics: false,
     marketing: false,
   });
 
@@ -34,6 +35,7 @@ export function CookieBanner({ forceShow, onClose }: { forceShow?: boolean, onCl
 
   const handleAcceptAll = () => {
     localStorage.setItem('flowdee-cookie-consent', JSON.stringify({ essential: true, analytics: true, marketing: true }));
+    syncAnalyticsWithConsent();
     setShow(false);
     if (onClose) onClose();
   };
@@ -46,6 +48,7 @@ export function CookieBanner({ forceShow, onClose }: { forceShow?: boolean, onCl
 
   const handleSaveSettings = () => {
     localStorage.setItem('flowdee-cookie-consent', JSON.stringify(preferences));
+    syncAnalyticsWithConsent();
     setShow(false);
     setShowSettings(false);
     if (onClose) onClose();

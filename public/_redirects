@@ -1,1 +1,4 @@
-/*    /index.html   200
+# Site one-pager sans routes client (pas de react-router monté) :
+# aucun catch-all ici, pour laisser Cloudflare Workers Assets servir
+# une vraie 404 (voir wrangler.jsonc → assets.not_found_handling) sur
+# toute URL autre que "/".

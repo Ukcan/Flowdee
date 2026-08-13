@@ -48,7 +48,7 @@ export function HeroSection() {
       aria-label="Audit UX Flowdee"
       id="hero"
     >
-      <div className="relative z-10 max-w-[900px] mx-auto px-6 sm:px-8 md:px-12 w-full">
+      <div className="relative z-10 max-w-[1080px] mx-auto px-6 sm:px-8 md:px-16 w-full">
         <div className="flex flex-col items-center text-center gap-6 md:gap-7">
           {/* Eyebrow */}
           <motion.div {...anim(0.05)} className="inline-block">
@@ -57,9 +57,9 @@ export function HeroSection() {
             </span>
           </motion.div>
 
-          {/* H1 (inchangé) */}
-          <motion.h1 {...anim(0.12)} className="heading-display text-text-primary max-w-[18ch]">
-            Comprenez ce qui freine vos conversions — et quoi corriger en priorité.
+          {/* H1 — deux phrases, une par ligne (chaque phrase reste un groupe, wrap interne sur mobile) */}
+          <motion.h1 {...anim(0.12)} className="heading-display text-text-primary text-pretty">
+            Un beau site ne suffit pas.<br />Il doit convaincre.
           </motion.h1>
 
           {/* Description (inchangée) */}
