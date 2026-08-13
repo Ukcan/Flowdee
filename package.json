@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "vite build && node scripts/prerender.mjs",
+    "build": "playwright install chromium && vite build && node scripts/prerender.mjs",
     "dev": "vite",
     "deploy": "pnpm run build && wrangler deploy",
     "preview": "pnpm run build && wrangler dev"
