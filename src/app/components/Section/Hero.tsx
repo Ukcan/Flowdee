@@ -40,7 +40,7 @@ export function HeroSection() {
 
   const focusRing =
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-base)]';
-  const textLink = `font-body text-[13px] sm:text-[14px] text-text-secondary underline underline-offset-4 decoration-border-1 hover:text-text-primary rounded transition-colors ${focusRing}`;
+  const textLink = `inline-flex items-center min-h-[44px] px-1 font-body text-[13px] sm:text-[14px] text-text-secondary underline underline-offset-4 decoration-border-1 hover:text-text-primary rounded transition-colors ${focusRing}`;
 
   return (
     <section

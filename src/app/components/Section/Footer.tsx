@@ -86,12 +86,12 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
             {/* Center: Links */}
             <div className="space-y-6 min-w-[140px]">
               <h3 className="font-heading text-[13px] font-medium uppercase tracking-[0.08em] text-text-primary">{t.footer.navigation}</h3>
-              <nav className="flex flex-col gap-4">
+              <nav className="flex flex-col">
                 {menuItems.map((item) => (
                   <button
                     key={item.label}
                     onClick={() => scrollToSection(item.id)}
-                    className="text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
+                    className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
                   >
                     {item.label}
                   </button>
@@ -100,7 +100,7 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
                   href="https://cv.flowdee.fr/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
+                  className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
                 >
                   Mon parcours (CV)
                 </a>
@@ -110,20 +110,20 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
             {/* Center-Right: Legal Links */}
             <div className="space-y-6 min-w-[140px]">
               <h3 className="font-heading text-[13px] font-medium uppercase tracking-[0.08em] text-text-primary">LÉGAL</h3>
-              <nav className="flex flex-col gap-4">
-                <button className="text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
+              <nav className="flex flex-col">
+                <button className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
                   Mentions légales
                 </button>
-                <button 
+                <button
                   onClick={onOpenPrivacy}
-                  className="text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
+                  className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
                 >
                   Politique de confidentialité
                 </button>
-                <button onClick={onOpenCookies} className="text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
+                <button onClick={onOpenCookies} className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
                   Paramètres cookies
                 </button>
-                <button onClick={onOpenCGV} className="text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
+                <button onClick={onOpenCGV} className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
                   CGV
                 </button>
               </nav>

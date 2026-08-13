@@ -136,7 +136,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             {menuItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
@@ -164,7 +164,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4">
             {/* Hairline separator */}
             <div className="h-5 w-px bg-border-0" />
             {/* Action secondaire discrète : réserver un appel */}
@@ -189,7 +189,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center gap-4">
+          <div className="flex lg:hidden items-center gap-4">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="w-[44px] h-[44px] flex items-center justify-center rounded-xl text-text-primary focus-visible:outline-none hover:bg-state-hover-bg transition-colors"
@@ -210,7 +210,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed inset-y-0 right-0 w-full max-w-sm bg-surface-0 border-l border-border-0 md:hidden z-[70] flex flex-col p-12 gap-8 shadow-panel"
+            className="fixed inset-y-0 right-0 w-full max-w-sm bg-surface-0 border-l border-border-0 lg:hidden z-[70] flex flex-col p-12 gap-8 shadow-panel"
           >
             <button
               onClick={() => setMobileMenuOpen(false)}
