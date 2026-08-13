@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { List as Menu, X, Phone } from '@phosphor-icons/react';
+import { List as Menu, X, PhoneCall } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from './ui/button';
 import { ButtonPrimary } from './Button/Primary';
@@ -173,7 +173,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
               className="inline-flex items-center gap-1.5 font-body text-[13px] font-medium text-text-secondary hover:text-accent-primary underline-offset-4 hover:underline rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-base)]"
               aria-label="Réserver un appel de 30 minutes"
             >
-              <Phone size={16} />
+              <PhoneCall size={16} weight="duotone" />
               Réserver un appel
             </button>
 
