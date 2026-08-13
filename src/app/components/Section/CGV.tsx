@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { X, ArrowLeft } from 'lucide-react';
+import { X, ArrowLeft } from '@phosphor-icons/react';
 
 /**
  * Section/CGV Component

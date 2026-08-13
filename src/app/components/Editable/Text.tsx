@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useEditableContent } from '../../contexts/EditableContentContext';
-import { Pencil, RotateCcw } from 'lucide-react';
+import { Pencil, ArrowCounterClockwise as RotateCcw } from '@phosphor-icons/react';
 
 interface EditableTextProps {
   /** Unique key for localStorage persistence */

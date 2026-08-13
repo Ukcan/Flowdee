@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { LucideIcon } from 'lucide-react';
+import { Icon } from '@phosphor-icons/react';
 
 /**
  * Card/Feature Component
@@ -9,7 +9,7 @@ import { LucideIcon } from 'lucide-react';
  */
 
 export interface FeatureCardProps {
-  icon?: LucideIcon;
+  icon?: Icon;
   iconElement?: React.ReactNode;
   title: string;
   description?: string;

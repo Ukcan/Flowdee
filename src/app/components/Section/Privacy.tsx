@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { X, ArrowLeft, ShieldCheck, Eye, Lock, FileText, Target } from 'lucide-react';
+import { X, ArrowLeft, ShieldCheck, Eye, Lock, FileText, Target } from '@phosphor-icons/react';
 
 /**
  * Section/Privacy Component
