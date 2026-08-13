@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Check, Briefcase, PhoneCall, ArrowRight, Star } from '@phosphor-icons/react';
+import { Check, PhoneCall, ArrowRight, Star } from '@phosphor-icons/react';
 import { ParallaxHeading } from '../Decor/ParallaxHeading';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { ButtonPrimary } from '../Button/Primary';
@@ -282,43 +282,25 @@ export function ServicesSection() {
           })}
         </div>
 
-        {/* Partnership Prompt */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          onClick={scrollToContact}
-          className="flex flex-col md:flex-row items-center justify-center gap-4 py-8 border-t border-border-0 cursor-pointer group"
-          role="link"
-          tabIndex={0}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') scrollToContact(); }}
-        >
-          <div className="flex items-center gap-3">
-            <Briefcase size={18} weight="duotone" className="text-text-muted group-hover:text-accent-primary transition-colors" />
-            <span className="font-body font-medium uppercase tracking-[0.15em] text-text-muted text-[14px]">
-              Besoin d'un partenariat long-terme ?
-            </span>
-          </div>
-          <span className="font-body font-medium text-accent-primary group-hover:underline text-[16px]">
-            Parlons en
-          </span>
-        </motion.div>
-
-        {/* Help text */}
+        {/* Clôture unique : indécision + partenariat long-terme menaient toutes
+            deux à "réserver un appel" — un seul bloc plutôt que deux prompts
+            empilés au poids visuel identique, pour clarifier la hiérarchie. */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="relative text-center mt-12 p-10 rounded-[24px] bg-accent-bg border border-accent-border shadow-panel hover:border-accent-primary/50 transition-all duration-300 hover:scale-[1.01] group"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="relative text-center mt-4 p-10 rounded-[24px] bg-accent-bg border border-accent-border shadow-panel hover:border-accent-primary/50 transition-all duration-300 hover:scale-[1.01] group"
         >
           <div className="flex flex-col items-center gap-4">
             <div className="flex items-center justify-center w-12 h-12 rounded-full bg-accent-bg border border-accent-border group-hover:bg-accent-primary/20 transition-all duration-300">
               <PhoneCall weight="duotone" className="w-5 h-5 text-accent-primary" />
             </div>
+            <span className="font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted">
+              Pas sûr du format, ou besoin d'un partenariat long-terme ?
+            </span>
             <p className="font-body text-[15px] text-text-primary font-normal max-w-md">
-              Vous ne savez pas quoi choisir ? Réservez un appel : je vous oriente vers le format le plus adapté.
+              Réservez un appel : je vous oriente vers l'option la plus adaptée à votre situation.
             </p>
             <a
               href={CALENDAR_LINK}
