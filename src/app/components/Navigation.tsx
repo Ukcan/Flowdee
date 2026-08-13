@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { List as Menu, X, Phone } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from './ui/button';
@@ -50,12 +50,15 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
   const [isFloating, setIsFloating] = useState(false);
   const { language, setLanguage, t } = useTranslation();
 
-  const menuItems = [
+  // useMemo : une référence stable évite que le useEffect de détection de
+  // section (ci-dessous) ne se désabonne/réabonne à chaque rendu, ce qui
+  // pouvait laisser passer un scroll sans que le listener soit attaché.
+  const menuItems = useMemo(() => [
     { label: t.nav.services, id: 'services' },
     { label: t.nav.caseStudies, id: 'case-studies' },
     { label: t.nav.about, id: 'approche' },
     { label: t.nav.contact, id: 'contact' }
-  ];
+  ], [t]);
 
   // Track floating state on scroll
   useEffect(() => {
@@ -101,6 +104,11 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
+      // Marque la section active immédiatement au clic : scrollIntoView ne
+      // déclenche pas toujours un évènement "scroll" (constaté quand le
+      // saut est instantané), donc on ne peut pas compter uniquement sur le
+      // scroll-spy passif pour refléter un choix explicite de l'utilisateur.
+      setActiveSection(sectionId);
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       setMobileMenuOpen(false);
     }
