@@ -77,8 +77,13 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
 
       for (const section of sections) {
         if (section) {
-          const top = section.offsetTop;
-          const bottom = top + section.offsetHeight;
+          // getBoundingClientRect (pas offsetTop) : certaines sections sont
+          // nichées dans un ancêtre positionné (wrapper d'animation), ce qui
+          // fausse offsetTop en le rendant relatif à cet ancêtre plutôt qu'à
+          // la page entière.
+          const rect = section.getBoundingClientRect();
+          const top = rect.top + window.scrollY;
+          const bottom = top + rect.height;
 
           if (scrollPosition >= top && scrollPosition < bottom) {
             setActiveSection(section.id);
