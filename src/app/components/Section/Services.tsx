@@ -292,22 +292,26 @@ export function ServicesSection() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="relative text-center mt-4 p-10 rounded-[24px] bg-accent-bg border border-accent-border shadow-panel hover:border-accent-primary/50 transition-all duration-300 hover:scale-[1.01] group"
         >
-          <div className="flex flex-col items-center gap-4">
-            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-accent-bg border border-accent-border group-hover:bg-accent-primary/20 transition-all duration-300">
-              <PhoneCall weight="duotone" className="w-5 h-5 text-accent-primary" />
+          <div className="flex flex-col items-center gap-6">
+            {/* Groupe 1 — message : icone + label court + phrase de valeur concrete */}
+            <div className="flex flex-col items-center gap-3">
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-accent-primary/15 border border-accent-border group-hover:bg-accent-primary/25 transition-all duration-300">
+                <PhoneCall weight="duotone" className="w-5 h-5 text-accent-primary" />
+              </div>
+              <span className="font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted">
+                Pas encore décidé ?
+              </span>
+              <p className="font-body text-[16px] text-text-primary font-medium max-w-md">
+                Un appel de 30 minutes suffit pour trouver la bonne formule — audit, sprint, ou partenariat continu.
+              </p>
             </div>
-            <span className="font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-muted">
-              Pas sûr du format, ou besoin d'un partenariat long-terme ?
-            </span>
-            <p className="font-body text-[15px] text-text-primary font-normal max-w-md">
-              Réservez un appel : je vous oriente vers l'option la plus adaptée à votre situation.
-            </p>
+            {/* Groupe 2 — action */}
             <a
               href={CALENDAR_LINK}
               onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('flowdee:open-calendar')); }}
               rel="noopener noreferrer"
-              className="group/pri relative !overflow-hidden inline-flex items-center gap-2 mt-2 px-6 py-3 min-h-[44px] rounded-[var(--radius-button)] bg-accent-primary text-on-accent border-[1.5px] border-transparent hover:!border-accent-primary transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
-              aria-label="Réserver un appel découverte"
+              className="group/pri relative !overflow-hidden inline-flex items-center gap-2 px-6 py-3 min-h-[44px] rounded-[var(--radius-button)] bg-accent-primary text-on-accent border-[1.5px] border-transparent hover:!border-accent-primary transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
+              aria-label="Réserver mes 30 minutes découverte"
             >
               {/* Hover BG (wave overlay) — same as ButtonPrimary */}
               <span className="absolute inset-0 invisible translate-y-full opacity-0 group-hover/pri:visible group-hover/pri:translate-y-0 group-hover/pri:opacity-100 transition-all duration-500 ease-out pointer-events-none">
@@ -326,7 +330,7 @@ export function ServicesSection() {
               </span>
               <span className="relative z-10 inline-flex items-center gap-2 transition-colors duration-200">
                 <PhoneCall weight="duotone" className="w-4 h-4" />
-                <span className="font-body text-[14px]">Réserver un appel</span>
+                <span className="font-body text-[14px]">Réserver mes 30 minutes</span>
               </span>
             </a>
           </div>
