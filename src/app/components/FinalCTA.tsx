@@ -5,6 +5,7 @@ import { CTA_PRIMARY, CTA_SECONDARY } from '../constants/ctaCopy';
 import { TechnicalLabel } from './TechnicalLabel';
 import { ButtonPrimary } from './Button/Primary';
 import { CALENDAR_LINK, AUDIT_LINK } from '../constants/links';
+import { WEB3FORMS_ACCESS_KEY, WEB3FORMS_ENDPOINT } from '../constants/web3forms';
 
 export function FinalCTA() {
   const [formData, setFormData] = useState({
@@ -24,20 +25,20 @@ export function FinalCTA() {
     
     setIsSubmitting(true);
 
-    // Enregistre le lead via Netlify Forms (n'empêche pas la suite si échec)
+    // Enregistre le lead via Web3Forms (n'empêche pas la suite si échec)
     try {
-      await fetch('/', {
+      await fetch(WEB3FORMS_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          'form-name': 'contact',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `Nouveau contact Flowdee — ${choice === 'call' ? 'Appel' : 'Audit'}`,
           name: formData.name,
           email: formData.email,
           company: formData.company,
           message: formData.message,
           choice,
-          'bot-field': '',
-        }).toString(),
+        }),
       });
     } catch {
       // on continue quand même vers Calendar / paiement
