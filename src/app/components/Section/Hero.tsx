@@ -53,7 +53,7 @@ export function HeroSection() {
           {/* Eyebrow */}
           <motion.div {...anim(0.05)} className="inline-block">
             <span className="font-body text-[12px] px-5 py-2 bg-accent-tint text-[color:var(--accent-eyebrow)] font-bold tracking-[0.08em] uppercase rounded-full border border-accent-primary/40">
-              Audit UX · SEO · Accessibilité · Microcopy
+              Audit UX · SEO · Accessibilité · Rédaction
             </span>
           </motion.div>
 
