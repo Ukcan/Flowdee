@@ -47,6 +47,10 @@ export function TrustedClients() {
                 key={index}
                 aria-hidden={index >= clientSegments.length ? 'true' : undefined}
                 className="card-surface h-[104px] w-[220px] mx-3 shrink-0 flex items-center justify-center bg-surface-0 group"
+                style={{
+                  borderColor: 'var(--border-1)',
+                  boxShadow: 'var(--shadow-panel), var(--inset-topline)',
+                }}
               >
                 <div className="font-body font-medium uppercase text-[13px] leading-tight text-text-primary tracking-[0.06em] group-hover:text-accent-primary transition-colors text-center px-6">
                   {client.segment}
