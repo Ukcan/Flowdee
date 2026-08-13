@@ -59,6 +59,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: 8px;
         height: 48px;
         padding: 0 28px;
         border-radius: 999px;
@@ -68,6 +69,10 @@
         font-weight: 600;
         text-decoration: none;
         transition: opacity 0.15s ease;
+      }
+
+      a.home svg {
+        flex-shrink: 0;
       }
 
       a.home:hover,
@@ -87,7 +92,12 @@
       <p class="code">Erreur 404</p>
       <h1>Cette page n'existe pas.</h1>
       <p>Le lien est peut-être obsolète ou l'adresse mal saisie. L'audit UX, les cas clients et le contact sont sur la page d'accueil.</p>
-      <a class="home" href="/">Retour à l'accueil →</a>
+      <a class="home" href="/">
+        Retour à l'accueil
+        <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z" />
+        </svg>
+      </a>
     </div>
   </body>
 </html>
