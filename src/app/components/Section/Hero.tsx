@@ -50,9 +50,9 @@ export function HeroSection() {
     >
       <div className="relative z-10 max-w-[1080px] mx-auto px-6 sm:px-8 md:px-16 w-full">
         <div className="flex flex-col items-center text-center gap-6 md:gap-7">
-          {/* Eyebrow */}
-          <motion.div {...anim(0.05)} className="inline-block">
-            <span className="font-body text-[11px] px-5 py-1.5 bg-accent-tint/50 backdrop-blur-sm text-[color:var(--accent-eyebrow)] font-medium tracking-[0.12em] uppercase rounded-full border border-accent-primary/25">
+          {/* Eyebrow — plain text on mobile (a wrapped pill looks broken at that width), full chip from sm+ */}
+          <motion.div {...anim(0.05)} className="block sm:inline-block">
+            <span className="block sm:inline max-w-[260px] sm:max-w-none mx-auto font-body text-[10px] sm:text-[11px] px-0 sm:px-5 py-0 sm:py-1.5 bg-transparent sm:bg-accent-tint/50 sm:backdrop-blur-sm text-[color:var(--accent-eyebrow)] font-medium tracking-[0.08em] sm:tracking-[0.12em] uppercase rounded-full sm:border sm:border-accent-primary/25">
               Audit UX · SEO · Accessibilité · Rédaction
             </span>
           </motion.div>

@@ -113,7 +113,7 @@ export function ScrollMouseIndicator() {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          className="fixed bottom-8 left-8 z-40 flex flex-row items-center gap-4 pointer-events-none"
+          className="hidden md:flex fixed bottom-8 left-8 z-40 flex-row items-center gap-4 pointer-events-none"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
