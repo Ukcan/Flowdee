@@ -97,12 +97,12 @@ node_modules\.bin\vite.cmd build      # sortie : dist/
 pnpm install
 ```
 
-**Cloudflare (auto-déploiement)**
-- Build command : `pnpm build`
-- Output directory : `dist`
-- Variable : `NODE_VERSION=20`
-- Déclencheur : **chaque `git push` sur `main`** → build → deploy
-- Domaine actuel : `claude-pour-figma.benjamin-duffau.workers.dev`
+**Cloudflare (auto-déploiement via GitHub Actions)**
+- Déclencheur : **chaque `git push` sur `main`** → `.github/workflows/deploy.yml`
+- Build command réelle : **`pnpm run build:prerender`** (⚠️ **pas** `pnpm build` : `vite build` seul saute le prérendu Playwright de `scripts/prerender.mjs`). Valider en local avec la même commande.
+- Déploiement : `cloudflare/wrangler-action` → `wrangler deploy` (secret `CLOUDFLARE_API_TOKEN`)
+- Output directory : `dist` · Node 22
+- Domaine actuel : **https://flowdee.fr** — suivi des déploiements : `gh run list`
 
 ---
 

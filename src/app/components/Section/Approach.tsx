@@ -116,27 +116,29 @@ export function ApproachSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: index * 0.08 }}
-                className="grid grid-cols-1 lg:grid-cols-[72px_minmax(0,0.85fr)_minmax(0,1.15fr)] gap-x-8 gap-y-3 py-8 md:py-10 border-b border-border-0"
+                className="grid grid-cols-1 lg:grid-cols-[76px_minmax(0,0.9fr)_minmax(0,1.1fr)] gap-x-10 gap-y-3 py-7 md:py-9 border-b border-border-0 items-start"
               >
-                <div className="flex items-center gap-3 lg:flex-col lg:items-start lg:gap-4">
+                {/* Gouttière : numéro et icône sur une même ligne, calés sur la
+                    première ligne du titre — l'icône ne pend plus sous le numéro. */}
+                <div className="flex items-center gap-2.5 lg:pt-[5px]">
                   <span className="font-display text-[13px] tabular-nums tracking-[0.16em] text-accent-primary leading-none">
                     {String(index + 1).padStart(2, '0')}
                   </span>
-                  <Icon size={18} weight="duotone" className="text-text-muted" aria-hidden="true" />
+                  <Icon size={16} weight="duotone" className="text-text-muted shrink-0" aria-hidden="true" />
                 </div>
 
                 <EditableText
                   contentKey={`approach.pillar.${pillar.key}.title`}
                   defaultValue={pillar.title}
                   as="h3"
-                  className="font-heading text-[20px] md:text-[24px] font-normal text-text-primary tracking-[-0.01em] leading-tight self-start"
+                  className="font-heading text-[18px] md:text-[20px] font-medium text-text-primary tracking-[0.01em] leading-[1.35]"
                 />
 
                 <EditableText
                   contentKey={`approach.pillar.${pillar.key}.desc`}
                   defaultValue={pillar.description}
                   as="p"
-                  className="font-body text-[15px] leading-[1.7] text-text-secondary self-start"
+                  className="font-body text-[15px] leading-[1.7] text-text-secondary max-w-[46ch]"
                   multiline
                 />
               </motion.div>

@@ -13,8 +13,10 @@
 - **Motion** (ex-Framer Motion) — animations
 - **Phosphor Icons** (`@phosphor-icons/react`) — icônes (migrées depuis Lucide)
 - **Radix UI / shadcn** — composants UI primitifs (`components/ui/*`)
-- **Hébergement** : Cloudflare Workers (`claude-pour-figma.benjamin-duffau.workers.dev`)
-- **CI/CD** : déploiement auto via GitHub `Ukcan/claude-pour-figma` (push → build → deploy)
+- **Hébergement** : Cloudflare — domaine public **https://flowdee.fr** (vérifiable : `curl -sSI https://flowdee.fr` → `Server: cloudflare`)
+- **CI/CD** : repo **`Ukcan/Flowdee`**. Push sur `main` → GitHub Actions (`.github/workflows/deploy.yml`) → `pnpm run build:prerender` → `wrangler deploy`. Suivi : `gh run list`.
+  - ⚠️ **La CI construit avec `build:prerender`, pas `build`** : `vite build` seul saute le prérendu Playwright (`scripts/prerender.mjs`). Valider en local avec `pnpm run build:prerender`.
+  - Le build git-integration natif de Cloudflare ne fonctionnait pas (impossible d'installer les libs système de Chromium) — d'où le déploiement piloté par Actions.
 
 ---
 
