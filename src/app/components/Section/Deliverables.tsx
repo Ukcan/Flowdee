@@ -40,9 +40,11 @@ export function DeliverablesSection() {
     <section
       id="deliverables"
       aria-labelledby="deliverables-title"
-      className="relative py-24 md:py-32 bg-surface-0 border-t border-border-0 overflow-hidden"
+      /* Respiration élargie : cette section ouvre l'acte "solution" après le
+         diagnostic — la frontière d'acte se joue d'abord dans le vide. */
+      className="relative py-28 md:py-40 bg-surface-0 border-t border-border-0 overflow-hidden"
     >
-      <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
+      <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
         <StickySplit
           aside={
             <motion.div

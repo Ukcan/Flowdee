@@ -39,10 +39,13 @@ export function ApproachSection() {
   return (
     <section
       id="approche"
-      className="section-aurora py-24 md:py-32 relative overflow-hidden border-t border-border-0"
+      /* Ouverture de l'acte "méthode" : respiration large, et container
+         resserré — un manifeste se lit sur une mesure étroite, pas sur toute
+         la largeur d'une grille. */
+      className="section-aurora py-28 md:py-40 relative overflow-hidden border-t border-border-0"
       aria-labelledby="approach-title"
     >
-      <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
+      <div className="max-w-[980px] mx-auto px-8 md:px-16 relative z-10">
         {/* Manifeste — déclaration dominante, signature en appui */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-16 gap-y-10">
           <motion.div

@@ -11,6 +11,7 @@ import { CTA_PRIMARY } from '../constants/ctaCopy';
 import { TechnicalLabel } from './TechnicalLabel';
 import { ButtonPrimary } from './Button/Primary';
 import { ButtonSecondary } from './Button/Secondary';
+import { SectionHeader } from './Layout/SectionHeader';
 
 const featuredCase = {
   tag: 'EdTech SaaS',
@@ -189,28 +190,27 @@ export function UseCases() {
     <>
       {/* Featured Case Study Section */}
       <section
-        className="bg-bg-base py-24 md:py-32 border-b border-border-1 overflow-hidden relative"
+        /* Rythme le plus large de la page : ouverture de l'acte "preuve",
+           la rupture la plus forte du parcours. */
+        className="bg-bg-base py-32 md:py-44 border-b border-border-1 overflow-hidden relative"
         aria-labelledby="featured-case-title"
       >
         {/* Header — éditorial, aligné à gauche : la section s'annonce, elle ne se centre pas */}
         <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-[880px]"
-          >
-            <p className="font-body text-[10px] font-medium uppercase tracking-[0.25em] text-text-muted">
-              Étude de cas
-            </p>
-            <h2 id="featured-case-title" className="heading-1 text-accent-primary mt-5 text-balance">
-              {featuredCase.headerTitle}
-            </h2>
-            <p className="font-body text-[12px] md:text-[13px] font-medium text-text-secondary uppercase tracking-[0.2em] mt-5">
-              {featuredCase.headerSubtitle}
-              <span className="text-text-muted"> · {featuredCase.scope} · {featuredCase.duration}</span>
-            </p>
-          </motion.div>
+          <SectionHeader
+            variant="editorial"
+            index="01"
+            eyebrow="Étude de cas"
+            tone="accent"
+            titleId="featured-case-title"
+            title={featuredCase.headerTitle}
+            description={
+              <span className="font-body text-[12px] md:text-[13px] font-medium text-text-secondary uppercase tracking-[0.2em]">
+                {featuredCase.headerSubtitle}
+                <span className="text-text-muted"> · {featuredCase.scope} · {featuredCase.duration}</span>
+              </span>
+            }
+          />
         </div>
 
         {/* Showcase — le comparateur casse volontairement le container :
@@ -329,27 +329,16 @@ export function UseCases() {
         className="py-24 md:py-32 bg-bg-base border-b border-border-1 relative overflow-hidden"
         aria-label="Other client cases"
       >
-        <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
-          <div className="flex flex-col mb-4">
-            {/* <TechnicalLabel sectionId="PORTFOLIO_MODULE" /> */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="font-body text-[10px] font-medium uppercase tracking-[0.25em] text-text-muted"
-            >
-              Autres réalisations
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.05 }}
-              className="heading-1 text-text-primary mt-5 max-w-[760px] text-balance"
-            >
-              Résultats observés sur des cas concrets
-            </motion.h2>
-          </div>
+        <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
+          {/* Header compact : ces cas sont subordonnés au cas phare ci-dessus,
+              la hiérarchie doit se voir avant même de lire. */}
+          <SectionHeader
+            variant="inline"
+            index="02"
+            eyebrow="Autres réalisations"
+            title="Résultats observés sur des cas concrets"
+            className="mb-4"
+          />
 
           {/* Lignes éditoriales alternées — mouvement vertical plutôt qu'une
               nouvelle grille de cards qui rimerait avec le pricing. */}

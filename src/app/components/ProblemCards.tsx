@@ -53,7 +53,7 @@ export function ProblemCards() {
           color: var(--text-primary) !important;
         }
       `}</style>
-      <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
+      <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
         <div className="flex flex-col items-center mb-16">
           {/* <TechnicalLabel sectionId="PROBLEMS_01" /> */}
           <ParallaxHeading>

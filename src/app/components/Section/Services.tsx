@@ -124,7 +124,9 @@ export function ServicesSection() {
       className="services-blueprint-section relative py-24 md:py-32 overflow-hidden bg-surface-1 border-t border-border-0"
       aria-label="Service packages"
     >
-      <div className="max-w-[1240px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-12 relative z-10">
+      {/* Container resserré face à Deliverables (1320) : la comparaison se lit
+          mieux cadrée, et le changement de largeur marque la frontière. */}
+      <div className="max-w-[1140px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-12 relative z-10">
         {/* Section title */}
         <div className="flex flex-col items-center mb-16">
           <ParallaxHeading>
@@ -250,7 +252,10 @@ export function ServicesSection() {
                           : scrollToContact
                       }
                       size="m"
-                      className="w-full"
+                      /* Sous sm, padding et corps reduits : a 320px les libelles
+                         les plus longs ("Commander l'audit — 890 €") etaient
+                         tronques de 18px. Invisible sur un bouton pleine largeur. */
+                      className="w-full px-3 sm:px-7 text-[14px] sm:text-[15px]"
                       aria-label={service.ctaPrimaryLabel}
                     >
                       {service.ctaPrimaryLabel}
@@ -265,7 +270,10 @@ export function ServicesSection() {
                           : scrollToContact
                       }
                       size="m"
-                      className="w-full"
+                      /* Sous sm, padding et corps reduits : a 320px les libelles
+                         les plus longs ("Commander l'audit — 890 €") etaient
+                         tronques de 18px. Invisible sur un bouton pleine largeur. */
+                      className="w-full px-3 sm:px-7 text-[14px] sm:text-[15px]"
                       aria-label={service.ctaPrimaryLabel}
                     >
                       {service.ctaPrimaryLabel}

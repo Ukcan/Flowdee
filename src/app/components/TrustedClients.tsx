@@ -15,19 +15,22 @@ export function TrustedClients() {
 
   return (
     <section
-      className="py-24 md:py-32 bg-bg-base border-t border-border-1 relative overflow-hidden"
+      /* Rythme volontairement serré : cette section est une respiration entre
+         le hero et le diagnostic, pas un chapitre à part entière. */
+      className="py-16 md:py-20 bg-bg-base border-t border-border-1 relative overflow-hidden"
       aria-label="Trusted clients"
     >
-      <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
+      <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col items-center mb-16"
+          className="flex flex-col items-center mb-10"
         >
           {/* <TechnicalLabel sectionId="CLIENTS_DB_01" /> */}
-          <h2 className="heading-1 text-text-primary mt-4 text-center">
+          {/* Titre volontairement réduit : section de validation, pas de chapitre. */}
+          <h2 className="heading-3 text-text-secondary text-center font-normal">
             {t.trustedClients.title}
           </h2>
         </motion.div>

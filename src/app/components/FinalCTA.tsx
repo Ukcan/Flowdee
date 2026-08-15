@@ -269,7 +269,10 @@ export function FinalCTA() {
               <ButtonPrimary
                 type="submit"
                 disabled={isSubmitting || !isFormValid}
-                className="w-full h-[52px] text-[16px] mt-2"
+                /* Le libellé le plus long ("Réserver un créneau (Calendar) →")
+                   dépasse la largeur utile en mobile : on autorise le retour à
+                   la ligne et une hauteur libre plutôt que de le tronquer. */
+                className="w-full min-h-[52px] h-auto py-3 px-4 sm:px-7 whitespace-normal text-center text-[15px] sm:text-[16px] mt-2"
               >
                 {isSubmitting 
                   ? 'ENVOI EN COURS...' 

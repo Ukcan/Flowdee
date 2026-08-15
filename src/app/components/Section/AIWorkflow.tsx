@@ -29,7 +29,9 @@ export function AIWorkflowSection() {
       aria-labelledby="ia-workflow-title"
       className="relative py-24 md:py-32 bg-surface-0 border-t border-border-0 overflow-hidden"
     >
-      <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
+      {/* Large après le manifeste resserré (980) : un workflow a besoin
+          d'étalement horizontal pour se lire comme un flux. */}
+      <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
         {/* En-tête */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
