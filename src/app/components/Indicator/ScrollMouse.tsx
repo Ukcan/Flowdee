@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 
 /**
  * Section map — ordered list of section IDs with their contextual labels.
@@ -30,7 +30,10 @@ const SECTIONS = [
 export function ScrollMouseIndicator() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAtBottom, setIsAtBottom] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
+  // Les boucles d'animation sont pilotées en JS : une règle CSS ne les arrête
+  // pas. Il faut donc les couper explicitement quand le visiteur a demandé
+  // moins de mouvement — le repère reste alors affiché, simplement immobile.
+  const reduce = useReducedMotion();
 
   /* ─── Section courante, position et visibilité ──────────────────────
      La détection se fait par une ligne de référence plutôt que par un
@@ -60,7 +63,11 @@ export function ScrollMouseIndicator() {
     // l'indicateur disparaissait sans jamais revenir.
     const scrollPercent = scrollable > 0 ? window.scrollY / scrollable : 0;
 
-    setIsVisible(scrollPercent < 0.97);
+    // L'indicateur s'effaçait dans les 3 derniers pourcents de la page. Il
+    // disparaissait donc exactement dans le pied de page, au moment précis où
+    // il sert le plus : c'est désormais le seul retour en haut sur desktop.
+    // Tant qu'il n'était qu'une invitation à faire défiler, le masquer en fin
+    // de course se tenait ; ce n'est plus ce qu'il fait.
     setIsAtBottom(scrollPercent > 0.85);
   }, []);
 
@@ -98,13 +105,8 @@ export function ScrollMouseIndicator() {
      chose ; le clic, lui, mène toujours à la suite. */
   const nextLabel = isAtBottom ? 'Haut' : SECTIONS[currentIndex]?.label ?? '';
 
-  /* Current section label — eyebrow micro-text above */
-  const currentLabel = SECTIONS[currentIndex]?.label ?? '';
-
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
+    <motion.div
           /* Empilement vertical : libellé et jauge au-dessus de la souris,
              centrés sur elle. `col-reverse` place le bloc décoratif au-dessus
              tout en gardant le bouton en premier dans le DOM (ordre de
@@ -121,7 +123,6 @@ export function ScrollMouseIndicator() {
           className="hidden md:flex fixed bottom-8 right-8 z-40 flex-col-reverse items-end gap-2.5 pointer-events-none"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
           transition={{ duration: 0.4 }}
         >
           {/* Mouse icon — interactive */}
@@ -153,15 +154,16 @@ export function ScrollMouseIndicator() {
             }
             type="button"
           >
-            <motion.svg
+            {/* La coque ne bouge plus : elle pivotait de 180° en bas de page,
+                sans aucun effet visible puisque la forme est symétrique. Seul
+                le repère intérieur change, et c'est lui qui porte le sens. */}
+            <svg
               width="20"
               height="30"
               viewBox="0 0 20 30"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               className="text-accent-primary"
-              animate={{ rotate: isAtBottom ? 180 : 0 }}
-              transition={{ duration: 0.4, ease: 'easeInOut' }}
             >
               {/* Outer shell */}
               <rect
@@ -173,28 +175,57 @@ export function ScrollMouseIndicator() {
                 stroke="currentColor"
                 strokeWidth="0.75"
               />
-              {/* Scroll wheel — animated line */}
-              <motion.line
-                x1="10"
-                y1="8"
-                x2="10"
-                y2="12"
-                stroke="currentColor"
-                strokeWidth="0.75"
-                strokeLinecap="round"
-                animate={{
-                  y1: [8, 11.5],
-                  y2: [12, 15.5],
-                  opacity: [1, 0],
-                }}
-                transition={{
-                  duration: 1.6,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  repeatDelay: 0.6,
-                }}
-              />
-            </motion.svg>
+
+              {/* Repère intérieur — molette qui descend, ou chevron vers le
+                  haut une fois la page parcourue. Le chevron est dessiné à la
+                  main plutôt que pris dans Phosphor : à 20px de large et 0.75
+                  d'épaisseur de trait, une icône du pack aurait sa propre
+                  graisse et jurerait avec le trait de la coque.
+                  Le mouvement passe par une translation du groupe et non par
+                  les attributs y1/y2 : motion les interpolait en valeurs sans
+                  unité que le SVG refusait, ce qui inondait la console
+                  d'erreurs « Expected length, "undefined" ». */}
+              {/* Les deux repères restent montés et se croisent en opacité,
+                  pilotée par une transition CSS et non par un AnimatePresence :
+                  le basculement est ici porteur de sens (il annonce le retour
+                  en haut), il ne doit pas dépendre de l'achèvement d'une
+                  animation de sortie. */}
+              <g
+                className={`transition-opacity duration-200 ${isAtBottom ? 'opacity-0' : 'opacity-100'}`}
+              >
+                <motion.line
+                  x1="10"
+                  y1="8"
+                  x2="10"
+                  y2="12"
+                  stroke="currentColor"
+                  strokeWidth="0.75"
+                  strokeLinecap="round"
+                  animate={reduce || isAtBottom ? undefined : { y: [0, 3.5], opacity: [1, 0] }}
+                  transition={{
+                    duration: 1.6,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    repeatDelay: 0.6,
+                  }}
+                />
+              </g>
+
+              <g
+                data-repere="haut"
+                className={`transition-opacity duration-200 ${isAtBottom ? 'opacity-100' : 'opacity-0'}`}
+              >
+                <motion.path
+                  d="M6.6 16.4 L10 12.9 L13.4 16.4"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  animate={reduce || !isAtBottom ? undefined : { y: [1.6, -1.6, 1.6], opacity: [0.55, 1, 0.55] }}
+                  transition={{ duration: 1.9, repeat: Infinity, ease: 'easeInOut' }}
+                />
+              </g>
+            </svg>
           </motion.button>
 
           {/* Libellé + jauge, empilés au-dessus de la souris — purement
@@ -241,8 +272,6 @@ export function ScrollMouseIndicator() {
               ))}
             </div>
           </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    </motion.div>
   );
 }
