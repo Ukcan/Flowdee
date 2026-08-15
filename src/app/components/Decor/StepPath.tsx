@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useReducedMotion } from 'motion/react';
+
 
 /**
  * Decor/StepPath — tracé serpentin reliant les jalons d'une progression.
@@ -15,8 +15,7 @@ import { useReducedMotion } from 'motion/react';
  *
  * Le dessin est piloté directement en `stroke-dashoffset` plutôt que par le
  * `pathLength` de Motion : la longueur du tracé est alors une pure fonction de
- * la position de scroll, sans boucle d'animation intermédiaire, et le repli
- * `prefers-reduced-motion` se réduit à afficher le chemin complet.
+ * la position de scroll, sans boucle d'animation intermédiaire.
  */
 
 interface StepPathProps {
@@ -39,7 +38,7 @@ export function StepPath({
   amplitude = 11,
   onProgress,
 }: StepPathProps) {
-  const reduce = useReducedMotion();
+
   const progressRef = useRef<SVGPathElement>(null);
   const [{ d, height }, setPath] = useState({ d: '', height: 0 });
 
@@ -110,12 +109,9 @@ export function StepPath({
       onProgress?.(p);
     };
 
-    // Mouvement réduit : le chemin est montré complet, sans animation.
-    if (reduce) {
-      draw(1);
-      return;
-    }
-
+    // Le tracé se dessine dans tous les cas, y compris sous
+    // `prefers-reduced-motion` : c'est une révélation progressive liée au
+    // scroll, sans déplacement d'élément — ce que ce réglage vise à limiter.
     const update = () => {
       const rect = container.getBoundingClientRect();
       const vh = window.innerHeight || 1;
@@ -133,7 +129,7 @@ export function StepPath({
       window.removeEventListener('scroll', update);
       window.removeEventListener('resize', update);
     };
-  }, [containerRef, d, reduce, onProgress]);
+  }, [containerRef, d, onProgress]);
 
   if (!d) return null;
 

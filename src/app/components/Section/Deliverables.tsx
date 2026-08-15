@@ -98,7 +98,13 @@ export function DeliverablesSection() {
             <StepPath containerRef={stepsRef} onProgress={handleProgress} />
 
             {DELIVERABLES.map((d, i) => {
-              const visible = reduce || i < revealed;
+              const visible = i < revealed;
+              // Sous `prefers-reduced-motion` on garde le fondu mais on
+              // supprime le glissement : c'est le déplacement qui gêne les
+              // personnes sensibles, pas la variation d'opacité.
+              const reveal = reduce
+                ? `transition-opacity ${visible ? 'opacity-100' : 'opacity-0'}`
+                : `transition-[opacity,transform] ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`;
               return (
               <li
                 key={d.title}
@@ -109,9 +115,7 @@ export function DeliverablesSection() {
                    jalons en offsetTop, insensible aux transforms. */
                 /* Gouttière à largeur fixe : le tracé SVG est centré dessus et
                    doit pouvoir s'y caler de façon déterministe. */
-                className={`group grid grid-cols-[32px_minmax(0,1fr)] gap-x-4 md:gap-x-6 pb-12 md:pb-16 last:pb-0 transition-[opacity,transform] duration-500 ease-out ${
-                  visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
-                }`}
+                className={`group grid grid-cols-[32px_minmax(0,1fr)] gap-x-4 md:gap-x-6 pb-12 md:pb-16 last:pb-0 duration-500 ease-out ${reveal}`}
               >
                 {/* Jalon posé sur le tracé — l'anneau couleur fond découpe le
                     fil pour que le nœud se détache. */}
