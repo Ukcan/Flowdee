@@ -22,7 +22,7 @@ const DELIVERABLES = [
   },
   {
     icon: <TextAa size={20} weight="duotone" aria-hidden="true" />,
-    title: 'Microcopy réécrite',
+    title: 'Textes du site réécrits',
     description: 'Titres, CTA, aides, erreurs, réassurances et FAQ.',
   },
   {
