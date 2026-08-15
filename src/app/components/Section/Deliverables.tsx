@@ -37,7 +37,7 @@ export function DeliverablesSection() {
     <section
       id="deliverables"
       aria-labelledby="deliverables-title"
-      className="relative py-24 md:py-32 bg-bg-base border-t border-border-0 overflow-hidden"
+      className="relative py-24 md:py-32 bg-surface-0 border-t border-border-0 overflow-hidden"
     >
       <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
         {/* Section title */}

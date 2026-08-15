@@ -188,8 +188,8 @@ export function UseCases() {
   return (
     <>
       {/* Featured Case Study Section */}
-      <section 
-        className="bg-bg-base py-24 md:py-32 border-b border-border-0 overflow-hidden relative"
+      <section
+        className="bg-bg-base py-24 md:py-32 border-b border-border-1 overflow-hidden relative"
         aria-label="Featured Case Study"
       >
         <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
@@ -335,7 +335,7 @@ export function UseCases() {
       {/* Other Cases Section */}
       <section
         id="case-studies"
-        className="py-24 md:py-32 bg-surface-1 border-b border-border-0 relative overflow-hidden"
+        className="py-24 md:py-32 bg-bg-base border-b border-border-1 relative overflow-hidden"
         aria-label="Other client cases"
       >
         <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">

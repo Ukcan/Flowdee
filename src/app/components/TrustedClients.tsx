@@ -15,7 +15,7 @@ export function TrustedClients() {
 
   return (
     <section
-      className="py-24 md:py-32 bg-bg-base border-t border-border-0 relative overflow-hidden"
+      className="py-24 md:py-32 bg-bg-base border-t border-border-1 relative overflow-hidden"
       aria-label="Trusted clients"
     >
       <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
