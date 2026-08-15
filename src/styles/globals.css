@@ -23,24 +23,31 @@
   /* Text */
   --text-primary: #1A1714;
   --text-secondary: #5C5650;
-  --text-tertiary: #9C9690;
-  --text-muted: #9C9690;
+  /* #9C9690 ne donnait que 2.58:1 sur l'ivoire — sous le seuil AA. */
+  --text-tertiary: #6B645D;
+  --text-muted: #6B645D;
   --text-inverse: #F5F0E8;
 
-  /* Accent — Gold */
-  --accent-primary: #C9A96E;
-  --accent-bright: #D4B896;
-  --accent-hover: #D4B896;
-  --accent-pressed: #8B6F47;
-  --accent-tint: rgba(201, 169, 110, 0.10);
-  --accent-eyebrow: #8B6F47; /* dark gold — readable on ivory */
+  /* Accent — Or bronze.
+     Le doré du thème sombre (#C9A96E) ne tenait que 1.97:1 sur l'ivoire :
+     illisible en texte. Assombri pour le seul thème clair — le Navy garde
+     son doré d'origine. #6B5430 tient 6.31:1 sur le fond et 5.3:1 sur les
+     surfaces, et supporte du blanc à 7.15:1 en remplissage de bouton. */
+  --accent-primary: #6B5430;
+  --accent-bright: #8B6F47;
+  --accent-hover: #5C4826;
+  --accent-pressed: #4D3C1F;
+  --accent-tint: rgba(107, 84, 48, 0.10);
+  --accent-eyebrow: #6B5430;
 
   /* Accent Aliases */
   --accent-cta: var(--accent-primary);
-  --accent-border: rgba(201, 169, 110, 0.25);
-  --accent-bg: rgba(201, 169, 110, 0.08);
-  --accent-ring: rgba(201, 169, 110, 0.30);
-  --on-accent: #1A1714;
+  --accent-border: rgba(107, 84, 48, 0.25);
+  --accent-bg: rgba(107, 84, 48, 0.08);
+  --accent-ring: rgba(107, 84, 48, 0.30);
+  /* Blanc et non plus quasi-noir : sur l'accent assombri, le noir tombait
+     à 2.5:1 alors que le blanc tient 7.15:1. */
+  --on-accent: #FFFFFF;
 
   /* Status */
   --status-success: #8A9E8C;
