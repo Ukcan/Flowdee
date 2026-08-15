@@ -116,7 +116,11 @@ export default function App() {
   return (
     <LanguageProvider>
       <EditableContentProvider>
-        <div className="relative min-h-screen bg-bg-base text-text-primary overflow-x-hidden">
+        {/* overflow-x-clip et non -hidden : `hidden` fait de ce conteneur un
+            conteneur de defilement, ce qui empeche tout `position: sticky`
+            descendant de s'accrocher (rail des livrables). `clip` protege
+            identiquement d'un debordement horizontal sans cet effet de bord. */}
+        <div className="relative min-h-screen bg-bg-base text-text-primary overflow-x-clip">
           {/* Gooey SVG filter for blob-button CTA hover effect */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -210,10 +214,11 @@ export default function App() {
               <ProblemsSection />
             </ScrollReveal>
 
-            {/* Livrables — slide depuis la gauche */}
-            <ScrollReveal variant="fadeLeft" duration={0.75} threshold="top 82%">
-              <DeliverablesSection />
-            </ScrollReveal>
+            {/* Livrables — pas de wrapper ScrollReveal ici : GSAP laisse un
+                `transform` residuel sur le wrapper, et un ancetre transforme
+                neutralise le `position: sticky` du rail de gauche. La section
+                anime deja ses propres elements (motion whileInView). */}
+            <DeliverablesSection />
 
             {/* Services — fadeUp standard */}
             <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%">

@@ -31,7 +31,8 @@ const DELIVERABLES = [
   {
     icon: <ShieldCheck size={18} weight="duotone" aria-hidden="true" />,
     title: 'Checklist SEO & accessibilité',
-    description: 'Hn, title, meta, contrastes, focus, labels, textes alternatifs.',
+    description:
+      'Pour répondre aux exigences européennes d’accessibilité et sécuriser vos bases SEO : Hn, title, meta, contrastes, focus, labels, textes alternatifs.',
   },
 ] as const;
 
@@ -42,7 +43,11 @@ export function DeliverablesSection() {
       aria-labelledby="deliverables-title"
       /* Respiration élargie : cette section ouvre l'acte "solution" après le
          diagnostic — la frontière d'acte se joue d'abord dans le vide. */
-      className="relative py-28 md:py-40 bg-surface-0 border-t border-border-0 overflow-hidden"
+      /* overflow-x-clip et non overflow-hidden : `hidden` ferait de la section
+         le conteneur de reference du rail sticky, qui se retrouvait pousse de
+         74px vers le bas et desaligne de la colonne de droite. `clip` protege
+         d'un debordement horizontal sans creer de conteneur de defilement. */
+      className="relative py-28 md:py-40 bg-surface-0 border-t border-border-0 overflow-x-clip"
     >
       <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
         <StickySplit
@@ -76,7 +81,9 @@ export function DeliverablesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: i * 0.08 }}
-                className="group grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 md:gap-x-8 pb-10 last:pb-0"
+                /* Espacement genereux entre etapes : donne au rail sticky une
+                   course reelle, et laisse la progression respirer. */
+                className="group grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 md:gap-x-8 pb-12 md:pb-16 last:pb-0"
               >
                 {/* Gouttière : numéro + rail de continuité entre les étapes */}
                 <div className="flex flex-col items-center">
