@@ -112,32 +112,36 @@ export function ApproachSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center">
             {defaultPillars.map((pillar, index) => {
               const Icon = pillar.icon;
+              // La carte du milieu derive dans le sens inverse des deux autres —
+              // cree un effet de couches (depth) plutot qu'un simple defilement uniforme.
+              const parallaxAmount = index === 1 ? -32 : 20;
               return (
-                <motion.div
-                  key={pillar.key}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="card-surface text-center flex flex-col items-center p-10 bg-surface-0"
-                >
-                  <div className="mb-6 p-4 bg-surface-1 text-accent-primary rounded-[16px]">
-                    <Icon size={36} weight="duotone" className="text-accent-primary" />
-                  </div>
-                  <EditableText
-                    contentKey={`approach.pillar.${pillar.key}.title`}
-                    defaultValue={pillar.title}
-                    as="h3"
-                    className="font-heading text-[16px] font-medium text-text-primary mb-4 tracking-[-0.01em]"
-                  />
-                  <EditableText
-                    contentKey={`approach.pillar.${pillar.key}.desc`}
-                    defaultValue={pillar.description}
-                    as="p"
-                    className="font-body text-[14px] leading-relaxed text-text-secondary font-normal"
-                    multiline
-                  />
-                </motion.div>
+                <ParallaxHeading key={pillar.key} amount={parallaxAmount}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="card-surface text-center flex flex-col items-center p-10 bg-surface-0"
+                  >
+                    <div className="mb-6 p-4 bg-surface-1 text-accent-primary rounded-[16px]">
+                      <Icon size={36} weight="duotone" className="text-accent-primary" />
+                    </div>
+                    <EditableText
+                      contentKey={`approach.pillar.${pillar.key}.title`}
+                      defaultValue={pillar.title}
+                      as="h3"
+                      className="font-heading text-[16px] font-medium text-text-primary mb-4 tracking-[-0.01em]"
+                    />
+                    <EditableText
+                      contentKey={`approach.pillar.${pillar.key}.desc`}
+                      defaultValue={pillar.description}
+                      as="p"
+                      className="font-body text-[14px] leading-relaxed text-text-secondary font-normal"
+                      multiline
+                    />
+                  </motion.div>
+                </ParallaxHeading>
               );
             })}
           </div>
