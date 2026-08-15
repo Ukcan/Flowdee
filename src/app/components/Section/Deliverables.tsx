@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'motion/react';
 import { ListChecks, Layout, TextAa, ShieldCheck } from '@phosphor-icons/react';
 import { StickySplit } from '../Layout/StickySplit';
+import { StepPath } from '../Decor/StepPath';
 
 /**
  * Section/Deliverables — "Ce que vous recevez après l'audit"
@@ -37,6 +38,8 @@ const DELIVERABLES = [
 ] as const;
 
 export function DeliverablesSection() {
+  const stepsRef = useRef<HTMLOListElement>(null);
+
   return (
     <section
       id="deliverables"
@@ -73,7 +76,10 @@ export function DeliverablesSection() {
             </motion.div>
           }
         >
-          <ol className="relative">
+          <ol ref={stepsRef} className="relative">
+            {/* Tracé serpentin reliant les jalons, dessiné au scroll */}
+            <StepPath containerRef={stepsRef} />
+
             {DELIVERABLES.map((d, i) => (
               <motion.li
                 key={d.title}
@@ -83,16 +89,17 @@ export function DeliverablesSection() {
                 transition={{ duration: 0.45, delay: i * 0.08 }}
                 /* Espacement genereux entre etapes : donne au rail sticky une
                    course reelle, et laisse la progression respirer. */
-                className="group grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 md:gap-x-8 pb-12 md:pb-16 last:pb-0"
+                /* Gouttière à largeur fixe : le tracé SVG est centré dessus et
+                   doit pouvoir s'y caler de façon déterministe. */
+                className="group grid grid-cols-[32px_minmax(0,1fr)] gap-x-4 md:gap-x-6 pb-12 md:pb-16 last:pb-0"
               >
-                {/* Chemin jalonné : un nœud par étape, relié par une ligne
-                    continue. L'anneau reprend la couleur de fond pour donner
-                    l'impression que le nœud est posé sur le fil. */}
-                <div className="flex flex-col items-center" aria-hidden="true">
-                  <span className="relative z-10 mt-[7px] w-[11px] h-[11px] shrink-0 rounded-full bg-accent-primary ring-4 ring-surface-0 transition-transform duration-300 group-hover:scale-125" />
-                  {i < DELIVERABLES.length - 1 && (
-                    <span className="-mt-px w-px flex-1 bg-border-0 group-hover:bg-border-1 transition-colors duration-300" />
-                  )}
+                {/* Jalon posé sur le tracé — l'anneau couleur fond découpe le
+                    fil pour que le nœud se détache. */}
+                <div className="flex justify-center" aria-hidden="true">
+                  <span
+                    data-step-node
+                    className="relative z-10 mt-[7px] w-[11px] h-[11px] shrink-0 rounded-full bg-accent-primary ring-4 ring-surface-0 transition-transform duration-300 group-hover:scale-125"
+                  />
                 </div>
 
                 <div className="relative pb-2">
@@ -100,7 +107,7 @@ export function DeliverablesSection() {
                       Purement graphique : l'ordre reste porté par <ol>/<li>. */}
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none select-none absolute -top-7 md:-top-9 -left-2 font-display font-bold leading-none text-[72px] md:text-[96px] text-text-primary/[0.12] tabular-nums"
+                    className="pointer-events-none select-none absolute -top-7 md:-top-9 -left-2 font-display font-bold leading-none text-[72px] md:text-[96px] text-text-primary/[0.10] tabular-nums"
                   >
                     {String(i + 1).padStart(2, '0')}
                   </span>
