@@ -109,13 +109,16 @@ export function ScrollMouseIndicator() {
              centrés sur elle. `col-reverse` place le bloc décoratif au-dessus
              tout en gardant le bouton en premier dans le DOM (ordre de
              tabulation inchangé). */
-          /* Remonté au-dessus du bouton d'accessibilité, qui occupe désormais
-             le coin bas gauche (56px + 24px de marge).
-             Aligné à gauche et non centré : les noms de section n'ont pas la
+          /* Coin bas droit, à la place du bouton « retour en haut » : celui-ci
+             faisait double emploi, l'indicateur basculant déjà dans ce rôle
+             passé 85% de la page. Deux contrôles pour la même action, dans
+             deux coins opposés. Le coin gauche revient au seul bouton
+             d'accessibilité, dont le panneau s'ouvre vers la droite.
+             Aligné à droite et non centré : les noms de section n'ont pas la
              même longueur, un centrage ferait glisser la souris horizontalement
              à chaque changement. La largeur reste libre pour que le libellé
              tienne sur une ligne. */
-          className="hidden md:flex fixed bottom-32 left-6 z-40 flex-col-reverse items-start gap-2.5 pointer-events-none"
+          className="hidden md:flex fixed bottom-8 right-8 z-40 flex-col-reverse items-end gap-2.5 pointer-events-none"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
@@ -189,7 +192,7 @@ export function ScrollMouseIndicator() {
           {/* Libellé + jauge, empilés au-dessus de la souris — purement
               décoratifs, redondants avec l'aria-label du bouton, masqués aux
               technologies d'assistance */}
-          <div className="flex flex-col items-start gap-2" aria-hidden="true">
+          <div className="flex flex-col items-end gap-2" aria-hidden="true">
             {/* Next section label */}
             <AnimatePresence mode="wait">
               <motion.span
