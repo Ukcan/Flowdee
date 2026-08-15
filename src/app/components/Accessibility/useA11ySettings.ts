@@ -15,6 +15,34 @@ export type ColorFilter = (typeof COLOR_FILTERS)[number];
 /** Le clair/sombre repasse par le thème natif du site, pas par un filtre. */
 export type ThemeChoice = 'light' | 'dark';
 
+/**
+ * Le thème n'est volontairement pas stocké dans les réglages d'accessibilité :
+ * il appartient au visiteur et peut aussi être changé depuis l'en-tête. On le
+ * lit donc à la source (la classe sur <html>) plutôt que d'en tenir une copie,
+ * qui se désynchroniserait dès que la bascule de l'en-tête est utilisée.
+ */
+export function useSiteTheme(): [ThemeChoice, (t: ThemeChoice) => void] {
+  const read = (): ThemeChoice =>
+    typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+      ? 'dark'
+      : 'light';
+
+  const [theme, setTheme] = useState<ThemeChoice>(read);
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => setTheme(read()));
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    setTheme(read());
+    return () => observer.disconnect();
+  }, []);
+
+  const apply = useCallback((next: ThemeChoice) => {
+    window.dispatchEvent(new CustomEvent(THEME_EVENT, { detail: { dark: next === 'dark' } }));
+  }, []);
+
+  return [theme, apply];
+}
+
 export type TextAlign = 'left' | 'center' | 'right';
 
 export interface A11ySettings {
@@ -29,8 +57,6 @@ export interface A11ySettings {
   lineStep: number;
   weightBold: boolean;
   align: TextAlign | null;
-  /** null = on laisse le thème choisi par le visiteur via l'en-tête. */
-  theme: ThemeChoice | null;
   colorFilter: ColorFilter | null;
   muteSounds: boolean;
   pageRead: boolean;
@@ -48,7 +74,6 @@ export const A11Y_DEFAULTS: A11ySettings = {
   lineStep: 0,
   weightBold: false,
   align: null,
-  theme: null,
   colorFilter: null,
   muteSounds: false,
   pageRead: false,
@@ -126,14 +151,6 @@ export function useA11ySettings() {
     }
   }, [settings]);
 
-  /* ── Thème : délégué au site, qui en détient l'état ───────────────── */
-  useEffect(() => {
-    if (!settings.theme) return;
-    window.dispatchEvent(
-      new CustomEvent(THEME_EVENT, { detail: { dark: settings.theme === 'dark' } })
-    );
-  }, [settings.theme]);
-
   /* ── Coupure du son des médias ───────────────────────────────────── */
   useEffect(() => {
     document.querySelectorAll('video, audio').forEach((el) => {
@@ -202,7 +219,6 @@ function countActive(s: A11ySettings): number {
   if (s.lineStep > 0) n++;
   if (s.weightBold) n++;
   if (s.align) n++;
-  if (s.theme) n++;
   if (s.colorFilter) n++;
   if (s.muteSounds) n++;
   if (s.pageRead) n++;

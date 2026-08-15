@@ -4,7 +4,7 @@ import { Icon, stroke } from './icons';
 import {
   nextAlign,
   useA11ySettings,
-  type A11ySettings,
+  useSiteTheme,
   type ColorFilter,
   type ThemeChoice,
 } from './useA11ySettings';
@@ -23,11 +23,32 @@ import {
 
 export function AccessibilityFloater() {
   const { settings, update, patch, reset, activeCount } = useA11ySettings();
+  const [theme, setTheme] = useSiteTheme();
   const [open, setOpen] = useState(false);
   const [profilesOpen, setProfilesOpen] = useState(false);
   const guideRef = useRef<HTMLDivElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLElement>(null);
+
+  /* Le panneau n'est monté qu'à la première ouverture : ~140 nœuds et 1.9 Ko
+     gzippés en moins au chargement, et autant de libellés d'interface en moins
+     dans le HTML prérendu, que les moteurs indexaient comme du contenu.
+     Le montage se fait fermé, l'ouverture suit dans un effet — la transition
+     d'entrée joue donc dès la première fois. */
+  const [mounted, setMounted] = useState(false);
+  const firstOpen = useRef(false);
+  useEffect(() => {
+    if (mounted && !firstOpen.current) {
+      firstOpen.current = true;
+      setOpen(true);
+    }
+  }, [mounted]);
+
+  const toggle = () => (mounted ? setOpen((v) => !v) : setMounted(true));
+  const close = () => {
+    setOpen(false);
+    launcherRef.current?.focus();
+  };
 
   /* Guide de lecture — suit le pointeur */
   useEffect(() => {
@@ -39,15 +60,49 @@ export function AccessibilityFloater() {
     return () => window.removeEventListener('mousemove', move);
   }, [settings.readingGuide]);
 
-  /* Échap referme, et le focus revient sur le bouton d'ouverture */
+  /* Échap referme, et la tabulation reste captive du panneau.
+     Sans ce piège, `aria-modal` masque bien l'arrière-plan aux lecteurs
+     d'écran, mais le focus clavier, lui, s'échappait dans la page. */
   useEffect(() => {
     if (!open) return;
+
+    const focusables = () => {
+      const panel = panelRef.current;
+      if (!panel) return [] as HTMLElement[];
+      const inPanel = Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => !el.hasAttribute('disabled') && el.offsetParent !== null);
+      // Le bouton flottant fait partie du dialogue : c'est sa croix de fermeture.
+      return launcherRef.current ? [launcherRef.current, ...inPanel] : inPanel;
+    };
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setOpen(false);
-        launcherRef.current?.focus();
+        close();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+
+      const list = focusables();
+      if (!list.length) return;
+      const first = list[0];
+      const last = list[list.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (!active || !list.includes(active)) {
+        e.preventDefault();
+        first.focus();
+      } else if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
+
     document.addEventListener('keydown', onKey);
     panelRef.current?.focus();
     return () => document.removeEventListener('keydown', onKey);
@@ -57,8 +112,9 @@ export function AccessibilityFloater() {
     <>
       {settings.readingGuide && <div ref={guideRef} className="a11y-reading-guide" aria-hidden="true" />}
 
-      {/* Calque de filtrage — inerte tant qu'aucun mode couleur n'est actif */}
-      <div className="a11y-filter-layer" aria-hidden="true" />
+      {/* Calque de filtrage — monté seulement si un mode couleur est actif,
+          pour ne pas laisser un calque plein écran en permanence */}
+      {settings.colorFilter && <div className="a11y-filter-layer" aria-hidden="true" />}
 
       {/* Bouton flottant */}
       <button
@@ -66,7 +122,8 @@ export function AccessibilityFloater() {
         type="button"
         aria-label={open ? "Fermer le menu d'accessibilité" : "Ouvrir le menu d'accessibilité"}
         aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        aria-controls="a11y-panel"
+        onClick={toggle}
         /* À l'ouverture, le bouton se décale juste à droite du volet plutôt que
            de rester posé dessus. Le décalage suit la largeur réelle du panneau
            (380px, plafonnée à 92vw) et reste borné pour ne jamais sortir de
@@ -91,17 +148,19 @@ export function AccessibilityFloater() {
         )}
       </button>
 
-      {/* Voile */}
+      {/* Voile et panneau : rien n'est monté avant la première ouverture */}
+      {mounted && (
+        <>
       <div
-        onClick={() => setOpen(false)}
+        onClick={close}
         aria-hidden="true"
         className={`fixed inset-0 z-[10080] bg-bg-depth/60 backdrop-blur-[2px] transition-opacity duration-300 ${
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
       />
 
-      {/* Panneau */}
       <aside
+        id="a11y-panel"
         ref={panelRef}
         tabIndex={-1}
         role="dialog"
@@ -124,13 +183,7 @@ export function AccessibilityFloater() {
           <HeaderButton label="Réinitialiser les réglages" onClick={reset}>
             <Icon.Reset className="h-5 w-5" />
           </HeaderButton>
-          <HeaderButton
-            label="Fermer le menu d’accessibilité"
-            onClick={() => {
-              setOpen(false);
-              launcherRef.current?.focus();
-            }}
-          >
+          <HeaderButton label="Fermer le menu d’accessibilité" onClick={close}>
             <Icon.Close className="h-5 w-5" />
           </HeaderButton>
         </header>
@@ -240,19 +293,21 @@ export function AccessibilityFloater() {
           {/* Couleur */}
           <Section title="Couleur et contraste">
             <Grid>
+              {/* L'état actif se lit sur le thème réellement appliqué, pas sur
+                  une copie : la bascule de l'en-tête reste donc cohérente. */}
               <ThemeTile
                 icon={<Icon.Moon className="h-6 w-6" />}
                 label="Thème sombre"
                 mode="dark"
-                current={settings.theme}
-                onPick={(m) => update('theme', settings.theme === m ? null : m)}
+                current={theme}
+                onPick={setTheme}
               />
               <ThemeTile
                 icon={<Icon.Sun className="h-6 w-6" />}
                 label="Thème clair"
                 mode="light"
-                current={settings.theme}
-                onPick={(m) => update('theme', settings.theme === m ? null : m)}
+                current={theme}
+                onPick={setTheme}
               />
               <FilterTile
                 icon={<Icon.Contrast className="h-6 w-6" />}
@@ -333,6 +388,8 @@ export function AccessibilityFloater() {
           </button>
         </footer>
       </aside>
+        </>
+      )}
     </>
   );
 }
@@ -422,7 +479,7 @@ function ThemeTile({
   icon: ReactNode;
   label: string;
   mode: ThemeChoice;
-  current: ThemeChoice | null;
+  current: ThemeChoice;
   onPick: (mode: ThemeChoice) => void;
 }) {
   return <Tile icon={icon} label={label} active={current === mode} onClick={() => onPick(mode)} />;
