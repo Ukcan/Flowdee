@@ -213,15 +213,17 @@ export function ScrollMouseIndicator() {
               </motion.span>
             </AnimatePresence>
 
-            {/* Tiny progress dots — shows position in section order */}
-            <div className="flex gap-[3px]">
+            {/* Jauge de progression — verticale, comme le défilement qu'elle
+                représente. Elle ne fait plus que 3px de large, ce qui libère
+                d'autant la marge gauche au-dessus du contenu. */}
+            <div className="flex flex-col gap-[3px]">
               {SECTIONS.map((s, i) => (
                 <span
                   key={s.id}
                   className="block rounded-full transition-all duration-300"
                   style={{
-                    width: i === currentIndex ? 8 : 3,
-                    height: 3,
+                    width: 3,
+                    height: i === currentIndex ? 8 : 3,
                     backgroundColor: i === currentIndex
                       ? 'var(--accent-primary)'
                       : 'var(--border-1)',
