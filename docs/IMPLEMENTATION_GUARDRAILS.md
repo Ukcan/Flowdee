@@ -40,24 +40,15 @@
 
 ---
 
-## 2. 🚫 Fichiers LEGACY / non rendus — NE PAS modifier (aucun effet visible)
+## 2. 🗄️ Fichiers LEGACY — archivés dans `src/_archive/`
 
-> Ces fichiers existent (Zero Deletion Policy) mais **ne sont pas dans l'arbre de rendu**. Les modifier ne change rien à l'écran et crée de la confusion.
+> Ces fichiers existaient hors de l'arbre de rendu (jamais importés, directement ou indirectement, depuis `App.tsx`). Conformément à la Zero Deletion Policy, ils ont été **déplacés** (pas supprimés) sous `src/_archive/`, en conservant leur chemin relatif d'origine (ex. `components/Footer.tsx` → `src/_archive/components/Footer.tsx`) pour que leurs imports internes entre eux restent valides. 91 fichiers concernés le 2026-08-15 : les doublons (`HeroSection.tsx`, `HeroFlowdee.tsx`, `Services.tsx`, `Footer.tsx`, `FAQ.tsx`, `About.tsx`+`Section/About.tsx`, `AIGuardrails.tsx`+`Section/AIGuardrails.tsx`), les composants désactivés (`CTA/Sticky.tsx`, `Decor/Keylines.tsx`, `Editable/ToggleButton.tsx`), les cartes démo (`CalendarCard`, `GoogleMeetCard`, `SlackCard`, `NewsfeedCard`, `ContactCard`, `FileDropCard`, `ProjectCard`), `CustomCursor.tsx`, `DarkModeToggle.tsx`, les 5 barrels `index.ts`, ~44 primitifs `ui/*` shadcn non utilisés, `Card/CaseStudy.tsx`+`Friction.tsx`+`Pricing.tsx`, et les 18 fichiers Figma codegen de `src/app/imports/` non référencés.
+>
+> **Correction** : `components/TechnicalLabel.tsx` était listé ici par erreur — il est en réalité utilisé par 6 fichiers actifs (`TrustedClients.tsx`, `ProblemCards.tsx`, `UseCases.tsx`, `FinalCTA.tsx`, `Section/Approach.tsx`, `Section/FAQ.tsx`). Il reste dans `components/`, ne pas l'archiver.
+>
+> **Nuance** : `src/styles/default_theme.css` reste dans `src/styles/` (pas archivé) — il est réellement `@import`-é par `index.css` et fait partie du bundle CSS chargé, même si la plupart de ses tokens shadcn sont ensuite écrasés par `globals.css`.
 
-- `components/HeroSection.tsx`, `components/HeroFlowdee.tsx` *(le Hero actif est `Section/Hero.tsx`)*
-- `components/Services.tsx` *(actif : `Section/Services.tsx`)*
-- `components/Footer.tsx` *(actif : `Section/Footer.tsx`)*
-- `components/FAQ.tsx` *(actif : `Section/FAQ.tsx`)*
-- `components/About.tsx` + `components/Section/About.tsx` *(AboutSection non importé)*
-- `components/AIGuardrails.tsx` + `components/Section/AIGuardrails.tsx` *(non rendu)*
-- `components/CTA/Sticky.tsx` *(désactivé/commenté)*
-- `components/Decor/Keylines.tsx` *(désactivé/commenté)*
-- `components/Editable/ToggleButton.tsx` *(EditableToggleButton désactivé)*
-- Cartes démo non rendues : `CalendarCard.tsx`, `GoogleMeetCard.tsx`, `SlackCard.tsx`, `NewsfeedCard.tsx`, `ContactCard.tsx`, `FileDropCard.tsx`, `ProjectCard.tsx`
-- `components/CustomCursor.tsx`, `components/DarkModeToggle.tsx`, `components/TechnicalLabel.tsx` *(non rendus dans App)*
-- `src/styles/default_theme.css` *(tokens shadcn oklch, quasi inutilisés — les vrais tokens sont dans `globals.css`)*
-
-> ⚠️ Avant de classer un fichier « legacy », **re-vérifier `App.tsx`** : la liste peut évoluer.
+> ⚠️ Avant de classer un fichier « legacy », **vérifier le graphe d'imports réel depuis `App.tsx`** (pas juste des `grep` ponctuels) : un fichier peut sembler mort mais être importé par un fichier actif pour une seule valeur (cf. `TechnicalLabel.tsx`, ou `imports/svg-sg0ezcs3e9.ts` utilisé par `Navigation.tsx`).
 
 ---
 

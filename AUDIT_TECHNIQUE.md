@@ -42,11 +42,12 @@ Flowdee_extracted/
 │           │                     + Problems/CaseStudies/TrustedClients/FinalCTA (re-exports)
 │           ├── ProblemCards.tsx, UseCases.tsx, TrustedClients.tsx, FinalCTA.tsx (implémentations réelles)
 │           ├── Button/         → CTA, Primary, Secondary, ScrollToTop
-│           ├── Card/           → Pricing, CaseStudy, Feature, Friction
-│           ├── Decor/          → ParticleNetwork, ParallaxHeading, Keylines*
+│           ├── Card/           → Feature (seul composant Card actif)
+│           ├── Decor/          → ParticleNetwork, ParallaxHeading, KeylinesParallaxFlow, ScrollReveal
 │           ├── Consent/CookieBanner, Indicator/ScrollMouse + ScrollBar
-│           ├── CalendarModal.tsx, ThankYouModal.tsx
-│           └── ui/             → shadcn (~40 fichiers primitifs)
+│           ├── CalendarModal.tsx, ThankYouModal.tsx, TechnicalLabel.tsx
+│           ├── ui/             → sonner, button, accordion, utils (4 primitifs actifs)
+│           └── _archive/       → (à la racine de src/, hors de app/) fichiers legacy préservés, non rendus
 ```
 
 ---
@@ -107,7 +108,7 @@ Flowdee_extracted/
    - Puis le **style local** d'une section (classes Tailwind dans le composant)
    - En dernier les **tokens globaux** (`globals.css`) — impact transversal
 3. **Une section = un commit** — petits commits atomiques, rollback facile.
-4. **Vérifier avant push** : `vite build` local + aperçu, **et** surveiller `pnpm-workspace.yaml` (bloc `allowBuilds` parasite).
+4. **Vérifier avant push** : `vite build` local + aperçu, **et** surveiller `pnpm-workspace.yaml` (bloc `allowBuilds` parasite — corrigé le 2026-08-15 avec `pnpm approve-builds --all`, à re-vérifier si le warning `ERR_PNPM_IGNORED_BUILDS` réapparaît après un futur `pnpm install`).
 5. **Préserver l'architecture composant** : passer par `ButtonPrimary/Secondary` (blobs), `.card-surface`, classes typo — ne pas réécrire de styles en dur qui dupliqueraient les tokens.
 6. **Respecter le système de thème** : utiliser les variables CSS (`var(--accent-primary)`, `text-accent-primary`…) plutôt que des hex en dur, pour rester compatible Navy/Ivoire.
-7. **Nettoyage différé recommandé** (hors urgence) : archiver/supprimer les composants legacy non rendus (`components/Services.tsx`, `Footer.tsx`, `HeroSection.tsx`, `About.tsx`…) pour clarifier — prudemment vu la « Zero Deletion Policy » du projet.
+7. ~~Nettoyage différé recommandé~~ **Fait le 2026-08-15** : les 91 fichiers legacy/non rendus (doublons, cartes démo, primitifs `ui/*` inutilisés, exports Figma orphelins…) ont été déplacés vers `src/_archive/` (même arborescence relative conservée), conformément à la Zero Deletion Policy — voir `docs/IMPLEMENTATION_GUARDRAILS.md` §2 pour le détail et les 2 exceptions corrigées (`TechnicalLabel.tsx`, `imports/svg-sg0ezcs3e9.ts` : tous deux réellement utilisés, non archivés).
