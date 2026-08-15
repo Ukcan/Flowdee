@@ -190,6 +190,13 @@ export function UseCases() {
     <>
       {/* Featured Case Study Section */}
       <section
+        /* L'ancre "case-studies" est portée par cette section et non par la
+           grille qui suit : c'est ici que commence l'acte "preuve". Posée plus
+           bas, elle faisait sauter l'étude de cas phare aux liens du menu, du
+           pied de page et du hero, et laissait l'indicateur de défilement
+           annoncer encore "Offres & tarifs" sur près de 1900px déjà consacrés
+           aux réalisations. */
+        id="case-studies"
         /* Rythme le plus large de la page : ouverture de l'acte "preuve",
            la rupture la plus forte du parcours. */
         className="bg-bg-base py-32 md:py-44 border-b border-border-1 overflow-hidden relative"
@@ -325,7 +332,7 @@ export function UseCases() {
 
       {/* Other Cases Section */}
       <section
-        id="case-studies"
+        id="case-studies-list"
         className="py-24 md:py-32 bg-bg-base border-b border-border-1 relative overflow-hidden"
         aria-label="Other client cases"
       >
