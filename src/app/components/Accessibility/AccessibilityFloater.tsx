@@ -1,6 +1,21 @@
 import React, { useEffect, useRef, useState, type ReactNode } from 'react';
-import { X } from '@phosphor-icons/react';
+import { X, ArrowCounterClockwise, CaretRight } from '@phosphor-icons/react';
 import { Icon, stroke } from './icons';
+
+/**
+ * Deux jeux d'icônes cohabitent ici, et c'est délibéré.
+ *
+ * La navigation du module — ouvrir, fermer, réinitialiser, déplier les profils
+ * — emprunte à Phosphor, la bibliothèque du site : ce sont des commandes
+ * d'interface ordinaires, elles doivent se lire comme celles du reste des
+ * pages.
+ *
+ * Les réglages eux-mêmes gardent le jeu dessiné dans `./icons` : chacun
+ * illustre une notion précise (interligne, espacement des lettres, guide de
+ * lecture, saturation) que Phosphor ne couvre pas, et un équivalent approximatif
+ * rendrait ces commandes plus difficiles à identifier — l'inverse du but
+ * recherché ici.
+ */
 import {
   nextAlign,
   useA11ySettings,
@@ -199,11 +214,14 @@ export function AccessibilityFloater() {
           <h2 className="flex-1 font-heading text-[18px] font-medium tracking-[-0.01em] text-on-accent">
             Menu d’accessibilité
           </h2>
+          {/* `bold` reprend la graisse déjà retenue pour le X du bouton
+              flottant : ces deux commandes sont les mêmes, vues de l'intérieur
+              ou de l'extérieur du volet. */}
           <HeaderButton label="Réinitialiser les réglages" onClick={reset}>
-            <Icon.Reset className="h-5 w-5" />
+            <ArrowCounterClockwise className="h-5 w-5" weight="bold" aria-hidden />
           </HeaderButton>
           <HeaderButton label="Fermer le menu d’accessibilité" onClick={close}>
-            <Icon.Close className="h-5 w-5" />
+            <X className="h-5 w-5" weight="bold" aria-hidden />
           </HeaderButton>
         </header>
 
@@ -222,7 +240,11 @@ export function AccessibilityFloater() {
               <span className="flex-1 font-body text-[15px] text-text-primary">
                 Profils d’accessibilité
               </span>
-              <Icon.Chevron
+              {/* Graisse normale, à l'inverse des commandes du bandeau : ce
+                  chevron n'est pas une action mais l'indication d'un repli, il
+                  doit rester en retrait du libellé qu'il accompagne. */}
+              <CaretRight
+                aria-hidden
                 className={`h-5 w-5 text-text-muted transition-transform ${profilesOpen ? 'rotate-90' : ''}`}
               />
             </button>
@@ -402,7 +424,7 @@ export function AccessibilityFloater() {
             onClick={reset}
             className="flex w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-accent-primary py-3.5 font-body text-[15px] font-medium text-on-accent transition hover:bg-accent-hover outline-none focus-visible:ring-2 focus-visible:ring-accent-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
           >
-            <Icon.Reset className="h-5 w-5" />
+            <ArrowCounterClockwise className="h-5 w-5" weight="bold" aria-hidden />
             Réinitialiser les réglages
           </button>
         </footer>

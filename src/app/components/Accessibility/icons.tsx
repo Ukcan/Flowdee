@@ -3,6 +3,11 @@
  *
  * Repris tel quel du module source : SVG inline, tracé 1.6, aucune
  * dépendance. Isolé ici pour que le composant reste lisible.
+ *
+ * Ce jeu ne couvre plus que les réglages. La navigation du module (Reset,
+ * Close, Chevron) est passée à Phosphor, la bibliothèque du site — leurs
+ * entrées restent définies ici mais ne sont plus employées : ne pas les
+ * reprendre pour de nouvelles commandes d'interface.
  */
 
 export type IconProps = { className?: string };
