@@ -113,7 +113,11 @@ export function ScrollMouseIndicator() {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          className="hidden md:flex fixed bottom-8 left-8 z-40 flex-row items-center gap-4 pointer-events-none"
+          /* Empilement vertical : libellé et jauge au-dessus de la souris,
+             centrés sur elle. `col-reverse` place le bloc décoratif au-dessus
+             tout en gardant le bouton en premier dans le DOM (ordre de
+             tabulation inchangé). */
+          className="hidden md:flex fixed bottom-8 left-8 z-40 flex-col-reverse items-center gap-3 pointer-events-none"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
@@ -177,9 +181,10 @@ export function ScrollMouseIndicator() {
             </motion.svg>
           </motion.button>
 
-          {/* Label + dots stacked vertically, next to mouse — purely decorative,
-              redundant with the button's own aria-label, hidden from AT */}
-          <div className="flex flex-col items-start" aria-hidden="true">
+          {/* Libellé + jauge, empilés au-dessus de la souris — purement
+              décoratifs, redondants avec l'aria-label du bouton, masqués aux
+              technologies d'assistance */}
+          <div className="flex flex-col items-center" aria-hidden="true">
             {/* Next section label */}
             <AnimatePresence mode="wait">
               <motion.span
