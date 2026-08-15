@@ -215,8 +215,11 @@ export function ScrollMouseIndicator() {
 
             {/* Jauge de progression — verticale, comme le défilement qu'elle
                 représente. Elle ne fait plus que 3px de large, ce qui libère
-                d'autant la marge gauche au-dessus du contenu. */}
-            <div className="flex flex-col gap-[3px]">
+                d'autant la marge gauche au-dessus du contenu.
+                Centrée sur la largeur du bouton (44px) pour tomber sur le même
+                axe que la souris : jauge et curseur se lisent alors comme un
+                seul élément vertical, et non comme deux colonnes décalées. */}
+            <div className="flex w-11 flex-col items-center gap-[3px]">
               {SECTIONS.map((s, i) => (
                 <span
                   key={s.id}
