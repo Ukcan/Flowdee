@@ -50,15 +50,31 @@ export function AccessibilityFloater() {
     launcherRef.current?.focus();
   };
 
-  /* Guide de lecture — suit le pointeur */
+  /* Une fois monté, le panneau ne se démonte plus : fermé, il est simplement
+     hors champ. Sans `inert`, ses ~30 contrôles restaient donc atteignables à
+     la tabulation, et un `role="dialog" aria-modal` fermé mais présent peut
+     laisser les lecteurs d'écran masquer le reste de la page. */
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+    if (open) panel.removeAttribute('inert');
+    else panel.setAttribute('inert', '');
+  }, [open, mounted]);
+
+  /* Guide de lecture — suit le pointeur.
+     `clientY` est en pixels de fenêtre non zoomés, alors que `top` s'applique
+     dans le repère zoomé : sans division, la barre dérivait sous le curseur
+     dès qu'un agrandissement était actif. */
   useEffect(() => {
     if (!settings.readingGuide) return;
     const move = (e: MouseEvent) => {
-      if (guideRef.current) guideRef.current.style.top = `${e.clientY}px`;
+      if (!guideRef.current) return;
+      const zoom = 1 + Math.min(5, Math.max(0, settings.zoomStep)) * 0.1;
+      guideRef.current.style.top = `${e.clientY / zoom}px`;
     };
     window.addEventListener('mousemove', move, { passive: true });
     return () => window.removeEventListener('mousemove', move);
-  }, [settings.readingGuide]);
+  }, [settings.readingGuide, settings.zoomStep]);
 
   /* Échap referme, et la tabulation reste captive du panneau.
      Sans ce piège, `aria-modal` masque bien l'arrière-plan aux lecteurs
@@ -110,15 +126,16 @@ export function AccessibilityFloater() {
 
   return (
     <>
-      {settings.readingGuide && <div ref={guideRef} className="a11y-reading-guide" aria-hidden="true" />}
+      {settings.readingGuide && <div ref={guideRef} className="a11y-reading-guide" data-a11y-ui aria-hidden="true" />}
 
       {/* Calque de filtrage — monté seulement si un mode couleur est actif,
           pour ne pas laisser un calque plein écran en permanence */}
-      {settings.colorFilter && <div className="a11y-filter-layer" aria-hidden="true" />}
+      {settings.colorFilter && <div className="a11y-filter-layer" data-a11y-ui aria-hidden="true" />}
 
       {/* Bouton flottant */}
       <button
         ref={launcherRef}
+        data-a11y-ui
         type="button"
         aria-label={open ? "Fermer le menu d'accessibilité" : "Ouvrir le menu d'accessibilité"}
         aria-expanded={open}
@@ -152,6 +169,7 @@ export function AccessibilityFloater() {
       {mounted && (
         <>
       <div
+        data-a11y-ui
         onClick={close}
         aria-hidden="true"
         className={`fixed inset-0 z-[10080] bg-bg-depth/60 backdrop-blur-[2px] transition-opacity duration-300 ${
@@ -161,6 +179,7 @@ export function AccessibilityFloater() {
 
       <aside
         id="a11y-panel"
+        data-a11y-ui
         ref={panelRef}
         tabIndex={-1}
         role="dialog"

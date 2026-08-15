@@ -4,50 +4,71 @@
    Le composant se contente de poser des classes et des variables sur
    <html> ; toute la mise en œuvre visuelle vit ici.
 
+   CIBLAGE — tout le contenu de la page, SAUF l'interface du module.
+   L'exclusion passe par l'attribut `data-a11y-ui`, posé sur le bouton
+   flottant, le voile, le panneau, le guide et le calque de filtrage.
+   Un ciblage par landmarks (`main, header, footer`) avait deux défauts
+   symétriques : il mordait sur le panneau, qui a son propre <header> et
+   son propre <footer>, et il ratait tout ce qui vit hors de <main> —
+   modales CGV et confidentialité, bannière cookies, fonds animés.
+
    Trois partis pris propres à Flowdee, différents du module d'origine :
 
    1. Les filtres couleur passent par `backdrop-filter` sur un calque
       fixe, et non par `filter` sur un conteneur. Un élément filtré
       devient un bloc conteneur en CSS, ce qui casserait `position:
-      fixed` et `position: sticky` chez tous ses descendants — soit le
-      header, le rail des livrables, les modales et les indicateurs.
+      fixed` et `position: sticky` chez tous ses descendants.
 
    2. La taille du contenu passe par `zoom` sur <html> plutôt que par
-      une surcharge de `font-size`. La règle d'origine
-      (`font-size: calc(1em * échelle)`) écrasait les classes
-      typographiques du site : les titres, dimensionnés en clamp(),
-      seraient retombés à la taille du texte courant.
+      une surcharge de `font-size`, qui écrasait les classes
+      typographiques du site (titres en clamp()).
 
-   3. L'interface du floater est exclue des règles globales, pour
-      rester lisible quel que soit le réglage actif.
+   3. Interligne, espacement et graisse ont chacun leur classe. Une
+      classe unique écrivait les trois propriétés d'un coup : activer le
+      seul interligne remettait toutes les graisses à `normal` et
+      aplatissait la hiérarchie des titres.
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
   --a11y-letter: normal;
   --a11y-line: normal;
   --a11y-weight: normal;
+  /* Zoom courant, exposé pour les calculs qui doivent le compenser. */
+  --a11y-zoom: 1;
 }
 
-/* ── Typographie : interligne, espacement, graisse ──────────────────
+/* Raccourci de lisibilité : « contenu de page, hors interface du module ».
+   Répété tel quel dans chaque règle, faute de pouvoir le factoriser en CSS. */
+
+/* ── Typographie — une classe par réglage ───────────────────────────
    La taille est volontairement absente : elle est gérée par le zoom. */
-html.a11y-type
-  :is(main, header, footer)
-  :where(p, span, a, li, h1, h2, h3, h4, h5, h6, button, label, input, td, th, blockquote, dt, dd) {
+html.a11y-line
+  body
+  :where(p, span, a, li, h1, h2, h3, h4, h5, h6, button, label, input, td, th, blockquote, dt, dd, div):not([data-a11y-ui]):not([data-a11y-ui] *) {
   line-height: var(--a11y-line);
+}
+
+html.a11y-letter
+  body
+  :where(p, span, a, li, h1, h2, h3, h4, h5, h6, button, label, input, td, th, blockquote, dt, dd):not([data-a11y-ui]):not([data-a11y-ui] *) {
   letter-spacing: var(--a11y-letter);
+}
+
+html.a11y-weight
+  body
+  :where(p, span, a, li, button, label, td, th, blockquote, dt, dd):not([data-a11y-ui]):not([data-a11y-ui] *) {
   font-weight: var(--a11y-weight);
 }
 
 /* ── Police adaptée à la dyslexie ───────────────────────────────────
    Pile de polices système : aucune requête externe, donc pas de
    dépendance réseau ni d'entorse à la CSP du site. */
-html.a11y-dyslexia :is(main, header, footer),
-html.a11y-dyslexia :is(main, header, footer) * {
+html.a11y-dyslexia body *:not([data-a11y-ui]):not([data-a11y-ui] *) {
   font-family: 'Atkinson Hyperlegible', 'Comic Sans MS', Verdana, Tahoma, sans-serif !important;
 }
 
 /* ── Mises en évidence ──────────────────────────────────────────── */
-html.a11y-highlight-links :is(main, header, footer) a {
+html.a11y-highlight-links body a:not([data-a11y-ui]):not([data-a11y-ui] *) {
   background: var(--accent-primary) !important;
   color: var(--on-accent) !important;
   text-decoration: underline !important;
@@ -55,16 +76,18 @@ html.a11y-highlight-links :is(main, header, footer) a {
   box-shadow: 0 0 0 2px var(--accent-primary);
 }
 
-html.a11y-highlight-titles :is(main, header, footer) :where(h1, h2, h3, h4, h5, h6) {
+html.a11y-highlight-titles
+  body
+  :where(h1, h2, h3, h4, h5, h6):not([data-a11y-ui]):not([data-a11y-ui] *) {
   outline: 2px dashed var(--accent-primary);
   outline-offset: 4px;
   background: var(--accent-bg);
 }
 
 /* ── Alignement du texte ────────────────────────────────────────── */
-html.a11y-align-left :is(main, header, footer) { text-align: left !important; }
-html.a11y-align-center :is(main, header, footer) { text-align: center !important; }
-html.a11y-align-right :is(main, header, footer) { text-align: right !important; }
+html.a11y-align-left body > *:not([data-a11y-ui]) { text-align: left !important; }
+html.a11y-align-center body > *:not([data-a11y-ui]) { text-align: center !important; }
+html.a11y-align-right body > *:not([data-a11y-ui]) { text-align: right !important; }
 
 /* ── Filtres couleur — calque en backdrop-filter ────────────────────
    Posé au-dessus de tout le contenu (bannière cookies comprise) mais
@@ -82,20 +105,32 @@ html.a11y-sat-low .a11y-filter-layer { backdrop-filter: saturate(0.4); }
 html.a11y-mono .a11y-filter-layer { backdrop-filter: grayscale(1); }
 
 /* ── Arrêt des animations ───────────────────────────────────────────
-   Restreint au contenu : le panneau doit conserver ses transitions,
-   sinon il devient impossible de rouvrir ou refermer le module. */
-html.a11y-stop-anim :is(main, header, footer) *,
-html.a11y-stop-anim :is(main, header, footer) *::before,
-html.a11y-stop-anim :is(main, header, footer) *::after {
+   Couvre désormais les fonds animés (aurore, particules, keylines), qui
+   vivent hors de <main> et échappaient à l'ancien ciblage. L'interface
+   du module garde ses transitions, sinon il devient impossible de le
+   refermer. */
+html.a11y-stop-anim body *:not([data-a11y-ui]):not([data-a11y-ui] *),
+html.a11y-stop-anim body *:not([data-a11y-ui]):not([data-a11y-ui] *)::before,
+html.a11y-stop-anim body *:not([data-a11y-ui]):not([data-a11y-ui] *)::after {
   animation-play-state: paused !important;
   transition: none !important;
 }
 
-/* ── Curseur agrandi ────────────────────────────────────────────── */
+/* ── Curseur agrandi ────────────────────────────────────────────────
+   Le repli est `pointer` et non `auto` : avec `auto`, les boutons et
+   les liens perdaient leur curseur main, donc leur affordance. */
 html.a11y-big-cursor,
 html.a11y-big-cursor * {
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M8 4 L8 40 L18 30 L26 44 L32 41 L24 27 L38 27 Z' fill='%23D3B376' stroke='%2318212E' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 4 4,
     auto !important;
+}
+html.a11y-big-cursor :is(button, a, [role='button'], label, summary),
+html.a11y-big-cursor :is(button, a, [role='button'], label, summary) * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M8 4 L8 40 L18 30 L26 44 L32 41 L24 27 L38 27 Z' fill='%23D3B376' stroke='%2318212E' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 4 4,
+    pointer !important;
+}
+html.a11y-big-cursor :is(input[type='text'], input[type='email'], textarea) {
+  cursor: text !important;
 }
 
 /* ── Guide de lecture ───────────────────────────────────────────── */

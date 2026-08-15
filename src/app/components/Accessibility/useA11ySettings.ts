@@ -121,11 +121,21 @@ export function useA11ySettings() {
 
     // Taille du contenu : zoom plutôt que surcharge de font-size, pour ne pas
     // écraser l'échelle typographique du site (titres en clamp()).
-    root.style.zoom = settings.zoomStep > 0 ? String(1 + settings.zoomStep * 0.1) : '';
+    // Le pas est reborné à la lecture : un stockage corrompu donnerait sinon un
+    // zoom délirant et une page impossible à réinitialiser.
+    const zoomStep = Math.min(5, Math.max(0, Math.round(settings.zoomStep) || 0));
+    const zoom = 1 + zoomStep * 0.1;
+    root.style.zoom = zoomStep > 0 ? String(zoom) : '';
+    // Exposé pour les mesures qui doivent compenser le zoom (largeur du
+    // panneau, position du guide de lecture).
+    root.style.setProperty('--a11y-zoom', String(zoom));
 
-    const typeActive =
-      settings.letterStep > 0 || settings.lineStep > 0 || settings.weightBold;
-    root.classList.toggle('a11y-type', typeActive);
+    // Une classe par réglage : une classe unique écrivait les trois propriétés
+    // d'un coup, si bien qu'activer le seul interligne remettait toutes les
+    // graisses à `normal` et aplatissait la hiérarchie des titres.
+    root.classList.toggle('a11y-line', settings.lineStep > 0);
+    root.classList.toggle('a11y-letter', settings.letterStep > 0);
+    root.classList.toggle('a11y-weight', settings.weightBold);
     root.style.setProperty('--a11y-letter', LETTER[settings.letterStep] ?? 'normal');
     root.style.setProperty('--a11y-line', LINE[settings.lineStep] ?? 'normal');
     root.style.setProperty('--a11y-weight', settings.weightBold ? '700' : 'normal');
@@ -188,8 +198,11 @@ export function useA11ySettings() {
     () => () => {
       const root = document.documentElement;
       root.style.zoom = '';
+      root.style.removeProperty('--a11y-zoom');
       root.classList.remove(
-        'a11y-type',
+        'a11y-line',
+        'a11y-letter',
+        'a11y-weight',
         'a11y-highlight-titles',
         'a11y-highlight-links',
         'a11y-dyslexia',

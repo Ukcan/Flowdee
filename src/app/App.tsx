@@ -45,9 +45,15 @@ const BackgroundGrid = () => (
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(() => {
-    // Synchronous init — avoids flash
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) return savedTheme === 'dark';
+    // Lecture protégée : `localStorage` lève dans un contexte cloisonné
+    // (Safari « bloquer tous les cookies », certaines webviews). Non protégée,
+    // l'exception remontait jusqu'au render initial et laissait une page vide.
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) return savedTheme === 'dark';
+    } catch {
+      /* on retombe sur le thème par défaut */
+    }
     return true; // Default: Midnight Navy (dark)
   });
   const [showCGV, setShowCGV] = useState(false);
@@ -84,8 +90,12 @@ export default function App() {
 
   const applyTheme = React.useCallback((dark: boolean) => {
     setDarkMode(dark);
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
     document.documentElement.classList.toggle('dark', dark);
+    try {
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    } catch {
+      /* quota ou stockage bloqué : le thème reste appliqué pour la session */
+    }
   }, []);
 
   const toggleDarkMode = () => applyTheme(!darkMode);
