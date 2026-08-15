@@ -182,9 +182,9 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
               onClick={openAudit}
               size="s"
               className="ml-2"
-              aria-label="Commander l'audit à 279 euros"
+              aria-label="Commander l'audit à 890 euros"
             >
-              Commander mon audit — 279 €
+              Commander mon audit — 890 €
             </ButtonPrimary>
           </div>
 
@@ -242,7 +242,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
                 size="l"
                 className="w-full"
               >
-                Commander mon audit — 279 €
+                Commander mon audit — 890 €
               </ButtonPrimary>
               <p className="font-body text-[11px] text-center text-text-muted">
                 Paiement sécurisé · Livraison sous 3 à 5 jours

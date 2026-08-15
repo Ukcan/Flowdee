@@ -28,7 +28,7 @@ export function FAQSection() {
     },
     {
       question: "Combien de temps ça prend et combien ça coûte ?",
-      answer: "Audit UX : dès 279 €, livré en 72 h à 5 jours. Sprint Design + Tests : dès 2 400 €, 1 à 2 semaines. Design Partner : sur devis, en continu. Paiement sécurisé."
+      answer: "Audit UX & Conversion : 890 €, livré en 3 à 5 jours. Product Sprint + Tests : 3 900 €, 2 semaines. Fractional Product Designer : dès 2 200 €/mois, en continu. Paiement sécurisé."
     },
     {
       question: "Comment utiliser le livrable avec Figma, votre équipe dev ou Claude Code ?",

@@ -303,10 +303,10 @@ export function ProblemCards() {
                 size="m"
                 className="w-full"
               >
-                Acheter l'audit — 279 €
+                Acheter l'audit — 890 €
               </ButtonPrimary>
               <p className="font-body text-[10px] font-medium uppercase tracking-widest text-text-muted text-center">
-                Livraison 72h–5j • Paiement sécurisé
+                Livraison 3-5j • Paiement sécurisé
               </p>
               <ButtonSecondary
                 onClick={scrollToContact}

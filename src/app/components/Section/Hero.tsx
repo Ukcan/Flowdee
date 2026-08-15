@@ -4,7 +4,7 @@ import { ButtonPrimary } from '../Button/Primary';
 import { AUDIT_LINK } from '../../constants/links';
 
 /**
- * Hero — optimisée conversion (offre d'audit 279 €).
+ * Hero — optimisée conversion (offre d'audit 890 €).
  * Hiérarchie épurée : un seul CTA dominant (achat audit), réassurance couplée,
  * actions secondaires en liens discrets. Identité, couleurs, fond animé, H1 et sous-titre conservés.
  */
@@ -89,7 +89,7 @@ export function HeroSection() {
               size="l"
               className={`px-10 min-w-[17rem] text-[16px] ${focusRing}`}
             >
-              Commander mon audit — 279 €
+              Commander mon audit — 890 €
             </ButtonPrimary>
             <p className="font-body text-[13px] sm:text-[14px] font-medium text-text-secondary tracking-[0.01em] max-w-[440px]">
               Paiement sécurisé · Confirmation sous 24&nbsp;h · Livraison sous 3 à 5 jours ouvrés
