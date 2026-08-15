@@ -55,8 +55,8 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
   };
 
   return (
-    <footer 
-      className="py-24 md:py-32 bg-surface-0 border-t border-border-0 relative overflow-hidden" 
+    <footer
+      className="pt-24 md:pt-32 pb-8 bg-surface-0 border-t border-border-0 relative overflow-hidden"
       role="contentinfo"
     >
       <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">

@@ -167,8 +167,8 @@ export function ServicesSection() {
                       className="
                         inline-flex items-center gap-1.5
                         font-body text-[11px] px-3 py-1.5
-                        bg-accent-bg text-accent-primary border border-accent-border
-                        font-bold whitespace-nowrap tracking-[0.02em] normal-case
+                        bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30
+                        font-medium whitespace-nowrap tracking-[0.04em] normal-case
                         rounded-full
                       "
                     >

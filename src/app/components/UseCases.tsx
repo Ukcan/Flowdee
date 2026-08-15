@@ -144,8 +144,8 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
       <div className="absolute inset-0">
         <ImageWithFallback src={after} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 right-6 z-20">
-          <span className="font-body text-[11px] bg-accent-primary text-on-accent font-medium px-6 py-2 uppercase tracking-widest rounded-full shadow-panel" style={{ fontWeight: 500 }}>
-            OPTIMISÉ
+          <span className="font-body text-[10px] bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
+            Optimisé
           </span>
         </div>
       </div>
@@ -155,8 +155,8 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
       >
         <ImageWithFallback src={before} alt="Interface avant refonte — version initiale" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 left-6 z-20">
-          <span className="font-body text-[11px] bg-surface-0 text-text-primary border border-border-0 font-bold px-6 py-2 uppercase tracking-widest rounded-full">
-            WIREFRAME
+          <span className="font-body text-[10px] bg-surface-0/75 backdrop-blur-md text-text-secondary border border-border-0 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
+            Wireframe
           </span>
         </div>
       </div>
@@ -369,9 +369,9 @@ export function UseCases() {
                     <ImageWithFallback src={useCase.image} alt={useCase.title} className="w-full h-full object-cover object-top" />
                     <div className="absolute top-4 left-4">
                       <span className="
-                        font-body text-[9px] uppercase tracking-widest 
-                        bg-surface-0/60 backdrop-blur-sm text-text-secondary 
-                        px-3 py-1 font-medium rounded-full border border-white/10
+                        font-body text-[10px] uppercase tracking-[0.15em]
+                        bg-surface-0/75 backdrop-blur-md text-text-secondary
+                        px-3 py-1 font-medium rounded-full border border-border-0/60
                       ">
                         {useCase.tag}
                       </span>
@@ -416,11 +416,13 @@ export function UseCases() {
                         <span
                           key={idx}
                           className="
-                            font-body text-[11px] font-medium text-accent-primary 
-                            bg-accent-tint border border-accent-primary/15 
-                            px-3 py-1.5 rounded-full tracking-wide
+                            inline-flex items-center gap-1.5
+                            font-body text-[10px] font-medium text-text-secondary
+                            bg-transparent border border-border-0
+                            px-3 py-1 rounded-full tracking-[0.06em]
                           "
                         >
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent-primary shrink-0" />
                           {metric.label}
                         </span>
                       ))}
@@ -494,7 +496,7 @@ export function UseCases() {
                     className="w-full h-full object-cover object-top" 
                   />
                   <div className="absolute bottom-0 left-0 w-full p-8 md:p-12 bg-surface-0/80 backdrop-blur-md border-t border-border-0">
-                    <span className="font-body text-[10px] bg-accent-primary text-on-accent font-medium px-4 py-1 mb-4 uppercase tracking-[0.2em] inline-block rounded-full" style={{ fontWeight: 500 }}>
+                    <span className="font-body text-[10px] bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30 font-medium px-4 py-1 mb-4 uppercase tracking-[0.15em] inline-block rounded-full">
                       {selectedCase.tag}
                     </span>
                     <h2 className="heading-1 text-text-primary">
@@ -574,7 +576,7 @@ export function UseCases() {
                         <span className="font-body text-[11px] font-bold text-text-muted uppercase tracking-[0.2em]">Stack technique</span>
                         <div className="flex flex-wrap gap-2">
                           {selectedCase.tools.map((tool: string) => (
-                            <span key={tool} className="px-3 py-1 bg-accent-bg text-accent-primary font-bold uppercase text-[10px] tracking-widest rounded-md">
+                            <span key={tool} className="px-3 py-1 bg-transparent border border-border-0 text-text-secondary font-medium uppercase text-[10px] tracking-[0.12em] rounded-full">
                               {tool}
                             </span>
                           ))}
