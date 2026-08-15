@@ -66,10 +66,19 @@ const Icon = {
       <path d="M18 4 L18 20" {...stroke} strokeWidth={2.2} />
     </svg>
   ),
+  /* Interlettrage : un A et un V que la flèche écarte, convention partagée
+     par Figma et Adobe.
+     Le A était refermé par le bas — sa barre transversale posée sur la ligne
+     de pied plutôt qu'à mi-hauteur, doublée d'un segment reliant les deux
+     pieds — et se lisait donc comme un triangle. Le V, lui, portait une barre
+     transversale qu'un V n'a pas, ce qui en faisait un A retourné. Les deux
+     ensemble donnaient « ∆∀ », sans rapport avec des lettres. */
   Letter: (p: IconProps) => (
     <svg viewBox="0 0 24 24" className={p.className} aria-hidden>
-      <path d="M6 5 L3 12 L6 12 M6 5 L9 12 M4 12 L8 12" {...stroke} />
-      <path d="M12 5 L15 12 L18 5 M13.5 8.5 L16.5 8.5" {...stroke} />
+      {/* A — jambages depuis l'apex, barre à mi-hauteur, pied ouvert */}
+      <path d="M6 5 L3 12 M6 5 L9 12 M4 9.8 L8 9.8" {...stroke} />
+      {/* V — deux jambages, rien d'autre */}
+      <path d="M12 5 L15 12 L18 5" {...stroke} />
       <path d="M3 18 L21 18 M3 18 L5 16 M3 18 L5 20 M21 18 L19 16 M21 18 L19 20" {...stroke} />
     </svg>
   ),
