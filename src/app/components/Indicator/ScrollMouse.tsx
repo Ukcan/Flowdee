@@ -6,15 +6,17 @@ import { motion, AnimatePresence } from 'motion/react';
  * The label shown is the NEXT section the user will scroll to.
  */
 const SECTIONS = [
-  /* Libellés volontairement brefs : l'indicateur flotte dans la marge gauche,
-     au-dessus du contenu. Un libellé long empiétait sur le texte dès 768px. */
+  /* Chaque libellé nomme la destination telle qu'on la trouvera : il reprend
+     le surtitre de la section quand elle en a un. Une version raccourcie pour
+     gagner de la largeur avait fini par renommer les sections — l'indicateur
+     annonçait « Méthode » pour une section intitulée « Notre approche ». */
   { id: 'hero', label: 'Découvrir' },
   { id: 'problems', label: 'Frictions UX' },
   { id: 'deliverables', label: 'Livrables' },
-  { id: 'services', label: 'Offres' },
-  { id: 'case-studies', label: 'Cas clients' },
-  { id: 'approche', label: 'Méthode' },
-  { id: 'ia-workflow', label: 'IA' },
+  { id: 'services', label: 'Offres & tarifs' },
+  { id: 'case-studies', label: 'Réalisations' },
+  { id: 'approche', label: 'Notre approche' },
+  { id: 'ia-workflow', label: 'Optimisation IA' },
   { id: 'faq', label: 'FAQ' },
   { id: 'contact', label: 'Contact' },
 ] as const;
