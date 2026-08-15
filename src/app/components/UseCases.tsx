@@ -360,6 +360,7 @@ export function UseCases() {
                   key={useCase.title}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ y: -4 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="card-surface p-0 flex flex-col overflow-hidden bg-surface-0"

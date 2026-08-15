@@ -150,6 +150,7 @@ export function ServicesSection() {
                 key={service.plan}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -4 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={`
@@ -214,7 +215,7 @@ export function ServicesSection() {
                       <div
                         className="
                           w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5
-                          bg-[#8A9E8C]/10 text-[#8A9E8C]
+                          bg-accent-primary/10 text-accent-primary
                         "
                       >
                         <Check size={12} weight="bold" />
