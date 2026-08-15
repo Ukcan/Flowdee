@@ -32,7 +32,7 @@ export function ServicesSection() {
       timeline: '3–5\u00A0JOURS',
       title: 'Audit UX & Conversion',
       price: '890\u00A0€',
-      description: 'Identifiez les frictions qui bloquent votre parcours et repartez avec un plan de correction priorisé.',
+      description: 'Arrêtez de perdre des visiteurs sans savoir pourquoi. En 5 jours, vous repartez avec un diagnostic complet et un plan d’action prêt à appliquer — pas juste une liste de remarques.',
       forWho: 'Pour : une landing page, un onboarding, un checkout ou un parcours critique.',
       deliverables: [
         'Audit heuristique UX',
@@ -52,7 +52,7 @@ export function ServicesSection() {
       timeline: '2\u00A0SEMAINES',
       title: 'Product Sprint + Tests',
       price: '3\u00A0900\u00A0€',
-      description: 'Concevez, testez et itérez un parcours critique avant d\u2019investir dans son développement.',
+      description: 'Ne développez plus à l\u2019aveugle. En 2 semaines, testez et validez votre parcours critique avec de vrais utilisateurs — avant d\u2019engager votre budget dev.',
       forWho: 'Pour\u00A0: une feature clé, un onboarding, un checkout ou un dashboard.',
       deliverables: [
         'Cadrage + user flow',
@@ -72,7 +72,7 @@ export function ServicesSection() {
       timeline: 'MENSUEL',
       title: 'Fractional Product Designer',
       price: 'Dès 2\u00A0200\u00A0€/mois',
-      description: 'Une capacité Product Design intégrée à votre équipe sans recruter un poste supplémentaire.',
+      description: 'Améliorez votre produit en continu, sans les coûts ni les délais d’un recrutement. Une capacité Product Design dédiée, disponible chaque mois, sans engagement long terme.',
       forWho: 'Pour\u00A0: concevoir, tester et améliorer votre produit en continu.',
       deliverables: [
         'UX/UI & conception de features',
