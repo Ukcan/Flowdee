@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-
 /**
  * Decor/StepPath — tracé serpentin reliant les jalons d'une progression.
  *
@@ -13,9 +12,10 @@ import React, { useEffect, useRef, useState } from 'react';
  * en accent dont la longueur suit le scroll — le chemin se dessine à mesure
  * qu'on descend.
  *
- * Le dessin est piloté directement en `stroke-dashoffset` plutôt que par le
- * `pathLength` de Motion : la longueur du tracé est alors une pure fonction de
- * la position de scroll, sans boucle d'animation intermédiaire.
+ * Fluidité : le scroll écrit directement la longueur visible, et une courte
+ * transition CSS absorbe les à-coups (molette, trackpad). Pas de boucle
+ * d'animation à entretenir — la valeur reste une pure fonction de la position
+ * de scroll, donc jamais désynchronisée.
  */
 
 interface StepPathProps {
@@ -25,11 +25,14 @@ interface StepPathProps {
   gutter?: number;
   /** Amplitude horizontale des courbes, en px. */
   amplitude?: number;
-  /**
-   * Progression du tracé (0 → 1), émise à chaque frame de scroll. Permet de
-   * caler d'autres éléments sur la même horloge que le dessin du chemin.
-   */
+  /** Progression du tracé (0 → 1), émise à chaque frame de dessin. */
   onProgress?: (progress: number) => void;
+  /**
+   * Position de chaque jalon le long du tracé (0 → 1), émise à chaque
+   * recalcul. Permet de caler d'autres éléments sur les jalons réels plutôt
+   * que sur un espacement supposé régulier.
+   */
+  onNodes?: (fractions: number[]) => void;
 }
 
 export function StepPath({
@@ -37,8 +40,8 @@ export function StepPath({
   gutter = 32,
   amplitude = 11,
   onProgress,
+  onNodes,
 }: StepPathProps) {
-
   const progressRef = useRef<SVGPathElement>(null);
   const [{ d, height }, setPath] = useState({ d: '', height: 0 });
 
@@ -80,6 +83,12 @@ export function StepPath({
       }
 
       setPath({ d: path, height: Math.ceil(ys[ys.length - 1]) + 2 });
+
+      // Position relative de chaque jalon, d'après les écarts réels : la
+      // dernière étape porte une description plus longue, les jalons ne sont
+      // donc pas régulièrement espacés.
+      const span = ys[ys.length - 1] - ys[0] || 1;
+      onNodes?.(ys.map((y) => (y - ys[0]) / span));
     };
 
     compute();
@@ -93,9 +102,9 @@ export function StepPath({
       ro.disconnect();
       window.removeEventListener('resize', compute);
     };
-  }, [containerRef, gutter, amplitude]);
+  }, [containerRef, gutter, amplitude, onNodes]);
 
-  /* ─── Dessin au scroll ─── */
+  /* ─── Dessin au scroll, lissé ─── */
   useEffect(() => {
     const container = containerRef.current;
     const path = progressRef.current;
@@ -103,15 +112,11 @@ export function StepPath({
 
     const length = path.getTotalLength();
     path.style.strokeDasharray = String(length);
+    // Lissage confié au CSS : le scroll pose la valeur cible, la transition
+    // absorbe les à-coups de molette. Aucune boucle d'animation à entretenir,
+    // et la valeur reste une pure fonction de la position de scroll.
+    path.style.transition = 'stroke-dashoffset 140ms linear';
 
-    const draw = (p: number) => {
-      path.style.strokeDashoffset = String(length * (1 - p));
-      onProgress?.(p);
-    };
-
-    // Le tracé se dessine dans tous les cas, y compris sous
-    // `prefers-reduced-motion` : c'est une révélation progressive liée au
-    // scroll, sans déplacement d'élément — ce que ce réglage vise à limiter.
     const update = () => {
       const rect = container.getBoundingClientRect();
       const vh = window.innerHeight || 1;
@@ -119,7 +124,9 @@ export function StepPath({
       // quand son bas remonte à 60%.
       const start = vh * 0.85;
       const span = rect.height + (start - vh * 0.6) || 1;
-      draw(Math.min(1, Math.max(0, (start - rect.top) / span)));
+      const p = Math.min(1, Math.max(0, (start - rect.top) / span));
+      path.style.strokeDashoffset = String(length * (1 - p));
+      onProgress?.(p);
     };
 
     update();

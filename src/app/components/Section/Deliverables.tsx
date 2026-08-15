@@ -42,16 +42,28 @@ export function DeliverablesSection() {
   const reduce = useReducedMotion();
 
   // Les étapes se dévoilent sur la même horloge que le tracé : quand le fil
-  // atteint un jalon, l'étape correspondante apparaît. La première reste
+  // approche un jalon, l'étape correspondante apparaît. La première reste
   // visible d'emblée, pour ne pas ouvrir la section sur du vide.
   const [revealed, setRevealed] = useState(1);
+
+  // Position réelle de chaque jalon le long du tracé, fournie par StepPath.
+  // Les étapes n'ont pas toutes la même hauteur (la dernière porte une
+  // description sur deux lignes) : un espacement supposé régulier ferait
+  // apparaître les dernières étapes en décalage avec le fil.
+  const nodesRef = useRef<number[]>([]);
+  const handleNodes = useCallback((fractions: number[]) => {
+    nodesRef.current = fractions;
+  }, []);
+
   const handleProgress = useCallback((p: number) => {
-    const total = DELIVERABLES.length;
+    const fractions = nodesRef.current;
+    if (!fractions.length) return;
+    // Devancement : l'étape apparaît un peu avant que le fil ne l'atteigne,
+    // pour qu'on ne scrolle jamais vers une zone vide.
+    const LEAD = 0.14;
     let count = 1;
-    for (let i = 1; i < total; i++) {
-      // Léger devancement (0.82) : l'étape se révèle quand le fil l'approche,
-      // pas une fois qu'il l'a dépassée.
-      if (p >= (i / (total - 1)) * 0.82) count = i + 1;
+    for (let i = 1; i < fractions.length; i++) {
+      if (p >= fractions[i] - LEAD) count = i + 1;
     }
     setRevealed((prev) => (prev === count ? prev : count));
   }, []);
@@ -95,7 +107,11 @@ export function DeliverablesSection() {
           <ol ref={stepsRef} className="relative">
             {/* Tracé serpentin reliant les jalons, dessiné au scroll.
                 Il pilote aussi l'apparition des étapes via onProgress. */}
-            <StepPath containerRef={stepsRef} onProgress={handleProgress} />
+            <StepPath
+              containerRef={stepsRef}
+              onProgress={handleProgress}
+              onNodes={handleNodes}
+            />
 
             {DELIVERABLES.map((d, i) => {
               const visible = i < revealed;
