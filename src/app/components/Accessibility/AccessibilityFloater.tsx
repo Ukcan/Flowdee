@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, type ReactNode } from 'react';
+import { X } from '@phosphor-icons/react';
 import { Icon, stroke } from './icons';
 import {
   nextAlign,
@@ -63,18 +64,27 @@ export function AccessibilityFloater() {
       <button
         ref={launcherRef}
         type="button"
-        aria-label="Ouvrir le menu d'accessibilité"
+        aria-label={open ? "Fermer le menu d'accessibilité" : "Ouvrir le menu d'accessibilité"}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
+        /* À l'ouverture, le bouton se décale juste à droite du volet plutôt que
+           de rester posé dessus. Le décalage suit la largeur réelle du panneau
+           (380px, plafonnée à 92vw) et reste borné pour ne jamais sortir de
+           l'écran sur les petites largeurs. */
+        style={{
+          transform: open
+            ? 'translateX(min(calc(min(380px, 92vw) + 1rem), calc(100vw - 5.5rem)))'
+            : 'translateX(0)',
+        }}
         className="
           fixed bottom-6 left-6 z-[10100] grid h-14 w-14 place-items-center rounded-full
           bg-accent-primary text-on-accent shadow-soft
-          outline-none transition-transform duration-200 hover:scale-105
+          outline-none transition-transform duration-300 ease-out
           focus-visible:ring-4 focus-visible:ring-accent-ring
         "
       >
-        <Icon.Person className="h-7 w-7" />
-        {activeCount > 0 && (
+        {open ? <X size={26} weight="bold" /> : <Icon.Person className="h-7 w-7" />}
+        {!open && activeCount > 0 && (
           <span className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-surface-0 text-[11px] font-semibold text-accent-primary ring-2 ring-accent-primary">
             {activeCount}
           </span>

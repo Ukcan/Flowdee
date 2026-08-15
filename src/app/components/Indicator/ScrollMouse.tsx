@@ -6,13 +6,17 @@ import { motion, AnimatePresence } from 'motion/react';
  * The label shown is the NEXT section the user will scroll to.
  */
 const SECTIONS = [
+  /* Libellés volontairement brefs : l'indicateur flotte dans la marge gauche,
+     au-dessus du contenu. Un libellé long empiétait sur le texte dès 768px. */
   { id: 'hero', label: 'Découvrir' },
   { id: 'problems', label: 'Frictions UX' },
-  { id: 'services', label: 'Offres & Tarifs' },
+  { id: 'deliverables', label: 'Livrables' },
+  { id: 'services', label: 'Offres' },
   { id: 'case-studies', label: 'Cas clients' },
-  { id: 'approche', label: 'Ma méthode' },
+  { id: 'approche', label: 'Méthode' },
+  { id: 'ia-workflow', label: 'IA' },
   { id: 'faq', label: 'FAQ' },
-  { id: 'contact', label: 'Réserver un appel' },
+  { id: 'contact', label: 'Contact' },
 ] as const;
 
 /**
@@ -118,8 +122,12 @@ export function ScrollMouseIndicator() {
              tout en gardant le bouton en premier dans le DOM (ordre de
              tabulation inchangé). */
           /* Remonté au-dessus du bouton d'accessibilité, qui occupe désormais
-             le coin bas gauche (56px + 24px de marge). */
-          className="hidden md:flex fixed bottom-32 left-6 z-40 w-14 flex-col-reverse items-center gap-3 pointer-events-none"
+             le coin bas gauche (56px + 24px de marge).
+             Aligné à gauche et non centré : les noms de section n'ont pas la
+             même longueur, un centrage ferait glisser la souris horizontalement
+             à chaque changement. La largeur reste libre pour que le libellé
+             tienne sur une ligne. */
+          className="hidden md:flex fixed bottom-32 left-6 z-40 flex-col-reverse items-start gap-2.5 pointer-events-none"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
@@ -186,14 +194,14 @@ export function ScrollMouseIndicator() {
           {/* Libellé + jauge, empilés au-dessus de la souris — purement
               décoratifs, redondants avec l'aria-label du bouton, masqués aux
               technologies d'assistance */}
-          <div className="flex flex-col items-center" aria-hidden="true">
+          <div className="flex flex-col items-start gap-2" aria-hidden="true">
             {/* Next section label */}
             <AnimatePresence mode="wait">
               <motion.span
                 key={nextLabel}
                 className="
                   font-body text-[9px] font-medium uppercase tracking-[0.18em]
-                  text-text-muted mb-1 select-none
+                  text-text-muted select-none whitespace-nowrap
                   pointer-events-none
                 "
                 initial={{ opacity: 0, y: 4 }}
