@@ -14,8 +14,9 @@ import { useReducedMotion } from 'motion/react';
  * qu'on descend.
  *
  * Le dessin est piloté directement en `stroke-dashoffset` plutôt que par le
- * `pathLength` de Motion : sous `prefers-reduced-motion`, Motion neutralise la
- * valeur et le tracé restait invisible.
+ * `pathLength` de Motion : la longueur du tracé est alors une pure fonction de
+ * la position de scroll, sans boucle d'animation intermédiaire, et le repli
+ * `prefers-reduced-motion` se réduit à afficher le chemin complet.
  */
 
 interface StepPathProps {
@@ -25,9 +26,19 @@ interface StepPathProps {
   gutter?: number;
   /** Amplitude horizontale des courbes, en px. */
   amplitude?: number;
+  /**
+   * Progression du tracé (0 → 1), émise à chaque frame de scroll. Permet de
+   * caler d'autres éléments sur la même horloge que le dessin du chemin.
+   */
+  onProgress?: (progress: number) => void;
 }
 
-export function StepPath({ containerRef, gutter = 32, amplitude = 11 }: StepPathProps) {
+export function StepPath({
+  containerRef,
+  gutter = 32,
+  amplitude = 11,
+  onProgress,
+}: StepPathProps) {
   const reduce = useReducedMotion();
   const progressRef = useRef<SVGPathElement>(null);
   const [{ d, height }, setPath] = useState({ d: '', height: 0 });
@@ -96,6 +107,7 @@ export function StepPath({ containerRef, gutter = 32, amplitude = 11 }: StepPath
 
     const draw = (p: number) => {
       path.style.strokeDashoffset = String(length * (1 - p));
+      onProgress?.(p);
     };
 
     // Mouvement réduit : le chemin est montré complet, sans animation.
@@ -121,7 +133,7 @@ export function StepPath({ containerRef, gutter = 32, amplitude = 11 }: StepPath
       window.removeEventListener('scroll', update);
       window.removeEventListener('resize', update);
     };
-  }, [containerRef, d, reduce]);
+  }, [containerRef, d, reduce, onProgress]);
 
   if (!d) return null;
 

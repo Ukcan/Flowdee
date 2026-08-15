@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { motion } from 'motion/react';
+import React, { useCallback, useRef, useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ListChecks, Layout, TextAa, ShieldCheck } from '@phosphor-icons/react';
 import { StickySplit } from '../Layout/StickySplit';
 import { StepPath } from '../Decor/StepPath';
@@ -39,6 +39,22 @@ const DELIVERABLES = [
 
 export function DeliverablesSection() {
   const stepsRef = useRef<HTMLOListElement>(null);
+  const reduce = useReducedMotion();
+
+  // Les étapes se dévoilent sur la même horloge que le tracé : quand le fil
+  // atteint un jalon, l'étape correspondante apparaît. La première reste
+  // visible d'emblée, pour ne pas ouvrir la section sur du vide.
+  const [revealed, setRevealed] = useState(1);
+  const handleProgress = useCallback((p: number) => {
+    const total = DELIVERABLES.length;
+    let count = 1;
+    for (let i = 1; i < total; i++) {
+      // Léger devancement (0.82) : l'étape se révèle quand le fil l'approche,
+      // pas une fois qu'il l'a dépassée.
+      if (p >= (i / (total - 1)) * 0.82) count = i + 1;
+    }
+    setRevealed((prev) => (prev === count ? prev : count));
+  }, []);
 
   return (
     <section
@@ -77,21 +93,25 @@ export function DeliverablesSection() {
           }
         >
           <ol ref={stepsRef} className="relative">
-            {/* Tracé serpentin reliant les jalons, dessiné au scroll */}
-            <StepPath containerRef={stepsRef} />
+            {/* Tracé serpentin reliant les jalons, dessiné au scroll.
+                Il pilote aussi l'apparition des étapes via onProgress. */}
+            <StepPath containerRef={stepsRef} onProgress={handleProgress} />
 
-            {DELIVERABLES.map((d, i) => (
-              <motion.li
+            {DELIVERABLES.map((d, i) => {
+              const visible = reduce || i < revealed;
+              return (
+              <li
                 key={d.title}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: i * 0.08 }}
-                /* Espacement genereux entre etapes : donne au rail sticky une
-                   course reelle, et laisse la progression respirer. */
+                /* Révélation par simple bascule de classes CSS : l'état visible
+                   dépend uniquement de la progression du scroll, sans boucle
+                   d'animation à piloter. `reduce` court-circuite l'effet.
+                   Le décalage vertical est purement visuel — StepPath mesure les
+                   jalons en offsetTop, insensible aux transforms. */
                 /* Gouttière à largeur fixe : le tracé SVG est centré dessus et
                    doit pouvoir s'y caler de façon déterministe. */
-                className="group grid grid-cols-[32px_minmax(0,1fr)] gap-x-4 md:gap-x-6 pb-12 md:pb-16 last:pb-0"
+                className={`group grid grid-cols-[32px_minmax(0,1fr)] gap-x-4 md:gap-x-6 pb-12 md:pb-16 last:pb-0 transition-[opacity,transform] duration-500 ease-out ${
+                  visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
+                }`}
               >
                 {/* Jalon posé sur le tracé — l'anneau couleur fond découpe le
                     fil pour que le nœud se détache. */}
@@ -124,8 +144,9 @@ export function DeliverablesSection() {
                     </p>
                   </div>
                 </div>
-              </motion.li>
-            ))}
+              </li>
+              );
+            })}
           </ol>
         </StickySplit>
       </div>
