@@ -1,0 +1,113 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Module d'accessibilité — règles globales pilotées par le floater.
+
+   Le composant se contente de poser des classes et des variables sur
+   <html> ; toute la mise en œuvre visuelle vit ici.
+
+   Trois partis pris propres à Flowdee, différents du module d'origine :
+
+   1. Les filtres couleur passent par `backdrop-filter` sur un calque
+      fixe, et non par `filter` sur un conteneur. Un élément filtré
+      devient un bloc conteneur en CSS, ce qui casserait `position:
+      fixed` et `position: sticky` chez tous ses descendants — soit le
+      header, le rail des livrables, les modales et les indicateurs.
+
+   2. La taille du contenu passe par `zoom` sur <html> plutôt que par
+      une surcharge de `font-size`. La règle d'origine
+      (`font-size: calc(1em * échelle)`) écrasait les classes
+      typographiques du site : les titres, dimensionnés en clamp(),
+      seraient retombés à la taille du texte courant.
+
+   3. L'interface du floater est exclue des règles globales, pour
+      rester lisible quel que soit le réglage actif.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --a11y-letter: normal;
+  --a11y-line: normal;
+  --a11y-weight: normal;
+}
+
+/* ── Typographie : interligne, espacement, graisse ──────────────────
+   La taille est volontairement absente : elle est gérée par le zoom. */
+html.a11y-type
+  :is(main, header, footer)
+  :where(p, span, a, li, h1, h2, h3, h4, h5, h6, button, label, input, td, th, blockquote, dt, dd) {
+  line-height: var(--a11y-line);
+  letter-spacing: var(--a11y-letter);
+  font-weight: var(--a11y-weight);
+}
+
+/* ── Police adaptée à la dyslexie ───────────────────────────────────
+   Pile de polices système : aucune requête externe, donc pas de
+   dépendance réseau ni d'entorse à la CSP du site. */
+html.a11y-dyslexia :is(main, header, footer),
+html.a11y-dyslexia :is(main, header, footer) * {
+  font-family: 'Atkinson Hyperlegible', 'Comic Sans MS', Verdana, Tahoma, sans-serif !important;
+}
+
+/* ── Mises en évidence ──────────────────────────────────────────── */
+html.a11y-highlight-links :is(main, header, footer) a {
+  background: var(--accent-primary) !important;
+  color: var(--on-accent) !important;
+  text-decoration: underline !important;
+  border-radius: 3px;
+  box-shadow: 0 0 0 2px var(--accent-primary);
+}
+
+html.a11y-highlight-titles :is(main, header, footer) :where(h1, h2, h3, h4, h5, h6) {
+  outline: 2px dashed var(--accent-primary);
+  outline-offset: 4px;
+  background: var(--accent-bg);
+}
+
+/* ── Alignement du texte ────────────────────────────────────────── */
+html.a11y-align-left :is(main, header, footer) { text-align: left !important; }
+html.a11y-align-center :is(main, header, footer) { text-align: center !important; }
+html.a11y-align-right :is(main, header, footer) { text-align: right !important; }
+
+/* ── Filtres couleur — calque en backdrop-filter ────────────────────
+   Posé au-dessus de tout le contenu (bannière cookies comprise) mais
+   sous l'interface du floater, qui doit rester fidèle pour permettre
+   de désactiver le réglage. */
+.a11y-filter-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  pointer-events: none;
+}
+html.a11y-contrast .a11y-filter-layer { backdrop-filter: contrast(1.5); }
+html.a11y-sat-high .a11y-filter-layer { backdrop-filter: saturate(2.2); }
+html.a11y-sat-low .a11y-filter-layer { backdrop-filter: saturate(0.4); }
+html.a11y-mono .a11y-filter-layer { backdrop-filter: grayscale(1); }
+
+/* ── Arrêt des animations ───────────────────────────────────────────
+   Restreint au contenu : le panneau doit conserver ses transitions,
+   sinon il devient impossible de rouvrir ou refermer le module. */
+html.a11y-stop-anim :is(main, header, footer) *,
+html.a11y-stop-anim :is(main, header, footer) *::before,
+html.a11y-stop-anim :is(main, header, footer) *::after {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
+
+/* ── Curseur agrandi ────────────────────────────────────────────── */
+html.a11y-big-cursor,
+html.a11y-big-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M8 4 L8 40 L18 30 L26 44 L32 41 L24 27 L38 27 Z' fill='%23D3B376' stroke='%2318212E' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 4 4,
+    auto !important;
+}
+
+/* ── Guide de lecture ───────────────────────────────────────────── */
+.a11y-reading-guide {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 44px;
+  z-index: 10040;
+  pointer-events: none;
+  transform: translateY(-50%);
+  background: color-mix(in srgb, var(--bg-depth) 55%, transparent);
+  border-top: 2px solid var(--accent-primary);
+  border-bottom: 2px solid var(--accent-primary);
+}

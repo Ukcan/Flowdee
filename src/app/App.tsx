@@ -28,6 +28,8 @@ import { ParticleNetwork } from './components/Decor/ParticleNetwork';
 import { ScrollReveal } from './components/Decor/ScrollReveal';
 import { CalendarModal } from './components/CalendarModal';
 import { ThankYouModal } from './components/ThankYouModal';
+import { AccessibilityFloater } from './components/Accessibility/AccessibilityFloater';
+import { THEME_EVENT } from './components/Accessibility/useA11ySettings';
 import { syncAnalyticsWithConsent } from './constants/analytics';
 
 /**
@@ -80,12 +82,24 @@ export default function App() {
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
-  const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
-    document.documentElement.classList.toggle('dark', newDarkMode);
-  };
+  const applyTheme = React.useCallback((dark: boolean) => {
+    setDarkMode(dark);
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark', dark);
+  }, []);
+
+  const toggleDarkMode = () => applyTheme(!darkMode);
+
+  // Le module d'accessibilité peut demander un thème ; l'état reste détenu ici
+  // pour que la bascule de l'en-tête et le panneau restent cohérents.
+  useEffect(() => {
+    const onThemeRequest = (e: Event) => {
+      const dark = (e as CustomEvent<{ dark: boolean }>).detail?.dark;
+      if (typeof dark === 'boolean') applyTheme(dark);
+    };
+    window.addEventListener(THEME_EVENT, onThemeRequest);
+    return () => window.removeEventListener(THEME_EVENT, onThemeRequest);
+  }, [applyTheme]);
 
   const openCGV = () => {
     setShowCGV(true);
@@ -272,6 +286,9 @@ export default function App() {
 
           {/* Post-payment thank-you modal (shown on ?payment=success) */}
           <ThankYouModal />
+
+          {/* Module d'accessibilité — bouton flottant + panneau de réglages */}
+          <AccessibilityFloater />
 
           {/* Cookie Consent Banner */}
           <CookieBanner 

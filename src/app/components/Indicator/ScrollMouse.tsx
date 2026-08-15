@@ -117,7 +117,9 @@ export function ScrollMouseIndicator() {
              centrés sur elle. `col-reverse` place le bloc décoratif au-dessus
              tout en gardant le bouton en premier dans le DOM (ordre de
              tabulation inchangé). */
-          className="hidden md:flex fixed bottom-8 left-8 z-40 flex-col-reverse items-center gap-3 pointer-events-none"
+          /* Remonté au-dessus du bouton d'accessibilité, qui occupe désormais
+             le coin bas gauche (56px + 24px de marge). */
+          className="hidden md:flex fixed bottom-32 left-6 z-40 w-14 flex-col-reverse items-center gap-3 pointer-events-none"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
