@@ -190,144 +190,135 @@ export function UseCases() {
       {/* Featured Case Study Section */}
       <section
         className="bg-bg-base py-24 md:py-32 border-b border-border-1 overflow-hidden relative"
-        aria-label="Featured Case Study"
+        aria-labelledby="featured-case-title"
       >
+        {/* Header — éditorial, aligné à gauche : la section s'annonce, elle ne se centre pas */}
         <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
-          {/* Header */}
-          <div className="flex flex-col items-center mb-20 text-center">
-            {/* <TechnicalLabel sectionId="CASE_STUDY_FEATURED" /> */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="heading-1 text-accent-primary mt-4"
-            >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-[880px]"
+          >
+            <p className="font-body text-[10px] font-medium uppercase tracking-[0.25em] text-text-muted">
+              Étude de cas
+            </p>
+            <h2 id="featured-case-title" className="heading-1 text-accent-primary mt-5 text-balance">
               {featuredCase.headerTitle}
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="font-body text-[13px] md:text-[16px] font-medium text-text-secondary uppercase tracking-[0.2em] mt-4"
-            >
+            </h2>
+            <p className="font-body text-[12px] md:text-[13px] font-medium text-text-secondary uppercase tracking-[0.2em] mt-5">
               {featuredCase.headerSubtitle}
-            </motion.p>
+              <span className="text-text-muted"> · {featuredCase.scope} · {featuredCase.duration}</span>
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Showcase — le comparateur casse volontairement le container :
+            c'est la preuve du travail, elle doit dominer la section. */}
+        <div className="max-w-[1560px] mx-auto px-4 sm:px-8 md:px-12 mt-12 md:mt-16 relative z-10">
+          {/* Sélecteur d'écrans — barre horizontale compacte, pour libérer toute la largeur au visuel */}
+          <div
+            className="flex gap-3 overflow-x-auto pb-4 mb-4"
+            role="tablist"
+            aria-label="Choisir un écran à comparer"
+          >
+            {compareScreens.map((s, i) => {
+              const active = i === screenIdx;
+              return (
+                <button
+                  key={s.label}
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setScreenIdx(i)}
+                  className={`group flex items-center gap-3 shrink-0 text-left rounded-[14px] border p-2 pr-4 transition-colors duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base ${active ? 'border-accent-primary bg-accent-bg' : 'border-border-0 bg-surface-0 hover:border-border-1'}`}
+                >
+                  <span className="block w-14 h-10 rounded-[8px] overflow-hidden border border-border-0 shrink-0">
+                    <ImageWithFallback src={s.after} alt="" className="w-full h-full object-cover" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className={`block font-body text-[13px] font-semibold truncate ${active ? 'text-accent-primary' : 'text-text-primary'}`}>{s.label}</span>
+                    <span className="block font-body text-[11px] text-text-muted truncate">{s.sublabel}</span>
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
-          <div className="flex flex-col gap-14 w-full">
-            {/* Sélecteur d'écrans + comparateur */}
-            <div className="flex flex-col lg:flex-row gap-6 w-full">
-              {/* Slots — écrans à comparer */}
-              <div
-                className="flex lg:flex-col gap-3 lg:w-[210px] shrink-0 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0"
-                role="tablist"
-                aria-label="Choisir un écran à comparer"
-              >
-                {compareScreens.map((s, i) => {
-                  const active = i === screenIdx;
-                  return (
-                    <button
-                      key={s.label}
-                      role="tab"
-                      aria-selected={active}
-                      onClick={() => setScreenIdx(i)}
-                      className={`group flex items-center gap-3 shrink-0 text-left rounded-[14px] border p-2 pr-4 transition-colors duration-200 cursor-pointer ${active ? 'border-accent-primary bg-accent-bg' : 'border-border-0 bg-surface-0 hover:border-border-1'}`}
-                    >
-                      <span className="block w-16 h-11 rounded-[8px] overflow-hidden border border-border-0 shrink-0">
-                        <ImageWithFallback src={s.after} alt="" className="w-full h-full object-cover" />
-                      </span>
-                      <span className="min-w-0">
-                        <span className={`block font-body text-[13px] font-semibold truncate ${active ? 'text-accent-primary' : 'text-text-primary'}`}>{s.label}</span>
-                        <span className="block font-body text-[11px] text-text-muted truncate">{s.sublabel}</span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+          <BeforeAfterSlider key={screenIdx} before={screen.before} after={screen.after} />
 
-              {/* Comparateur */}
-              <div className="flex-1 min-w-0 flex flex-col gap-4">
-                <BeforeAfterSlider key={screenIdx} before={screen.before} after={screen.after} />
-                <div className="flex items-center justify-between gap-4 flex-wrap pt-1">
-                  <span className="font-body text-[13px] text-text-secondary inline-flex items-center gap-2">
-                    <ArrowsHorizontal size={16} weight="bold" className="text-accent-primary" />
-                    Glissez pour comparer le wireframe et la version optimisée
-                  </span>
-                  <span className="font-body text-[11px] uppercase tracking-[0.2em] text-text-muted">
-                    {featuredCase.scope} · {featuredCase.duration}
-                  </span>
+          <div className="flex items-center justify-center gap-4 flex-wrap pt-4">
+            <span className="font-body text-[13px] text-text-secondary inline-flex items-center gap-2">
+              <ArrowsHorizontal size={16} weight="bold" className="text-accent-primary" />
+              Glissez pour comparer le wireframe et la version optimisée
+            </span>
+          </div>
+        </div>
+
+        {/* Détails — 3 colonnes à plat, séparées par des filets.
+            Plus de carte englobante : moins de conteneurs imbriqués, plus de présence. */}
+        <div className="max-w-[1320px] mx-auto px-8 md:px-16 mt-20 md:mt-24 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-12 items-start">
+            {/* Problème */}
+            <div className="border-l-2 border-accent-primary pl-6">
+              <h3 className="font-heading text-[13px] text-accent-primary uppercase tracking-[0.16em] mb-5" style={{ fontWeight: 500 }}>
+                Le problème
+              </h3>
+              <p className="font-body text-[15px] leading-[1.7] text-text-secondary">
+                Apprentissage passif & déconnecté → baisse d'intérêt des élèves. Correction manuelle chronophage pour les professeurs. Besoin d'une solution immersive pour le distanciel.
+              </p>
+            </div>
+
+            {/* Action */}
+            <div className="border-l-2 border-border-0 pl-6">
+              <h3 className="font-heading text-[13px] text-text-primary uppercase tracking-[0.16em] mb-5" style={{ fontWeight: 500 }}>
+                Notre action
+              </h3>
+              <ul className="font-body text-[14px] leading-[1.6] text-text-secondary space-y-3">
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-2 shrink-0" />
+                  Gamification UX : récompenses & progression
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-2 shrink-0" />
+                  Dashboard Prof : notes & analytics automatisés
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-2 shrink-0" />
+                  Interface immersive multi-supports (BYOD)
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-2 shrink-0" />
+                  IA : analyse prédictive des blocages pédagogiques
+                </li>
+              </ul>
+            </div>
+
+            {/* Impact */}
+            <div className="border-l-2 border-border-0 pl-6">
+              <h3 className="font-heading text-[13px] text-accent-primary uppercase tracking-[0.16em] mb-5" style={{ fontWeight: 500 }}>
+                Impact observé
+              </h3>
+              <dl className="space-y-5">
+                <div>
+                  <dd className="font-display text-[28px] text-accent-primary leading-none tracking-tight" style={{ fontWeight: 600 }}>Hausse</dd>
+                  <dt className="font-body text-[11px] font-medium uppercase tracking-[0.14em] text-text-muted mt-2">Engagement</dt>
                 </div>
-              </div>
-            </div>
-
-            {/* Bloc détails — carte de fond */}
-            <div className="rounded-[28px] border border-border-0 bg-surface-1 shadow-panel p-8 md:p-12 flex flex-col gap-10">
-            {/* Détails — 3 colonnes équilibrées */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
-              {/* Problème */}
-              <div className="border-l-2 border-accent-primary pl-6">
-                <h3 className="font-heading text-[18px] text-accent-primary tracking-[-0.01em] mb-4" style={{ fontWeight: 500 }}>
-                  LE PROBLÈME
-                </h3>
-                <p className="font-body text-[15px] leading-[1.7] text-text-secondary">
-                  Apprentissage passif & déconnecté → baisse d'intérêt des élèves. Correction manuelle chronophage pour les professeurs. Besoin d'une solution immersive pour le distanciel.
-                </p>
-              </div>
-
-              {/* Action */}
-              <div className="border-l-2 border-border-1 pl-6">
-                <h3 className="font-heading text-[18px] text-text-primary tracking-[-0.01em] mb-4" style={{ fontWeight: 500 }}>
-                  NOTRE ACTION
-                </h3>
-                <ul className="font-body text-[14px] leading-[1.6] text-text-secondary space-y-3">
-                  <li className="flex items-start gap-3">
-                    <span className="w-2 h-2 bg-accent-primary rounded-full mt-2 shrink-0" />
-                    Gamification UX : récompenses & progression
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-2 h-2 bg-accent-primary rounded-full mt-2 shrink-0" />
-                    Dashboard Prof : notes & analytics automatisés
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-2 h-2 bg-accent-primary rounded-full mt-2 shrink-0" />
-                    Interface immersive multi-supports (BYOD)
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-2 h-2 bg-accent-primary rounded-full mt-2 shrink-0" />
-                    IA : analyse prédictive des blocages pédagogiques
-                  </li>
-                </ul>
-              </div>
-
-              {/* Impact */}
-              <div className="border-l-2 border-border-1 pl-6">
-                <h3 className="font-heading text-[18px] text-accent-primary tracking-[-0.01em] mb-4" style={{ fontWeight: 500 }}>
-                  IMPACT OBSERVÉ
-                </h3>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="p-5 bg-surface-0 border border-border-0 flex flex-col items-center justify-center rounded-[20px]">
-                    <span className="font-display text-[22px] text-accent-primary leading-tight tracking-tight" style={{ fontWeight: 600 }}>Hausse</span>
-                    <span className="font-body text-[11px] font-medium uppercase tracking-[0.1em] text-text-muted mt-2 text-center leading-tight">ENGAGEMENT</span>
-                  </div>
-                  <div className="p-5 bg-surface-0 border border-border-0 flex flex-col items-center justify-center rounded-[20px]">
-                    <span className="font-display text-[22px] text-accent-primary leading-tight tracking-tight" style={{ fontWeight: 600 }}>Réduit</span>
-                    <span className="font-body text-[11px] font-medium uppercase tracking-[0.1em] text-text-muted mt-2 text-center leading-tight">CORRECTION / SEM</span>
-                  </div>
+                <div>
+                  <dd className="font-display text-[28px] text-accent-primary leading-none tracking-tight" style={{ fontWeight: 600 }}>Réduit</dd>
+                  <dt className="font-body text-[11px] font-medium uppercase tracking-[0.14em] text-text-muted mt-2">Correction / sem</dt>
                 </div>
-              </div>
+              </dl>
             </div>
+          </div>
 
-            {/* CTA centré */}
-            <div className="flex justify-center">
-              <ButtonPrimary
-                onClick={() => setSelectedCase(featuredCase)}
-                size="l"
-              >
-                Voir l'étude de cas complète →
-              </ButtonPrimary>
-            </div>
-            </div>
+          {/* CTA */}
+          <div className="flex justify-center mt-16">
+            <ButtonPrimary
+              onClick={() => setSelectedCase(featuredCase)}
+              size="l"
+            >
+              Voir l'étude de cas complète →
+            </ButtonPrimary>
           </div>
         </div>
       </section>
@@ -339,80 +330,75 @@ export function UseCases() {
         aria-label="Other client cases"
       >
         <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
-          <div className="flex flex-col mb-16">
+          <div className="flex flex-col mb-4">
             {/* <TechnicalLabel sectionId="PORTFOLIO_MODULE" /> */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="font-body text-[10px] font-medium uppercase tracking-[0.25em] text-text-muted"
+            >
+              Autres réalisations
+            </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="heading-1 text-text-primary mt-4 text-center"
+              transition={{ delay: 0.05 }}
+              className="heading-1 text-text-primary mt-5 max-w-[760px] text-balance"
             >
               Résultats observés sur des cas concrets
             </motion.h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Lignes éditoriales alternées — mouvement vertical plutôt qu'une
+              nouvelle grille de cards qui rimerait avec le pricing. */}
+          <div>
             {otherUseCases.map((useCase, index) => {
               const kpiHero = useCase.metrics[0]?.label || useCase.title;
+              const visualFirst = index % 2 === 1;
 
               return (
-                <motion.div
+                <motion.article
                   key={useCase.title}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  whileHover={{ y: -4 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="card-surface p-0 flex flex-col overflow-hidden bg-surface-0"
+                  transition={{ duration: 0.55 }}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center py-14 md:py-20 border-t border-border-0"
                 >
-                  {/* Image + discreet tag */}
-                  <div className="relative h-64 overflow-hidden border-b border-border-0">
-                    <ImageWithFallback src={useCase.image} alt={useCase.title} className="w-full h-full object-cover object-top" />
-                    <div className="absolute top-4 left-4">
-                      <span className="
-                        font-body text-[10px] uppercase tracking-[0.15em]
-                        bg-surface-0/75 backdrop-blur-md text-text-secondary
-                        px-3 py-1 font-medium rounded-full border border-border-0/60
-                      ">
+                  {/* Texte — reste premier dans le DOM, l'ordre visuel alterne via `order` */}
+                  <div className={visualFirst ? 'md:order-2' : ''}>
+                    <div className="flex items-baseline gap-4">
+                      <span className="font-display text-[13px] tabular-nums tracking-[0.16em] text-accent-primary">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <span className="font-body text-[10px] uppercase tracking-[0.2em] text-text-muted">
                         {useCase.tag}
                       </span>
                     </div>
-                  </div>
 
-                  <div className="p-8 flex flex-col flex-1">
-                    {/* Slot 1: KPI Hero (dominant) */}
-                    <div className="min-h-[48px] flex items-start">
-                      <h3 className="font-display text-[28px] md:text-[32px] text-accent-primary leading-tight tracking-[-0.01em]" style={{ fontWeight: 300 }}>
-                        {kpiHero}
-                      </h3>
-                    </div>
+                    <h3 className="font-display text-[30px] md:text-[36px] lg:text-[40px] text-accent-primary leading-[1.1] tracking-[-0.02em] mt-5 text-balance" style={{ fontWeight: 300 }}>
+                      {kpiHero}
+                    </h3>
 
-                    {/* Slot 2: Original title (demoted — zero deletion) */}
-                    <p className="font-body text-[11px] text-text-muted uppercase tracking-widest mt-2">
+                    <p className="font-body text-[11px] text-text-muted uppercase tracking-widest mt-3">
                       {useCase.title}
                     </p>
 
-                    {/* Slot 3: Context line */}
-                    <p className="font-body text-[13px] text-text-secondary mt-1">
-                      {useCase.problemShort}
-                    </p>
-
-                    {/* Slot 4: Cartouche PROBLÈME / ACTION */}
-                    <div className="min-h-[96px] mt-6">
-                      <div className="space-y-2 p-5 bg-bg-base border border-border-0 rounded-[16px]">
-                        <p className="font-body text-[12px]">
-                          <span className="text-accent-primary uppercase font-medium mr-2">PROBLÈME:</span>
-                          <span className="text-text-secondary">{useCase.problemShort}</span>
-                        </p>
-                        <p className="font-body text-[12px]">
-                          <span className="text-accent-primary uppercase font-medium mr-2">ACTION:</span>
-                          <span className="text-text-secondary">{useCase.actionShort}</span>
-                        </p>
+                    {/* Problème / Action — filet plutôt que cartouche : moins de conteneurs */}
+                    <dl className="mt-7 space-y-3 border-l border-border-0 pl-5">
+                      <div>
+                        <dt className="font-body text-[10px] uppercase tracking-[0.16em] text-accent-primary font-medium">Problème</dt>
+                        <dd className="font-body text-[14px] leading-[1.6] text-text-secondary mt-1">{useCase.problemShort}</dd>
                       </div>
-                    </div>
+                      <div>
+                        <dt className="font-body text-[10px] uppercase tracking-[0.16em] text-accent-primary font-medium">Action</dt>
+                        <dd className="font-body text-[14px] leading-[1.6] text-text-secondary mt-1">{useCase.actionShort}</dd>
+                      </div>
+                    </dl>
 
-                    {/* Slot 5: Impact chips */}
-                    <div className="flex flex-wrap gap-2 mt-5">
+                    <div className="flex flex-wrap gap-2 mt-6">
                       {useCase.metrics.map((metric, idx) => (
                         <span
                           key={idx}
@@ -429,33 +415,38 @@ export function UseCases() {
                       ))}
                     </div>
 
-                    {/* Spacer to push bottom elements down */}
-                    <div className="flex-1" />
+                    {/* Ligne de synthèse — pleine opacité : à 10px, le modificateur
+                        /60 tombait sous le seuil WCAG AA de 4.5:1. */}
+                    <p className="font-body text-[11px] text-text-muted tracking-wide mt-5">
+                      {useCase.resultShort}
+                    </p>
 
-                    {/* Slot 6: Legacy result line (demoted to caption — zero deletion) */}
-                    <div className="min-h-[20px] flex items-center mt-6">
-                      <span className="font-body text-[10px] text-text-muted/50 tracking-wide">
-                        {useCase.resultShort}
-                      </span>
-                    </div>
+                    <button
+                      onClick={() => setSelectedCase(useCase)}
+                      className="
+                        inline-flex items-center gap-2 mt-4
+                        font-body text-[13px] font-medium uppercase tracking-widest
+                        text-accent-primary hover:underline transition-all
+                        outline-none focus-visible:ring-2 focus-visible:ring-accent-ring
+                        focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base
+                        rounded-sm min-h-[44px]
+                      "
+                    >
+                      Détails du cas →
+                    </button>
+                  </div>
 
-                    {/* Slot 7: Details link (accessible, blue) */}
-                    <div className="min-h-[44px] flex items-center mt-3">
-                      <button
-                        onClick={() => setSelectedCase(useCase)}
-                        className="
-                          flex items-center gap-2 
-                          font-body text-[13px] font-medium uppercase tracking-widest 
-                          text-accent-primary hover:underline transition-all 
-                          focus:outline-2 focus:outline-accent-primary focus:outline-offset-2 
-                          rounded-sm min-h-[44px]
-                        "
-                      >
-                        DÉTAILS DU CAS →
-                      </button>
+                  {/* Visuel */}
+                  <div className={visualFirst ? 'md:order-1' : ''}>
+                    <div className="relative aspect-[4/3] rounded-[20px] overflow-hidden border border-border-0 bg-surface-0">
+                      <ImageWithFallback
+                        src={useCase.image}
+                        alt={useCase.title}
+                        className="w-full h-full object-cover object-top"
+                      />
                     </div>
                   </div>
-                </motion.div>
+                </motion.article>
               );
             })}
           </div>

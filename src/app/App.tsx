@@ -11,6 +11,7 @@ import { DeliverablesSection } from './components/Section/Deliverables';
 import { CaseStudiesSection } from './components/Section/CaseStudies';
 import { ServicesSection } from './components/Section/Services';
 import { ApproachSection } from './components/Section/Approach';
+import { AIWorkflowSection } from './components/Section/AIWorkflow';
 import { FAQSection } from './components/Section/FAQ';
 import { FinalCTASection } from './components/Section/FinalCTA';
 import { FooterSection } from './components/Section/Footer';
@@ -224,9 +225,14 @@ export default function App() {
               <CaseStudiesSection />
             </ScrollReveal>
 
-            {/* Approche — scaleUp pour effet "pop" */}
-            <ScrollReveal variant="scaleUp" duration={0.75} threshold="top 82%">
+            {/* Approche — fadeUp : le manifeste s'installe, il ne "pop" pas */}
+            <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%">
               <ApproachSection />
+            </ScrollReveal>
+
+            {/* IA — workflow IA ↔ designer, entre depuis la gauche (sens de lecture du flux) */}
+            <ScrollReveal variant="fadeLeft" duration={0.75} threshold="top 82%">
+              <AIWorkflowSection />
             </ScrollReveal>
 
             {/* FAQ — fadeUp, légèrement différé */}

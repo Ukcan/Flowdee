@@ -1,11 +1,18 @@
 import image_8d0fbd868add68a87847282f9a6dae596b7a8035 from 'figma:asset/8d0fbd868add68a87847282f9a6dae596b7a8035.jpg';
 import React from 'react';
 import { motion } from 'motion/react';
-import { Target, Cpu, TrendUp as TrendingUp, Check } from '@phosphor-icons/react';
-import { ParallaxHeading } from '../Decor/ParallaxHeading';
+import { Target, Cpu, TrendUp as TrendingUp } from '@phosphor-icons/react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
-import { TechnicalLabel } from '../TechnicalLabel';
 import { EditableText } from '../Editable/Text';
+
+/**
+ * Section/Approach — manifeste.
+ *
+ * Composition typographique : le point focal est la déclaration, pas une
+ * collection de cards. Les trois piliers sont des lignes éditoriales séparées
+ * par des filets — même contenu, silhouette volontairement différente des
+ * sections à grille (Problems, Pricing) qui l'encadrent.
+ */
 
 const defaultPillars = [
   {
@@ -28,170 +35,113 @@ const defaultPillars = [
   },
 ];
 
-const defaultGuardrails = [
-  { key: 'interviews', text: "Synthèse d'interviews assistée par IA" },
-  { key: 'microcopy', text: 'Variantes de microcopy optimisées' },
-  { key: 'states', text: "Génération d'états (empty, error, loading)" },
-  { key: 'specs', text: 'Draft de specs structurées' },
-];
-
 export function ApproachSection() {
   return (
     <section
       id="approche"
       className="section-aurora py-24 md:py-32 relative overflow-hidden border-t border-border-0"
-      aria-label="Notre Approche"
+      aria-labelledby="approach-title"
     >
       <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
-        <div className="flex flex-col items-center mb-16">
-          {/* <TechnicalLabel sectionId="APPROACH_CORE_01" /> */}
-          <ParallaxHeading>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="heading-1 text-text-primary text-center mt-4"
-            >
+        {/* Manifeste — déclaration dominante, signature en appui */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-16 gap-y-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-8"
+          >
+            {/* Le label reste le titre sémantique de la section, mais la
+                déclaration ci-dessous porte tout le poids visuel. */}
+            <h2 id="approach-title">
               <EditableText
                 contentKey="approach.title"
                 defaultValue="NOTRE APPROCHE"
                 as="span"
-                className="heading-1 text-text-primary"
+                className="font-body text-[10px] font-medium uppercase tracking-[0.25em] text-text-muted"
               />
-            </motion.h2>
-          </ParallaxHeading>
-        </div>
+            </h2>
 
-        {/* Bloc Citation / Profil */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="flex flex-col md:flex-row items-center gap-12 mb-20 p-10 bg-surface-0 border border-border-0 rounded-[24px]"
-        >
-          {/* Image */}
-          <div className="relative shrink-0">
-            <div className="w-[140px] h-[140px] rounded-[20px] overflow-hidden border border-border-0">
+            <blockquote className="mt-7">
+              <EditableText
+                contentKey="approach.quote"
+                defaultValue={`"Des insights, oui. Mais surtout : des choix clairs, des parcours fluides, des résultats."`}
+                as="p"
+                className="font-display text-[26px] sm:text-[32px] md:text-[40px] lg:text-[44px] font-light text-text-primary leading-[1.15] tracking-[-0.02em] text-balance"
+                multiline
+              />
+            </blockquote>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="lg:col-span-4 lg:self-end flex items-center gap-5"
+          >
+            <div className="w-[76px] h-[76px] shrink-0 rounded-[18px] overflow-hidden border border-border-0">
               <ImageWithFallback
                 src={image_8d0fbd868add68a87847282f9a6dae596b7a8035}
                 alt="Benji - Lead UX/UI Designer"
                 className="w-full h-full object-cover object-top grayscale"
               />
             </div>
-          </div>
-
-          {/* Texte & Signature */}
-          <div className="text-center md:text-left space-y-4">
-            <EditableText
-              contentKey="approach.quote"
-              defaultValue={`"Des insights, oui. Mais surtout : des choix clairs, des parcours fluides, des résultats."`}
-              as="p"
-              className="font-body text-[18px] md:text-[22px] font-light text-text-primary leading-snug tracking-wide"
-              multiline
-            />
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 min-w-0">
               <EditableText
                 contentKey="approach.author"
                 defaultValue="Benjamin, Lead UX/UI Designer"
                 as="p"
-                className="font-body text-[12px] font-medium text-accent-primary uppercase tracking-[0.2em]"
+                className="font-body text-[12px] font-medium text-accent-primary uppercase tracking-[0.18em]"
               />
               <EditableText
                 contentKey="approach.authorRole"
                 defaultValue="EXPERT PERFORMANCE UX"
                 as="p"
-                className="font-body text-[10px] font-medium text-accent-primary uppercase tracking-[0.3em]"
+                className="font-body text-[10px] font-medium text-text-muted uppercase tracking-[0.22em]"
               />
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
-        <div className="space-y-12">
-          {/* Grille 3 Piliers */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center">
-            {defaultPillars.map((pillar, index) => {
-              const Icon = pillar.icon;
-              return (
-                <motion.div
-                  key={pillar.key}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="card-surface text-center flex flex-col items-center p-10 bg-surface-0"
-                >
-                  <div className="mb-6 p-4 bg-surface-1 text-accent-primary rounded-[16px]">
-                    <Icon size={36} weight="duotone" className="text-accent-primary" />
-                  </div>
-                  <EditableText
-                    contentKey={`approach.pillar.${pillar.key}.title`}
-                    defaultValue={pillar.title}
-                    as="h3"
-                    className="font-heading text-[16px] font-medium text-text-primary mb-4 tracking-[-0.01em]"
-                  />
-                  <EditableText
-                    contentKey={`approach.pillar.${pillar.key}.desc`}
-                    defaultValue={pillar.description}
-                    as="p"
-                    className="font-body text-[14px] leading-relaxed text-text-secondary font-normal"
-                    multiline
-                  />
-                </motion.div>
-              );
-            })}
-          </div>
+        {/* Piliers — lignes typographiques séparées par des filets, pas des cards */}
+        <div className="mt-20 md:mt-24 border-t border-border-0">
+          {defaultPillars.map((pillar, index) => {
+            const Icon = pillar.icon;
+            return (
+              <motion.div
+                key={pillar.key}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: index * 0.08 }}
+                className="grid grid-cols-1 lg:grid-cols-[72px_minmax(0,0.85fr)_minmax(0,1.15fr)] gap-x-8 gap-y-3 py-8 md:py-10 border-b border-border-0"
+              >
+                <div className="flex items-center gap-3 lg:flex-col lg:items-start lg:gap-4">
+                  <span className="font-display text-[13px] tabular-nums tracking-[0.16em] text-accent-primary leading-none">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <Icon size={18} weight="duotone" className="text-text-muted" aria-hidden="true" />
+                </div>
 
-          {/* Section IA Fusionnee */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-surface-0 border border-border-0 p-12 rounded-[24px] relative overflow-hidden"
-          >
-            <div className="flex flex-col md:flex-row gap-12 items-center">
-              <div className="flex-1 space-y-6">
                 <EditableText
-                  contentKey="approach.ia.badge"
-                  defaultValue="OPTIMISATION IA"
-                  as="span"
-                  className="font-body text-[10px] px-4 py-1.5 bg-surface-1 text-accent-primary font-medium uppercase tracking-[0.2em] rounded-full border border-border-0 relative -top-2 mb-4 inline-block"
-                />
-                <EditableText
-                  contentKey="approach.ia.title"
-                  defaultValue="L'IA pour la vitesse, l'humain pour la direction."
+                  contentKey={`approach.pillar.${pillar.key}.title`}
+                  defaultValue={pillar.title}
                   as="h3"
-                  className="font-heading text-[28px] font-normal text-text-primary leading-[1.2] tracking-[-0.01em]"
+                  className="font-heading text-[20px] md:text-[24px] font-normal text-text-primary tracking-[-0.01em] leading-tight self-start"
                 />
+
                 <EditableText
-                  contentKey="approach.ia.description"
-                  defaultValue="L'IA assiste sur les tâches opérationnelles à faible valeur ajoutée, permettant de consacrer l'expertise à la réflexion stratégique."
+                  contentKey={`approach.pillar.${pillar.key}.desc`}
+                  defaultValue={pillar.description}
                   as="p"
-                  className="body"
+                  className="font-body text-[15px] leading-[1.7] text-text-secondary self-start"
                   multiline
                 />
-              </div>
-
-              <div className="flex-1 w-full grid grid-cols-1 gap-3">
-                {defaultGuardrails.map((item) => (
-                  <div
-                    key={item.key}
-                    className="flex items-center gap-4 p-4 bg-bg-base border border-border-0 hover:border-border-1 transition-colors rounded-[16px] group"
-                  >
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-accent-primary/10 text-accent-primary">
-                      <Check size={12} weight="bold" />
-                    </div>
-                    <EditableText
-                      contentKey={`approach.guardrail.${item.key}`}
-                      defaultValue={item.text}
-                      as="span"
-                      className="font-body text-[12px] text-text-secondary font-medium uppercase tracking-wide group-hover:text-text-primary transition-colors"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

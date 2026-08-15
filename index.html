@@ -6,6 +6,23 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+      <!-- Thème appliqué avant le premier rendu.
+           App.tsx pose aussi la classe, mais depuis un useEffect : elle arrivait
+           donc après la première peinture, ce qui laissait certains éléments
+           figés sur les couleurs du thème clair (texte brun sur navy, contraste
+           ~2:1). Même logique que l'état initial de App.tsx : thème enregistré,
+           sinon sombre par défaut. -->
+      <script>
+        (function () {
+          try {
+            var saved = localStorage.getItem('theme');
+            document.documentElement.classList.toggle('dark', saved ? saved === 'dark' : true);
+          } catch (e) {
+            document.documentElement.classList.add('dark');
+          }
+        })();
+      </script>
+
       <!-- Google Search Console -->
       <meta name="google-site-verification" content="3Ap_a5NMZWdE2rbKnZCchuf2H-A_GipDYGqd4L_zqVI" />
 

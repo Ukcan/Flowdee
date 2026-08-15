@@ -100,18 +100,21 @@ export function FinalCTA() {
   return (
     <section
       id="contact"
-      className="relative pt-24 md:pt-32 pb-32 bg-transparent text-text-primary overflow-hidden border-t border-border-0"
+      className="relative pt-24 md:pt-28 pb-24 md:pb-28 bg-transparent text-text-primary overflow-hidden border-t border-border-0"
       aria-label="Contact form"
     >
-      <div className="max-w-[1184px] mx-auto px-8 md:px-16 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[64px] items-start">
+      {/* Panneau de conversion — la page se referme sur un bloc contenu.
+          Profondeur obtenue par l'étagement des surfaces (page → panneau →
+          formulaire), pas par des ombres supplémentaires. */}
+      <div className="max-w-[1184px] mx-auto px-6 sm:px-8 md:px-16 relative z-10">
+        <div className="rounded-[28px] border border-border-0 bg-surface-0 p-7 sm:p-10 md:p-12 lg:p-16 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-[64px] items-start">
           {/* Left Column - Title & Description */}
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="space-y-8 lg:sticky lg:top-[128.69px]"
+            className="space-y-8"
           >
             {/* <TechnicalLabel sectionId="CONTACT_FORM_01" /> */}
             <h2 className="heading-1 text-text-primary">
@@ -152,7 +155,7 @@ export function FinalCTA() {
           >
             <form
               onSubmit={handleSubmit}
-              className="space-y-4 card-surface bg-surface-card p-10"
+              className="space-y-4 rounded-[20px] border border-border-0 bg-surface-1 p-6 sm:p-8 md:p-9"
               noValidate
             >
               {/* Choice radio buttons */}
