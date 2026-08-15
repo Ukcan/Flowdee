@@ -166,13 +166,13 @@ export function ServicesSection() {
                     <span
                       className="
                         inline-flex items-center gap-1.5
-                        font-body text-[11px] px-3 py-1.5
-                        bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30
+                        font-body text-[10px] px-2.5 py-1
+                        bg-surface-0/60 backdrop-blur-sm text-accent-primary border border-accent-primary/20
                         font-medium whitespace-nowrap tracking-[0.04em] normal-case
                         rounded-full
                       "
                     >
-                      <Star size={11} weight="fill" aria-hidden="true" className="text-accent-primary" />
+                      <Star size={10} weight="fill" aria-hidden="true" className="text-accent-primary" />
                       Offre recommandée
                     </span>
                   </div>

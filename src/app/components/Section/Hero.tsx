@@ -52,7 +52,7 @@ export function HeroSection() {
         <div className="flex flex-col items-center text-center gap-6 md:gap-7">
           {/* Eyebrow */}
           <motion.div {...anim(0.05)} className="inline-block">
-            <span className="font-body text-[12px] px-5 py-2 bg-accent-tint text-[color:var(--accent-eyebrow)] font-bold tracking-[0.08em] uppercase rounded-full border border-accent-primary/40">
+            <span className="font-body text-[11px] px-5 py-1.5 bg-accent-tint/50 backdrop-blur-sm text-[color:var(--accent-eyebrow)] font-medium tracking-[0.12em] uppercase rounded-full border border-accent-primary/25">
               Audit UX · SEO · Accessibilité · Rédaction
             </span>
           </motion.div>
