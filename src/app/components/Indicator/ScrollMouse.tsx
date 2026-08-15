@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
 /**
@@ -31,64 +31,49 @@ export function ScrollMouseIndicator() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAtBottom, setIsAtBottom] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [hasScrolled, setHasScrolled] = useState(false);
-  const observerRef = useRef<IntersectionObserver | null>(null);
 
-  /* ─── Detect current section via IntersectionObserver ─── */
-  useEffect(() => {
-    const sectionEls = SECTIONS.map(s => document.getElementById(s.id)).filter(Boolean) as HTMLElement[];
+  /* ─── Section courante, position et visibilité ──────────────────────
+     La détection se fait par une ligne de référence plutôt que par un
+     IntersectionObserver : l'observateur ne comparait que les sections dont
+     l'intersection venait de changer, si bien que celle qui occupait
+     réellement l'écran était souvent absente du lot. Et son ratio étant
+     relatif à la hauteur de chaque section, une section courte l'emportait
+     sur une longue même quand cette dernière remplissait la fenêtre.
 
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        /* Find the most visible section */
-        let maxRatio = 0;
-        let maxId = '';
-        entries.forEach((entry) => {
-          if (entry.intersectionRatio > maxRatio) {
-            maxRatio = entry.intersectionRatio;
-            maxId = entry.target.id;
-          }
-        });
+     Règle retenue, déterministe : la section courante est la dernière dont
+     le haut a franchi une ligne située à 35% de la hauteur d'écran. */
+  const handleScroll = useCallback(() => {
+    const winHeight = window.innerHeight || 1;
+    const line = winHeight * 0.35;
 
-        if (maxId) {
-          const idx = SECTIONS.findIndex(s => s.id === maxId);
-          if (idx !== -1) setCurrentIndex(idx);
-        }
-      },
-      {
-        threshold: [0, 0.15, 0.3, 0.5],
-        rootMargin: '-10% 0px -10% 0px',
-      }
-    );
+    let index = 0;
+    SECTIONS.forEach((section, i) => {
+      const el = document.getElementById(section.id);
+      if (el && el.getBoundingClientRect().top <= line) index = i;
+    });
+    setCurrentIndex(index);
 
-    sectionEls.forEach(el => observerRef.current?.observe(el));
+    const docHeight = document.documentElement.scrollHeight;
+    const scrollable = docHeight - winHeight;
+    // Garde contre 0/0 : page plus courte que la fenêtre, ou défilement
+    // verrouillé par une modale ouverte — sans quoi le ratio vaut NaN et
+    // l'indicateur disparaissait sans jamais revenir.
+    const scrollPercent = scrollable > 0 ? window.scrollY / scrollable : 0;
 
-    return () => {
-      observerRef.current?.disconnect();
-    };
+    setIsVisible(scrollPercent < 0.97);
+    setIsAtBottom(scrollPercent > 0.85);
   }, []);
 
-  /* ─── Detect bottom of page & initial scroll ─── */
-  const handleScroll = useCallback(() => {
-    const scrollY = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight;
-    const winHeight = window.innerHeight;
-    const scrollPercent = scrollY / (docHeight - winHeight);
-
-    if (!hasScrolled && scrollY > 50) {
-      setHasScrolled(true);
-    }
-
-    /* Near the very bottom (last 3%) → hide entirely */
-    setIsVisible(scrollPercent < 0.97);
-
-    /* In the last ~15% of the page → flip to "scroll up" mode */
-    setIsAtBottom(scrollPercent > 0.85);
-  }, [hasScrolled]);
-
   useEffect(() => {
+    // Exécuté au montage : après un rechargement avec restauration de la
+    // position, l'état de départ était celui du haut de page.
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, [handleScroll]);
 
   /* ─── Click handler: scroll to next section or back to top ─── */
@@ -105,12 +90,13 @@ export function ScrollMouseIndicator() {
     }
   };
 
-  /* ─── Contextual label: next section or "Haut" ─── */
-  const nextLabel = isAtBottom
-    ? 'Haut'
-    : currentIndex < SECTIONS.length - 1
-      ? SECTIONS[currentIndex + 1].label
-      : '';
+  /* ─── Libellé : la section où l'on se trouve ────────────────────────
+     Il nommait la section suivante alors que la jauge marque la section
+     courante : les deux étaient décalés d'un cran, et empilés ils se
+     lisaient comme une seule information — d'où l'impression que le
+     changement se déclenchait trop tôt. Les deux disent maintenant la même
+     chose ; le clic, lui, mène toujours à la suite. */
+  const nextLabel = isAtBottom ? 'Haut' : SECTIONS[currentIndex]?.label ?? '';
 
   /* Current section label — eyebrow micro-text above */
   const currentLabel = SECTIONS[currentIndex]?.label ?? '';
@@ -146,7 +132,14 @@ export function ScrollMouseIndicator() {
               transition-opacity duration-300 hover:opacity-70
               pointer-events-auto
             "
-            aria-label={isAtBottom ? 'Retour en haut de page' : `Aller à la section ${nextLabel}`}
+            /* Le libellé visible nomme la section courante ; le clic mène à la
+               suivante. Le nom accessible doit donc décrire la destination
+               réelle, sans quoi il contredirait l'action. */
+            aria-label={
+              isAtBottom
+                ? 'Retour en haut de page'
+                : `Aller à la section suivante : ${SECTIONS[Math.min(currentIndex + 1, SECTIONS.length - 1)].label}`
+            }
             type="button"
           >
             <motion.svg
