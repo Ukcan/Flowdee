@@ -182,7 +182,7 @@ export function ApproachSection() {
                     key={item.key}
                     className="flex items-center gap-4 p-4 bg-bg-base border border-border-0 hover:border-border-1 transition-colors rounded-[16px] group"
                   >
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: 'rgba(138, 158, 140, 0.15)', color: '#8A9E8C' }}>
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-accent-primary/10 text-accent-primary">
                       <Check size={12} weight="bold" />
                     </div>
                     <EditableText
