@@ -16,13 +16,34 @@ export function FinalCTA() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [choice, setChoice] = useState<'call' | 'audit'>('call');
+  const [touched, setTouched] = useState<{ name?: boolean; email?: boolean }>({});
+  const [submitAttempted, setSubmitAttempted] = useState(false);
 
   const isFormValid = formData.name.trim() !== '' && formData.email.trim() !== '' && formData.email.includes('@');
 
+  // Reuses the exact validation rules already driving isFormValid above —
+  // no new business rule is introduced, only a per-field breakdown for
+  // accessible error messaging (required for WCAG 3.3.1 / 4.1.2 feedback).
+  const nameInvalid = formData.name.trim() === '';
+  const emailInvalid = formData.email.trim() === '' || !formData.email.includes('@');
+  const nameErrorMessage = 'Votre nom complet est requis.';
+  const emailErrorMessage = formData.email.trim() === ''
+    ? 'Votre email professionnel est requis.'
+    : 'Saisissez une adresse e-mail valide.';
+  const showNameError = (touched.name || submitAttempted) && nameInvalid;
+  const showEmailError = (touched.email || submitAttempted) && emailInvalid;
+
+  const handleBlur = (field: 'name' | 'email') => {
+    setTouched(prev => ({ ...prev, [field]: true }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isFormValid) return;
-    
+    if (!isFormValid) {
+      setSubmitAttempted(true);
+      return;
+    }
+
     setIsSubmitting(true);
 
     // Enregistre le lead via Web3Forms (n'empêche pas la suite si échec)
@@ -60,6 +81,8 @@ export function FinalCTA() {
 
     setFormData({ name: '', email: '', company: '', message: '' });
     setIsSubmitting(false);
+    setTouched({});
+    setSubmitAttempted(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -125,14 +148,15 @@ export function FinalCTA() {
           >
             <form
               onSubmit={handleSubmit}
-              className="space-y-4 card-surface bg-surface-0 p-10"
+              className="space-y-4 card-surface bg-surface-card p-10"
+              noValidate
             >
               {/* Choice radio buttons */}
               <div className="space-y-3">
                 <label className="font-body text-[11px] font-bold uppercase tracking-widest text-text-muted block">JE VEUX :</label>
                 <div className="flex flex-col sm:flex-row gap-6">
                   <label className="flex items-center gap-3 cursor-pointer group">
-                    <div className={`relative w-5 h-5 border rounded-full bg-surface-0 flex items-center justify-center transition-all group-hover:border-accent-primary ${choice === 'call' ? 'border-accent-primary' : 'border-border-1'}`}>
+                    <div className={`relative w-5 h-5 border rounded-full bg-surface-0 flex items-center justify-center transition-all group-hover:border-accent-primary has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-focus-ring has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-surface-0 ${choice === 'call' ? 'border-accent-primary' : 'border-border-1'}`}>
                       <input
                         type="radio"
                         name="choice"
@@ -148,7 +172,7 @@ export function FinalCTA() {
                     </span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer group">
-                    <div className={`relative w-5 h-5 border rounded-full bg-surface-0 flex items-center justify-center transition-all group-hover:border-accent-primary ${choice === 'audit' ? 'border-accent-primary' : 'border-border-1'}`}>
+                    <div className={`relative w-5 h-5 border rounded-full bg-surface-0 flex items-center justify-center transition-all group-hover:border-accent-primary has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-focus-ring has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-surface-0 ${choice === 'audit' ? 'border-accent-primary' : 'border-border-1'}`}>
                       <input
                         type="radio"
                         name="choice"
@@ -175,9 +199,17 @@ export function FinalCTA() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full h-12 bg-bg-base border-[1.5px] border-border-1 text-text-primary px-5 font-body rounded-[8px] hover:border-border-2 focus:border-[1.5px] focus:border-accent-primary focus:ring-[4px] focus:ring-accent-bg outline-none transition-all duration-150 placeholder:text-text-muted/60 text-[15px]"
+                  onBlur={() => handleBlur('email')}
+                  aria-invalid={showEmailError ? 'true' : undefined}
+                  aria-describedby={showEmailError ? 'email-error' : undefined}
+                  className={`w-full h-12 bg-bg-base border-[1.5px] ${showEmailError ? 'border-status-danger' : 'border-border-1'} text-text-primary px-5 font-body rounded-[8px] hover:border-border-2 focus:border-[1.5px] focus:border-accent-primary focus:ring-[4px] focus:ring-accent-bg outline-none transition-all duration-150 placeholder:text-text-muted/60 text-[15px]`}
                   placeholder="jean@entreprise.com"
                 />
+                {showEmailError && (
+                  <p id="email-error" role="alert" className="font-body text-[12px] text-status-danger">
+                    {emailErrorMessage}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -189,9 +221,17 @@ export function FinalCTA() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full h-12 bg-bg-base border-[1.5px] border-border-1 text-text-primary px-5 font-body rounded-[8px] hover:border-border-2 focus:border-[1.5px] focus:border-accent-primary focus:ring-[4px] focus:ring-accent-bg outline-none transition-all duration-150 placeholder:text-text-muted/60 text-[15px]"
+                  onBlur={() => handleBlur('name')}
+                  aria-invalid={showNameError ? 'true' : undefined}
+                  aria-describedby={showNameError ? 'name-error' : undefined}
+                  className={`w-full h-12 bg-bg-base border-[1.5px] ${showNameError ? 'border-status-danger' : 'border-border-1'} text-text-primary px-5 font-body rounded-[8px] hover:border-border-2 focus:border-[1.5px] focus:border-accent-primary focus:ring-[4px] focus:ring-accent-bg outline-none transition-all duration-150 placeholder:text-text-muted/60 text-[15px]`}
                   placeholder="Jean Dupont"
                 />
+                {showNameError && (
+                  <p id="name-error" role="alert" className="font-body text-[12px] text-status-danger">
+                    {nameErrorMessage}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">

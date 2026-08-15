@@ -86,7 +86,7 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
             {/* Center: Links */}
             <div className="space-y-6 min-w-[140px]">
               <h3 className="font-heading text-[13px] font-medium uppercase tracking-[0.08em] text-text-primary">{t.footer.navigation}</h3>
-              <nav className="flex flex-col">
+              <nav className="flex flex-col" aria-label="Navigation du pied de page">
                 {menuItems.map((item) => (
                   <button
                     key={item.label}
@@ -110,7 +110,7 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
             {/* Center-Right: Legal Links */}
             <div className="space-y-6 min-w-[140px]">
               <h3 className="font-heading text-[13px] font-medium uppercase tracking-[0.08em] text-text-primary">LÉGAL</h3>
-              <nav className="flex flex-col">
+              <nav className="flex flex-col" aria-label="Liens légaux">
                 <button className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
                   Mentions légales
                 </button>

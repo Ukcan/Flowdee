@@ -66,6 +66,14 @@
   /* Dark Section */
   --dark-section-bg: #141A24;
   --dark-section-surface: #1B2330;
+
+  /* Semantic surface aliases — clarify the overloaded surface-0/1/2 usage
+     (section background vs. card vs. raised/hover) without changing any
+     colour value. Resolved once here; automatically follow .dark overrides
+     below since var() lookups happen at used-value time. */
+  --bg-section: var(--surface-1);
+  --surface-card: var(--surface-0);
+  --surface-raised: var(--surface-2);
 }
 
 /* Dark mode — Midnight Navy (gold on deep blue) */
@@ -149,6 +157,15 @@
   --color-state-hover-bg: var(--state-hover-bg);
   --color-state-pressed: var(--state-pressed);
   --color-state-disabled: var(--state-disabled);
+
+  /* Status — only the mapping needed for accessible form error feedback (P1).
+     Value itself (--status-danger) is untouched, pre-existing. */
+  --color-status-danger: var(--status-danger);
+
+  /* Semantic surface aliases (P1) — see :root for the underlying mapping */
+  --color-bg-section: var(--bg-section);
+  --color-surface-card: var(--surface-card);
+  --color-surface-raised: var(--surface-raised);
 
   --shadow-panel: var(--shadow-panel);
   --shadow-soft: var(--shadow-soft);

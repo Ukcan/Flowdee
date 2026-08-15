@@ -192,7 +192,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
           <div className="flex lg:hidden items-center gap-4">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="w-[44px] h-[44px] flex items-center justify-center rounded-xl text-text-primary focus-visible:outline-none hover:bg-state-hover-bg transition-colors"
+              className="w-[44px] h-[44px] flex items-center justify-center rounded-xl text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-base)] hover:bg-state-hover-bg transition-colors"
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileMenuOpen}
             >
@@ -214,7 +214,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
           >
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="self-end w-[44px] h-[44px] flex items-center justify-center border border-border-0 rounded-xl text-text-primary focus-visible:outline-none relative z-10"
+              className="self-end w-[44px] h-[44px] flex items-center justify-center border border-border-0 rounded-xl text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0 relative z-10"
               aria-label="Close menu"
             >
               <X size={24} />

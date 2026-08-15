@@ -118,7 +118,6 @@ export function ScrollMouseIndicator() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
           transition={{ duration: 0.4 }}
-          aria-hidden="true"
         >
           {/* Mouse icon — interactive */}
           <motion.button
@@ -178,8 +177,9 @@ export function ScrollMouseIndicator() {
             </motion.svg>
           </motion.button>
 
-          {/* Label + dots stacked vertically, next to mouse */}
-          <div className="flex flex-col items-start">
+          {/* Label + dots stacked vertically, next to mouse — purely decorative,
+              redundant with the button's own aria-label, hidden from AT */}
+          <div className="flex flex-col items-start" aria-hidden="true">
             {/* Next section label */}
             <AnimatePresence mode="wait">
               <motion.span
