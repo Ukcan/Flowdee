@@ -127,11 +127,19 @@ export function ScrollMouseIndicator() {
           {/* Mouse icon — interactive */}
           <motion.button
             onClick={handleClick}
+            /* L'anneau de focus reprend la convention de `.focus-ring` dans
+               globals.css. Il manquait ici la couleur du liseré : Tailwind
+               retombe alors sur son défaut, du blanc opaque, ce qui dessinait
+               un carré blanc franc autour de la souris sur fond navy. Le rayon
+               manquait aussi, d'où un anneau carré autour d'une icône arrondie.
+               La couleur passe enfin de `accent-ring` (or à 35% d'opacité, trop
+               faible pour un indicateur de focus) à `focus-ring`, qui est
+               opaque. */
             className="
               flex flex-col items-center
-              cursor-pointer bg-transparent border-none
+              cursor-pointer bg-transparent border-none rounded-2xl
               min-h-[44px] min-w-[44px]
-              focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-ring focus-visible:ring-offset-2
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base
               transition-opacity duration-300 hover:opacity-70
               pointer-events-auto
             "
