@@ -19,15 +19,42 @@ export function openCalendar() {
 }
 
 /**
- * Opens Stripe checkout in a new tab so the Flowdee tab stays open, and warns the
- * visitor explicitly — most people won't notice a silently-opened tab on their own.
+ * Opens a blank tab synchronously. Call this directly inside a click handler,
+ * before any `await` — browsers only allow window.open() to bypass the popup
+ * blocker while it's still tied to the original user gesture. Pass the
+ * returned handle to openAuditLink() once any async work (e.g. a form
+ * submission) has finished.
  */
-export function openAuditLink() {
-  if (typeof window !== 'undefined') {
-    window.open(AUDIT_LINK, '_blank', 'noopener,noreferrer');
+export function openBlankTab(): Window | null {
+  if (typeof window === 'undefined') return null;
+  const tab = window.open('about:blank', '_blank');
+  if (tab) tab.opener = null; // sever the reference (like noopener) while keeping our handle
+  return tab;
+}
+
+/**
+ * Navigates to Stripe checkout in a new tab so the Flowdee tab stays open, and
+ * warns the visitor explicitly — most people won't notice a silently-opened
+ * tab on their own.
+ *
+ * Pass a tab already opened via openBlankTab() when this runs after an
+ * `await` (e.g. a form submission) — otherwise the popup blocker silently
+ * drops the new tab because it's no longer tied to the click gesture.
+ */
+export function openAuditLink(tab?: Window | null) {
+  if (typeof window === 'undefined') return;
+  const target = tab !== undefined ? tab : window.open(AUDIT_LINK, '_blank', 'noopener,noreferrer');
+  if (tab !== undefined && target) {
+    target.location.href = AUDIT_LINK;
+  }
+  if (target) {
     toast('Paiement ouvert dans un nouvel onglet', {
       description: 'Revenez sur cet onglet Flowdee une fois le paiement terminé.',
       duration: 8000,
+    });
+  } else {
+    toast.error("Le paiement n'a pas pu s'ouvrir", {
+      description: 'Votre navigateur bloque les popups — autorisez-les pour ce site, ou réessayez.',
     });
   }
 }

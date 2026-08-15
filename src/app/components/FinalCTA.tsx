@@ -4,7 +4,7 @@ import { toast } from 'sonner@2.0.3';
 import { CTA_PRIMARY, CTA_SECONDARY } from '../constants/ctaCopy';
 import { TechnicalLabel } from './TechnicalLabel';
 import { ButtonPrimary } from './Button/Primary';
-import { CALENDAR_LINK, openAuditLink } from '../constants/links';
+import { CALENDAR_LINK, openAuditLink, openBlankTab } from '../constants/links';
 import { WEB3FORMS_ACCESS_KEY, WEB3FORMS_ENDPOINT } from '../constants/web3forms';
 
 export function FinalCTA() {
@@ -46,6 +46,10 @@ export function FinalCTA() {
 
     setIsSubmitting(true);
 
+    // Ouvre l'onglet Stripe tout de suite (geste utilisateur synchrone) — sinon
+    // le navigateur bloque window.open() une fois passé l'`await fetch` ci-dessous.
+    const stripeTab = choice === 'audit' ? openBlankTab() : undefined;
+
     // Enregistre le lead via Web3Forms (n'empêche pas la suite si échec)
     try {
       await fetch(WEB3FORMS_ENDPOINT, {
@@ -76,7 +80,7 @@ export function FinalCTA() {
     if (choice === 'call') {
       window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
     } else {
-      openAuditLink();
+      openAuditLink(stripeTab);
     }
 
     setFormData({ name: '', email: '', company: '', message: '' });
