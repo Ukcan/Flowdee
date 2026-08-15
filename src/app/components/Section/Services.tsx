@@ -4,6 +4,7 @@ import { Check, PhoneCall, ArrowRight, Star } from '@phosphor-icons/react';
 import { ParallaxHeading } from '../Decor/ParallaxHeading';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { ButtonPrimary } from '../Button/Primary';
+import { ButtonSecondary } from '../Button/Secondary';
 import { CALENDAR_LINK, AUDIT_LINK } from '../../constants/links';
 
 interface ServiceData {
@@ -166,21 +167,20 @@ export function ServicesSection() {
                       className="
                         inline-flex items-center gap-1.5
                         font-body text-[11px] px-3 py-1.5
-                        bg-accent-primary text-on-accent
+                        bg-accent-bg text-accent-primary border border-accent-border
                         font-bold whitespace-nowrap tracking-[0.02em] normal-case
                         rounded-full
-                        shadow-[0_4px_14px_-4px_var(--accent-primary)]
                       "
                     >
-                      <Star size={11} weight="fill" aria-hidden="true" className="text-[color:var(--surface-0)]" />
+                      <Star size={11} weight="fill" aria-hidden="true" className="text-accent-primary" />
                       Offre recommandée
                     </span>
                   </div>
                 )}
 
-                {/* Timeline eyebrow */}
+                {/* Timeline eyebrow — muted by default; accent stays punctual, reserved for the recommended card */}
                 <div className="mb-6">
-                  <span className="font-body text-[10px] font-medium uppercase tracking-[0.2em] text-accent-primary">
+                  <span className={`font-body text-[10px] font-medium uppercase tracking-[0.2em] ${isFeatured ? 'text-accent-primary' : 'text-text-muted'}`}>
                     {service.timeline}
                   </span>
                 </div>
@@ -190,8 +190,8 @@ export function ServicesSection() {
                   {service.title}
                 </h3>
 
-                {/* Price */}
-                <div className="font-display text-[20px] lg:text-[22px] text-accent-primary mb-6 tracking-[-0.01em]" style={{ fontWeight: 300 }}>
+                {/* Price — accent anchor on the recommended card only, standard cards read as primary text */}
+                <div className={`font-display text-[20px] lg:text-[22px] mb-6 tracking-[-0.01em] ${isFeatured ? 'text-accent-primary' : 'text-text-primary'}`} style={{ fontWeight: 300 }}>
                   {service.price}
                 </div>
 
@@ -236,21 +236,40 @@ export function ServicesSection() {
 
                 {/* CTA area — single primary button + secondary link */}
                 <div className="flex flex-col gap-3 mt-auto">
-                  {/* Primary CTA */}
-                  <ButtonPrimary
-                    onClick={
-                      service.ctaPrimaryAction === 'calendar'
-                        ? () => window.dispatchEvent(new CustomEvent('flowdee:open-calendar', { detail: { context: service.title } }))
-                        : service.ctaPrimaryAction === 'audit'
-                        ? () => { window.location.href = AUDIT_LINK; }
-                        : scrollToContact
-                    }
-                    size="m"
-                    className="w-full"
-                    aria-label={service.ctaPrimaryLabel}
-                  >
-                    {service.ctaPrimaryLabel}
-                  </ButtonPrimary>
+                  {/* Primary action — gold solid only on the recommended card;
+                      standard cards use the secondary style so the three CTAs
+                      don't compete visually. Text, destination, size unchanged. */}
+                  {isFeatured ? (
+                    <ButtonPrimary
+                      onClick={
+                        service.ctaPrimaryAction === 'calendar'
+                          ? () => window.dispatchEvent(new CustomEvent('flowdee:open-calendar', { detail: { context: service.title } }))
+                          : service.ctaPrimaryAction === 'audit'
+                          ? () => { window.location.href = AUDIT_LINK; }
+                          : scrollToContact
+                      }
+                      size="m"
+                      className="w-full"
+                      aria-label={service.ctaPrimaryLabel}
+                    >
+                      {service.ctaPrimaryLabel}
+                    </ButtonPrimary>
+                  ) : (
+                    <ButtonSecondary
+                      onClick={
+                        service.ctaPrimaryAction === 'calendar'
+                          ? () => window.dispatchEvent(new CustomEvent('flowdee:open-calendar', { detail: { context: service.title } }))
+                          : service.ctaPrimaryAction === 'audit'
+                          ? () => { window.location.href = AUDIT_LINK; }
+                          : scrollToContact
+                      }
+                      size="m"
+                      className="w-full"
+                      aria-label={service.ctaPrimaryLabel}
+                    >
+                      {service.ctaPrimaryLabel}
+                    </ButtonSecondary>
+                  )}
 
                   {/* Secondary — text link, not button */}
                   <button

@@ -70,30 +70,36 @@
 
 /* Dark mode — Midnight Navy (gold on deep blue) */
 .dark {
-  --bg-base: #141A24;
+  /* Surface graduation — 4 perceptible steps, same navy family */
+  --bg-base: #18212E;
   --bg-depth: #0E131B;
-  --surface-0: #1B2330;
-  --surface-1: #232D3D;
-  --surface-2: #2C3849;
-  --border-0: rgba(245, 240, 232, 0.08);
-  --border-1: rgba(245, 240, 232, 0.16);
-  --border-2: rgba(245, 240, 232, 0.24);
-  --text-primary: #F5F2EA;
-  --text-secondary: #B8C0CC;
-  --text-tertiary: #7E8896;
-  --text-muted: #7E8896;
-  --text-inverse: #141A24;
-  --accent-primary: #D4B273;
-  --accent-bright: #E3C690;
-  --accent-hover: #E3C690;
+  --surface-0: #1D2735;
+  --surface-1: #222E3E;
+  --surface-2: #293648;
+  /* Borders — border-0 = subtle (default separation), border-1/2 = stronger
+     neutral steps for hover/seam emphasis. Accent-colored border = "active"
+     role, applied directly via border-accent-primary where selection/featured
+     state requires it (not centralised here). */
+  --border-0: #35445A;
+  --border-1: #5E7495;
+  --border-2: #6A81A2;
+  --text-primary: #F3F5F7;
+  --text-secondary: #C1CBD6;
+  --text-tertiary: #98A6B6;
+  --text-muted: #98A6B6;
+  --text-inverse: #18212E;
+  --accent-primary: #D3B376;
+  --accent-bright: #E0C48A;
+  --accent-hover: #E0C48A;
   --accent-pressed: #B8975A;
-  --accent-tint: rgba(212, 178, 115, 0.14);
-  --accent-eyebrow: #E3C690; /* bright gold — glows on navy */
+  --accent-tint: rgba(211, 179, 118, 0.10);
+  --accent-eyebrow: #E0C48A; /* bright gold — glows on navy */
   --accent-cta: var(--accent-primary);
-  --accent-border: rgba(212, 178, 115, 0.35);
-  --accent-bg: rgba(212, 178, 115, 0.12);
-  --accent-ring: rgba(212, 178, 115, 0.35);
-  --on-accent: #141A24;
+  --accent-border: rgba(211, 179, 118, 0.35);
+  --accent-bg: rgba(211, 179, 118, 0.10);
+  --accent-ring: rgba(211, 179, 118, 0.35);
+  --on-accent: #18212E;
+  --ring: var(--focus-ring);
   --status-success: #8A9E8C;
   --status-warning: #E3C690;
   --status-danger: #C07070;
@@ -143,7 +149,7 @@
   --color-state-hover-bg: var(--state-hover-bg);
   --color-state-pressed: var(--state-pressed);
   --color-state-disabled: var(--state-disabled);
-  
+
   --shadow-panel: var(--shadow-panel);
   --shadow-soft: var(--shadow-soft);
   --shadow-glow-accent: var(--glow-accent);
@@ -378,23 +384,25 @@
     overflow: hidden;
     background-color: transparent;
     color: var(--text-primary);
-    border: 1px solid var(--accent-border);
+    border: 1px solid var(--border-1);
     border-radius: var(--radius-button);
     cursor: pointer;
     font-family: var(--font-body);
     font-size: 15px;
     font-weight: 500;
     letter-spacing: 0.01em;
-    transition: color 0.4s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: color 0.4s, border-color 0.3s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .button-secondary:hover {
-    color: var(--bg-depth); /* deeper than on-accent → max contrast on bright-gold fill */
+    color: var(--text-primary); /* fill is a neutral raised surface, not gold — no inversion needed */
+    border-color: var(--border-2);
     transform: translateY(-2px);
   }
 
   .button-secondary:active {
     transform: translateY(0);
+    filter: brightness(0.92);
   }
 
   /* === GOOEY BLOB FILL (CTA hover) === */
@@ -432,8 +440,13 @@
   .button-primary .cta-blobs { background: var(--accent-primary); }
   .button-primary .cta-blob  { background: var(--accent-bright); }
 
+  .button-primary:active .cta-blobs,
+  .button-primary:active .cta-blob { background: var(--accent-pressed); }
+
+  /* Secondary stays on the neutral surface family — gold is reserved for primary,
+     so hover/active never converge visually with the primary CTA. */
   .button-secondary .cta-blobs { background: transparent; }
-  .button-secondary .cta-blob  { background: var(--accent-bright); }
+  .button-secondary .cta-blob  { background: var(--surface-2); }
 
   /* Secondary CTA — meltier filter + slower, posed rise */
   .button-secondary .cta-blobs__wrap { filter: url('#goo-soft'); }
@@ -569,9 +582,9 @@ html {
   background: linear-gradient(
     130deg,
     #F5F0E8 0%,
-    #F0EAE0 25%,
-    #EFEDE4 50%,
-    #F1ECE2 75%,
+    #EDE8DF 25%,
+    #D9D3C8 50%,
+    #E4DDD2 75%,
     #F5F0E8 100%
   );
   background-size: 300% 300%;
@@ -581,11 +594,11 @@ html {
 .dark .section-aurora {
   background: linear-gradient(
     130deg,
-    #141A24 0%,
-    #162032 25%,
-    #1B1B2E 50%,
-    #13242B 75%,
-    #141A24 100%
+    #18212E 0%,
+    #1D2735 25%,
+    #293648 50%,
+    #222E3E 75%,
+    #18212E 100%
   );
   background-size: 300% 300%;
 }
@@ -620,8 +633,8 @@ html {
 .section-grid {
   background-color: var(--bg-base);
   background-image:
-    linear-gradient(to right, var(--border-0) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--border-0) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in srgb, var(--border-0) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--border-0) 45%, transparent) 1px, transparent 1px);
   background-size: 56px 56px;
 }
 

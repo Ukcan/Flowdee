@@ -132,7 +132,7 @@ export function FinalCTA() {
                 <label className="font-body text-[11px] font-bold uppercase tracking-widest text-text-muted block">JE VEUX :</label>
                 <div className="flex flex-col sm:flex-row gap-6">
                   <label className="flex items-center gap-3 cursor-pointer group">
-                    <div className="relative w-5 h-5 border border-border-1 rounded-full bg-surface-0 flex items-center justify-center transition-all group-hover:border-accent-primary">
+                    <div className={`relative w-5 h-5 border rounded-full bg-surface-0 flex items-center justify-center transition-all group-hover:border-accent-primary ${choice === 'call' ? 'border-accent-primary' : 'border-border-1'}`}>
                       <input
                         type="radio"
                         name="choice"
@@ -148,7 +148,7 @@ export function FinalCTA() {
                     </span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer group">
-                    <div className="relative w-5 h-5 border border-border-1 rounded-full bg-surface-0 flex items-center justify-center transition-all group-hover:border-accent-primary">
+                    <div className={`relative w-5 h-5 border rounded-full bg-surface-0 flex items-center justify-center transition-all group-hover:border-accent-primary ${choice === 'audit' ? 'border-accent-primary' : 'border-border-1'}`}>
                       <input
                         type="radio"
                         name="choice"
