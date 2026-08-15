@@ -7,7 +7,7 @@ import { ButtonSecondary } from './Button/Secondary';
 import svgPaths from '../imports/svg-sg0ezcs3e9';
 import { useTranslation } from '../contexts/LanguageContext';
 import { CTA_PRIMARY, CTA_SECONDARY } from '../constants/ctaCopy';
-import { CALENDAR_LINK, AUDIT_LINK } from '../constants/links';
+import { CALENDAR_LINK, openAuditLink } from '../constants/links';
 
 function LogoFlowdee() {
   return (
@@ -119,7 +119,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
   };
 
   const openAudit = () => {
-    window.location.href = AUDIT_LINK;
+    openAuditLink();
   };
 
   return (

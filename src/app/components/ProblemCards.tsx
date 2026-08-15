@@ -7,7 +7,7 @@ import { CTA_SECONDARY } from '../constants/ctaCopy';
 import { TechnicalLabel } from './TechnicalLabel';
 import { ButtonPrimary } from './Button/Primary';
 import { ButtonSecondary } from './Button/Secondary';
-import { AUDIT_LINK } from '../constants/links';
+import { openAuditLink } from '../constants/links';
 
 export function ProblemCards() {
   const { t } = useTranslation();
@@ -20,7 +20,7 @@ export function ProblemCards() {
   };
 
   const openAuditCheckout = () => {
-    window.location.href = AUDIT_LINK;
+    openAuditLink();
   };
   
   return (

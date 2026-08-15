@@ -2,7 +2,7 @@ import React from 'react';
 import { Envelope as Mail, Phone, MapPin } from '@phosphor-icons/react';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { CTA_PRIMARY, CTA_SECONDARY } from '../../constants/ctaCopy';
-import { CALENDAR_LINK, AUDIT_LINK } from '../../constants/links';
+import { CALENDAR_LINK, openAuditLink } from '../../constants/links';
 import { ButtonPrimary } from '../Button/Primary';
 import { ButtonSecondary } from '../Button/Secondary';
 
@@ -178,7 +178,7 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
             {CTA_PRIMARY.label}
           </ButtonPrimary>
           <ButtonSecondary
-            onClick={() => { window.location.href = AUDIT_LINK; }}
+            onClick={openAuditLink}
             size="l"
             className="px-12"
           >

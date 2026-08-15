@@ -5,7 +5,7 @@ import { ParallaxHeading } from '../Decor/ParallaxHeading';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { ButtonPrimary } from '../Button/Primary';
 import { ButtonSecondary } from '../Button/Secondary';
-import { CALENDAR_LINK, AUDIT_LINK } from '../../constants/links';
+import { CALENDAR_LINK, openAuditLink } from '../../constants/links';
 
 interface ServiceData {
   plan: string;
@@ -245,7 +245,7 @@ export function ServicesSection() {
                         service.ctaPrimaryAction === 'calendar'
                           ? () => window.dispatchEvent(new CustomEvent('flowdee:open-calendar', { detail: { context: service.title } }))
                           : service.ctaPrimaryAction === 'audit'
-                          ? () => { window.location.href = AUDIT_LINK; }
+                          ? openAuditLink
                           : scrollToContact
                       }
                       size="m"
@@ -260,7 +260,7 @@ export function ServicesSection() {
                         service.ctaPrimaryAction === 'calendar'
                           ? () => window.dispatchEvent(new CustomEvent('flowdee:open-calendar', { detail: { context: service.title } }))
                           : service.ctaPrimaryAction === 'audit'
-                          ? () => { window.location.href = AUDIT_LINK; }
+                          ? openAuditLink
                           : scrollToContact
                       }
                       size="m"

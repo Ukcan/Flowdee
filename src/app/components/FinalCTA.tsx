@@ -4,7 +4,7 @@ import { toast } from 'sonner@2.0.3';
 import { CTA_PRIMARY, CTA_SECONDARY } from '../constants/ctaCopy';
 import { TechnicalLabel } from './TechnicalLabel';
 import { ButtonPrimary } from './Button/Primary';
-import { CALENDAR_LINK, AUDIT_LINK } from '../constants/links';
+import { CALENDAR_LINK, openAuditLink } from '../constants/links';
 import { WEB3FORMS_ACCESS_KEY, WEB3FORMS_ENDPOINT } from '../constants/web3forms';
 
 export function FinalCTA() {
@@ -76,7 +76,7 @@ export function FinalCTA() {
     if (choice === 'call') {
       window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
     } else {
-      window.location.href = AUDIT_LINK;
+      openAuditLink();
     }
 
     setFormData({ name: '', email: '', company: '', message: '' });

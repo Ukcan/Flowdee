@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { ButtonPrimary } from '../Button/Primary';
-import { AUDIT_LINK } from '../../constants/links';
+import { openAuditLink } from '../../constants/links';
 
 /**
  * Hero — optimisée conversion (offre d'audit 890 €).
@@ -28,7 +28,7 @@ export function HeroSection() {
       : { initial: { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5, delay } };
 
   const openAuditCheckout = () => {
-    window.location.href = AUDIT_LINK;
+    openAuditLink();
   };
   const openCalendar = () => {
     window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
