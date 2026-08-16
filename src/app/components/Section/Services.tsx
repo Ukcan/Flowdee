@@ -31,6 +31,16 @@ interface ServiceData {
 }
 
 /**
+ * Nombre de livrables laissés sur la carte fermée.
+ *
+ * La carte doit tenir en entier dans l'écran : c'est la condition pour que les
+ * trois offres se comparent d'un regard, ce qui est tout l'intérêt d'une
+ * section de tarifs. Trois livrables suffisent à situer l'offre ; le reste
+ * relève de la vérification et attend dans le dépliant.
+ */
+const VISIBLE_DELIVERABLES = 3;
+
+/**
  * Dépliant de précisions d'une carte d'offre.
  *
  * La carte portait toutes les précisions d'un bloc : la liste des livrables
@@ -52,10 +62,20 @@ interface ServiceData {
  * - `prefers-reduced-motion` coupe la transition : le contenu apparaît d'un
  *   coup, sans mouvement de hauteur.
  */
-function CardDetails({ items }: { items: readonly string[] }) {
+function CardDetails({
+  deliverables,
+  forWho,
+  details,
+}: {
+  deliverables: readonly string[];
+  forWho?: string;
+  details?: readonly string[];
+}) {
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
   const panelId = useId();
+
+  if (!deliverables.length && !forWho && !details?.length) return null;
 
   return (
     <div className="mb-5">
@@ -72,7 +92,7 @@ function CardDetails({ items }: { items: readonly string[] }) {
           focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0
         "
       >
-        {open ? 'Masquer le détail' : 'Voir le détail'}
+        {open ? 'Masquer le détail' : 'Voir tout le détail'}
         <CaretDown
           size={13}
           weight="bold"
@@ -88,13 +108,43 @@ function CardDetails({ items }: { items: readonly string[] }) {
         <div
           className={`overflow-hidden ${reduce ? '' : 'transition-[visibility] duration-300'} ${open ? 'visible' : 'invisible'}`}
         >
-          <ul className="mt-2 space-y-2.5 border-t border-border-0 pt-4">
-            {items.map((d) => (
-              <li key={d} className="font-body text-[12px] leading-[1.6] text-text-muted">
-                {d}
-              </li>
-            ))}
-          </ul>
+          <div className="mt-2 border-t border-border-0 pt-4 space-y-4">
+            {/* Suite des livrables — même traitement que ceux restés visibles :
+                ce sont les mêmes éléments, seule leur place change. */}
+            {deliverables.length > 0 && (
+              <ul className="space-y-3">
+                {deliverables.map((d) => (
+                  <li key={d} className="flex items-start gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 bg-accent-primary/10 text-accent-primary"
+                    >
+                      <Check size={12} weight="bold" />
+                    </span>
+                    <span className="font-body text-[14px] text-text-secondary font-normal">
+                      {d}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {forWho && (
+              <p className="font-body text-[12px] text-text-muted font-normal border-l border-border-1 pl-4">
+                {forWho}
+              </p>
+            )}
+
+            {details && details.length > 0 && (
+              <ul className="space-y-2.5">
+                {details.map((d) => (
+                  <li key={d} className="font-body text-[12px] leading-[1.6] text-text-muted">
+                    {d}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -335,16 +385,11 @@ export function ServicesSection() {
                   {service.description}
                 </p>
 
-                {/* "Pour qui" */}
-                {service.forWho && (
-                  <p className="font-body text-[12px] text-text-muted font-normal mb-5 border-l border-border-1 pl-4">
-                    {service.forWho}
-                  </p>
-                )}
-
-                {/* Deliverables */}
+                {/* Livrables — les premiers seulement. La carte doit tenir en
+                    entier dans l'écran pour que les trois offres se comparent ;
+                    le reste part dans le dépliant, sur la carte, pas ailleurs. */}
                 <div className="space-y-3 mb-5 flex-grow">
-                  {service.deliverables.map((deliverable, idx) => (
+                  {service.deliverables.slice(0, VISIBLE_DELIVERABLES).map((deliverable, idx) => (
                     <div key={idx} className="flex items-start gap-3">
                       <div
                         className="
@@ -361,10 +406,13 @@ export function ServicesSection() {
                   ))}
                 </div>
 
-                {/* Précisions repliées — rendues seulement là où il y en a. */}
-                {service.details && service.details.length > 0 && (
-                  <CardDetails items={service.details} />
-                )}
+                {/* Tout le détail de l'offre : les livrables restants, à qui
+                    elle s'adresse, et les précisions de périmètre. */}
+                <CardDetails
+                  deliverables={service.deliverables.slice(VISIBLE_DELIVERABLES)}
+                  forWho={service.forWho}
+                  details={service.details}
+                />
 
                 {/* Micro-proof */}
                 <p
