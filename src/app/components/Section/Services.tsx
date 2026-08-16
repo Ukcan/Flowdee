@@ -66,12 +66,17 @@ function CardDetails({
   deliverables,
   forWho,
   details,
+  open,
+  onToggle,
 }: {
   deliverables: readonly string[];
   forWho?: string;
   details?: readonly string[];
+  /* État remonté à la section : la grille doit savoir qu'une carte est
+     ouverte pour cesser d'étirer les autres (voir `anyOpen` plus bas). */
+  open: boolean;
+  onToggle: () => void;
 }) {
-  const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
   const panelId = useId();
 
@@ -81,7 +86,7 @@ function CardDetails({
     <div className="mb-5">
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={onToggle}
         aria-expanded={open}
         aria-controls={panelId}
         className="
@@ -153,6 +158,19 @@ function CardDetails({
 
 export function ServicesSection() {
   const { t } = useTranslation();
+
+  /* Quelles cartes ont leur détail déplié.
+     Cet état vit ici, et non dans chaque dépliant, parce que la grille en
+     dépend : tant que tout est replié, elle étire les cartes à hauteur égale
+     — c'est ce qui garantit des bas de cartes alignés même si un contenu
+     s'allonge un jour. Dès qu'un détail s'ouvre, l'étirement devient nuisible :
+     il imposait la hauteur de la carte ouverte aux deux autres, qui se
+     retrouvaient avec 400px de vide. La grille repasse alors en `items-start`,
+     et seule la carte ouverte grandit. */
+  const [openCards, setOpenCards] = useState<Record<string, boolean>>({});
+  const anyOpen = Object.values(openCards).some(Boolean);
+  const toggleCard = (plan: string) =>
+    setOpenCards((prev) => ({ ...prev, [plan]: !prev[plan] }));
 
   const services: ServiceData[] = [
     {
@@ -323,7 +341,7 @@ export function ServicesSection() {
         </div>
 
         {/* Cards grid — 3 columns desktop, 2 tablet, 1 mobile */}
-        <div className="services-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-7 mb-16">
+        <div className={`services-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-7 mb-16 ${anyOpen ? 'items-start' : 'items-stretch'}`}>
           {services.map((service, index) => {
             const isFeatured = service.featured;
 
@@ -414,6 +432,8 @@ export function ServicesSection() {
                   deliverables={service.deliverables.slice(VISIBLE_DELIVERABLES)}
                   forWho={service.forWho}
                   details={service.details}
+                  open={!!openCards[service.plan]}
+                  onToggle={() => toggleCard(service.plan)}
                 />
 
                 {/* Micro-proof */}
