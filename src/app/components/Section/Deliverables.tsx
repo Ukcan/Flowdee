@@ -160,11 +160,25 @@ export function DeliverablesSection() {
                 </div>
 
                 <div className="relative pb-2">
-                  {/* Chiffre fantôme — donne l'échelle et rythme la progression.
-                      Purement graphique : l'ordre reste porté par <ol>/<li>. */}
+                  {/* Chiffre de repère — donne l'échelle et rythme la
+                      progression. Purement graphique : l'ordre reste porté par
+                      <ol>/<li>.
+
+                      Il était posé sur la colonne de texte et croisait à la
+                      fois le titre et la description : à 96px, ses pleins
+                      traversaient les lettrages des deux éléments les plus
+                      importants de l'étape. Une opacité de 10% n'y change rien,
+                      c'est la superposition qui brouille, pas le contraste.
+
+                      Il passe donc dans la marge, calé à droite juste avant la
+                      colonne de texte (`right-full`), à hauteur du titre. Il y
+                      croise le tracé, ce qui le rattache visuellement au fil
+                      plutôt qu'au texte. Taille réduite en conséquence : hors
+                      du texte, il n'a plus besoin d'être écrasant pour se lire
+                      comme un repère. */}
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none select-none absolute -top-7 md:-top-9 -left-2 font-display font-bold leading-none text-[72px] md:text-[96px] text-text-primary/[0.10] tabular-nums"
+                    className="pointer-events-none select-none absolute right-full mr-2 md:mr-3 -top-3 md:-top-8 font-display font-bold leading-none text-[40px] md:text-[64px] text-text-primary/[0.10] tabular-nums"
                   >
                     {String(i + 1).padStart(2, '0')}
                   </span>
