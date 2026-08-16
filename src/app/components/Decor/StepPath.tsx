@@ -120,19 +120,26 @@ export function StepPath({
     const update = () => {
       const rect = container.getBoundingClientRect();
       const vh = window.innerHeight || 1;
-      /* Une seule ligne de référence, à 85% de la hauteur d'écran : la
-         progression démarre quand le haut de la liste la franchit et s'achève
-         quand son bas la franchit à son tour.
+      /* La progression démarre dès que le haut de la liste touche le bas de
+         l'écran, et non plus à 85% de sa hauteur : les premières étapes sont
+         déjà en place quand la section arrive, au lieu de se dévoiler une fois
+         qu'on la regarde.
 
-         L'ancienne fenêtre exigeait que le bas de la liste remonte jusqu'à 60%
-         de l'écran pour s'achever. Sur une liste plus courte que la fenêtre,
-         cela laissait une plage entière où tout était affiché mais où la
-         dernière étape restait à l'opacité 0 — un trou visible en bas de
-         section, alors même que le contenu était sous les yeux. Le fil ne peut
-         pas finir après que le contenu a fini d'entrer. */
-      const line = vh * 0.85;
-      const span = Math.max(1, rect.height);
-      const p = Math.min(1, Math.max(0, (line - rect.top) / span));
+         Les deux versions précédentes finissaient trop tard. La première
+         attendait que le bas de la liste remonte à 60% de l'écran ; la seconde,
+         qu'il franchisse 85%. Dans les deux cas, sur une liste plus courte que
+         la fenêtre, il restait une plage où le contenu était sous les yeux mais
+         la dernière étape encore masquée — le trou en bas de section. */
+      const line = vh;
+      const span = Math.max(1, rect.height + vh * 0.1);
+      let p = Math.min(1, Math.max(0, (line - rect.top) / span));
+
+      /* Garantie explicite, indépendante du calcul ci-dessus : dès que la liste
+         tient entièrement dans la fenêtre, la progression est achevée. Aucune
+         étape ne peut rester invisible alors qu'elle occupe l'écran. C'est la
+         règle que la formule doit servir ; l'inscrire evite qu'un futur
+         ajustement de seuil la casse à nouveau. */
+      if (rect.top >= 0 && rect.bottom <= vh) p = 1;
       path.style.strokeDashoffset = String(length * (1 - p));
       onProgress?.(p);
     };
