@@ -649,8 +649,16 @@ html {
   to   { transform: translateX(-50%); }
 }
 
+/* Le défilement ne faisait que ralentir (60s au lieu de 30s) quand le visiteur
+   demande moins de mouvement : un mouvement perpétuel plus lent reste un
+   mouvement perpétuel. Il s'arrête désormais, et la piste revient à sa
+   position d'origine pour que la première série reste lisible — c'est elle
+   qui porte le contenu, la seconde n'existe que pour boucler la boucle. */
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation-duration: 60s; }
+  .marquee-track {
+    animation: none;
+    transform: none;
+  }
 }
 
 /* Subtle hairline grid — "technical/precise" calm background (static) */

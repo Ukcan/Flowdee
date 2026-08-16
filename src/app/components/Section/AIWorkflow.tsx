@@ -19,7 +19,7 @@ const AI_OUTPUTS = [
   { key: 'interviews', text: "Synthèse d'interviews assistée par IA" },
   { key: 'microcopy', text: 'Variantes de microcopy optimisées' },
   { key: 'states', text: "Génération d'états (empty, error, loading)" },
-  { key: 'specs', text: 'Draft de specs structurées' },
+  { key: 'specs', text: 'Première version des spécifications' },
 ];
 
 export function AIWorkflowSection() {

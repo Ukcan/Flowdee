@@ -1,7 +1,7 @@
 import React from 'react';
 import { Envelope as Mail, Phone, MapPin } from '@phosphor-icons/react';
 import { useTranslation } from '../../contexts/LanguageContext';
-import { CTA_PRIMARY, CTA_SECONDARY } from '../../constants/ctaCopy';
+import { CTA } from '../../constants/offer';
 import { CALENDAR_LINK, openAuditLink } from '../../constants/links';
 import { ButtonPrimary } from '../Button/Primary';
 import { ButtonSecondary } from '../Button/Secondary';
@@ -68,11 +68,11 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
             <LogoFlowdee />
             
             <div className="space-y-3">
-              <a href="mailto:contact@flowdee.fr" className="flex items-center gap-2 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-secondary hover:text-accent-primary transition-all group">
+              <a href="mailto:contact@flowdee.fr" className="inline-flex items-center gap-2 min-h-[44px] py-1 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-secondary hover:text-accent-primary transition-all group rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-base)]">
                 <Mail size={16} weight="duotone" className="w-4 h-4 shrink-0 text-accent-primary group-hover:opacity-70 transition-opacity" />
                 <span>contact@flowdee.fr</span>
               </a>
-              <a href="tel:+33630699273" className="flex items-center gap-2 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-secondary hover:text-accent-primary transition-all group">
+              <a href="tel:+33630699273" className="inline-flex items-center gap-2 min-h-[44px] py-1 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-secondary hover:text-accent-primary transition-all group rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-base)]">
                 <Phone size={16} weight="duotone" className="w-4 h-4 shrink-0 text-accent-primary group-hover:opacity-70 transition-opacity" />
                 <span>06 30 69 92 73</span>
               </a>
@@ -170,21 +170,24 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
           </div>
         </div>
 
-        {/* Global CTAs */}
+        {/* La hiérarchie était inversée par rapport au reste du site : l'appel
+            en bouton principal, l'achat en secondaire. Le pied de page
+            désignait donc une action prioritaire différente de celle du hero et
+            de la section Offres. */}
         <div className="pt-12 pb-12 border-t border-border-0 flex flex-col sm:flex-row justify-center items-center gap-6">
           <ButtonPrimary
+            onClick={() => openAuditLink()}
+            size="l"
+            className="px-12"
+          >
+            {CTA.audit}
+          </ButtonPrimary>
+          <ButtonSecondary
             onClick={() => window.dispatchEvent(new CustomEvent('flowdee:open-calendar'))}
             size="l"
             className="px-12"
           >
-            {CTA_PRIMARY.label}
-          </ButtonPrimary>
-          <ButtonSecondary
-            onClick={openAuditLink}
-            size="l"
-            className="px-12"
-          >
-            {CTA_SECONDARY.label}
+            {CTA.call}
           </ButtonSecondary>
         </div>
 

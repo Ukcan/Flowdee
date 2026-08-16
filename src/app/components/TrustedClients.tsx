@@ -18,7 +18,7 @@ export function TrustedClients() {
       /* Rythme volontairement serré : cette section est une respiration entre
          le hero et le diagnostic, pas un chapitre à part entière. */
       className="py-16 md:py-20 bg-bg-base border-t border-border-1 relative overflow-hidden"
-      aria-label="Trusted clients"
+      aria-label="Ils nous font confiance"
     >
       <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
         <motion.div

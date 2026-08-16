@@ -8,6 +8,7 @@ import svgPaths from '../imports/svg-sg0ezcs3e9';
 import { useTranslation } from '../contexts/LanguageContext';
 import { CTA_PRIMARY, CTA_SECONDARY } from '../constants/ctaCopy';
 import { CALENDAR_LINK, openAuditLink } from '../constants/links';
+import { CTA, AUDIT_REASSURANCE } from '../constants/offer';
 
 function LogoFlowdee() {
   return (
@@ -145,7 +146,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
           ? 'bg-surface-0/95 backdrop-blur-xl border-border-0' 
           : 'bg-transparent border-transparent'
       }`}>
-        <nav className="w-full max-w-[1440px] mx-auto px-8 md:px-16 flex items-center justify-between" aria-label="Main navigation">
+        <nav className="w-full max-w-[1440px] mx-auto px-8 md:px-16 flex items-center justify-between" aria-label="Navigation principale">
           {/* Logo Texte */}
           <div className="flex items-center h-8">
             <LogoFlowdee />
@@ -186,11 +187,13 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
             {/* Action secondaire discrète : réserver un appel */}
             <button
               onClick={openCalendar}
-              className="inline-flex items-center gap-1.5 font-body text-[13px] font-medium text-text-secondary hover:text-accent-primary underline-offset-4 hover:underline rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-base)]"
-              aria-label="Réserver un appel de 30 minutes"
+              /* Cible de 21px de haut, sous le minimum de 24 (WCAG 2.5.8).
+                 La barre fait 64px : la porter à 44 ne change rien à la mise
+                 en page, les éléments étant centrés verticalement. */
+              className="inline-flex items-center gap-1.5 min-h-[44px] px-1 font-body text-[13px] font-medium text-text-secondary hover:text-accent-primary underline-offset-4 hover:underline rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-base)]"
             >
               <PhoneCall size={16} weight="duotone" />
-              Réserver un appel
+              {CTA.call}
             </button>
 
             {/* CTA primaire dominant : commander l'audit */}
@@ -198,9 +201,8 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
               onClick={openAudit}
               size="s"
               className="ml-2"
-              aria-label="Commander l'audit à 890 euros"
             >
-              Commander mon audit — 890 €
+              {CTA.audit}
             </ButtonPrimary>
           </div>
 
@@ -209,7 +211,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="w-[44px] h-[44px] flex items-center justify-center rounded-xl text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-base)] hover:bg-state-hover-bg transition-colors"
-              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-label={mobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
               aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -231,7 +233,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
             <button
               onClick={() => setMobileMenuOpen(false)}
               className="self-end w-[44px] h-[44px] flex items-center justify-center border border-border-0 rounded-xl text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0 relative z-10"
-              aria-label="Close menu"
+              aria-label="Fermer le menu"
             >
               <X size={24} />
             </button>
@@ -266,10 +268,10 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
                 size="l"
                 className="w-full"
               >
-                Commander mon audit — 890 €
+                {CTA.audit}
               </ButtonPrimary>
               <p className="font-body text-[11px] text-center text-text-muted">
-                Paiement sécurisé · Livraison sous 3 à 5 jours
+                {AUDIT_REASSURANCE}
               </p>
               {/* Action secondaire discrète : réserver un appel */}
               <button
@@ -279,7 +281,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
                 }}
                 className="w-full min-h-[44px] font-body text-[15px] text-text-secondary hover:text-accent-primary underline underline-offset-4 decoration-border-1 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
               >
-                Réserver un appel
+                {CTA.call}
               </button>
             </div>
           </motion.div>

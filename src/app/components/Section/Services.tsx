@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Check, PhoneCall, ArrowRight, Star } from '@phosphor-icons/react';
+import { Check, PhoneCall, ArrowRight } from '@phosphor-icons/react';
 import { ParallaxHeading } from '../Decor/ParallaxHeading';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { ButtonPrimary } from '../Button/Primary';
 import { ButtonSecondary } from '../Button/Secondary';
 import { CALENDAR_LINK, openAuditLink } from '../../constants/links';
+import { CTA } from '../../constants/offer';
 
 interface ServiceData {
   plan: string;
@@ -29,23 +30,31 @@ export function ServicesSection() {
   const services: ServiceData[] = [
     {
       plan: 'Audit',
-      timeline: '3–5\u00A0JOURS',
+      /* Le delai apparaissait ici sous une troisieme forme (« 3–5 jours »),
+         alors que la carte l'annonce deja plus bas. Une seule formulation. */
+      timeline: 'SOUS 5\u00A0JOURS OUVRÉS',
       title: 'Audit UX & Conversion',
       price: '890\u00A0€',
-      description: 'Arrêtez de perdre des visiteurs sans savoir pourquoi. En 5 jours, vous repartez avec un diagnostic complet et un plan d’action prêt à appliquer — pas juste une liste de remarques.',
-      forWho: 'Pour : une landing page, un onboarding, un checkout ou un parcours critique.',
+      /* « diagnostic complet » sur un perimetre borne : les deux mots se
+         contredisent. Le perimetre passe en tete, avant le benefice. */
+      description: 'Arrêtez de perdre des visiteurs sans savoir pourquoi. Sur un parcours critique, une landing page ou jusqu’à 5\u00A0écrans/pages, vous repartez avec un diagnostic précis et un plan d’action prêt à appliquer — pas juste une liste de remarques.',
+      forWho: 'Pour\u00A0: une landing page, un onboarding, un checkout ou un parcours critique. Pour un site plus large, le parcours ayant le plus d’impact est priorisé.',
       deliverables: [
-        'Audit heuristique UX',
-        'Contrôles SEO UX & accessibilité WCAG',
-        'Problèmes priorisés impact / effort',
+        'Problèmes UX priorisés et recommandations actionnables',
+        'Contrôles SEO UX',
+        'Contrôles d’accessibilité WCAG\u00A02.2\u00A0AA sur le périmètre audité',
+        'Microcopy prioritaire réécrite',
         '1 écran clé corrigé dans Figma',
+        'Rapport final priorisé',
       ],
-      ctaPrimaryLabel: 'Commander l\u2019audit\u00A0— 890\u00A0€',
+      ctaPrimaryLabel: CTA.audit,
       ctaPrimaryAction: 'audit',
-      ctaSecondaryLabel: 'Poser mes questions',
+      /* Ouvrait le meme calendrier que « Reserver un appel — 30 min »
+         ailleurs sur la page : deux libelles pour une seule action. */
+      ctaSecondaryLabel: CTA.call,
       ctaSecondaryAction: 'calendar',
       featured: false,
-      microProof: 'Livré sous 5\u00A0jours\u00A0\u2022\u00A0Jusqu\u2019à 5\u00A0écrans',
+      microProof: 'Sous 5\u00A0jours ouvrés\u00A0\u2022\u00A0Jusqu\u2019à 5\u00A0écrans/pages',
     },
     {
       plan: 'Sprint',
@@ -58,11 +67,13 @@ export function ServicesSection() {
         'Cadrage + user flow',
         'Wireframes + prototype interactif',
         'Tests avec 5 utilisateurs + itération',
-        'UI finale + handoff Figma',
+        'UI finale + transmission Figma aux dev',
       ],
-      ctaPrimaryLabel: 'Réserver un appel\u00A0— 30\u00A0min',
+      /* Le bouton principal ne disait pas de quoi on allait parler : les
+         trois offres portaient le meme « Reserver un appel ». */
+      ctaPrimaryLabel: CTA.sprint,
       ctaPrimaryAction: 'calendar',
-      ctaSecondaryLabel: 'Voir les cas clients',
+      ctaSecondaryLabel: CTA.caseStudy,
       ctaSecondaryAction: 'caseStudies',
       featured: true,
       microProof: 'Prototype testé et itéré\u00A0\u2022\u00A05\u00A0utilisateurs',
@@ -78,12 +89,15 @@ export function ServicesSection() {
         'UX/UI & conception de features',
         'Tests utilisateurs & optimisation',
         'Design System & composants',
-        'Handoff Dev & documentation',
+        'Transmission aux dev & documentation',
       ],
-      ctaPrimaryLabel: 'Réserver un appel\u00A0— 30\u00A0min',
+      ctaPrimaryLabel: CTA.fractional,
       ctaPrimaryAction: 'calendar',
-      ctaSecondaryLabel: 'Demander un devis',
-      ctaSecondaryAction: 'contact',
+      /* « Demander un devis » descendait au formulaire de contact alors
+         que le prix est affiche : c'etait un troisieme chemin vers la meme
+         conversation. */
+      ctaSecondaryLabel: CTA.call,
+      ctaSecondaryAction: 'calendar',
       featured: false,
       microProof: '4\u00A0jours/mois réservés\u00A0\u2022\u00A0Engagement flexible',
     },
@@ -122,7 +136,7 @@ export function ServicesSection() {
     <section
       id="services"
       className="services-blueprint-section relative py-24 md:py-32 overflow-hidden bg-surface-1 border-t border-border-0"
-      aria-label="Service packages"
+      aria-label="Offres et tarifs"
     >
       {/* Container resserré face à Deliverables (1320) : la comparaison se lit
           mieux cadrée, et le changement de largeur marque la frontière. */}
@@ -140,6 +154,23 @@ export function ServicesSection() {
               {t.services.title}
             </motion.h2>
           </ParallaxHeading>
+
+          {/* Les trois offres se lisaient comme trois produits posés côte à
+              côte, sans indiquer lequel vient quand. Cette ligne donne l'ordre
+              — identifier, puis concevoir et tester, puis accompagner — sans
+              ouvrir une section de plus. */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="font-body text-[15px] md:text-[16px] leading-[1.7] text-text-secondary text-center max-w-[680px] mx-auto mt-5"
+          >
+            Trois étapes qui s’enchaînent : l’<strong className="font-medium text-text-primary">audit</strong> identifie
+            et priorise, le <strong className="font-medium text-text-primary">Product Sprint</strong> conçoit, teste et
+            corrige, le <strong className="font-medium text-text-primary">Fractional Product Designer</strong> accompagne
+            l’équipe dans la durée. Chacune se prend seule.
+          </motion.p>
         </div>
 
         {/* Cards grid — 3 columns desktop, 2 tablet, 1 mobile */}
@@ -163,7 +194,12 @@ export function ServicesSection() {
                   }
                 `}
               >
-                {/* Featured badge — inside card, top-right */}
+                {/* Le badge annonçait « Offre recommandée » sur le Product
+                    Sprint, alors que tout le haut de page pousse l'Audit comme
+                    point d'entrée : le visiteur recevait deux recommandations
+                    contradictoires, sans qu'aucune n'explique pourquoi.
+                    Il indique désormais à quel moment l'offre correspond — une
+                    information, plus une préférence non justifiée. */}
                 {isFeatured && (
                   <div className="absolute top-3 right-3">
                     <span
@@ -175,8 +211,7 @@ export function ServicesSection() {
                         rounded-full
                       "
                     >
-                      <Star size={10} weight="fill" aria-hidden="true" className="text-accent-primary" />
-                      Offre recommandée
+                      Pour concevoir + tester
                     </span>
                   </div>
                 )}

@@ -317,22 +317,26 @@ export const translations: Record<Language, Translations> = {
       ctaSecondary: 'Case studies',
     },
 
+    /* Bloc hérité : plus aucun composant vivant ne le lit — la section Offres
+       porte ses propres données. Il est conservé (politique de non-suppression)
+       mais réaligné sur l'offre en vigueur : il exposait encore un audit à
+       279 € et un délai de 72 h, qui partaient dans le bundle livré. */
     services: {
       title: 'De l’audit rapide à l’accompagnement continu',
       timeline: {
-        audit: '72h–5 jours',
-        sprint: '1–3 semaines',
+        audit: 'Sous 5 jours ouvrés',
+        sprint: '2 semaines',
         partner: 'Mensuel',
       },
       cardTitle: {
-        audit: 'Audit & Quick Wins',
-        sprint: 'Sprint Design',
-        partner: 'Design Partner',
+        audit: 'Audit UX & Conversion',
+        sprint: 'Product Sprint + Tests',
+        partner: 'Fractional Product Designer',
       },
       price: {
-        auditFrom: 'À partir de 279€',
-        sprintFrom: 'À partir de 2 500€',
-        partnerQuote: 'Sur devis',
+        auditFrom: '890 €',
+        sprintFrom: '3 900 €',
+        partnerQuote: 'Dès 2 200 €/mois',
       },
       deliverables: {
         auditHeuristic: 'Audit heuristique + a11y',
@@ -348,7 +352,10 @@ export const translations: Record<Language, Translations> = {
         designSystem: 'Design System',
         designOps: 'DesignOps',
       },
-      ctaQuote: 'Demander un devis',
+      /* Cle heritee, non lue : « Demander un devis » n'existe plus dans la
+         taxonomie d'actions (le prix est affiche, la conversation passe par
+         l'appel). Alignee pour ne pas reintroduire un libelle concurrent. */
+      ctaQuote: 'Reserver un appel de 30 min',
     },
 
     problems: {
@@ -380,13 +387,16 @@ export const translations: Record<Language, Translations> = {
         ecommerce: 'E-commerce',
         saasB2C: 'SaaS B2C',
       },
+      /* Ces libelles portaient des pourcentages qu'aucune donnee du projet
+         n'etaye. Cles conservees (non lues par les composants vivants), mais
+         ramenees a ce qui a reellement ete livre. */
       metrics: {
-        activationIncrease: '+40% activation',
-        dropOffReduction: '-25% drop-off',
-        conversionIncrease: '+32% conversion',
-        cartAbandonmentReduction: '-18% abandon panier',
-        engagementIncrease: '+55% engagement',
-        supportReduction: '-40% questions support',
+        activationIncrease: 'Parcours d\u2019activation simplifie',
+        dropOffReduction: 'Points de friction prioritaires corriges',
+        conversionIncrease: 'Tunnel d\u2019achat raccourci',
+        cartAbandonmentReduction: 'Paiements rapides integres',
+        engagementIncrease: 'Parcours gamifie',
+        supportReduction: 'Correction automatisee',
       },
       deliverables: {
         heuristicAudit: 'Audit heuristique',
@@ -423,11 +433,11 @@ export const translations: Record<Language, Translations> = {
         description: 'Un SaaS B2B de gestion de projet rencontrait un taux d\'abandon élevé pendant l\'onboarding. L\'objectif était de simplifier le parcours d\'activation pour permettre aux nouveaux utilisateurs de créer leur premier projet en moins de 5 minutes.',
         challenge: 'Les utilisateurs abandonnaient face à un formulaire complexe de 8 étapes avec des champs techniques difficiles à comprendre.',
         solution: 'Simplification du parcours à 3 étapes essentielles, ajout de templates pré-configurés, et création d\'un assistant guidé avec des tooltips contextuels générés par IA.',
+        /* Chiffres retires : aucune mesure ne les documente. */
         results: [
-          'Temps d\'activation réduit de 12 à 7 minutes',
-          'Taux de complétion passé de 45% à 85%',
-          'Drop-off réduit de 25%',
-          '40% d\'augmentation des comptes actifs',
+          'Formulaire recentre sur les etapes essentielles',
+          'Templates pre-configures pour demarrer sans parametrage',
+          'Parcours valide par tests utilisateurs avant developpement',
         ],
         timeline: '6 semaines',
       },
@@ -437,10 +447,9 @@ export const translations: Record<Language, Translations> = {
         challenge: 'Le tunnel d\'achat comportait 5 pages avec de nombreux champs obligatoires, causant 68% d\'abandon sur mobile.',
         solution: 'Refonte complète en checkout one-page, auto-complétion intelligente des adresses, intégration Apple Pay/Google Pay, et réassurance dynamique (stock, livraison, sécurité).',
         results: [
-          'Conversion mobile passée de 1.8% à 2.4%',
-          'Abandon panier réduit de 68% à 50%',
-          'Temps de checkout réduit de 4min à 1min30',
-          '+470K€ de revenus mensuels additionnels',
+          'Tunnel ramene de 5 pages a un checkout unique',
+          'Champs obligatoires reduits au strict necessaire',
+          'Apple Pay et Google Pay integres au parcours mobile',
         ],
         timeline: '8 semaines',
       },
@@ -450,10 +459,9 @@ export const translations: Record<Language, Translations> = {
         challenge: 'Interface dense avec 40+ métriques affichées simultanément, pas de hiérarchie visuelle, graphiques peu lisibles, absence de guidance.',
         solution: 'Réorganisation en 3 vues (Vue d\'ensemble, Progression, Détails), priorisation des 5 métriques clés, visualisations simplifiées avec tooltips contextuels IA, et système de recommandations personnalisées.',
         results: [
-          'Temps passé sur le dashboard +55%',
-          'Questions support réduites de 40%',
-          'Taux de rétention J30 passé de 32% à 51%',
-          'NPS augmenté de 28 à 47',
+          'Dashboard reorganise en 3 vues distinctes',
+          '5 metriques cles priorisees sur les 40 affichees',
+          'Visualisations simplifiees et infobulles contextuelles',
         ],
         timeline: '10 semaines',
       },
@@ -507,7 +515,7 @@ export const translations: Record<Language, Translations> = {
       questions: {
         q1: {
           question: 'Quels sont vos délais de livraison ?',
-          answer: 'Cela dépend du format choisi. Un audit & quick wins prend 72h à 5 jours, un sprint design 1 à 3 semaines, et le design partner est un engagement mensuel. Nous communiquons toujours clairement les délais dès le début du projet et nous nous engageons à les respecter.',
+          answer: 'Cela dépend du format choisi. L’Audit UX & Conversion est livré sous 5 jours ouvrés, le Product Sprint dure 2 semaines, et le Fractional Product Designer est un engagement mensuel. Le démarrage est confirmé sous 24 h après réception des éléments nécessaires.',
         },
         q2: {
           question: 'Comment garantissez-vous la confidentialité ?',
@@ -608,22 +616,24 @@ export const translations: Record<Language, Translations> = {
       ctaSecondary: 'Case studies',
     },
 
+    /* Legacy block — see the French counterpart: unused, but realigned so no
+       stale price or timeline ships in the bundle. */
     services: {
       title: 'From quick audit to ongoing partnership',
       timeline: {
-        audit: '72h–5 days',
-        sprint: '1–3 weeks',
+        audit: 'Within 5 business days',
+        sprint: '2 weeks',
         partner: 'Monthly',
       },
       cardTitle: {
-        audit: 'Audit & Quick Wins',
-        sprint: 'Design Sprint',
-        partner: 'Design Partner',
+        audit: 'UX & Conversion Audit',
+        sprint: 'Product Sprint + Tests',
+        partner: 'Fractional Product Designer',
       },
       price: {
-        auditFrom: 'From €279',
-        sprintFrom: 'From €2,500',
-        partnerQuote: 'Custom quote',
+        auditFrom: '€890',
+        sprintFrom: '€3,900',
+        partnerQuote: 'From €2,200/month',
       },
       deliverables: {
         auditHeuristic: 'Heuristic + a11y audit',
@@ -639,7 +649,7 @@ export const translations: Record<Language, Translations> = {
         designSystem: 'Design System',
         designOps: 'DesignOps',
       },
-      ctaQuote: 'Request a quote',
+      ctaQuote: 'Book a 30-min call',
     },
 
     problems: {
@@ -671,13 +681,14 @@ export const translations: Record<Language, Translations> = {
         ecommerce: 'E-commerce',
         saasB2C: 'SaaS B2C',
       },
+      /* See the French counterpart: percentages removed, no data backs them. */
       metrics: {
-        activationIncrease: '+40% activation',
-        dropOffReduction: '-25% drop-off',
-        conversionIncrease: '+32% conversion',
-        cartAbandonmentReduction: '-18% cart abandon',
-        engagementIncrease: '+55% engagement',
-        supportReduction: '-40% support questions',
+        activationIncrease: 'Simplified activation flow',
+        dropOffReduction: 'Priority friction points fixed',
+        conversionIncrease: 'Shortened purchase funnel',
+        cartAbandonmentReduction: 'Fast payment methods integrated',
+        engagementIncrease: 'Gamified journey',
+        supportReduction: 'Automated grading',
       },
       deliverables: {
         heuristicAudit: 'Heuristic audit',
@@ -714,11 +725,11 @@ export const translations: Record<Language, Translations> = {
         description: 'A B2B SaaS project management tool had a high abandonment rate during onboarding. The goal was to simplify the activation journey to enable new users to create their first project in under 5 minutes.',
         challenge: 'Users abandoned when faced with a complex 8-step form with difficult-to-understand technical fields.',
         solution: 'Simplified journey to 3 essential steps, added pre-configured templates, and created a guided assistant with AI-generated contextual tooltips.',
+        /* Figures removed: no measurement backs them. */
         results: [
-          'Activation time reduced from 12 to 7 minutes',
-          'Completion rate went from 45% to 85%',
-          'Drop-off reduced by 25%',
-          '40% increase in active accounts',
+          'Sign-up form refocused on essential steps',
+          'Pre-configured templates to start without setup',
+          'Flow validated through user testing before development',
         ],
         timeline: '6 weeks',
       },
@@ -728,10 +739,9 @@ export const translations: Record<Language, Translations> = {
         challenge: 'The purchase funnel had 5 pages with many required fields, causing 68% mobile abandonment.',
         solution: 'Complete redesign into one-page checkout, intelligent address auto-completion, Apple Pay/Google Pay integration, and dynamic reassurance (stock, delivery, security).',
         results: [
-          'Mobile conversion went from 1.8% to 2.4%',
-          'Cart abandonment reduced from 68% to 50%',
-          'Checkout time reduced from 4min to 1min30',
-          '+€470K additional monthly revenue',
+          'Funnel reduced from 5 pages to a single checkout',
+          'Required fields cut to the strict minimum',
+          'Apple Pay and Google Pay integrated into the mobile flow',
         ],
         timeline: '8 weeks',
       },
@@ -741,10 +751,9 @@ export const translations: Record<Language, Translations> = {
         challenge: 'Dense interface with 40+ metrics displayed simultaneously, no visual hierarchy, hard-to-read charts, lack of guidance.',
         solution: 'Reorganization into 3 views (Overview, Progress, Details), prioritization of 5 key metrics, simplified visualizations with AI contextual tooltips, and personalized recommendation system.',
         results: [
-          'Time spent on dashboard +55%',
-          'Support questions reduced by 40%',
-          'D30 retention rate went from 32% to 51%',
-          'NPS increased from 28 to 47',
+          'Dashboard reorganised into 3 distinct views',
+          '5 key metrics prioritised out of the 40 displayed',
+          'Simplified visualisations and contextual tooltips',
         ],
         timeline: '10 weeks',
       },
@@ -798,7 +807,7 @@ export const translations: Record<Language, Translations> = {
       questions: {
         q1: {
           question: 'What are your delivery timelines?',
-          answer: 'It depends on the chosen format. An audit & quick wins takes 72h to 5 days, a design sprint 1 to 3 weeks, and the design partner is a monthly engagement. We always communicate timelines clearly from the start and commit to meeting them.',
+          answer: 'It depends on the chosen format. The UX & Conversion Audit is delivered within 5 business days, the Product Sprint runs 2 weeks, and the Fractional Product Designer is a monthly engagement. Kick-off is confirmed within 24h of receiving the required materials.',
         },
         q2: {
           question: 'How do you ensure confidentiality?',

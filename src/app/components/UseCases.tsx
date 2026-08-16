@@ -3,31 +3,33 @@ import image_5d01d94ee99e37b8c24f102a36d51d884f769ccd from 'figma:asset/5d01d94e
 import image_527f60f73fe096905f75e234d997f79c2f990c15 from 'figma:asset/527f60f73fe096905f75e234d997f79c2f990c15.jpg';
 import neurolaboAnalysesWireframe from '../../assets/neurolabo-analyses-wireframe.jpg';
 import neurolaboAnalysesOptimise from '../../assets/neurolabo-analyses-optimise.jpg';
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ArrowsHorizontal, X } from '@phosphor-icons/react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { CTA_PRIMARY } from '../constants/ctaCopy';
 import { TechnicalLabel } from './TechnicalLabel';
 import { ButtonPrimary } from './Button/Primary';
 import { ButtonSecondary } from './Button/Secondary';
 import { SectionHeader } from './Layout/SectionHeader';
+import { CTA } from '../constants/offer';
 
 const featuredCase = {
   tag: 'EdTech SaaS',
   title: 'Simulation & Serious Game Dashboard',
-  headerTitle: 'ENGAGEMENT ÉTUDIANT EN FORTE HAUSSE',
+  headerTitle: 'APPRENTISSAGE GAMIFIÉ, CORRECTION AUTOMATISÉE',
   headerSubtitle: 'EdTech SaaS B2B2C',
   imageBefore: image_527f60f73fe096905f75e234d997f79c2f990c15,
   imageAfter: image_5d01d94ee99e37b8c24f102a36d51d884f769ccd,
   problemShort: 'Apprentissage passif & correction manuelle chronophage',
   actionShort: 'Gamification UX + Dashboard Analytics Professeur',
-  resultShort: 'Engagement en forte hausse, correction fortement réduite',
+  resultShort: 'Parcours d’apprentissage gamifié et correction automatisée côté professeur',
   scope: 'SaaS / Serious Game',
   duration: '12 semaines',
+  /* Ces libellés annonçaient des effets mesurés dont aucune donnée n'existe
+     dans le projet. Ils décrivent désormais ce qui a été livré. */
   metrics: [
-    { label: 'Engagement en forte hausse', positive: true },
-    { label: 'Temps de correction réduit', positive: true }
+    { label: 'Simulation gamifiée côté étudiant', positive: true },
+    { label: 'Correction automatisée côté professeur', positive: true }
   ],
   deliverables: [
     'User Flow Étudiant vs Prof',
@@ -40,10 +42,10 @@ const featuredCase = {
   challenge: 'Transformer un contenu pédagogique dense en expérience engageante, tout en fournissant aux professeurs un outil de suivi précis et automatisé.',
   solution: 'Interface de simulation immersive accessible sur desktop/tablette, couplée à un dashboard professeur automatisant les corrections et soulignant les points de blocage via data-viz.',
   results: [
-    'Engagement étudiant en forte hausse',
-    'Temps de correction fortement réduit',
-    'Taux de complétion fortement amélioré',
-    'Score moyen en hausse'
+    'Parcours étudiant repensé en simulation gamifiée',
+    'Correction manuelle remplacée par un dashboard automatisé',
+    'Points de blocage rendus visibles par data-visualisation',
+    'Design System gamifié livré et documenté'
   ],
   tools: ['Figma', 'Unity WebGL', 'React', 'GPT-4']
 };
@@ -68,16 +70,16 @@ const compareScreens = [
 const otherUseCases = [
   {
     tag: 'Application web SaaS',
-    title: 'Temps d\'activation nettement réduit',
+    title: 'Parcours d’activation simplifié',
     image: 'https://images.unsplash.com/photo-1646708198974-4c4893e8a2d7?auto=format&fit=crop&q=80&w=1080',
     problemShort: 'Onboarding trop complexe',
     actionShort: 'Parcours raccourci + templates',
-    resultShort: 'Activation nettement améliorée, drop-off réduit',
+    resultShort: 'Parcours d’activation simplifié et points de friction prioritaires corrigés',
     scope: 'Onboarding',
     duration: '6 semaines',
     metrics: [
-      { label: 'Activation nettement améliorée', positive: true },
-      { label: 'Drop-off réduit', positive: true }
+      { label: 'Parcours recentré sur les étapes essentielles', positive: true },
+      { label: 'Templates pré-configurés ajoutés', positive: true }
     ],
     deliverables: [
       { name: 'Audit heuristique' },
@@ -89,9 +91,9 @@ const otherUseCases = [
     challenge: 'Les utilisateurs abandonnaient face à un formulaire trop long et complexe.',
     solution: 'Simplification du parcours recentré sur les étapes essentielles et ajout de templates pré-configurés.',
     results: [
-      'Temps d\'activation nettement réduit',
-      'Taux de complétion fortement amélioré',
-      'Forte hausse des comptes actifs'
+      'Formulaire d’inscription réduit aux étapes essentielles',
+      'Templates pré-configurés pour démarrer sans configuration',
+      'Parcours validé par tests utilisateurs avant développement'
     ],
     tools: ['Figma', 'Notion', 'Hotjar', 'GPT-4']
   },
@@ -101,12 +103,12 @@ const otherUseCases = [
     image: image_14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71,
     problemShort: 'Fort taux d’abandon panier sur mobile',
     actionShort: 'Checkout one-page + Apple/Google Pay',
-    resultShort: 'Conversion mobile améliorée, abandon panier réduit',
+    resultShort: 'Tunnel ramené de 5 pages à un checkout unique, paiements rapides intégrés',
     scope: 'Checkout',
     duration: '8 semaines',
     metrics: [
-      { label: 'Conversion mobile améliorée', positive: true },
-      { label: 'Abandon panier réduit', positive: true }
+      { label: 'Checkout ramené à une seule page', positive: true },
+      { label: 'Apple Pay et Google Pay intégrés', positive: true }
     ],
     deliverables: [
       { name: 'User flow mapping' },
@@ -118,16 +120,31 @@ const otherUseCases = [
     challenge: 'Le tunnel d\'achat comportait 5 pages avec de nombreux champs obligatoires.',
     solution: 'Refonte complète en checkout one-page et intégration de méthodes de paiement rapides.',
     results: [
-      'Conversion mobile améliorée',
-      'Abandon panier nettement réduit',
-      'Revenus additionnels significatifs'
+      'Tunnel d’achat ramené de 5 pages à un checkout unique',
+      'Champs obligatoires réduits au strict nécessaire',
+      'Apple Pay et Google Pay intégrés au parcours mobile'
     ],
     tools: ['Figma', 'Google Analytics', 'Hotjar', 'Claude']
   }
 ];
 
+/**
+ * Comparateur avant/après.
+ *
+ * Le curseur ne se pilotait qu'au pointeur : aucun élément focusable, aucun
+ * rôle, aucune valeur exposée. Au clavier ou au lecteur d'écran, le composant
+ * n'existait pas, et les deux images restaient à moitié masquées sans moyen de
+ * révéler l'autre.
+ *
+ * Un `input type="range"` transparent recouvre la zone. Il apporte d'un coup le
+ * clavier (flèches, Origine/Fin), le glisser natif au doigt comme à la souris,
+ * et la sémantique attendue — plutôt qu'une réimplémentation partielle en
+ * `role="slider"`. Le rendu visuel est inchangé : l'ancien survol reste actif.
+ */
 function BeforeAfterSlider({ before, after }: { before: string; after: string }) {
   const [sliderPos, setSliderPos] = useState(50);
+  const inputId = useId();
+  const rounded = Math.round(sliderPos);
 
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
@@ -137,7 +154,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
   };
 
   return (
-    <div 
+    <div
       className="relative w-full aspect-[1600/782] cursor-ew-resize overflow-hidden select-none rounded-[16px] border border-border-0 bg-surface-1 shadow-panel"
       onMouseMove={handleMouseMove}
       onTouchMove={handleMouseMove}
@@ -146,22 +163,22 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
         <ImageWithFallback src={after} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 right-6 z-20">
           <span className="font-body text-[10px] bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
-            Optimisé
+            Après — optimisé
           </span>
         </div>
       </div>
-      <div 
+      <div
         className="absolute inset-0 border-r border-accent-primary z-10"
         style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
       >
         <ImageWithFallback src={before} alt="Interface avant refonte — version initiale" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 left-6 z-20">
           <span className="font-body text-[10px] bg-surface-0/75 backdrop-blur-md text-text-secondary border border-border-0 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
-            Wireframe
+            Avant — wireframe
           </span>
         </div>
       </div>
-      <div 
+      <div
         className="absolute top-0 bottom-0 w-[2px] bg-accent-primary z-20 pointer-events-none flex items-center justify-center"
         style={{ left: `${sliderPos}%` }}
       >
@@ -170,6 +187,32 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
           <div className="w-[1px] h-4 bg-accent-primary" />
         </div>
       </div>
+
+      {/* Commande réelle : invisible, mais focusable et annoncée.
+          `touch-action: pan-y` laisse le doigt faire défiler la page
+          verticalement — sans quoi le comparateur capturerait le geste et
+          bloquerait la lecture sur mobile. */}
+      <label htmlFor={inputId} className="sr-only">
+        Comparer l’avant et l’après
+      </label>
+      <input
+        id={inputId}
+        type="range"
+        min={0}
+        max={100}
+        step={1}
+        value={rounded}
+        onChange={(e) => setSliderPos(Number(e.target.value))}
+        aria-valuetext={`${rounded}% de la version initiale visible à gauche, le reste montre la version optimisée`}
+        className="peer absolute inset-0 z-30 h-full w-full cursor-ew-resize appearance-none bg-transparent opacity-0 outline-none"
+        style={{ touchAction: 'pan-y' }}
+      />
+      {/* L'anneau de focus se pose sur ce calque : la commande elle-même est
+          transparente, elle ne peut pas le porter. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-30 rounded-[16px] peer-focus-visible:ring-2 peer-focus-visible:ring-focus-ring peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-bg-base"
+      />
     </div>
   );
 }
@@ -264,7 +307,10 @@ export function UseCases() {
         {/* Détails — 3 colonnes à plat, séparées par des filets.
             Plus de carte englobante : moins de conteneurs imbriqués, plus de présence. */}
         <div className="max-w-[1320px] mx-auto px-8 md:px-16 mt-20 md:mt-24 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-12 items-start">
+          {/* Les trois colonnes tombaient à 182px de large dès 768px : trois
+              colonnes de prose illisibles. Elles n'apparaissent plus qu'à
+              partir de 1024px, où chacune dispose d'une mesure tenable. */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-10 gap-y-12 items-start">
             {/* Problème */}
             <div className="border-l-2 border-accent-primary pl-6">
               <h3 className="font-heading text-[13px] text-accent-primary uppercase tracking-[0.16em] mb-5" style={{ fontWeight: 500 }}>
@@ -300,21 +346,22 @@ export function UseCases() {
               </ul>
             </div>
 
-            {/* Impact */}
+            {/* Le bloc affichait « Impact observé » avec « Hausse » et
+                « Réduit » en gros corps : la forme d'une métrique, sans la
+                métrique. Un chiffre absent mis en scène comme un chiffre
+                présent est plus coûteux en crédibilité qu'un simple constat.
+                Il énonce désormais ce qui a été livré. */}
             <div className="border-l-2 border-border-0 pl-6">
               <h3 className="font-heading text-[13px] text-accent-primary uppercase tracking-[0.16em] mb-5" style={{ fontWeight: 500 }}>
-                Impact observé
+                Ce qui a changé
               </h3>
-              <dl className="space-y-5">
-                <div>
-                  <dd className="font-display text-[28px] text-accent-primary leading-none tracking-tight" style={{ fontWeight: 600 }}>Hausse</dd>
-                  <dt className="font-body text-[11px] font-medium uppercase tracking-[0.14em] text-text-muted mt-2">Engagement</dt>
-                </div>
-                <div>
-                  <dd className="font-display text-[28px] text-accent-primary leading-none tracking-tight" style={{ fontWeight: 600 }}>Réduit</dd>
-                  <dt className="font-body text-[11px] font-medium uppercase tracking-[0.14em] text-text-muted mt-2">Correction / sem</dt>
-                </div>
-              </dl>
+              <ul className="space-y-4">
+                {featuredCase.metrics.map((m) => (
+                  <li key={m.label} className="font-body text-[15px] leading-[1.6] text-text-primary">
+                    {m.label}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
@@ -324,7 +371,7 @@ export function UseCases() {
               onClick={() => setSelectedCase(featuredCase)}
               size="l"
             >
-              Voir l'étude de cas complète →
+              {CTA.caseStudy}
             </ButtonPrimary>
           </div>
         </div>
@@ -334,7 +381,7 @@ export function UseCases() {
       <section
         id="case-studies-list"
         className="py-24 md:py-32 bg-bg-base border-b border-border-1 relative overflow-hidden"
-        aria-label="Other client cases"
+        aria-label="Autres réalisations"
       >
         <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
           {/* Header compact : ces cas sont subordonnés au cas phare ci-dessus,
@@ -454,7 +501,7 @@ export function UseCases() {
             transition={{ delay: 0.4 }}
             className="flex flex-col sm:flex-row justify-center items-center gap-8 mt-16"
           >
-            <ButtonPrimary onClick={scrollToContact} size="l" className="px-12">Réserver un appel (30 min)</ButtonPrimary>
+            <ButtonPrimary onClick={scrollToContact} size="l" className="px-12">{CTA.call}</ButtonPrimary>
           </motion.div>
         </div>
       </section>

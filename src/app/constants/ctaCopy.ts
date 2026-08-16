@@ -1,19 +1,25 @@
 /**
- * CTA Copy Constants - Canonical source for all CTAs
- * Single source of truth for CTA labels and micro-copy
- * 
- * Usage:
- * import { CTA_PRIMARY, CTA_SECONDARY } from './ctaCopy';
+ * CTA Copy Constants
+ *
+ * Ce module ne fait plus que réexporter la taxonomie définie dans `./offer`,
+ * qui est désormais la seule source de vérité pour les libellés d'action et
+ * les chiffres de l'offre. Il portait un prix (890 €) et un délai (« 3-5j »)
+ * en dur, qui divergeaient déjà du reste du site.
+ *
+ * Conservé plutôt que supprimé : plusieurs composants l'importent encore.
+ * Pour tout nouveau code, importer directement `./offer`.
  */
 
+import { CTA, AUDIT_REASSURANCE } from './offer';
+
 export const CTA_PRIMARY = {
-  label: "Réserver un appel (30 min)",
-  subtext: "Sans engagement • Réponse sous 24h",
+  label: CTA.call,
+  subtext: 'Sans engagement · Réponse sous 24 h',
 } as const;
 
 export const CTA_SECONDARY = {
-  label: "Acheter l'audit (890€)",
-  subtext: "Livraison 3-5j • Paiement sécurisé",
+  label: CTA.audit,
+  subtext: AUDIT_REASSURANCE,
 } as const;
 
 // Legacy exports for backwards compatibility

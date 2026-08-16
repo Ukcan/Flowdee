@@ -25,17 +25,17 @@ const defaultPillars = [
   {
     key: 'conversion',
     title: 'CONVERSION & ACTIVATION',
-    description: 'Focus KPIs business mesurables. On ne lance pas sans hypothèses testables.',
+    description: 'Décisions guidées par des KPIs mesurables. On ne lance pas sans hypothèses testables.',
   },
   {
     key: 'ia-ux',
-    title: 'IA + UX HYBRID',
+    title: 'IA + EXPERTISE UX',
     description: 'IA accélère la prod (interviews → JSON structuré). UX décide (heuristiques, tests).',
   },
   {
     key: 'impact',
     title: 'IMPACT MESURABLE',
-    description: 'Des résultats orientés conversion, trackables et vérifiables sur vos KPIs.',
+    description: 'Des résultats orientés conversion, mesurables et vérifiables sur vos KPIs.',
   },
 ];
 

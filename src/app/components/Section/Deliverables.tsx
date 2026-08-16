@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'motion/react';
 import { ListChecks, Layout, TextAa, ShieldCheck } from '@phosphor-icons/react';
 import { StickySplit } from '../Layout/StickySplit';
 import { StepPath } from '../Decor/StepPath';
+import { AUDIT_SCOPE, AUDIT_SCOPE_NOTE } from '../../constants/offer';
 
 /**
  * Section/Deliverables — "Ce que vous recevez après l'audit"
@@ -26,14 +27,20 @@ const DELIVERABLES = [
   },
   {
     icon: <TextAa size={18} weight="duotone" aria-hidden="true" />,
-    title: 'Textes du site réécrits',
-    description: 'Titres, CTA, aides, erreurs, réassurances et FAQ.',
+    /* « Textes du site réécrits » engageait la totalité des contenus. Le
+       livrable porte sur la microcopy du périmètre audité. */
+    title: 'Microcopy prioritaire réécrite',
+    description: 'Titres, CTA, aides, erreurs, réassurances et FAQ du périmètre audité.',
   },
   {
     icon: <ShieldCheck size={18} weight="duotone" aria-hidden="true" />,
-    title: 'Checklist SEO & accessibilité',
+    /* Annonçait « répondre aux exigences européennes d'accessibilité » : une
+       checklist repère des écarts, elle ne vaut ni conformité ni certification.
+       Promettre l'un pour l'autre expose juridiquement le client comme le
+       prestataire. */
+    title: 'Contrôles SEO UX & accessibilité',
     description:
-      'Pour répondre aux exigences européennes d’accessibilité et sécuriser vos bases SEO : Hn, title, meta, contrastes, focus, labels, textes alternatifs.',
+      'Repérage des principaux écarts WCAG 2.2 AA sur le périmètre audité — contrastes, focus, clavier, labels, alternatives textuelles et cibles interactives — et bases SEO UX : Hn, title, meta.',
   },
 ] as const;
 
@@ -98,9 +105,19 @@ export function DeliverablesSection() {
               >
                 Vous repartez avec un plan clair, pas avec des remarques abstraites.
               </h2>
-              <p className="font-body text-[11px] uppercase tracking-[0.18em] text-text-muted mt-8 pt-8 border-t border-border-0">
-                4 volets d’analyse
-              </p>
+              {/* Le périmètre est rappelé ici, au plus près du détail du
+                  livrable : c'est le moment où le visiteur évalue ce qu'il
+                  achète, et où l'absence de limite se lisait comme une
+                  couverture illimitée. */}
+              <div className="mt-8 pt-8 border-t border-border-0">
+                <p className="font-body text-[11px] uppercase tracking-[0.18em] text-text-muted">
+                  4 volets d’analyse
+                </p>
+                <p className="font-body text-[14px] leading-[1.6] text-text-secondary mt-3">
+                  Périmètre : {AUDIT_SCOPE.charAt(0).toLowerCase() + AUDIT_SCOPE.slice(1)}.{' '}
+                  {AUDIT_SCOPE_NOTE}
+                </p>
+              </div>
             </motion.div>
           }
         >
