@@ -120,11 +120,19 @@ export function StepPath({
     const update = () => {
       const rect = container.getBoundingClientRect();
       const vh = window.innerHeight || 1;
-      // Démarre quand le haut de la liste atteint 85% de l'écran, s'achève
-      // quand son bas remonte à 60%.
-      const start = vh * 0.85;
-      const span = rect.height + (start - vh * 0.6) || 1;
-      const p = Math.min(1, Math.max(0, (start - rect.top) / span));
+      /* Une seule ligne de référence, à 85% de la hauteur d'écran : la
+         progression démarre quand le haut de la liste la franchit et s'achève
+         quand son bas la franchit à son tour.
+
+         L'ancienne fenêtre exigeait que le bas de la liste remonte jusqu'à 60%
+         de l'écran pour s'achever. Sur une liste plus courte que la fenêtre,
+         cela laissait une plage entière où tout était affiché mais où la
+         dernière étape restait à l'opacité 0 — un trou visible en bas de
+         section, alors même que le contenu était sous les yeux. Le fil ne peut
+         pas finir après que le contenu a fini d'entrer. */
+      const line = vh * 0.85;
+      const span = Math.max(1, rect.height);
+      const p = Math.min(1, Math.max(0, (line - rect.top) / span));
       path.style.strokeDashoffset = String(length * (1 - p));
       onProgress?.(p);
     };

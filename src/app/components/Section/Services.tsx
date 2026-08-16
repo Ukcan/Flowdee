@@ -93,11 +93,14 @@ export function ServicesSection() {
       ],
       ctaPrimaryLabel: CTA.fractional,
       ctaPrimaryAction: 'calendar',
-      /* « Demander un devis » descendait au formulaire de contact alors
-         que le prix est affiche : c'etait un troisieme chemin vers la meme
-         conversation. */
-      ctaSecondaryLabel: CTA.call,
-      ctaSecondaryAction: 'calendar',
+      /* « Demander un devis » descendait au formulaire alors que le prix est
+         affiche. Bascule ensuite sur l'appel, la carte s'est retrouvee avec
+         deux boutons ouvrant le meme calendrier — deux chemins pour une seule
+         action, ce que la taxonomie doit justement empecher. Le secondaire
+         reprend le schema de la carte Sprint : parler de l'offre d'un cote,
+         voir la preuve de l'autre. */
+      ctaSecondaryLabel: CTA.caseStudy,
+      ctaSecondaryAction: 'caseStudies',
       featured: false,
       microProof: '4\u00A0jours/mois réservés\u00A0\u2022\u00A0Engagement flexible',
     },
@@ -287,10 +290,11 @@ export function ServicesSection() {
                           : scrollToContact
                       }
                       size="m"
-                      /* Sous sm, padding et corps reduits : a 320px les libelles
-                         les plus longs ("Commander l'audit — 890 €") etaient
-                         tronques de 18px. Invisible sur un bouton pleine largeur. */
-                      className="w-full px-3 sm:px-7 text-[14px] sm:text-[15px]"
+                      /* « Parler de l'accompagnement mensuel » depassait du
+                         bouton et se coupait en plein mot. Le texte peut
+                         desormais revenir a la ligne, la hauteur suit — plutot
+                         que de rogner un libelle deja fixe par la taxonomie. */
+                      className="w-full px-3 sm:px-5 min-h-[48px] h-auto py-2.5 whitespace-normal text-center leading-tight text-[14px] sm:text-[15px]"
                       aria-label={service.ctaPrimaryLabel}
                     >
                       {service.ctaPrimaryLabel}
@@ -305,10 +309,11 @@ export function ServicesSection() {
                           : scrollToContact
                       }
                       size="m"
-                      /* Sous sm, padding et corps reduits : a 320px les libelles
-                         les plus longs ("Commander l'audit — 890 €") etaient
-                         tronques de 18px. Invisible sur un bouton pleine largeur. */
-                      className="w-full px-3 sm:px-7 text-[14px] sm:text-[15px]"
+                      /* « Parler de l'accompagnement mensuel » depassait du
+                         bouton et se coupait en plein mot. Le texte peut
+                         desormais revenir a la ligne, la hauteur suit — plutot
+                         que de rogner un libelle deja fixe par la taxonomie. */
+                      className="w-full px-3 sm:px-5 min-h-[48px] h-auto py-2.5 whitespace-normal text-center leading-tight text-[14px] sm:text-[15px]"
                       aria-label={service.ctaPrimaryLabel}
                     >
                       {service.ctaPrimaryLabel}
