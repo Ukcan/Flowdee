@@ -76,6 +76,10 @@ export const CTA = {
   call: 'Réserver un appel de 30 min',
   sprint: 'Parler du Product Sprint',
   fractional: 'Parler de l’accompagnement mensuel',
+  /** Variante courte pour les boutons etroits : « mensuel » y est deja
+   *  porte par le contexte (surtitre, prix). Meme action, meme
+   *  destination — seule la longueur change. */
+  fractionalShort: 'Parler de l’accompagnement',
   caseStudy: 'Voir l’étude de cas',
   sampleReport: 'Voir un exemple de rapport',
   auditContents: 'Découvrir ce que contient l’audit',

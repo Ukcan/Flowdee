@@ -23,6 +23,10 @@ interface ServiceData {
   ctaSecondaryLabel: string;
   ctaSecondaryAction: 'contact' | 'caseStudies' | 'calendar';
   featured: boolean;
+  /** Quelle carte porte le bouton plein. Distinct de `featured`, qui ne
+   *  gouverne que le badge et les accents de couleur : l'offre mise en
+   *  avant visuellement n'est pas forcement l'action prioritaire du site. */
+  emphasis: 'primary' | 'secondary';
   microProof: string;
 }
 
@@ -136,7 +140,10 @@ export function ServicesSection() {
       ctaSecondaryLabel: CTA.call,
       ctaSecondaryAction: 'calendar',
       featured: false,
-      microProof: 'Sous 5\u00A0jours ouvrés\u00A0\u2022\u00A0Jusqu\u2019à 5\u00A0écrans/pages',
+      emphasis: 'primary',
+      /* Le delai figurait ici et en surtitre : deux fois la meme
+         information sur une carte de 900px. */
+      microProof: 'Jusqu\u2019à 5\u00A0écrans/pages\u00A0\u2022\u00A0Paiement sécurisé',
     },
     {
       plan: 'Sprint',
@@ -158,6 +165,7 @@ export function ServicesSection() {
       ctaSecondaryLabel: CTA.caseStudy,
       ctaSecondaryAction: 'caseStudies',
       featured: true,
+      emphasis: 'secondary',
       microProof: 'Prototype testé et itéré\u00A0\u2022\u00A05\u00A0utilisateurs',
     },
     {
@@ -173,7 +181,10 @@ export function ServicesSection() {
         'Design System & composants',
         'Transmission aux dev & documentation',
       ],
-      ctaPrimaryLabel: CTA.fractional,
+      /* Version courte : le mot « mensuel » est deja porte par le surtitre
+         et par le prix. Sur deux lignes, ce bouton desalignait le bas des
+         trois cartes. */
+      ctaPrimaryLabel: CTA.fractionalShort,
       ctaPrimaryAction: 'calendar',
       /* « Demander un devis » descendait au formulaire alors que le prix est
          affiche. Bascule ensuite sur l'appel, la carte s'est retrouvee avec
@@ -184,6 +195,7 @@ export function ServicesSection() {
       ctaSecondaryLabel: CTA.caseStudy,
       ctaSecondaryAction: 'caseStudies',
       featured: false,
+      emphasis: 'secondary',
       microProof: '4\u00A0jours/mois réservés\u00A0\u2022\u00A0Engagement flexible',
     },
   ];
@@ -367,7 +379,7 @@ export function ServicesSection() {
                   {/* Primary action — gold solid only on the recommended card;
                       standard cards use the secondary style so the three CTAs
                       don't compete visually. Text, destination, size unchanged. */}
-                  {isFeatured ? (
+                  {service.emphasis === 'primary' ? (
                     <ButtonPrimary
                       onClick={
                         service.ctaPrimaryAction === 'calendar'
