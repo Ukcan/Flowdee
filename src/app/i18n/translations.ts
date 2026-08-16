@@ -3,9 +3,15 @@ export type Language = 'fr' | 'en';
 export interface Translations {
   // Navigation
   nav: {
+    frictions: string;
+    deliverables: string;
     services: string;
     caseStudies: string;
+    /** Conservé pour les composants archivés ; le libellé vivant est `approach`. */
     about: string;
+    approach: string;
+    aiWorkflow: string;
+    faq: string;
     contact: string;
     bookCall: string;
   };
@@ -285,10 +291,20 @@ export interface Translations {
 
 export const translations: Record<Language, Translations> = {
   fr: {
+    /* Chaque libellé reprend le nom que la section porte dans la page, et non
+       un intitulé de menu générique : « À propos » annonçait une présentation
+       d'entreprise et menait à « Notre approche », « Services » menait aux
+       offres et tarifs. Ce sont aussi les libellés de l'indicateur de
+       défilement — une seule et même nomenclature pour désigner un endroit. */
     nav: {
-      services: 'Services',
+      frictions: 'Frictions UX',
+      deliverables: 'Livrables',
+      services: 'Offres & tarifs',
       caseStudies: 'Réalisations',
       about: 'À propos',
+      approach: 'Notre approche',
+      aiWorkflow: 'Optimisation IA',
+      faq: 'FAQ',
       contact: 'Contact',
       bookCall: 'Réserver un appel',
     },
@@ -572,9 +588,14 @@ export const translations: Record<Language, Translations> = {
 
   en: {
     nav: {
-      services: 'Services',
+      frictions: 'UX Friction',
+      deliverables: 'Deliverables',
+      services: 'Plans & Pricing',
       caseStudies: 'Case Studies',
       about: 'About',
+      approach: 'Our Approach',
+      aiWorkflow: 'AI Workflow',
+      faq: 'FAQ',
       contact: 'Contact',
       bookCall: 'Book a Call',
     },

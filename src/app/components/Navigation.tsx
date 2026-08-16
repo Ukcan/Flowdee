@@ -53,12 +53,25 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
   // useMemo : une référence stable évite que le useEffect de détection de
   // section (ci-dessous) ne se désabonne/réabonne à chaque rendu, ce qui
   // pouvait laisser passer un scroll sans que le listener soit attaché.
-  const menuItems = useMemo(() => [
-    { label: t.nav.services, id: 'services' },
-    { label: t.nav.caseStudies, id: 'case-studies' },
-    { label: t.nav.about, id: 'approche' },
-    { label: t.nav.contact, id: 'contact' }
+  /* Les sections telles qu'elles existent dans la page, dans l'ordre de
+     lecture. Le volet mobile les déroule toutes : c'est un sommaire, il a la
+     hauteur pour ça, et n'en montrer que quatre laissait la moitié du parcours
+     invisible — livrables, optimisation IA et FAQ n'étaient atteignables qu'en
+     faisant défiler à l'aveugle.
+     `primary` marque celles que la barre desktop peut afficher : elle n'a la
+     place que de quatre entrées entre le logo et les deux boutons d'action. */
+  const sectionItems = useMemo(() => [
+    { label: t.nav.frictions, id: 'problems' },
+    { label: t.nav.deliverables, id: 'deliverables' },
+    { label: t.nav.services, id: 'services', primary: true },
+    { label: t.nav.caseStudies, id: 'case-studies', primary: true },
+    { label: t.nav.approach, id: 'approche', primary: true },
+    { label: t.nav.aiWorkflow, id: 'ia-workflow' },
+    { label: t.nav.faq, id: 'faq' },
+    { label: t.nav.contact, id: 'contact', primary: true }
   ], [t]);
+
+  const menuItems = useMemo(() => sectionItems.filter((i) => i.primary), [sectionItems]);
 
   // Track floating state on scroll
   useEffect(() => {
@@ -75,7 +88,10 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
   // Track active section on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = menuItems.map(item => document.getElementById(item.id)).filter(Boolean);
+      // Toutes les sections, pas seulement celles de la barre desktop : sinon
+      // l'entrée précédente restait allumée pendant qu'on traversait une
+      // section absente du raccourci, et désignait donc le mauvais endroit.
+      const sections = sectionItems.map(item => document.getElementById(item.id)).filter(Boolean);
       const scrollPosition = window.scrollY + 100; // Offset for better detection
 
       for (const section of sections) {
@@ -99,7 +115,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
     handleScroll(); // Initial check
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [menuItems]);
+  }, [sectionItems]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -220,17 +236,25 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
               <X size={24} />
             </button>
             
-            <div className="flex flex-col gap-6 relative z-10">
-              {menuItems.map((item) => (
+            {/* Sommaire complet du parcours. Corps réduit de 24 à 20px : à huit
+                entrées, l'ancienne échelle dépassait de l'écran sur les petits
+                mobiles. Le remplissage vertical porte la zone tactile à 44px,
+                le minimum praticable au doigt — le texte seul n'en faisait que
+                32. L'écart entre entrées absorbe la différence. */}
+            <nav className="flex flex-col gap-2 relative z-10" aria-label="Sections de la page">
+              {sectionItems.map((item) => (
                 <button
                   key={item.label}
                   onClick={() => scrollToSection(item.id)}
-                  className="font-body font-medium text-[24px] text-left text-text-primary hover:text-accent-primary transition-colors duration-200"
+                  aria-current={activeSection === item.id ? 'true' : undefined}
+                  className={`font-body font-medium text-[20px] text-left py-1.5 transition-colors duration-200 hover:text-accent-primary ${
+                    activeSection === item.id ? 'text-accent-primary' : 'text-text-primary'
+                  }`}
                 >
                   {item.label}
                 </button>
               ))}
-            </div>
+            </nav>
             
             <div className="mt-auto space-y-3 relative z-10">
               {/* CTA primaire dominant : commander l'audit */}

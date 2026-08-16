@@ -40,10 +40,12 @@ function LogoFlowdee() {
 export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: FooterSectionProps) {
   const { t } = useTranslation();
   
+  /* Même nomenclature que la barre de navigation : « À propos » menait à
+     « Notre approche » et « Services » aux offres et tarifs. */
   const menuItems = [
     { label: t.nav.services, id: 'services' },
     { label: t.nav.caseStudies, id: 'case-studies' },
-    { label: t.nav.about, id: 'approche' },
+    { label: t.nav.approach, id: 'approche' },
     { label: t.nav.contact, id: 'contact' }
   ];
   
