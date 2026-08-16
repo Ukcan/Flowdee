@@ -228,7 +228,11 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed inset-y-0 right-0 w-full max-w-sm bg-surface-0 border-l border-border-0 lg:hidden z-[70] flex flex-col p-12 gap-8 shadow-panel"
+            /* z-index au-dessus du bouton flottant d'accessibilité (z-[10100],
+               volontairement au-dessus de tout pour rester joignable partout) :
+               sans ça, ce bouton restait visible par-dessus le volet mobile
+               ouvert, chevauchant le CTA et sa réassurance en bas de panneau. */
+            className="fixed inset-y-0 right-0 w-full max-w-sm bg-surface-0 border-l border-border-0 lg:hidden z-[10200] flex flex-col p-12 gap-8 shadow-panel"
           >
             <button
               onClick={() => setMobileMenuOpen(false)}

@@ -165,9 +165,14 @@ export function AccessibilityFloater() {
             ? 'translateX(min(calc(min(380px, 92vw) + 1rem), calc(100vw - 5.5rem)))'
             : 'translateX(0)',
         }}
+        /* bg/backdrop-blur plutôt qu'un fond plein : ce bouton reste fixe
+           par-dessus tout le contenu (z très élevé, volontaire), et sur mobile
+           il finit régulièrement au-dessus d'un texte de réassurance ou d'un
+           CTA au fil du scroll. Un fond translucide laisse deviner ce qu'il
+           masque au lieu de l'effacer complètement. */
         className="
           fixed bottom-6 left-6 z-[10100] grid h-14 w-14 place-items-center rounded-full
-          bg-accent-primary text-on-accent shadow-soft
+          bg-accent-primary/70 backdrop-blur-sm text-on-accent shadow-soft
           outline-none transition-transform duration-300 ease-out
           focus-visible:ring-4 focus-visible:ring-accent-ring
         "
