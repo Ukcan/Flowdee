@@ -178,7 +178,7 @@ export function DeliverablesSection() {
                       comme un repère. */}
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none select-none absolute right-full mr-2 md:mr-3 -top-3 md:-top-8 font-display font-bold leading-none text-[40px] md:text-[64px] text-text-primary/[0.10] tabular-nums"
+                    className="pointer-events-none select-none absolute right-full mr-2 md:mr-3 -top-1.5 md:-top-4 font-display font-bold leading-none text-[28px] md:text-[42px] text-text-primary/[0.07] tabular-nums"
                   >
                     {String(i + 1).padStart(2, '0')}
                   </span>
