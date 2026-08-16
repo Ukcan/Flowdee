@@ -20,7 +20,6 @@
       <!-- Primary SEO -->
       <title>Flowdee — Audit UX qui transforme vos frictions en conversions</title>
       <meta name="description" content="Audit UX &amp; Conversion : un parcours critique, une landing page ou jusqu'à 5 écrans/pages. Problèmes priorisés, recommandations actionnables, contrôles SEO UX et accessibilité. 890 €, livraison sous 5 jours ouvrés." />
-      <meta name="keywords" content="audit UX, audit conversion, UX designer freelance, accessibilité WCAG, microcopy, checkout, onboarding, Bordeaux, Nice" />
       <meta name="author" content="Flowdee" />
       <meta name="robots" content="index, follow" />
       <meta name="theme-color" content="#141A24" />
@@ -47,39 +46,55 @@
       <meta name="twitter:description" content="Audit UX &amp; Conversion : un parcours critique, une landing page ou jusqu'à 5 écrans/pages. Problèmes priorisés et recommandations actionnables. 890 €." />
       <meta name="twitter:image" content="https://flowdee.fr/og-image.png" />
 
-      <!-- Structured data — Schema.org -->
+      <!-- Structured data — Schema.org (@graph : WebSite + Organization + ProfessionalService + FAQPage) -->
       <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "Flowdee",
-        "description": "Audit UX & Conversion freelance : problèmes priorisés par impact et corrections concrètes à appliquer, sur un parcours critique, une landing page ou jusqu’à 5 écrans/pages.",
-        "url": "https://flowdee.fr/",
-        "email": "contact@flowdee.fr",
-        "telephone": "+33630699273",
-        "priceRange": "€€",
-        "areaServed": ["Bordeaux", "Nice", "Remote"],
-        "founder": {
-          "@type": "Person",
-          "name": "Benjamin",
-          "jobTitle": "Lead UX/UI Designer"
-        },
-        "makesOffer": {
-          "@type": "Offer",
-          "name": "Audit UX & Conversion",
-          "price": "890",
-          "priceCurrency": "EUR",
-          "description": "Audit d’un parcours critique, d’une landing page ou de jusqu’à 5 écrans/pages : problèmes UX priorisés, recommandations actionnables, contrôles SEO UX, contrôles d’accessibilité WCAG 2.2 AA sur le périmètre audité, microcopy prioritaire réécrite, 1 écran clé corrigé dans Figma et rapport final priorisé. Livraison sous 5 jours ouvrés."
-        }
-      }
-      </script>
-
-      <!-- Structured data — FAQPage (rich snippets Google) -->
-      <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://flowdee.fr/#website",
+            "url": "https://flowdee.fr/",
+            "name": "Flowdee",
+            "inLanguage": "fr-FR",
+            "publisher": { "@id": "https://flowdee.fr/#organization" }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://flowdee.fr/#organization",
+            "name": "Flowdee",
+            "url": "https://flowdee.fr/",
+            "description": "Studio UX/UI et Product Design spécialisé dans l'optimisation des parcours utilisateurs, la conversion, les tests utilisateurs et l'accessibilité.",
+            "sameAs": ["https://www.linkedin.com/in/benjamin-duffau/"],
+            "founder": {
+              "@type": "Person",
+              "name": "Benjamin",
+              "jobTitle": "Lead UX/UI Designer"
+            }
+          },
+          {
+            "@type": "ProfessionalService",
+            "@id": "https://flowdee.fr/#service",
+            "name": "Flowdee",
+            "provider": { "@id": "https://flowdee.fr/#organization" },
+            "description": "Audit UX & Conversion freelance : problèmes priorisés par impact et corrections concrètes à appliquer, sur un parcours critique, une landing page ou jusqu’à 5 écrans/pages.",
+            "url": "https://flowdee.fr/",
+            "email": "contact@flowdee.fr",
+            "telephone": "+33630699273",
+            "priceRange": "€€",
+            "areaServed": ["Bordeaux", "Nice", "Remote"],
+            "makesOffer": {
+              "@type": "Offer",
+              "name": "Audit UX & Conversion",
+              "price": "890",
+              "priceCurrency": "EUR",
+              "description": "Audit d’un parcours critique, d’une landing page ou de jusqu’à 5 écrans/pages : problèmes UX priorisés, recommandations actionnables, contrôles SEO UX, contrôles d’accessibilité WCAG 2.2 AA sur le périmètre audité, microcopy prioritaire réécrite, 1 écran clé corrigé dans Figma et rapport final priorisé. Livraison sous 5 jours ouvrés."
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://flowdee.fr/#faq",
+            "mainEntity": [
           {
             "@type": "Question",
             "name": "Sur quel périmètre porte l’audit ?",
@@ -143,6 +158,8 @@
               "@type": "Answer",
               "text": "NDA possible sur demande, anonymisation systématique des cas clients, accès limité aux données strictement nécessaires, suppression ou restitution des fichiers en fin de mission."
             }
+          }
+            ]
           }
         ]
       }

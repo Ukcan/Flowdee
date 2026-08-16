@@ -66,7 +66,11 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
           {/* Left: Logo + Contact Info */}
           <div className="space-y-8 lg:pr-8">
             <LogoFlowdee />
-            
+
+            <p className="font-body text-[13px] leading-relaxed text-text-secondary max-w-[280px]">
+              {t.footer.tagline}
+            </p>
+
             <div className="space-y-3">
               <a href="mailto:contact@flowdee.fr" className="inline-flex items-center gap-2 min-h-[44px] py-1 font-body text-[11px] font-medium uppercase tracking-[0.15em] text-text-secondary hover:text-accent-primary transition-all group rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-base)]">
                 <Mail size={16} weight="duotone" className="w-4 h-4 shrink-0 text-accent-primary group-hover:opacity-70 transition-opacity" />

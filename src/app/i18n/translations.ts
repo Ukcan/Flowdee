@@ -537,7 +537,7 @@ export const translations: Record<Language, Translations> = {
     },
 
     footer: {
-      tagline: 'UX/UI Design & IA — J\'améliore activation et conversion via UX/UI testable.',
+      tagline: 'Flowdee est un studio UX/UI et Product Design, spécialisé dans la conception et l\'optimisation d\'expériences numériques, de parcours utilisateurs et d\'interfaces.',
       navigation: 'Navigation',
       followMe: 'Suivez-moi',
       copyright: '© 2026 Flowdee. Tous droits réservés.',
@@ -829,7 +829,7 @@ export const translations: Record<Language, Translations> = {
     },
 
     footer: {
-      tagline: 'UX/UI Design × AI\nI improve activation & conversion with testable UX/UI.',
+      tagline: 'Flowdee is a UX/UI and Product Design studio, focused on designing and optimizing digital experiences, user journeys and interfaces.',
       navigation: 'Navigation',
       followMe: 'Follow me',
       copyright: '© 2026 Flowdee. All rights reserved.',
