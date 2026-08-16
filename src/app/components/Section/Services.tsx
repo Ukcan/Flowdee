@@ -162,9 +162,11 @@ export function ServicesSection() {
       timeline: 'SOUS 5\u00A0JOURS OUVRÉS',
       title: 'Audit UX & Conversion',
       price: '890\u00A0€',
-      /* « diagnostic complet » sur un perimetre borne : les deux mots se
-         contredisent. Le perimetre passe en tete, avant le benefice. */
-      description: 'Sur un parcours critique, une landing page ou jusqu’à 5\u00A0écrans/pages : les problèmes identifiés, priorisés, et les corrections à appliquer.',
+      /* Cette description courait sur 5 lignes contre 3 pour les deux autres
+         cartes : 51px d'ecart, absorbes en vide sous la liste, d'ou le bas de
+         carte en escalier. Le perimetre reste annonce juste au-dessus du bouton
+         d'achat (micro-preuve) et detaille dans le depliant. */
+      description: 'Les problèmes qui bloquent vos conversions, priorisés, et les corrections à appliquer.',
       forWho: 'Pour\u00A0: une landing page, un onboarding, un checkout ou un parcours critique.',
       deliverables: [
         'Problèmes UX priorisés',
