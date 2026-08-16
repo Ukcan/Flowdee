@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { Check, PhoneCall, ArrowRight } from '@phosphor-icons/react';
+import React, { useId, useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
+import { Check, PhoneCall, ArrowRight, CaretDown } from '@phosphor-icons/react';
 import { ParallaxHeading } from '../Decor/ParallaxHeading';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { ButtonPrimary } from '../Button/Primary';
@@ -16,12 +16,85 @@ interface ServiceData {
   description: string;
   forWho: string;
   deliverables: string[];
+  /** Precisions repliees. Vide ou absent : aucun depliant n'est rendu. */
+  details?: string[];
   ctaPrimaryLabel: string;
   ctaPrimaryAction: 'contact' | 'calendar' | 'audit';
   ctaSecondaryLabel: string;
   ctaSecondaryAction: 'contact' | 'caseStudies' | 'calendar';
   featured: boolean;
   microProof: string;
+}
+
+/**
+ * Dépliant de précisions d'une carte d'offre.
+ *
+ * La carte portait toutes les précisions d'un bloc : la liste des livrables
+ * pesait à elle seule 272px parce que deux libellés couraient sur deux et trois
+ * lignes. Les replier ne retire rien du site — elles restent sur la carte, à un
+ * clic, au lieu d'arriver toutes en même temps au moment où le visiteur compare
+ * trois offres.
+ *
+ * Trois points d'attention sur l'implémentation :
+ *
+ * - L'ouverture anime `grid-template-rows` de `0fr` à `1fr`. C'est ce qui
+ *   permet d'animer vers une hauteur *automatique* : ni mesure du contenu en
+ *   JavaScript, ni hauteur figée en dur qui casserait au premier changement de
+ *   texte ou de largeur.
+ * - `visibility` accompagne la transition. Elle bascule de façon discrète —
+ *   immédiatement à `visible` à l'ouverture, seulement en fin de transition à
+ *   `hidden` — ce qui sort le contenu replié de l'ordre de tabulation et de
+ *   l'arbre d'accessibilité sans le faire disparaître avant la fin du repli.
+ * - `prefers-reduced-motion` coupe la transition : le contenu apparaît d'un
+ *   coup, sans mouvement de hauteur.
+ */
+function CardDetails({ items }: { items: readonly string[] }) {
+  const [open, setOpen] = useState(false);
+  const reduce = useReducedMotion();
+  const panelId = useId();
+
+  return (
+    <div className="mb-5">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls={panelId}
+        className="
+          inline-flex items-center gap-1.5 min-h-[44px]
+          font-body text-[13px] font-medium text-text-secondary
+          hover:text-text-primary transition-colors rounded
+          outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
+          focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0
+        "
+      >
+        {open ? 'Masquer le détail' : 'Voir le détail'}
+        <CaretDown
+          size={13}
+          weight="bold"
+          aria-hidden="true"
+          className={`${reduce ? '' : 'transition-transform duration-300 ease-out'} ${open ? 'rotate-180' : ''}`}
+        />
+      </button>
+
+      <div
+        id={panelId}
+        className={`grid ${reduce ? '' : 'transition-[grid-template-rows] duration-300 ease-out'} ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+      >
+        <div
+          className={`overflow-hidden ${reduce ? '' : 'transition-[visibility] duration-300'} ${open ? 'visible' : 'invisible'}`}
+        >
+          <ul className="mt-2 space-y-2.5 border-t border-border-0 pt-4">
+            {items.map((d) => (
+              <li key={d} className="font-body text-[12px] leading-[1.6] text-text-muted">
+                {d}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function ServicesSection() {
@@ -37,15 +110,24 @@ export function ServicesSection() {
       price: '890\u00A0€',
       /* « diagnostic complet » sur un perimetre borne : les deux mots se
          contredisent. Le perimetre passe en tete, avant le benefice. */
-      description: 'Arrêtez de perdre des visiteurs sans savoir pourquoi. Sur un parcours critique, une landing page ou jusqu’à 5\u00A0écrans/pages, vous repartez avec un diagnostic précis et un plan d’action prêt à appliquer — pas juste une liste de remarques.',
-      forWho: 'Pour\u00A0: une landing page, un onboarding, un checkout ou un parcours critique. Pour un site plus large, le parcours ayant le plus d’impact est priorisé.',
+      description: 'Sur un parcours critique, une landing page ou jusqu’à 5\u00A0écrans/pages : les problèmes identifiés, priorisés, et les corrections à appliquer.',
+      forWho: 'Pour\u00A0: une landing page, un onboarding, un checkout ou un parcours critique.',
       deliverables: [
-        'Problèmes UX priorisés et recommandations actionnables',
-        'Contrôles SEO UX',
-        'Contrôles d’accessibilité WCAG\u00A02.2\u00A0AA sur le périmètre audité',
+        'Problèmes UX priorisés',
+        'Recommandations actionnables',
+        'Contrôles SEO UX & accessibilité',
         'Microcopy prioritaire réécrite',
         '1 écran clé corrigé dans Figma',
         'Rapport final priorisé',
+      ],
+      /* Precisions repliees : ce sont elles qui alourdissaient la carte,
+         et elles servent a verifier une fois le choix fait, pas a choisir. */
+      details: [
+        'Périmètre : un parcours critique, une landing page ou jusqu’à 5\u00A0écrans/pages. Pour un site plus large, le parcours ayant le plus d’impact est priorisé.',
+        'Accessibilité : repérage des principaux écarts WCAG\u00A02.2\u00A0AA sur le périmètre audité — contrastes, focus, clavier, labels, alternatives textuelles et cibles interactives.',
+        'SEO UX : titres, structure des contenus, libellés et lisibilité — Hn, title, meta.',
+        'Microcopy : titres, CTA, aides, erreurs, réassurances et FAQ du périmètre audité.',
+        'Démarrage confirmé sous 24\u00A0h après réception des éléments nécessaires.',
       ],
       ctaPrimaryLabel: CTA.audit,
       ctaPrimaryAction: 'audit',
@@ -61,7 +143,7 @@ export function ServicesSection() {
       timeline: '2\u00A0SEMAINES',
       title: 'Product Sprint + Tests',
       price: '3\u00A0900\u00A0€',
-      description: 'Ne développez plus à l\u2019aveugle. En 2 semaines, testez et validez votre parcours critique avec de vrais utilisateurs — avant d\u2019engager votre budget dev.',
+      description: 'Testez et validez votre parcours critique avec de vrais utilisateurs, avant d\u2019engager votre budget dev.',
       forWho: 'Pour\u00A0: une feature clé, un onboarding, un checkout ou un dashboard.',
       deliverables: [
         'Cadrage + user flow',
@@ -83,7 +165,7 @@ export function ServicesSection() {
       timeline: 'MENSUEL',
       title: 'Fractional Product Designer',
       price: 'Dès 2\u00A0200\u00A0€/mois',
-      description: 'Améliorez votre produit en continu, sans les coûts ni les délais d’un recrutement. Une capacité Product Design dédiée, disponible chaque mois, sans engagement long terme.',
+      description: 'Une capacité Product Design dédiée chaque mois, sans les coûts ni les délais d’un recrutement.',
       forWho: 'Pour\u00A0: concevoir, tester et améliorer votre produit en continu.',
       deliverables: [
         'UX/UI & conception de features',
@@ -232,24 +314,24 @@ export function ServicesSection() {
                 </h3>
 
                 {/* Price — accent anchor on the recommended card only, standard cards read as primary text */}
-                <div className={`font-display text-[20px] lg:text-[22px] mb-6 tracking-[-0.01em] ${isFeatured ? 'text-accent-primary' : 'text-text-primary'}`} style={{ fontWeight: 300 }}>
+                <div className={`font-display text-[20px] lg:text-[22px] mb-5 tracking-[-0.01em] ${isFeatured ? 'text-accent-primary' : 'text-text-primary'}`} style={{ fontWeight: 300 }}>
                   {service.price}
                 </div>
 
                 {/* Description */}
-                <p className="body mb-5">
+                <p className="body mb-4">
                   {service.description}
                 </p>
 
                 {/* "Pour qui" */}
                 {service.forWho && (
-                  <p className="font-body text-[12px] text-text-muted font-normal mb-6 border-l border-border-1 pl-4">
+                  <p className="font-body text-[12px] text-text-muted font-normal mb-5 border-l border-border-1 pl-4">
                     {service.forWho}
                   </p>
                 )}
 
                 {/* Deliverables */}
-                <div className="space-y-3.5 mb-8 flex-grow">
+                <div className="space-y-3 mb-5 flex-grow">
                   {service.deliverables.map((deliverable, idx) => (
                     <div key={idx} className="flex items-start gap-3">
                       <div
@@ -266,6 +348,11 @@ export function ServicesSection() {
                     </div>
                   ))}
                 </div>
+
+                {/* Précisions repliées — rendues seulement là où il y en a. */}
+                {service.details && service.details.length > 0 && (
+                  <CardDetails items={service.details} />
+                )}
 
                 {/* Micro-proof */}
                 <p
