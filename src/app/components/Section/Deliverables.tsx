@@ -16,24 +16,24 @@ import { AUDIT_SCOPE, AUDIT_SCOPE_NOTE } from '../../constants/offer';
 
 const DELIVERABLES = [
   {
-    icon: <ListChecks size={18} weight="duotone" aria-hidden="true" />,
+    icon: <ListChecks size={20} weight="duotone" aria-hidden="true" />,
     title: 'Frictions UX priorisées',
     description: 'Ce qui bloque vraiment la compréhension et l’action.',
   },
   {
-    icon: <Layout size={18} weight="duotone" aria-hidden="true" />,
+    icon: <Layout size={20} weight="duotone" aria-hidden="true" />,
     title: 'Corrections UI concrètes',
     description: 'Hiérarchie, CTA, sections, formulaires, états et composants.',
   },
   {
-    icon: <TextAa size={18} weight="duotone" aria-hidden="true" />,
+    icon: <TextAa size={20} weight="duotone" aria-hidden="true" />,
     /* « Textes du site réécrits » engageait la totalité des contenus. Le
        livrable porte sur la microcopy du périmètre audité. */
     title: 'Microcopy prioritaire réécrite',
     description: 'Titres, CTA, aides, erreurs, réassurances et FAQ du périmètre audité.',
   },
   {
-    icon: <ShieldCheck size={18} weight="duotone" aria-hidden="true" />,
+    icon: <ShieldCheck size={20} weight="duotone" aria-hidden="true" />,
     /* Annonçait « répondre aux exigences européennes d'accessibilité » : une
        checklist repère des écarts, elle ne vaut ni conformité ni certification.
        Promettre l'un pour l'autre expose juridiquement le client comme le
@@ -124,8 +124,12 @@ export function DeliverablesSection() {
           <ol ref={stepsRef} className="relative">
             {/* Tracé serpentin reliant les jalons, dessiné au scroll.
                 Il pilote aussi l'apparition des étapes via onProgress. */}
+            {/* Gouttière élargie pour accueillir les pastilles : le tracé
+                centre ses jalons sur `gutter / 2`, les deux valeurs doivent
+                rester accordées. */}
             <StepPath
               containerRef={stepsRef}
+              gutter={44}
               onProgress={handleProgress}
               onNodes={handleNodes}
             />
@@ -147,49 +151,37 @@ export function DeliverablesSection() {
                    Le décalage vertical est purement visuel — StepPath mesure les
                    jalons en offsetTop, insensible aux transforms. */
                 /* Gouttière à largeur fixe : le tracé SVG est centré dessus et
-                   doit pouvoir s'y caler de façon déterministe. */
-                className={`group grid grid-cols-[32px_minmax(0,1fr)] gap-x-4 md:gap-x-6 pb-12 md:pb-16 last:pb-0 duration-500 ease-out ${reveal}`}
+                   doit pouvoir s'y caler de façon déterministe. Élargie de 32 à
+                   44px pour accueillir la pastille (voir `gutter` sur
+                   StepPath). */
+                className={`group grid grid-cols-[44px_minmax(0,1fr)] gap-x-4 md:gap-x-6 pb-12 md:pb-16 last:pb-0 duration-500 ease-out ${reveal}`}
               >
-                {/* Jalon posé sur le tracé — l'anneau couleur fond découpe le
-                    fil pour que le nœud se détache. */}
+                {/* Jalon posé sur le tracé. Il portait un simple point de 11px
+                    et le pictogramme vivait devant le titre, où il coupait la
+                    ligne de lecture : l'œil rencontrait une icône avant de
+                    lire, et les titres ne démarraient pas sur un axe commun.
+
+                    Le pictogramme entre dans la pastille : le jalon dit
+                    désormais de quoi parle l'étape, les titres s'alignent tous
+                    sur la même verticale, et le tracé relie des repères
+                    porteurs de sens plutôt que des points neutres.
+
+                    L'anneau couleur fond découpe le fil pour que la pastille
+                    se détache. */}
                 <div className="flex justify-center" aria-hidden="true">
                   <span
                     data-step-node
-                    className="relative z-10 mt-[7px] w-[11px] h-[11px] shrink-0 rounded-full bg-accent-primary ring-4 ring-surface-0 transition-transform duration-300 group-hover:scale-125"
-                  />
+                    className="relative z-10 mt-[5px] grid h-11 w-11 shrink-0 place-items-center rounded-full bg-surface-1 text-accent-primary ring-4 ring-surface-0 border border-border-1 transition-transform duration-300 group-hover:scale-110"
+                  >
+                    {d.icon}
+                  </span>
                 </div>
 
                 <div className="relative pb-2">
-                  {/* Chiffre de repère — donne l'échelle et rythme la
-                      progression. Purement graphique : l'ordre reste porté par
-                      <ol>/<li>.
-
-                      Il était posé sur la colonne de texte et croisait à la
-                      fois le titre et la description : à 96px, ses pleins
-                      traversaient les lettrages des deux éléments les plus
-                      importants de l'étape. Une opacité de 10% n'y change rien,
-                      c'est la superposition qui brouille, pas le contraste.
-
-                      Il passe donc dans la marge, calé à droite juste avant la
-                      colonne de texte (`right-full`), à hauteur du titre. Il y
-                      croise le tracé, ce qui le rattache visuellement au fil
-                      plutôt qu'au texte. Taille réduite en conséquence : hors
-                      du texte, il n'a plus besoin d'être écrasant pour se lire
-                      comme un repère. */}
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none select-none absolute right-full mr-2 md:mr-3 -top-1.5 md:-top-4 font-display font-bold leading-none text-[28px] md:text-[42px] text-text-primary/[0.07] tabular-nums"
-                  >
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-
                   <div className="relative">
-                    <div className="flex items-center gap-2.5">
-                      <span className="text-accent-primary shrink-0">{d.icon}</span>
-                      <h3 className="font-heading text-[19px] md:text-[21px] font-medium text-text-primary tracking-[-0.01em] leading-tight">
-                        {d.title}
-                      </h3>
-                    </div>
+                    <h3 className="font-heading text-[19px] md:text-[21px] font-medium text-text-primary tracking-[-0.01em] leading-tight mt-2.5">
+                      {d.title}
+                    </h3>
                     <p className="font-body text-[15px] leading-[1.65] text-text-secondary mt-2.5">
                       {d.description}
                     </p>
