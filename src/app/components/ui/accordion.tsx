@@ -55,7 +55,16 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"
-      className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
+      /* `forceMount` garde la réponse dans le DOM (texte lisible par Google et
+         présent dans le HTML prérendu) même fermée — mais sur le tout premier
+         rendu, `--radix-accordion-content-height` n'est pas encore mesurée :
+         l'animation de fermeture démarre alors depuis `auto`, que les
+         navigateurs n'interpolent pas, et se termine sans avoir rien réduit.
+         Résultat, un accordéon fermé dès le chargement s'affichait grand
+         ouvert. `data-[state=closed]:h-0` fixe la hauteur de repos
+         indépendamment de l'animation ; l'animation ne fait plus que l'habiller
+         visuellement lors d'un vrai clic. */
+      className="data-[state=closed]:h-0 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
       {...props}
     >
       <div className={cn("pt-0 pb-4", className)}>{children}</div>
