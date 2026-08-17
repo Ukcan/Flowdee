@@ -16,6 +16,7 @@ import {
   AUDIT_NAME,
   AUDIT_PRICE,
   AUDIT_DELIVERY,
+  AUDIT_DELIVERY_SHORT,
   AUDIT_START,
   AUDIT_SCOPE,
   AUDIT_SCOPE_NOTE,
@@ -71,8 +72,9 @@ const AUDIT_FAQ_QUESTIONS = [
 export function AuditUXPage() {
   useSeo({
     title: 'Audit UX : identifiez ce qui freine vos conversions | Flowdee',
-    description:
-      'Audit UX & Conversion Flowdee : les problèmes qui bloquent vos visiteurs, priorisés, avec les corrections concrètes à appliquer. 890 €, livré sous 5 jours ouvrés.',
+    /* Prix et délai composés depuis constants/offer : cette description était
+       la 3e copie manuelle des chiffres de l'offre. */
+    description: `${AUDIT_NAME} Flowdee : les problèmes qui bloquent vos visiteurs, priorisés, avec les corrections concrètes à appliquer. ${AUDIT_PRICE}, livré ${AUDIT_DELIVERY_SHORT.toLowerCase()}.`,
     canonical: CANONICAL,
   });
 

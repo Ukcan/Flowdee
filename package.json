@@ -4,9 +4,11 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "vite build",
-    "build:prerender": "playwright install chromium && vite build && node scripts/prerender.mjs",
+    "build": "node scripts/check-offer.mjs && vite build",
+    "build:prerender": "playwright install chromium && node scripts/check-offer.mjs && vite build && node scripts/prerender.mjs",
     "dev": "vite",
+    "check:offer": "node scripts/check-offer.mjs",
+    "og-image": "node scripts/og-image.mjs",
     "deploy": "pnpm run build && wrangler deploy",
     "preview": "pnpm run build && wrangler dev"
   },

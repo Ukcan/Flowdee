@@ -47,26 +47,57 @@ const compareScreens = [
  * Un `input type="range"` transparent recouvre la zone. Il apporte d'un coup le
  * clavier (flèches, Origine/Fin), le glisser natif au doigt comme à la souris,
  * et la sémantique attendue — plutôt qu'une réimplémentation partielle en
- * `role="slider"`. Le rendu visuel est inchangé : l'ancien survol reste actif.
+ * `role="slider"`.
+ *
+ * Le volet se pilotait AUSSI au survol, via `onMouseMove`/`onTouchMove` sur le
+ * conteneur : le rideau suivait le curseur sans qu'on ait rien à presser, et
+ * comme les événements souris remontent de l'input vers ce conteneur, ce survol
+ * écrasait le glisser natif — impossible de relâcher pour figer une comparaison,
+ * ni de simplement traverser la zone pour lire la page. Ces deux gestionnaires
+ * ont été retirés : la commande native est désormais la seule source du geste,
+ * donc presser, déplacer, relâcher — et ça s'arrête au relâchement.
+ *
+ * `step` est fin pour que le glisser reste fluide (1 % ferait des sauts d'une
+ * douzaine de pixels sur cette largeur), ce qui rendrait les flèches du clavier
+ * inutilisables — d'où `handleKeyDown`, qui leur redonne un pas utile.
  */
+
+/* Pas du glisser : assez fin pour être fluide, assez grand pour rester discret. */
+const DRAG_STEP = 0.25;
+/* Pas au clavier : ~50 pressions pour traverser l'image. */
+const KEY_STEP = 2;
+const PAGE_STEP = 10;
+
 function BeforeAfterSlider({ before, after }: { before: string; after: string }) {
   const [sliderPos, setSliderPos] = useState(50);
   const inputId = useId();
   const rounded = Math.round(sliderPos);
 
-  const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const x = ('touches' in e) ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
-    const position = ((x - rect.left) / rect.width) * 100;
-    setSliderPos(Math.min(Math.max(position, 0), 100));
+  const clamp = (value: number) => Math.min(100, Math.max(0, value));
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const steps: Record<string, number> = {
+      ArrowLeft: -KEY_STEP,
+      ArrowDown: -KEY_STEP,
+      ArrowRight: KEY_STEP,
+      ArrowUp: KEY_STEP,
+      PageDown: -PAGE_STEP,
+      PageUp: PAGE_STEP,
+    };
+    if (e.key in steps) {
+      e.preventDefault();
+      setSliderPos((pos) => clamp(pos + steps[e.key]));
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      setSliderPos(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      setSliderPos(100);
+    }
   };
 
   return (
-    <div
-      className="relative w-full aspect-[1600/782] cursor-ew-resize overflow-hidden select-none rounded-[16px] border border-border-0 bg-surface-1 shadow-panel"
-      onMouseMove={handleMouseMove}
-      onTouchMove={handleMouseMove}
-    >
+    <div className="relative w-full aspect-[1600/782] cursor-ew-resize overflow-hidden select-none rounded-[16px] border border-border-0 bg-surface-1 shadow-panel">
       <div className="absolute inset-0">
         <ImageWithFallback src={after} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 right-6 z-20">
@@ -108,9 +139,10 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
         type="range"
         min={0}
         max={100}
-        step={1}
-        value={rounded}
+        step={DRAG_STEP}
+        value={sliderPos}
         onChange={(e) => setSliderPos(Number(e.target.value))}
+        onKeyDown={handleKeyDown}
         aria-valuetext={`${rounded}% de la version initiale visible à gauche, le reste montre la version optimisée`}
         className="peer absolute inset-0 z-30 h-full w-full cursor-ew-resize appearance-none bg-transparent opacity-0 outline-none"
         style={{ touchAction: 'pan-y' }}

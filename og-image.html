@@ -29,10 +29,13 @@
     .line { position: absolute; height: 1px; background: linear-gradient(90deg, rgba(212,178,115,0.5), transparent); transform-origin: left center; }
 
     .brand { display: flex; align-items: center; gap: 16px; position: relative; z-index: 2; }
+    /* Tuile du logo : mêmes valeurs que src/app/components/Brand/LogoFlowdee.tsx
+       (fond #181B1F, filet blanc 14 %, rayon 7/32 de la largeur → 12.25px à 56px).
+       Plus de fond navy ni de liseré doré : la tuile appartient au logo. */
     .mark {
-      width: 56px; height: 56px; border-radius: 15px;
-      background: #232D3D;
-      border: 1px solid rgba(212,178,115,0.30);
+      width: 56px; height: 56px; border-radius: 12.25px;
+      background: #181B1F;
+      border: 1px solid rgba(255,255,255,0.14);
       display: flex; align-items: center; justify-content: center;
       box-shadow: 0 10px 28px -10px rgba(0,0,0,0.55);
     }
@@ -74,8 +77,11 @@
 
     <div class="brand">
       <div class="mark">
-        <svg width="30" height="27" viewBox="0 0 20.1 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 1C0 0.447716 0.447715 0 1 0L10.3093 0C13.7915 1.50063e-07 16.192 1.12414 18.061 3.25862C19.7332 5.33388 20.0694 7.3319 19.9891 9.34914C19.8317 13.306 17.7462 15.2845 15.7001 16.5647C13.7351 17.7941 10.6225 17.971 8.16135 17.996C7.6091 18.0016 7.16146 17.5523 7.16146 17L7.16146 11.3438C7.16146 11.0845 7.26212 10.8354 7.44223 10.649L9.3771 8.64607C10.0019 7.99931 11.0963 8.44159 11.0963 9.34086V13.431C11.0963 13.9833 11.5472 14.4196 12.0843 14.2913C12.9235 14.0908 14.1369 13.6025 15.0705 12.4138C15.9393 11.3076 16.3297 10.0474 16.3297 9C16.3297 7.79741 15.917 6.77112 15.0705 5.70259C13.5647 3.80172 10.9783 3.80172 10.3093 3.80172C8.46341 3.80172 6.12263 3.80172 4.81571 3.80172C4.26343 3.80172 3.81682 4.24944 3.81682 4.80172V5.63362C3.81682 6.1859 4.26453 6.63362 4.81682 6.63362H7.9963C8.87246 6.63362 9.32501 7.68039 8.72479 8.31867L7.10348 10.0428C6.91449 10.2438 6.65087 10.3578 6.37499 10.3578L4.81682 10.3578C4.26453 10.3578 3.81682 10.8055 3.81682 11.3578L3.81682 17C3.81682 17.5523 3.3691 18 2.81682 18H1C0.447716 18 0 17.5523 0 17L0 1Z" fill="#E3C690"/>
+        <!-- 35.2×31.5 = le glyphe occupe la même part de la tuile que dans le
+             composant (20.1/32 et 18/32 de 56px). margin-left = centrage
+             optique repris du fichier source (+1 unité sur 32, soit 1.75px). -->
+        <svg width="35.2" height="31.5" style="margin-left:1.75px" viewBox="0 0 20.1 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 1C0 0.447716 0.447715 0 1 0L10.3093 0C13.7915 1.50063e-07 16.192 1.12414 18.061 3.25862C19.7332 5.33388 20.0694 7.3319 19.9891 9.34914C19.8317 13.306 17.7462 15.2845 15.7001 16.5647C13.7351 17.7941 10.6225 17.971 8.16135 17.996C7.6091 18.0016 7.16146 17.5523 7.16146 17L7.16146 11.3438C7.16146 11.0845 7.26212 10.8354 7.44223 10.649L9.3771 8.64607C10.0019 7.99931 11.0963 8.44159 11.0963 9.34086V13.431C11.0963 13.9833 11.5472 14.4196 12.0843 14.2913C12.9235 14.0908 14.1369 13.6025 15.0705 12.4138C15.9393 11.3076 16.3297 10.0474 16.3297 9C16.3297 7.79741 15.917 6.77112 15.0705 5.70259C13.5647 3.80172 10.9783 3.80172 10.3093 3.80172C8.46341 3.80172 6.12263 3.80172 4.81571 3.80172C4.26343 3.80172 3.81682 4.24944 3.81682 4.80172V5.63362C3.81682 6.1859 4.26453 6.63362 4.81682 6.63362H7.9963C8.87246 6.63362 9.32501 7.68039 8.72479 8.31867L7.10348 10.0428C6.91449 10.2438 6.65087 10.3578 6.37499 10.3578L4.81682 10.3578C4.26453 10.3578 3.81682 10.8055 3.81682 11.3578L3.81682 17C3.81682 17.5523 3.3691 18 2.81682 18H1C0.447716 18 0 17.5523 0 17L0 1Z" fill="#EBD5B8"/>
         </svg>
       </div>
       <div class="wordmark">FLOWDEE</div>
@@ -87,9 +93,20 @@
       <div class="sub">Audit UX · priorisation impact/effort · maquettes correctives prêtes à implémenter.</div>
     </div>
 
+    <!-- Les deux chiffres de l'offre sont réécrits depuis
+         src/app/constants/offer.ts par scripts/og-image.mjs avant la capture :
+         c'est cette duplication qui avait laissé l'image annoncer un audit à
+         279 € et un délai de « 3 à 5 jours ». Les textes ci-dessous ne servent
+         plus qu'à prévisualiser le fichier seul dans un navigateur.
+         Pas de « dès » sur l'audit : le prix est ferme pour un périmètre borné
+         (jusqu'à 5 écrans/pages). « Dès » ne vaut que pour l'accompagnement
+         mensuel, et laissait entendre ici que la facture pouvait grimper. -->
     <div class="badges">
-      <div class="badge"><span class="pip"></span>Audit dès 890 €</div>
-      <div class="badge"><span class="pip"></span>Livré en 3 à 5 jours</div>
+      <!-- Libellé et valeur groupés dans un seul <span> : `.badge` est en
+           display:flex, donc un nœud de texte nu devient un élément flex et
+           l'espace de « Audit » venait s'ajouter au `gap` de 9px. -->
+      <div class="badge"><span class="pip"></span><span>Audit <span data-og="price">890 €</span></span></div>
+      <div class="badge"><span class="pip"></span><span data-og="delivery">Livraison sous 5 jours ouvrés</span></div>
     </div>
   </div>
 </body>

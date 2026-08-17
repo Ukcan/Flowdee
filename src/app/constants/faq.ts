@@ -4,8 +4,24 @@
  * Reprises telles quelles dans le JSON-LD `FAQPage` de `index.html` (Google
  * exige que ce balisage reproduise le contenu réellement affiché) et, en
  * partie, sur `/audit-ux`. Toute modification ici doit être reportée
- * manuellement dans `index.html`.
+ * dans `index.html` — mais ce report n'est plus laissé à la vigilance :
+ * `scripts/check-offer.mjs` échoue si les deux divergent, et tourne avant
+ * chaque build (voir `check:offer` dans package.json).
+ *
+ * Les chiffres de l'offre ne sont plus recopiés ici : ils viennent de
+ * `./offer`. La réponse « Combien de temps ça prend » portait 890 €, 3 900 €,
+ * 2 200 € et deux délais en dur, soit une quatrième copie à maintenir à la
+ * main après celles du hero, de la page /audit-ux et de l'image de partage.
  */
+
+import {
+  AUDIT_NAME,
+  AUDIT_PRICE,
+  AUDIT_DELIVERY,
+  AUDIT_START,
+  SPRINT_PRICE,
+  FRACTIONAL_PRICE,
+} from './offer';
 
 export interface FaqEntry {
   question: string;
@@ -32,7 +48,9 @@ export const FAQS: FaqEntry[] = [
   },
   {
     question: 'Combien de temps ça prend et combien ça coûte ?',
-    answer: 'Audit UX & Conversion : 890 €, livraison sous 5 jours ouvrés. Product Sprint + Tests : 3 900 €, 2 semaines. Fractional Product Designer : dès 2 200 €/mois, en continu. Démarrage confirmé sous 24 h après réception des éléments nécessaires. Paiement sécurisé.',
+    /* `AUDIT_DELIVERY` est capitalisé pour un usage autonome (« Livraison
+       sous… ») ; ici il s'insère en milieu de phrase, d'où la minuscule. */
+    answer: `${AUDIT_NAME} : ${AUDIT_PRICE}, ${AUDIT_DELIVERY.toLowerCase()}. Product Sprint + Tests : ${SPRINT_PRICE}, 2 semaines. Fractional Product Designer : dès ${FRACTIONAL_PRICE}/mois, en continu. ${AUDIT_START} Paiement sécurisé.`,
   },
   {
     question: 'Comment utiliser le livrable avec Figma, votre équipe dev ou Claude Code ?',

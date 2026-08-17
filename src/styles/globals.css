@@ -74,6 +74,13 @@
   --dark-section-bg: #141A24;
   --dark-section-surface: #1B2330;
 
+  /* Logo — la tuile du monogramme appartient au logo, pas au thème : elle
+     reste sombre dans les deux modes, comme une icône d'application. Seul le
+     liseré change, pour détacher son bord du navy en thème sombre. */
+  --logo-tile: #181B1F;
+  --logo-glyph: #EBD5B8;
+  --logo-tile-ring: transparent;
+
   /* Semantic surface aliases — clarify the overloaded surface-0/1/2 usage
      (section background vs. card vs. raised/hover) without changing any
      colour value. Resolved once here; automatically follow .dark overrides
@@ -128,6 +135,9 @@
   --inset-topline: inset 0 1px 0 rgba(245, 240, 232, 0.09);
   --dark-section-bg: #0E131B;
   --dark-section-surface: #1B2330;
+  /* La tuile (#181B1F) ne tient que 1,15:1 face au navy des surfaces : son
+     bord s'évanouit. Le filet clair le redessine sans toucher au logo. */
+  --logo-tile-ring: rgba(255, 255, 255, 0.14);
 }
 
 @theme inline {

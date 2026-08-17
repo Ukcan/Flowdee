@@ -1,11 +1,13 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Logo Flowdee — même géométrie que src/app/components/Brand/LogoFlowdee.tsx,
-       transposée du viewBox 32 au viewBox 64 (rx 7→14, glyphe scale 2 en 14,14).
-       Couleurs en dur : un favicon ne voit pas les tokens de thème. -->
-  <rect width="64" height="64" rx="14" fill="#181B1F"/>
-  <!-- Filet clair : détache le bord de la tuile des barres d'onglets sombres. -->
-  <rect x="1" y="1" width="62" height="62" rx="13" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="2"/>
-  <g transform="translate(14 14) scale(2)">
+  <!-- Icône « maskable » (Android / PWA installée). Le système applique sa propre
+       forme de découpe, qui peut aller jusqu'au cercle inscrit à 80 % : le fond
+       doit donc être plein bord à bord (pas d'angles arrondis, ils seraient
+       rognés) et le glyphe tenir dans la zone sûre centrale.
+       `site.webmanifest` déclarait `favicon.svg` en "any maskable" : sa tuile
+       arrondie perdait ses angles et la panse du D sortait de la zone sûre.
+       Glyphe à scale(1.7) → demi-diagonale 22,9 pour un rayon sûr de 25,6. -->
+  <rect width="64" height="64" fill="#181B1F"/>
+  <g transform="translate(16.7 16.7) scale(1.7)">
     <path d="M0 1C0 0.447716 0.447715 0 1 0L10.3093 0C13.7915 1.50063e-07 16.192 1.12414 18.061 3.25862C19.7332 5.33388 20.0694 7.3319 19.9891 9.34914C19.8317 13.306 17.7462 15.2845 15.7001 16.5647C13.7351 17.7941 10.6225 17.971 8.16135 17.996C7.6091 18.0016 7.16146 17.5523 7.16146 17L7.16146 11.3438C7.16146 11.0845 7.26212 10.8354 7.44223 10.649L9.3771 8.64607C10.0019 7.99931 11.0963 8.44159 11.0963 9.34086V13.431C11.0963 13.9833 11.5472 14.4196 12.0843 14.2913C12.9235 14.0908 14.1369 13.6025 15.0705 12.4138C15.9393 11.3076 16.3297 10.0474 16.3297 9C16.3297 7.79741 15.917 6.77112 15.0705 5.70259C13.5647 3.80172 10.9783 3.80172 10.3093 3.80172C8.46341 3.80172 6.12263 3.80172 4.81571 3.80172C4.26343 3.80172 3.81682 4.24944 3.81682 4.80172V5.63362C3.81682 6.1859 4.26453 6.63362 4.81682 6.63362H7.9963C8.87246 6.63362 9.32501 7.68039 8.72479 8.31867L7.10348 10.0428C6.91449 10.2438 6.65087 10.3578 6.37499 10.3578L4.81682 10.3578C4.26453 10.3578 3.81682 10.8055 3.81682 11.3578L3.81682 17C3.81682 17.5523 3.3691 18 2.81682 18H1C0.447716 18 0 17.5523 0 17L0 1Z" fill="#EBD5B8"/>
   </g>
 </svg>
