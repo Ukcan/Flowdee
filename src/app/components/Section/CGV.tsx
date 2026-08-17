@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { ArrowLeft } from '@phosphor-icons/react';
 import { useSeo } from '../../hooks/useSeo';
 
 /**
@@ -14,6 +15,8 @@ import { useSeo } from '../../hooks/useSeo';
  */
 
 export function CGVSection() {
+  const navigate = useNavigate();
+
   useSeo({
     title: 'Conditions générales de vente | Flowdee',
     description: 'Conditions générales de vente de Flowdee : offres, tarifs, modalités de paiement, livraison et rétractation.',
@@ -34,6 +37,18 @@ export function CGVSection() {
           <li className="text-text-secondary" aria-current="page">CGV</li>
         </ol>
       </nav>
+
+      {/* Retour — navigue vers la page précédente (accueil, /audit-ux...) plutôt
+          que de fermer un calque : cette page n'en est plus un. */}
+      <div className="max-w-[1000px] mx-auto px-8 md:px-16 mt-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-3 font-body text-[14px] font-bold text-text-primary hover:text-accent-primary transition-all px-5 py-2.5 rounded-2xl bg-surface-1 border border-border-0"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span>Retour</span>
+        </button>
+      </div>
 
       {/* Content */}
       <div className="max-w-[1000px] mx-auto px-8 md:px-16 py-12 md:py-16">
