@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, useLocation } from 'react-router';
 import { Toaster } from './components/ui/sonner';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { EditableContentProvider } from './contexts/EditableContentContext';
@@ -50,6 +50,20 @@ export default function App() {
     return true; // Default: Midnight Navy (dark)
   });
   const [forceShowCookies, setForceShowCookies] = useState(false);
+  const location = useLocation();
+
+  // React Router ne fait rien au scroll lors d'un changement de route en SPA
+  // (ce n'est pas un vrai chargement de page) : sans ce correctif, une
+  // nouvelle page s'affichait à la position de défilement laissée par la
+  // précédente — flagrant sur "Retour" (navigate(-1)), qui rendait avec la
+  // mise en page encore en train de s'stabiliser (GSAP/ScrollTrigger,
+  // images). On ignore les URL avec ancre (`/#services`) : elles arrivent
+  // toujours via un <a> classique (rechargement complet), le navigateur gère
+  // déjà leur défilement nativement.
+  useEffect(() => {
+    if (location.hash) return;
+    window.scrollTo(0, 0);
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     // Apply dark class immediately on mount (sync with state init)
