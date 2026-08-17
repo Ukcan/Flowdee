@@ -38,11 +38,12 @@ export function CGVSection() {
         </ol>
       </nav>
 
-      {/* Retour — navigue vers la page précédente (accueil, /audit-ux...) plutôt
-          que de fermer un calque : cette page n'en est plus un. */}
+      {/* Retour — ramène toujours à l'accueil (en haut, cf. le scroll-to-top
+          global sur changement de route dans App.tsx), plutôt que la page
+          précédente dans l'historique. */}
       <div className="max-w-[1000px] mx-auto px-8 md:px-16 mt-6">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/')}
           className="inline-flex items-center gap-3 font-body text-[14px] font-bold text-text-primary hover:text-accent-primary transition-all px-5 py-2.5 rounded-2xl bg-surface-1 border border-border-0"
         >
           <ArrowLeft className="w-5 h-5" />
