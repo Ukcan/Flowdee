@@ -50,6 +50,25 @@ export const AUDIT_DIMENSIONS = 'UX & Conversion · SEO UX · Accessibilité · 
 export const AUDIT_DIMENSIONS_SENTENCE =
   'Contrôles SEO UX, accessibilité et microcopy inclus.';
 
+/**
+ * Eyebrow du hero — remplace l'ancienne liste de compétences (UX & Conversion ·
+ * SEO UX · Accessibilité · Microcopy), qui identifiait quatre audits distincts
+ * plutôt qu'une seule offre. L'eyebrow nomme l'offre et son délai, deux
+ * informations qu'un visiteur qui arrive sur la page n'a pas encore.
+ */
+export const AUDIT_EYEBROW = 'Audit UX & Conversion · Livré sous 5 jours';
+
+/** Repris à l'identique dans les livrables détaillés et dans les bénéfices du hero. */
+export const AUDIT_FIGMA_SCREEN = '1 écran clé corrigé dans Figma';
+
+/**
+ * Périmètre reformulé en exemples concrets de parcours plutôt qu'en
+ * abstraction ("un parcours critique") : utilisé sous la proposition de
+ * valeur du hero, en information secondaire.
+ */
+export const AUDIT_SCOPE_EXAMPLES =
+  'Landing page, onboarding, checkout ou parcours critique · jusqu’à 5 écrans/pages.';
+
 /** Liste unique, reprise à l'identique partout où les livrables sont détaillés. */
 export const AUDIT_DELIVERABLES = [
   AUDIT_SCOPE,
@@ -58,7 +77,7 @@ export const AUDIT_DELIVERABLES = [
   'Contrôles SEO UX',
   'Contrôles d’accessibilité WCAG 2.2 AA sur le périmètre audité',
   'Microcopy prioritaire réécrite',
-  '1 écran clé corrigé dans Figma',
+  AUDIT_FIGMA_SCREEN,
   'Rapport final priorisé',
   AUDIT_DELIVERY,
 ] as const;
@@ -83,6 +102,15 @@ export const CTA = {
   caseStudy: 'Voir l’étude de cas',
   sampleReport: 'Voir un exemple de rapport',
   auditContents: 'Découvrir ce que contient l’audit',
+  /**
+   * CTA secondaire du hero uniquement. Mène à la même ancre que
+   * `auditContents` (#deliverables — aucune page d'exemple de livrable
+   * n'existe sur le site) mais porte un libellé distinct : `auditContents`
+   * reste utilisé ailleurs (ProblemCards) dans un contexte différent
+   * ("on vient de reconnaître un problème"), qu'un renommage global aurait
+   * changé sans nécessité.
+   */
+  auditSample: 'Voir un exemple de livrable',
 } as const;
 
 /** Réassurance sous le bouton d'achat. */
