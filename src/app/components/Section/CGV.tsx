@@ -842,18 +842,19 @@ export function CGVSection() {
             {/* Note informative de fin — pas un article numéroté, comme dans le texte source */}
             <article className="bg-surface-1 p-10 rounded-[32px] border border-border-0 space-y-6">
               <h2 className="text-xl font-heading text-text-primary tracking-[-0.01em]" style={{ fontWeight: 500 }}>
-                Information importante concernant le démarrage anticipé
+                Démarrage de la prestation avant la fin du délai de rétractation
               </h2>
               <div className="space-y-4 font-body text-[15px] leading-relaxed text-text-primary/80">
                 <p>
-                  Lorsqu’un consommateur demande que Flowdee commence la prestation avant l’expiration du délai de rétractation, l’interface de commande doit recueillir séparément et explicitement cette demande.
+                  Lorsqu’un Client consommateur souhaite que l’exécution de la prestation commence avant l’expiration du délai légal de rétractation de 14 jours, il doit en faire la demande expresse.
                 </p>
-                <p>Exemple :</p>
-                <div className="bg-surface-0 border border-border-0 rounded-2xl p-5 font-body text-[14px] text-text-primary/90 space-y-3">
-                  <p>☐ Je demande expressément que Flowdee commence l’exécution de la prestation avant l’expiration du délai légal de rétractation de 14 jours.</p>
-                  <p>☐ Je reconnais qu’une fois la prestation pleinement exécutée, je perdrai mon droit de rétractation dans les conditions prévues par la loi.</p>
-                </div>
-                <p>Ces cases ne doivent pas être précochées.</p>
+                <p>
+                  Si le consommateur exerce ensuite son droit de rétractation alors que l’exécution de la prestation a commencé à sa demande, il reste redevable du montant correspondant aux services effectivement fournis jusqu’à la communication de sa décision de se rétracter, calculé proportionnellement au prix total convenu.
+                </p>
+                <p>
+                  Lorsque la prestation a été pleinement exécutée avant l’expiration du délai de rétractation, le consommateur perd son droit de rétractation lorsque les conditions prévues par la loi ont été respectées, notamment son accord préalable exprès pour le commencement de l’exécution et sa reconnaissance de la perte de son droit après exécution complète.
+                </p>
+                <p>Ces dispositions s’appliquent uniquement lorsque le consommateur bénéficie légalement d’un droit de rétractation.</p>
               </div>
             </article>
           </div>
