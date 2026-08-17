@@ -11,6 +11,7 @@ import { FooterSection } from './components/Section/Footer';
 import { CGVSection } from './components/Section/CGV';
 import { PrivacySection } from './components/Section/Privacy';
 import { MentionsLegalesSection } from './components/Section/MentionsLegales';
+import { SeRetracterPage } from './pages/SeRetracter';
 import { ScrollToTopButton } from './components/Button/ScrollToTop';
 import { CookieBanner } from './components/Consent/CookieBanner';
 import { ScrollBarIndicator } from './components/Indicator/ScrollBar';
@@ -202,6 +203,7 @@ export default function App() {
               <Route path="/cgv" element={<CGVSection />} />
               <Route path="/politique-de-confidentialite" element={<PrivacySection />} />
               <Route path="/mentions-legales" element={<MentionsLegalesSection />} />
+              <Route path="/se-retracter" element={<SeRetracterPage />} />
             </Routes>
           </main>
 

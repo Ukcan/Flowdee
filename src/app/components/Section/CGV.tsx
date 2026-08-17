@@ -280,12 +280,23 @@ export function CGVSection() {
 
             <Article n={12} title="Rétractation en ligne">
               <p>
-                Flowdee ne dispose pas, à ce jour, d’une interface de commande en ligne propre assortie d’un mécanisme de rétractation intégré : le paiement des prestations proposées à la commande directe s’effectue via Stripe, une interface de paiement tierce.
+                Lorsqu’une commande soumise au droit de rétractation est conclue au moyen de l’interface en ligne de Flowdee, une fonctionnalité permettant au consommateur d’exercer sa rétractation directement en ligne est mise à disposition à l’adresse suivante :
               </p>
               <p>
-                Le consommateur exerce donc son droit de rétractation par e-mail ou au moyen du formulaire type figurant en annexe, dans les conditions décrites à l’article 10.
+                <a href="https://flowdee.fr/se-retracter" className="text-accent-primary hover:underline">
+                  https://flowdee.fr/se-retracter
+                </a>
               </p>
-              <p>Après la transmission de la demande, Flowdee adresse au consommateur un accusé de réception sur un support durable.</p>
+              <p>Elle permet notamment d’identifier :</p>
+              <List
+                items={[
+                  'le consommateur',
+                  'le contrat ou la commande concernée',
+                  'le moyen permettant de lui transmettre l’accusé de réception',
+                ]}
+              />
+              <p>Flowdee adresse ensuite au consommateur un accusé de réception de sa demande sur un support durable.</p>
+              <p>Le consommateur peut également exercer son droit de rétractation par e-mail ou au moyen du formulaire type figurant en annexe, dans les conditions décrites à l’article 10.</p>
             </Article>
 
             <Article n={13} title="Collaboration du Client">
@@ -771,6 +782,13 @@ export function CGVSection() {
               </h2>
               <div className="space-y-4 font-body text-[15px] leading-relaxed text-text-primary/80">
                 <p>Ce formulaire concerne uniquement les Clients consommateurs bénéficiant d’un droit légal de rétractation.</p>
+                <p>
+                  Vous pouvez également exercer votre droit de rétractation directement en ligne depuis notre{' '}
+                  <Link to="/se-retracter" className="text-accent-primary hover:underline">
+                    formulaire de rétractation
+                  </Link>
+                  .
+                </p>
                 <p>À l’attention de :</p>
                 <p>
                   <strong className="text-text-primary font-bold">Flowdee — Benjamin Duffau</strong><br />

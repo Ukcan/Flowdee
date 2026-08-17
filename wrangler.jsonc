@@ -2,13 +2,26 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "claude-pour-figma",
   "compatibility_date": "2026-06-02",
+  "main": "worker/index.ts",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    // Nommé explicitement : le Worker s'en sert (env.ASSETS.fetch) pour
+    // servir toute route qui n'est pas /api/*, sans dupliquer la logique
+    // de fallback/404 déjà gérée nativement par les assets.
+    "binding": "ASSETS"
   },
   "compatibility_flags": [
     "nodejs_compat"
+  ],
+  // Stocke les demandes de rétractation (voir worker/index.ts).
+  // Namespace "se-retracter", créé le 17/08/2026 sur le compte Benjamin DUFFAU.
+  "kv_namespaces": [
+    {
+      "binding": "WITHDRAWAL_KV",
+      "id": "a3625193de0042508dc1e5db891deedc"
+    }
   ]
 }

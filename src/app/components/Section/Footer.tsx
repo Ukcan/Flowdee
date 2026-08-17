@@ -146,15 +146,21 @@ export function FooterSection({ onOpenCookies }: FooterSectionProps) {
                 >
                   Politique de confidentialité
                 </Link>
-                <button onClick={onOpenCookies} className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
-                  Gestion des cookies
-                </button>
                 <Link
                   to="/cgv"
                   className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
                 >
                   CGV
                 </Link>
+                <Link
+                  to="/se-retracter"
+                  className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
+                >
+                  Se rétracter
+                </Link>
+                <button onClick={onOpenCookies} className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
+                  Gestion des cookies
+                </button>
               </nav>
             </div>
 

@@ -5,6 +5,9 @@ interface SeoOptions {
   description: string;
   /** URL absolue (https://flowdee.fr/...). */
   canonical: string;
+  /** Défaut : "index, follow". À ne surcharger que pour une page comme
+   *  /se-retracter, qui doit rester joignable mais pas indexée. */
+  robots?: string;
 }
 
 function upsertMeta(attr: 'name' | 'property', key: string, content: string) {
@@ -35,15 +38,16 @@ function upsertCanonical(href: string) {
  * l'avance — il relit ces mêmes tags une fois que chaque page les a posés,
  * pour générer un `dist/<route>/index.html` avec le bon `<head>`.
  */
-export function useSeo({ title, description, canonical }: SeoOptions) {
+export function useSeo({ title, description, canonical, robots = 'index, follow' }: SeoOptions) {
   useEffect(() => {
     document.title = title;
     upsertMeta('name', 'description', description);
+    upsertMeta('name', 'robots', robots);
     upsertCanonical(canonical);
     upsertMeta('property', 'og:title', title);
     upsertMeta('property', 'og:description', description);
     upsertMeta('property', 'og:url', canonical);
     upsertMeta('name', 'twitter:title', title);
     upsertMeta('name', 'twitter:description', description);
-  }, [title, description, canonical]);
+  }, [title, description, canonical, robots]);
 }

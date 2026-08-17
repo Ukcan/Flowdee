@@ -26,7 +26,11 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
-const distDir = path.join(root, 'dist');
+// Depuis l'ajout du Worker (voir worker/index.ts), @cloudflare/vite-plugin
+// sépare le build en deux sorties : les assets statiques dans dist/client/
+// et le bundle du Worker dans dist/<nom-du-worker>/. Le prérendu ne touche
+// que les assets statiques.
+const distDir = path.join(root, 'dist', 'client');
 const distIndexPath = path.join(distDir, 'index.html');
 
 // Une entrée par route réellement crawlable. Pour ajouter une étude de cas,
@@ -40,6 +44,7 @@ const ROUTES = [
   '/cgv',
   '/politique-de-confidentialite',
   '/mentions-legales',
+  '/se-retracter',
 ];
 
 function outputPathFor(route) {
@@ -114,6 +119,7 @@ async function renderRoute(page, baseUrl, route, isFirst) {
     title: document.title,
     description: document.querySelector('meta[name="description"]')?.content ?? '',
     canonical: document.querySelector('link[rel="canonical"]')?.href ?? '',
+    robots: document.querySelector('meta[name="robots"]')?.content ?? 'index, follow',
   }));
 }
 
@@ -138,13 +144,14 @@ async function main() {
   try {
     for (const [i, route] of ROUTES.entries()) {
       console.log(`[prerender] rendu de ${route}...`);
-      const { html, title, description, canonical } = await renderRoute(page, baseUrl, route, i === 0);
+      const { html, title, description, canonical, robots } = await renderRoute(page, baseUrl, route, i === 0);
 
       let output = template.replace('<div id="root"></div>', `<div id="root">${html}</div>`);
 
       if (route !== '/') {
         output = replaceTagText(output, 'title', title);
         output = replaceMetaContent(output, 'name', 'description', description);
+        output = replaceMetaContent(output, 'name', 'robots', robots);
         output = replaceCanonical(output, canonical);
         output = replaceMetaContent(output, 'property', 'og:title', title);
         output = replaceMetaContent(output, 'property', 'og:description', description);

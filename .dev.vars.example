@@ -1,0 +1,10 @@
+# Copier en .dev.vars pour le développement local (jamais commité).
+# En production, définir ces valeurs avec `wrangler secret put <NOM>`.
+
+# Clé API Resend (https://resend.com) — utilisée par worker/index.ts pour
+# la notification interne et l'accusé de réception de /se-retracter.
+RESEND_API_KEY=
+
+# Optionnel — adresse qui reçoit la notification interne de rétractation.
+# Défaut si absent : contact@flowdee.fr
+WITHDRAWAL_NOTIFY_TO=contact@flowdee.fr
