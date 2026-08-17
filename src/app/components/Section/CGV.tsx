@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
-import { X, ArrowLeft } from '@phosphor-icons/react';
+import { Link } from 'react-router';
 import { useSeo } from '../../hooks/useSeo';
 
 /**
@@ -8,67 +8,35 @@ import { useSeo } from '../../hooks/useSeo';
  * Nomenclature Figma: Section/CGV
  * Conditions Générales de Vente
  *
- * Route à part entière (/cgv) plutôt qu'un état local : la page a sa propre
- * URL, partageable, avec un vrai titre.
+ * Page à part entière (/cgv) : contenu dans le flux normal, sous le header
+ * et au-dessus du footer comme n'importe quelle autre page — pas un calque
+ * plein-écran superposé au reste du site.
  */
 
-interface CGVSectionProps {
-  onClose: () => void;
-}
-
-export function CGVSection({ onClose }: CGVSectionProps) {
+export function CGVSection() {
   useSeo({
     title: 'Conditions générales de vente | Flowdee',
     description: 'Conditions générales de vente de Flowdee : offres, tarifs, modalités de paiement, livraison et rétractation.',
     canonical: 'https://flowdee.fr/cgv/',
   });
 
-  // Ce plein-écran couvre tout, y compris le header/footer persistants
-  // (fixed inset-0, z-[110] plus bas) : verrouiller le scroll du fond évite
-  // un double défilement tant que cette route est affichée.
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    document.body.style.paddingRight = 'var(--scrollbar-width, 0px)';
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-    };
-  }, []);
-
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[110] overflow-y-auto bg-bg-base"
-    >
-      {/* Background overlay for legibility */}
-      <div className="fixed inset-0 bg-bg-base -z-10" />
-
-      {/* Header with close button */}
-      <div className="sticky top-0 z-20 bg-surface-0/90 backdrop-blur-md border-b border-border-0">
-        <div className="max-w-[1000px] mx-auto px-8 md:px-16 py-6">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={onClose}
-              className="flex items-center gap-3 font-body text-[14px] font-bold text-text-primary hover:text-accent-primary transition-all px-5 py-2.5 rounded-2xl bg-surface-1 border border-border-0"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span>Retour</span>
-            </button>
-            <button
-              onClick={onClose}
-              className="w-12 h-12 bg-surface-1 border border-border-0 text-text-primary hover:text-accent-primary rounded-2xl transition-all flex items-center justify-center"
-              aria-label="Fermer les CGV"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-        </div>
-      </div>
+    <>
+      {/* Fil d'Ariane — même pattern que /audit-ux et /etudes-de-cas/:slug */}
+      <nav aria-label="Fil d’Ariane" className="max-w-[1000px] mx-auto px-8 md:px-16 pt-28 md:pt-32">
+        <ol className="flex items-center gap-2 font-body text-[12px] text-text-muted">
+          <li>
+            <Link to="/" className="hover:text-accent-primary transition-colors underline-offset-4 hover:underline">
+              Accueil
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li className="text-text-secondary" aria-current="page">CGV</li>
+        </ol>
+      </nav>
 
       {/* Content */}
-      <div className="max-w-[1000px] mx-auto px-8 md:px-16 py-16 md:py-20 relative z-10">
+      <div className="max-w-[1000px] mx-auto px-8 md:px-16 py-12 md:py-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -146,6 +114,6 @@ export function CGVSection({ onClose }: CGVSectionProps) {
           </div>
         </motion.div>
       </div>
-    </motion.div>
+    </>
   );
 }
