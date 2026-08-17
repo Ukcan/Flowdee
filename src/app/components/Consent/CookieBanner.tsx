@@ -75,13 +75,11 @@ export function CookieBanner({ forceShow, onClose }: { forceShow?: boolean, onCl
 
   return (
     <>
-      {/* Backdrop overlay */}
-      <div 
-        className="fixed inset-0 z-[9999] bg-black/30 transition-opacity duration-300"
-        onClick={() => { setShow(false); if (onClose) onClose(); }}
-        aria-hidden="true"
-      />
-      <div 
+      {/* Pas de calque de fond : la bannière est un encart de coin, pas une
+          modale — un fixed inset-0 par-dessus toute la page bloquait tous
+          les clics du site (liens du footer, nav, CTA...) tant que le
+          visiteur n'avait pas répondu, consentement ou non. */}
+      <div
         className="fixed inset-x-0 bottom-0 z-[10000] p-4 md:p-8 flex justify-center md:justify-end pointer-events-none"
         style={{ isolation: 'isolate' }}
       >
