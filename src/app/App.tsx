@@ -10,6 +10,7 @@ import { EtudeDeCasPage } from './pages/EtudeDeCas';
 import { FooterSection } from './components/Section/Footer';
 import { CGVSection } from './components/Section/CGV';
 import { PrivacySection } from './components/Section/Privacy';
+import { MentionsLegalesSection } from './components/Section/MentionsLegales';
 import { ScrollToTopButton } from './components/Button/ScrollToTop';
 import { CookieBanner } from './components/Consent/CookieBanner';
 import { ScrollBarIndicator } from './components/Indicator/ScrollBar';
@@ -186,6 +187,7 @@ export default function App() {
               <Route path="/etudes-de-cas/:slug" element={<EtudeDeCasPage />} />
               <Route path="/cgv" element={<CGVSection />} />
               <Route path="/politique-de-confidentialite" element={<PrivacySection />} />
+              <Route path="/mentions-legales" element={<MentionsLegalesSection />} />
             </Routes>
           </main>
 

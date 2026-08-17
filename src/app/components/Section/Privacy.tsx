@@ -174,7 +174,7 @@ export function PrivacySection() {
                   6. Partage des données
                 </h2>
                 <p className="font-body text-[15px] leading-relaxed text-text-primary/80">
-                  {renderText("Aucune donnée n'est vendue. Nous utilisons des sous-traitants de confiance : **Google** (Analytics, Gmail, Drive), **Notion**, **Slack** et **Vercel**. Ils respectent tous les normes du **RGPD**.")}
+                  {renderText("Aucune donnée n'est vendue. Nous utilisons des sous-traitants de confiance : **Google** (Analytics, Gmail, Drive), **Notion**, **Slack** et **Cloudflare**. Ils respectent tous les normes du **RGPD**.")}
                 </p>
               </div>
             </article>
@@ -217,7 +217,7 @@ export function PrivacySection() {
                   10. Hébergement
                 </h2>
                 <p className="font-body text-[15px] leading-relaxed text-text-primary/80">
-                  {renderText("Le site est hébergé par **Vercel Inc.** (San Francisco, USA). Les serveurs sont sécurisés et conformes aux normes européennes de protection des données.")}
+                  {renderText("Le site est hébergé par **Cloudflare, Inc.** (San Francisco, USA). Les serveurs sont sécurisés et conformes aux normes européennes de protection des données.")}
                 </p>
               </article>
             </div>

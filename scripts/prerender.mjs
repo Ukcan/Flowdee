@@ -39,6 +39,7 @@ const ROUTES = [
   '/etudes-de-cas/optimisation-checkout-ecommerce',
   '/cgv',
   '/politique-de-confidentialite',
+  '/mentions-legales',
 ];
 
 function outputPathFor(route) {

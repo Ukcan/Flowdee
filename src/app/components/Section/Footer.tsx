@@ -134,12 +134,12 @@ export function FooterSection({ onOpenCookies }: FooterSectionProps) {
             <div className="space-y-6 min-w-[140px]">
               <h3 className="font-heading text-[13px] font-medium uppercase tracking-[0.08em] text-text-primary">LÉGAL</h3>
               <nav className="flex flex-col" aria-label="Liens légaux">
-                {/* Mentions légales : bouton inactif faute de contenu réel
-                    (raison sociale, SIRET, adresse...) à publier — voir CGV et
-                    Politique de confidentialité pour le contenu déjà existant. */}
-                <button className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
+                <Link
+                  to="/mentions-legales"
+                  className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
+                >
                   Mentions légales
-                </button>
+                </Link>
                 <Link
                   to="/politique-de-confidentialite"
                   className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
