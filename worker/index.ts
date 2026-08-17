@@ -174,30 +174,55 @@ async function sendEmail(env: Env, to: string, subject: string, text: string): P
     console.error('withdrawal: RESEND_API_KEY manquante, e-mail non envoyé', { to, subject });
     return;
   }
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: MAIL_FROM,
-      reply_to: MAIL_REPLY_TO,
-      to: [to],
-      subject,
-      text,
-    }),
-  });
-  if (!res.ok) {
-    // Le corps de la réponse porte le motif exact du refus (champ invalide,
-    // domaine non vérifié, quota atteint…). Sans lui, un échec d'envoi est
-    // indiagnosticable : on log donc le destinataire et le corps entier.
+  // Un secret déposé par copier-coller peut embarquer un retour à la ligne ou
+  // une espace finale, invisibles mais suffisants pour rendre l'en-tête
+  // Authorization invalide (fetch lève alors une exception) ou pour faire
+  // rejeter le jeton. On nettoie, et on le signale si c'était le cas.
+  const apiKey = env.RESEND_API_KEY.trim();
+  if (apiKey !== env.RESEND_API_KEY) {
+    console.warn('withdrawal: RESEND_API_KEY contenait des caractères parasites, nettoyée avant envoi');
+  }
+
+  // Les deux appels sont lancés par un Promise.allSettled : sans ce try/catch,
+  // une exception (en-tête invalide, DNS, réseau) serait avalée et l'envoi
+  // échouerait sans laisser la moindre trace dans les logs.
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: MAIL_FROM,
+        reply_to: MAIL_REPLY_TO,
+        to: [to],
+        subject,
+        text,
+      }),
+    });
+    // Le corps porte le motif exact du refus (champ invalide, domaine non
+    // vérifié, quota atteint…) ou, en cas de succès, l'id du message chez
+    // Resend — seule preuve qu'il a bien pris la main sur l'envoi.
     const detail = await res.text().catch(() => '<corps illisible>');
-    console.error('withdrawal: échec envoi e-mail Resend', {
-      status: res.status,
+    if (!res.ok) {
+      console.error('withdrawal: échec envoi e-mail Resend', {
+        status: res.status,
+        to,
+        from: MAIL_FROM,
+        detail: detail || '<corps vide>',
+        longueurCle: apiKey.length,
+        prefixeCleOk: apiKey.startsWith('re_'),
+      });
+      return;
+    }
+    console.log('withdrawal: e-mail accepté par Resend', { to, from: MAIL_FROM, detail });
+  } catch (err) {
+    console.error('withdrawal: exception pendant l’envoi Resend', {
       to,
-      from: MAIL_FROM,
-      detail: detail || '<corps vide>',
+      erreur: String(err),
+      longueurCle: apiKey.length,
+      prefixeCleOk: apiKey.startsWith('re_'),
     });
   }
 }
