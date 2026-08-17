@@ -13,7 +13,8 @@ import {
 } from '../../constants/offer';
 
 /**
- * Hero — optimisée conversion (offre d'audit 890 €).
+ * Hero — optimisée conversion (offre d'audit ; prix et délai lus dans
+ * constants/offer, jamais écrits ici).
  * Hiérarchie épurée : un seul H1 (dominant visuellement et sémantiquement),
  * une proposition de valeur, un périmètre en information secondaire, trois
  * preuves concrètes, un seul CTA dominant (achat audit), réassurance couplée,

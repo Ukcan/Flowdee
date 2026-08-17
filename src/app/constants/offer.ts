@@ -55,8 +55,14 @@ export const AUDIT_DIMENSIONS_SENTENCE =
  * SEO UX · Accessibilité · Microcopy), qui identifiait quatre audits distincts
  * plutôt qu'une seule offre. L'eyebrow nomme l'offre et son délai, deux
  * informations qu'un visiteur qui arrive sur la page n'a pas encore.
+ *
+ * Composé depuis AUDIT_NAME et AUDIT_DELIVERY_SHORT, et non écrit à la main :
+ * il annonçait « Livré sous 5 jours » quand tout le reste du site dit « 5 jours
+ * ouvrés ». Sur la toute première ligne lue de la page, ça promettait mercredi
+ * pour une commande du vendredi alors que l'engagement réel est le vendredi
+ * suivant — deux jours calendaires d'écart, dans la ligne qui sert de promesse.
  */
-export const AUDIT_EYEBROW = 'Audit UX & Conversion · Livré sous 5 jours';
+export const AUDIT_EYEBROW = `${AUDIT_NAME} · ${AUDIT_DELIVERY_SHORT}`;
 
 /** Repris à l'identique dans les livrables détaillés et dans les bénéfices du hero. */
 export const AUDIT_FIGMA_SCREEN = '1 écran clé corrigé dans Figma';

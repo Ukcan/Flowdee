@@ -1,12 +1,48 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { UserMinus, ShoppingCartSimple, Path } from '@phosphor-icons/react';
 import { ParallaxHeading } from './Decor/ParallaxHeading';
 import { useTranslation } from '../contexts/LanguageContext';
 import { TechnicalLabel } from './TechnicalLabel';
 import { ButtonPrimary } from './Button/Primary';
 import { ButtonSecondary } from './Button/Secondary';
 import { CTA } from '../constants/offer';
+
+/**
+ * Signaux — liste numérotée éditoriale (remplace la grille de 3 cartes).
+ * Décalage horizontal en zigzag sur desktop (01/03 à gauche, 02 décalé à
+ * droite) : la ligne sous le numéro va toujours jusqu'au bord droit de la
+ * section, quel que soit le décalage — d'où la colonne "spacer" en % plutôt
+ * qu'une simple marge.
+ */
+const SIGNALS = [
+  {
+    number: '01',
+    offset: 0,
+    statement: 'Votre offre n’est pas comprise assez vite.',
+    label: 'Offre floue',
+    description: 'Le visiteur part avant d’avoir compris.',
+  },
+  {
+    number: '02',
+    offset: 24,
+    statement: 'Vos parcours demandent trop d’effort.',
+    label: 'Trop d’étapes',
+    description: 'Hésitation. Friction. Abandon.',
+  },
+  {
+    number: '03',
+    offset: 0,
+    statement: (
+      <>
+        Du trafic.
+        <br />
+        Peu de conversions.
+      </>
+    ),
+    label: 'Preuve tardive',
+    description: 'La confiance arrive après la décision.',
+  },
+] as const;
 
 export function ProblemCards() {
   const { t } = useTranslation();
@@ -25,15 +61,6 @@ export function ProblemCards() {
       className="relative py-24 md:py-32 section-grid overflow-hidden"
       aria-label="Frictions UX fréquentes"
     >
-      {/* Les cartes ne sont plus cliquables : les états de survol, d'appui et
-          de focus qui les faisaient passer pour des boutons sont retirés. Un
-          élément qui se soulève au survol annonce une action ; il n'y en a
-          pas ici. Seul reste le fond, qui les détache du fond de section. */}
-      <style>{`
-        .problem-card.card-surface {
-          background-color: var(--surface-0) !important;
-        }
-      `}</style>
       <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
         <div className="flex flex-col items-center mb-16">
           {/* <TechnicalLabel sectionId="PROBLEMS_01" /> */}
@@ -43,185 +70,46 @@ export function ProblemCards() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="heading-1 text-center text-text-primary mt-4 whitespace-nowrap text-[clamp(1.3rem,4.4vw,3.3rem)]"
+              className="heading-1 text-center text-text-primary mt-4"
             >
-              CES SIGNAUX VOUS PARLENT ?
+              LES SIGNAUX
             </motion.h2>
           </ParallaxHeading>
         </div>
 
-        {/* Container: Horizontal Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full items-stretch">
-          
-          {/* Card 1: Onboarding */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <article
-              className="w-full card-surface problem-card flex flex-col items-center text-center p-10 h-full justify-between"
-              >
-              {/* TopGroup - Internal structure to align top elements */}
-              <div className="flex flex-col items-center w-full gap-6">
-                {/* Slot 1: Icon */}
-                <div className="h-[64px] flex items-center justify-center">
-                  <div className="w-[56px] h-[56px] flex items-center justify-center bg-surface-1 rounded-[16px]">
-                    <UserMinus size={28} weight="duotone" className="text-accent-primary" />
-                  </div>
+        {/* Liste numérotée — 01/03 pleine largeur à gauche, 02 décalé à
+            droite sur desktop via une colonne "spacer" en % (la ligne sous le
+            numéro, en flex-1, atteint alors toujours le même bord droit,
+            quel que soit le décalage). Une seule colonne sur mobile : le
+            décalage ne s'applique qu'à partir de lg. */}
+        <div className="flex flex-col gap-14 md:gap-16 w-full">
+          {SIGNALS.map((signal, i) => (
+            <motion.div
+              key={signal.number}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 * (i + 1) }}
+              className={`grid grid-cols-1 w-full ${signal.offset > 0 ? 'lg:grid-cols-[24%_1fr]' : ''}`}
+            >
+              {signal.offset > 0 && <div aria-hidden="true" />}
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="font-body text-[13px] tracking-[0.15em] text-text-muted tabular-nums shrink-0">
+                    {signal.number}
+                  </span>
+                  <span className="h-px flex-1 bg-border-1" aria-hidden="true" />
                 </div>
-
-                {/* Slot 2: Title - Align to the top to sync the first line across cards */}
-                <div className="h-[56px] flex items-start justify-center w-full">
-                  <h3 className="font-heading text-[20px] text-text-primary leading-[1.2] max-w-[280px] tracking-[-0.01em]" style={{ fontWeight: 400 }}>
-                    VOTRE OFFRE N’EST PAS COMPRISE ASSEZ VITE ?
-                  </h3>
-                </div>
-                
-                {/* Group for Stats elements to maintain internal consistency */}
-                <div className="flex flex-col items-center w-full">
-                  {/* Slot 3: Stat */}
-                  <div className="h-[44px] flex items-center justify-center w-full">
-                    <span className="font-display text-[26px] text-accent-primary leading-none tracking-[-0.01em] whitespace-nowrap" style={{ fontWeight: 700 }}>
-                      Offre floue
-                    </span>
-                  </div>
-                  {/* Slot 4: Subtext */}
-                  <div className="h-[40px] flex items-start justify-center w-full mt-1">
-                    <span className="font-body text-[11px] font-medium uppercase tracking-widest text-text-muted max-w-[240px]">
-                      le visiteur part avant d’avoir compris
-                    </span>
-                  </div>
-                  {/* Slot 5: Meta */}
-                </div>
+                <p className="font-display font-bold tracking-[-0.02em] leading-[1.15] text-text-primary text-[clamp(1.5rem,3vw,2.25rem)] max-w-[560px]">
+                  {signal.statement}
+                </p>
+                <p className="font-heading text-[15px] font-semibold uppercase tracking-[0.08em] text-accent-primary mt-5">
+                  {signal.label}
+                </p>
+                <p className="font-body text-[14px] text-text-muted mt-1.5">{signal.description}</p>
               </div>
-
-              {/* BottomGroup - Locked to the bottom of the card */}
-              <div className="flex flex-col items-center w-full gap-6 mt-12">
-                {/* Slot 6: Pill - disabled per Zero Deletion Policy */}
-                {/* <div className="h-[48px] flex items-center justify-center w-full">
-                  <div className="w-full px-4 py-3 bg-[#7EC3F5]/15 text-[#7EC3F5] font-body text-[11px] font-medium uppercase tracking-widest rounded-lg cursor-default select-none">
-                    → CAC PERDU · CROISSANCE BLOQUÉE
-                  </div>
-                </div> */}
-
-              </div>
-            </article>
-          </motion.div>
-
-          {/* Card 2: Checkout */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <article
-              className="w-full card-surface problem-card flex flex-col items-center text-center p-10 h-full justify-between"
-              >
-              {/* TopGroup */}
-              <div className="flex flex-col items-center w-full gap-6">
-                {/* Slot 1: Icon */}
-                <div className="h-[64px] flex items-center justify-center">
-                  <div className="w-[56px] h-[56px] flex items-center justify-center bg-surface-1 rounded-[16px]">
-                    <ShoppingCartSimple size={28} weight="duotone" className="text-accent-primary" />
-                  </div>
-                </div>
-
-                {/* Slot 2: Title */}
-                <div className="h-[56px] flex items-start justify-center w-full">
-                  <h3 className="font-heading text-[20px] text-text-primary leading-[1.2] max-w-[280px] tracking-[-0.01em]" style={{ fontWeight: 400 }}>
-                    VOS PARCOURS DEMANDENT TROP D’EFFORT ?
-                  </h3>
-                </div>
-                
-                <div className="flex flex-col items-center w-full">
-                  {/* Slot 3: Stat */}
-                  <div className="h-[44px] flex items-center justify-center w-full">
-                    <span className="font-display text-[26px] text-accent-primary leading-none tracking-[-0.01em] whitespace-nowrap" style={{ fontWeight: 700 }}>
-                      Trop d’étapes
-                    </span>
-                  </div>
-                  {/* Slot 4: Subtext */}
-                  <div className="h-[40px] flex items-start justify-center w-full mt-1">
-                    <span className="font-body text-[11px] font-medium uppercase tracking-widest text-text-muted max-w-[240px]">
-                      hésitation, friction, parcours flou
-                    </span>
-                  </div>
-                  {/* Slot 5: Meta */}
-                </div>
-              </div>
-
-              {/* BottomGroup */}
-              <div className="flex flex-col items-center w-full gap-6 mt-12">
-                {/* Slot 6: Pill - disabled per Zero Deletion Policy */}
-                {/* <div className="h-[48px] flex items-center justify-center w-full">
-                  <div className="w-full px-4 py-3 bg-[#7EC3F5]/15 text-[#7EC3F5] font-body text-[11px] font-medium uppercase tracking-widest rounded-lg cursor-default select-none">
-                    → REVENUS MANQUÉS · LTV EN CHUTE
-                  </div>
-                </div> */}
-
-              </div>
-            </article>
-          </motion.div>
-
-          {/* Card 3: UX Debt */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <article
-              className="w-full card-surface problem-card flex flex-col items-center text-center p-10 h-full justify-between"
-              >
-              {/* TopGroup */}
-              <div className="flex flex-col items-center w-full gap-6">
-                {/* Slot 1: Icon */}
-                <div className="h-[64px] flex items-center justify-center">
-                  <div className="w-[56px] h-[56px] flex items-center justify-center bg-surface-1 rounded-[16px]">
-                    <Path size={28} weight="duotone" className="text-accent-primary" />
-                  </div>
-                </div>
-
-                {/* Slot 2: Title */}
-                <div className="h-[56px] flex items-start justify-center w-full">
-                  <h3 className="font-heading text-[20px] text-text-primary leading-[1.2] max-w-[280px] tracking-[-0.01em]" style={{ fontWeight: 400 }}>
-                    DU TRAFIC, MAIS PEU DE CONVERSIONS ?
-                  </h3>
-                </div>
-                
-                <div className="flex flex-col items-center w-full">
-                  {/* Slot 3: Stat */}
-                  <div className="h-[44px] flex items-center justify-center w-full">
-                    <span className="font-display text-[26px] text-accent-primary leading-none tracking-[-0.01em] whitespace-nowrap" style={{ fontWeight: 700 }}>
-                      Preuve tardive
-                    </span>
-                  </div>
-                  {/* Slot 4: Subtext */}
-                  <div className="h-[40px] flex items-start justify-center w-full mt-1">
-                    <span className="font-body text-[11px] font-medium uppercase tracking-widest text-text-muted max-w-[240px]">
-                      confiance pas installée au bon moment
-                    </span>
-                  </div>
-                  {/* Slot 5: Meta */}
-                </div>
-              </div>
-
-              {/* BottomGroup */}
-              <div className="flex flex-col items-center w-full gap-6 mt-12">
-                {/* Slot 6: Pill - disabled per Zero Deletion Policy */}
-                {/* <div className="h-[48px] flex items-center justify-center w-full">
-                  <div className="w-full px-4 py-3 bg-[#7EC3F5]/15 text-[#7EC3F5] font-body text-[11px] font-medium uppercase tracking-widest rounded-lg cursor-default select-none">
-                    → TTM EN HAUSSE · VÉLOCITÉ -50%
-                  </div>
-                </div> */}
-
-              </div>
-            </article>
-          </motion.div>
-
+            </motion.div>
+          ))}
         </div>
 
         {/* New Centered CTA Button */}
