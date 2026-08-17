@@ -189,7 +189,16 @@ async function sendEmail(env: Env, to: string, subject: string, text: string): P
     }),
   });
   if (!res.ok) {
-    console.error('withdrawal: échec envoi e-mail Resend', res.status, await res.text().catch(() => ''));
+    // Le corps de la réponse porte le motif exact du refus (champ invalide,
+    // domaine non vérifié, quota atteint…). Sans lui, un échec d'envoi est
+    // indiagnosticable : on log donc le destinataire et le corps entier.
+    const detail = await res.text().catch(() => '<corps illisible>');
+    console.error('withdrawal: échec envoi e-mail Resend', {
+      status: res.status,
+      to,
+      from: MAIL_FROM,
+      detail: detail || '<corps vide>',
+    });
   }
 }
 

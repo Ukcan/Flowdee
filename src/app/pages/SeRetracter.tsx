@@ -1,5 +1,5 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { ButtonPrimary } from '../components/Button/Primary';
 import { ButtonSecondary } from '../components/Button/Secondary';
 import { useSeo } from '../hooks/useSeo';
@@ -82,6 +82,7 @@ const inputClass =
   'w-full min-h-[44px] px-4 py-2.5 rounded-[var(--radius-button)] bg-surface-1 border border-border-0 text-text-primary font-body text-[15px] placeholder:text-text-muted outline-none transition-colors focus-visible:border-accent-primary focus-visible:ring-2 focus-visible:ring-focus-ring aria-[invalid=true]:border-red-400';
 
 export function SeRetracterPage() {
+  const navigate = useNavigate();
   useSeo({
     title: 'Exercer mon droit de rétractation | Flowdee',
     description: 'Formulaire de rétractation en ligne pour les consommateurs ayant commandé une prestation Flowdee.',
@@ -232,9 +233,14 @@ export function SeRetracterPage() {
               Un accusé de réception vient de vous être envoyé par e-mail. Conservez-le, ainsi que la référence
               ci-dessus, comme preuve de votre demande.
             </p>
-            <Link to="/" className="inline-flex font-body text-[14px] text-accent-primary hover:underline">
-              Retour à l’accueil
-            </Link>
+            {/* Seule action restante sur cet écran : elle porte donc le style
+                primaire. ButtonPrimary plutôt que Link stylé, pour garder
+                l'effet de survol des autres CTA du site (voir Button/CTA). */}
+            <div className="pt-2">
+              <ButtonPrimary onClick={() => navigate('/')} size="l" className="w-full sm:w-auto px-10">
+                Retour à l’accueil
+              </ButtonPrimary>
+            </div>
           </div>
         ) : step === 'form' ? (
           <form onSubmit={handleContinue} noValidate className="space-y-6" aria-labelledby={formHeadingId}>
