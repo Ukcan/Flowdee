@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, type ReactNode } from 'react';
-import { X, ArrowCounterClockwise, CaretRight, PersonSimpleCircle } from '@phosphor-icons/react';
+import { X, ArrowCounterClockwise, CaretRight } from '@phosphor-icons/react';
 import { Icon, stroke } from './icons';
 
 /**
@@ -177,7 +177,7 @@ export function AccessibilityFloater() {
           focus-visible:ring-4 focus-visible:ring-accent-ring
         "
       >
-        {open ? <X size={26} weight="bold" /> : <PersonSimpleCircle className="h-7 w-7" weight="bold" aria-hidden="true" />}
+        {open ? <X size={26} weight="bold" /> : <Icon.Person className="h-7 w-7" aria-hidden="true" />}
         {!open && activeCount > 0 && (
           <span className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-surface-0 text-[11px] font-semibold text-accent-primary ring-2 ring-accent-primary">
             {activeCount}
