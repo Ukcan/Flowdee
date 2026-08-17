@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router';
-import { motion, AnimatePresence } from 'motion/react';
+import { Routes, Route, useNavigate } from 'react-router';
 import { Toaster } from './components/ui/sonner';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { EditableContentProvider } from './contexts/EditableContentContext';
@@ -49,9 +48,8 @@ export default function App() {
     }
     return true; // Default: Midnight Navy (dark)
   });
-  const [showCGV, setShowCGV] = useState(false);
-  const [showPrivacy, setShowPrivacy] = useState(false);
   const [forceShowCookies, setForceShowCookies] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Apply dark class immediately on mount (sync with state init)
@@ -103,32 +101,6 @@ export default function App() {
     window.addEventListener(THEME_EVENT, onThemeRequest);
     return () => window.removeEventListener(THEME_EVENT, onThemeRequest);
   }, [applyTheme]);
-
-  const openCGV = () => {
-    setShowCGV(true);
-  };
-
-  const closeCGV = () => {
-    setShowCGV(false);
-  };
-
-  const openPrivacy = () => {
-    setShowPrivacy(true);
-  };
-
-  const closePrivacy = () => {
-    setShowPrivacy(false);
-  };
-
-  useEffect(() => {
-    if (showCGV || showPrivacy) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = 'var(--scrollbar-width, 0px)';
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-    }
-  }, [showCGV, showPrivacy]);
 
   return (
     <LanguageProvider>
@@ -202,35 +174,30 @@ export default function App() {
           {/* Toast Notifications */}
           <Toaster position="top-right" />
 
-          {/* Modals rendered above everything else if active */}
-          <AnimatePresence>
-            {showCGV && (
-              <CGVSection onClose={closeCGV} />
-            )}
-            
-            {showPrivacy && (
-              <PrivacySection onClose={closePrivacy} />
-            )}
-          </AnimatePresence>
-
           {/* Navigation */}
           <HeaderNav darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
-          {/* Main Content — une route par page, chrome (nav/footer/décor) partagé */}
+          {/* Main Content — une route par page, chrome (nav/footer/décor) partagé.
+              CGV/Confidentialité restent visuellement un plein-écran par-dessus
+              tout (fixed inset-0, z-[110] défini dans chaque composant) : ce
+              sont maintenant de vraies routes plutôt qu'un état local, pour que
+              leur URL se reflète dans la barre d'adresse et reste partageable. */}
           <main id="main-content" className="relative z-10">
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/audit-ux" element={<AuditUXPage />} />
               <Route path="/etudes-de-cas/:slug" element={<EtudeDeCasPage />} />
+              {/* navigate(-1) plutôt que '/' : "Retour" doit ramener à la page
+                  d'où l'on vient (accueil, /audit-ux...), pas toujours à
+                  l'accueil — ces pages sont désormais accessibles depuis
+                  n'importe quelle route via le footer. */}
+              <Route path="/cgv" element={<CGVSection onClose={() => navigate(-1)} />} />
+              <Route path="/politique-de-confidentialite" element={<PrivacySection onClose={() => navigate(-1)} />} />
             </Routes>
           </main>
 
           {/* Footer */}
-          <FooterSection 
-            onOpenCGV={openCGV} 
-            onOpenPrivacy={openPrivacy}
-            onOpenCookies={() => setForceShowCookies(true)} 
-          />
+          <FooterSection onOpenCookies={() => setForceShowCookies(true)} />
 
           {/* Scroll to Top */}
           <ScrollToTopButton />

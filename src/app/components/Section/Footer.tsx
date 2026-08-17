@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, Link } from 'react-router';
 import { Envelope as Mail, Phone, MapPin } from '@phosphor-icons/react';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { CTA } from '../../constants/offer';
@@ -13,8 +13,6 @@ import { ButtonSecondary } from '../Button/Secondary';
  */
 
 interface FooterSectionProps {
-  onOpenCGV?: () => void;
-  onOpenPrivacy?: () => void;
   onOpenCookies?: () => void;
 }
 
@@ -38,7 +36,7 @@ function LogoFlowdee() {
   );
 }
 
-export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: FooterSectionProps) {
+export function FooterSection({ onOpenCookies }: FooterSectionProps) {
   const { t } = useTranslation();
   const location = useLocation();
   const onHome = location.pathname === '/';
@@ -136,21 +134,27 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
             <div className="space-y-6 min-w-[140px]">
               <h3 className="font-heading text-[13px] font-medium uppercase tracking-[0.08em] text-text-primary">LÉGAL</h3>
               <nav className="flex flex-col" aria-label="Liens légaux">
+                {/* Mentions légales : bouton inactif faute de contenu réel
+                    (raison sociale, SIRET, adresse...) à publier — voir CGV et
+                    Politique de confidentialité pour le contenu déjà existant. */}
                 <button className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
                   Mentions légales
                 </button>
-                <button
-                  onClick={onOpenPrivacy}
+                <Link
+                  to="/politique-de-confidentialite"
                   className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
                 >
                   Politique de confidentialité
-                </button>
+                </Link>
                 <button onClick={onOpenCookies} className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
                   Paramètres cookies
                 </button>
-                <button onClick={onOpenCGV} className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors">
+                <Link
+                  to="/cgv"
+                  className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
+                >
                   CGV
-                </button>
+                </Link>
               </nav>
             </div>
 

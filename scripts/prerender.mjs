@@ -37,6 +37,8 @@ const ROUTES = [
   '/etudes-de-cas/application-edtech-ux',
   '/etudes-de-cas/optimisation-onboarding-saas',
   '/etudes-de-cas/optimisation-checkout-ecommerce',
+  '/cgv',
+  '/politique-de-confidentialite',
 ];
 
 function outputPathFor(route) {

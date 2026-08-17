@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { X, ArrowLeft } from '@phosphor-icons/react';
+import { useSeo } from '../../hooks/useSeo';
 
 /**
  * Section/CGV Component
  * Nomenclature Figma: Section/CGV
  * Conditions Générales de Vente
+ *
+ * Route à part entière (/cgv) plutôt qu'un état local : la page a sa propre
+ * URL, partageable, avec un vrai titre.
  */
 
 interface CGVSectionProps {
@@ -13,6 +17,24 @@ interface CGVSectionProps {
 }
 
 export function CGVSection({ onClose }: CGVSectionProps) {
+  useSeo({
+    title: 'Conditions générales de vente | Flowdee',
+    description: 'Conditions générales de vente de Flowdee : offres, tarifs, modalités de paiement, livraison et rétractation.',
+    canonical: 'https://flowdee.fr/cgv/',
+  });
+
+  // Ce plein-écran couvre tout, y compris le header/footer persistants
+  // (fixed inset-0, z-[110] plus bas) : verrouiller le scroll du fond évite
+  // un double défilement tant que cette route est affichée.
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = 'var(--scrollbar-width, 0px)';
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}

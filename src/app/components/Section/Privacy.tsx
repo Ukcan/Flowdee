@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { X, ArrowLeft, ShieldCheck, Eye, Lock, FileText, Target } from '@phosphor-icons/react';
+import { useSeo } from '../../hooks/useSeo';
 
 /**
  * Section/Privacy Component
  * Nomenclature Figma: Section/Privacy
  * Politique de Confidentialité
+ *
+ * Route à part entière (/politique-de-confidentialite) plutôt qu'un état
+ * local : la page a sa propre URL, partageable, avec un vrai titre — avant,
+ * rien dans la barre d'adresse ne distinguait cette page de l'accueil.
  */
 
 interface PrivacySectionProps {
@@ -13,6 +18,24 @@ interface PrivacySectionProps {
 }
 
 export function PrivacySection({ onClose }: PrivacySectionProps) {
+  useSeo({
+    title: 'Politique de confidentialité | Flowdee',
+    description: 'Politique de confidentialité de Flowdee : données collectées, finalités, durées de conservation et droits RGPD.',
+    canonical: 'https://flowdee.fr/politique-de-confidentialite/',
+  });
+
+  // Ce plein-écran couvre tout, y compris le header/footer persistants
+  // (fixed inset-0, z-[110] plus haut ci-dessous) : verrouiller le scroll du
+  // fond évite un double défilement tant que cette route est affichée.
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = 'var(--scrollbar-width, 0px)';
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
+  }, []);
+
   // Utility to render text with colored bold words
   const renderText = (text: string) => {
     const parts = text.split(/(\*\*.*?\*\*)/g);
