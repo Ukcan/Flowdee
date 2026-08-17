@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useLocation } from 'react-router';
 import { List as Menu, X, PhoneCall } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from './ui/button';
@@ -50,6 +51,8 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
   const [activeSection, setActiveSection] = useState('');
   const [isFloating, setIsFloating] = useState(false);
   const { language, setLanguage, t } = useTranslation();
+  const location = useLocation();
+  const onHome = location.pathname === '/';
 
   // useMemo : une référence stable évite que le useEffect de détection de
   // section (ci-dessous) ne se désabonne/réabonne à chaque rendu, ce qui
@@ -131,6 +134,20 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
     }
   };
 
+  /* Vraie ancre crawlable plutôt qu'un bouton pur JS (section 5 de l'audit
+     SEO) : sur l'accueil, comportement inchangé (scroll fluide, empêché par
+     défaut) ; ailleurs (/audit-ux, /etudes-de-cas/:slug), navigation complète
+     vers l'accueil suivie de l'ancre native du navigateur. */
+  const sectionHref = (id: string) => (onHome ? `#${id}` : `/#${id}`);
+  const handleSectionClick = (id: string) => (e: React.MouseEvent) => {
+    if (onHome) {
+      e.preventDefault();
+      scrollToSection(id);
+    } else {
+      setMobileMenuOpen(false);
+    }
+  };
+
   const openCalendar = () => {
     window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
   };
@@ -157,13 +174,14 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
             {menuItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
-                <button
+                <a
                   key={item.label}
-                  onClick={() => scrollToSection(item.id)}
+                  href={sectionHref(item.id)}
+                  onClick={handleSectionClick(item.id)}
                   className={`
-                    relative inline-flex items-center font-body font-medium text-[13px] leading-none 
-                    px-4 h-[40px] rounded-full 
-                    transition-all duration-200 ease-in-out 
+                    relative inline-flex items-center font-body font-medium text-[13px] leading-none
+                    px-4 h-[40px] rounded-full
+                    transition-all duration-200 ease-in-out
                     nav-focus-treatment
 
                     ${isActive
@@ -175,7 +193,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
                   aria-current={isActive ? 'page' : undefined}
                 >
                   <span className="relative z-10">{item.label}</span>
-                </button>
+                </a>
               );
             })}
           </div>
@@ -249,17 +267,25 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
                 32. L'écart entre entrées absorbe la différence. */}
             <nav className="flex flex-col gap-2 relative z-10" aria-label="Sections de la page">
               {sectionItems.map((item) => (
-                <button
+                <a
                   key={item.label}
-                  onClick={() => scrollToSection(item.id)}
+                  href={sectionHref(item.id)}
+                  onClick={handleSectionClick(item.id)}
                   aria-current={activeSection === item.id ? 'true' : undefined}
                   className={`font-body font-medium text-[20px] text-left py-1.5 transition-colors duration-200 hover:text-accent-primary ${
                     activeSection === item.id ? 'text-accent-primary' : 'text-text-primary'
                   }`}
                 >
                   {item.label}
-                </button>
+                </a>
               ))}
+              <a
+                href="/audit-ux"
+                onClick={() => setMobileMenuOpen(false)}
+                className="font-body font-medium text-[20px] text-left py-1.5 transition-colors duration-200 hover:text-accent-primary text-text-primary"
+              >
+                Audit UX (page complète)
+              </a>
             </nav>
             
             <div className="mt-auto space-y-3 relative z-10">

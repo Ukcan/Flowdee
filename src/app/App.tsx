@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { Toaster } from './components/ui/sonner';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { EditableContentProvider } from './contexts/EditableContentContext';
 import { HeaderNav } from './components/Nav/Header';
-import { HeroSection } from './components/Section/Hero';
-import { TrustedClientsSection } from './components/Section/TrustedClients';
-import { ProblemsSection } from './components/Section/Problems';
-import { DeliverablesSection } from './components/Section/Deliverables';
-import { CaseStudiesSection } from './components/Section/CaseStudies';
-import { ServicesSection } from './components/Section/Services';
-import { ApproachSection } from './components/Section/Approach';
-import { AIWorkflowSection } from './components/Section/AIWorkflow';
-import { FAQSection } from './components/Section/FAQ';
-import { FinalCTASection } from './components/Section/FinalCTA';
+import { HomePage } from './pages/Home';
+import { AuditUXPage } from './pages/AuditUX';
+import { EtudeDeCasPage } from './pages/EtudeDeCas';
 import { FooterSection } from './components/Section/Footer';
 import { CGVSection } from './components/Section/CGV';
 import { PrivacySection } from './components/Section/Privacy';
@@ -25,7 +19,6 @@ import { ScrollMouseIndicator } from './components/Indicator/ScrollMouse';
 // import { DecorKeylines } from './components/Decor/Keylines'; // Disabled — Zero Deletion Policy
 import { DecorKeylinesParallaxFlow } from './components/Decor/KeylinesParallaxFlow';
 import { ParticleNetwork } from './components/Decor/ParticleNetwork';
-import { ScrollReveal } from './components/Decor/ScrollReveal';
 import { CalendarModal } from './components/CalendarModal';
 import { ThankYouModal } from './components/ThankYouModal';
 import { AccessibilityFloater } from './components/Accessibility/AccessibilityFloater';
@@ -223,56 +216,13 @@ export default function App() {
           {/* Navigation */}
           <HeaderNav darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
-          {/* Main Content */}
+          {/* Main Content — une route par page, chrome (nav/footer/décor) partagé */}
           <main id="main-content" className="relative z-10">
-            {/* Hero — pas de ScrollTrigger, entre dès le chargement */}
-            <HeroSection />
-
-            {/* Logos clients — fade simple, léger */}
-            <ScrollReveal variant="fadeUp" delay={0.1} duration={0.6} threshold="top 92%">
-              <TrustedClientsSection />
-            </ScrollReveal>
-
-            {/* Problèmes — stagger sur les cards */}
-            <ScrollReveal variant="stagger" staggerAmount={0.18} threshold="top 85%">
-              <ProblemsSection />
-            </ScrollReveal>
-
-            {/* Livrables — pas de wrapper ScrollReveal ici : GSAP laisse un
-                `transform` residuel sur le wrapper, et un ancetre transforme
-                neutralise le `position: sticky` du rail de gauche. La section
-                anime deja ses propres elements (motion whileInView). */}
-            <DeliverablesSection />
-
-            {/* Services — fadeUp standard */}
-            <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%">
-              <ServicesSection />
-            </ScrollReveal>
-
-            {/* Case Studies — stagger sur les cards */}
-            <ScrollReveal variant="stagger" staggerAmount={0.2} threshold="top 80%">
-              <CaseStudiesSection />
-            </ScrollReveal>
-
-            {/* Approche — fadeUp : le manifeste s'installe, il ne "pop" pas */}
-            <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%">
-              <ApproachSection />
-            </ScrollReveal>
-
-            {/* IA — workflow IA ↔ designer, entre depuis la gauche (sens de lecture du flux) */}
-            <ScrollReveal variant="fadeLeft" duration={0.75} threshold="top 82%">
-              <AIWorkflowSection />
-            </ScrollReveal>
-
-            {/* FAQ — fadeUp, légèrement différé */}
-            <ScrollReveal variant="fadeUp" delay={0.05} duration={0.7} threshold="top 85%">
-              <FAQSection />
-            </ScrollReveal>
-
-            {/* Final CTA — fadeIn + scale, impact maximal */}
-            <ScrollReveal variant="scaleUp" duration={0.9} threshold="top 80%">
-              <FinalCTASection />
-            </ScrollReveal>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/audit-ux" element={<AuditUXPage />} />
+              <Route path="/etudes-de-cas/:slug" element={<EtudeDeCasPage />} />
+            </Routes>
           </main>
 
           {/* Footer */}

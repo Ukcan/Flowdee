@@ -62,10 +62,17 @@ export function HeroSection() {
             </span>
           </motion.div>
 
-          {/* H1 — deux phrases, une par ligne (chaque phrase reste un groupe, wrap interne sur mobile) */}
-          <motion.h1 id="hero-title" {...anim(0.12)} className="heading-display text-text-primary text-pretty">
-            Un beau site ne suffit pas.<br />Il doit convaincre.
+          {/* H1 — signal sémantique principal pour le SEO (intention "audit UX").
+              Le hook visuel garde tout son poids graphique juste dessous, en
+              `heading-display` : rien ne change à l'écran, seul le H1 change
+              de contenu et de rôle. */}
+          <motion.h1 id="hero-title" {...anim(0.1)} className="heading-2 text-text-primary text-pretty max-w-[26ch]">
+            Audit UX & Conversion pour identifier ce qui bloque vos visiteurs
           </motion.h1>
+
+          <motion.p {...anim(0.16)} className="heading-display text-text-primary text-pretty">
+            Un beau site ne suffit pas.<br />Il doit convaincre.
+          </motion.p>
 
           {/* Description (inchangée) */}
           {/* « votre landing page, site ou tunnel » laissait entendre qu'un site

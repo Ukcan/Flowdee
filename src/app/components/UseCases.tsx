@@ -1,54 +1,23 @@
-import image_14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71 from 'figma:asset/14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71.jpg';
-import image_5d01d94ee99e37b8c24f102a36d51d884f769ccd from 'figma:asset/5d01d94ee99e37b8c24f102a36d51d884f769ccd.jpg';
-import image_527f60f73fe096905f75e234d997f79c2f990c15 from 'figma:asset/527f60f73fe096905f75e234d997f79c2f990c15.jpg';
 import neurolaboAnalysesWireframe from '../../assets/neurolabo-analyses-wireframe.jpg';
 import neurolaboAnalysesOptimise from '../../assets/neurolabo-analyses-optimise.jpg';
 import React, { useState, useId } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ArrowsHorizontal, X } from '@phosphor-icons/react';
+import { Link } from 'react-router';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { TechnicalLabel } from './TechnicalLabel';
 import { ButtonPrimary } from './Button/Primary';
 import { ButtonSecondary } from './Button/Secondary';
+import { ctaButtonVariants } from './Button/CTA';
+import { cn } from './ui/utils';
 import { SectionHeader } from './Layout/SectionHeader';
 import { CTA } from '../constants/offer';
+import { FEATURED_CASE, FEATURED_CASE_COMPARE_IMAGES, OTHER_CASE_STUDIES } from '../constants/caseStudies';
 
-const featuredCase = {
-  tag: 'EdTech SaaS',
-  title: 'Simulation & Serious Game Dashboard',
-  headerTitle: 'APPRENTISSAGE GAMIFIÉ, CORRECTION AUTOMATISÉE',
-  headerSubtitle: 'EdTech SaaS B2B2C',
-  imageBefore: image_527f60f73fe096905f75e234d997f79c2f990c15,
-  imageAfter: image_5d01d94ee99e37b8c24f102a36d51d884f769ccd,
-  problemShort: 'Apprentissage passif & correction manuelle chronophage',
-  actionShort: 'Gamification UX + Dashboard Analytics Professeur',
-  resultShort: 'Parcours d’apprentissage gamifié et correction automatisée côté professeur',
-  scope: 'SaaS / Serious Game',
-  duration: '12 semaines',
-  /* Ces libellés annonçaient des effets mesurés dont aucune donnée n'existe
-     dans le projet. Ils décrivent désormais ce qui a été livré. */
-  metrics: [
-    { label: 'Simulation gamifiée côté étudiant', positive: true },
-    { label: 'Correction automatisée côté professeur', positive: true }
-  ],
-  deliverables: [
-    'User Flow Étudiant vs Prof',
-    'Interface Serious Game',
-    'Dashboard Analytics',
-    'Design System Gamifié'
-  ],
-  iaNote: 'IA : analyse prédictive des lacunes élèves pour les professeurs',
-  detailedDescription: 'Développement d\'un serious game immersif pour lycéens et étudiants, permettant l\'entraînement et l\'évaluation à distance via une simulation gamifiée.',
-  challenge: 'Transformer un contenu pédagogique dense en expérience engageante, tout en fournissant aux professeurs un outil de suivi précis et automatisé.',
-  solution: 'Interface de simulation immersive accessible sur desktop/tablette, couplée à un dashboard professeur automatisant les corrections et soulignant les points de blocage via data-viz.',
-  results: [
-    'Parcours étudiant repensé en simulation gamifiée',
-    'Correction manuelle remplacée par un dashboard automatisé',
-    'Points de blocage rendus visibles par data-visualisation',
-    'Design System gamifié livré et documenté'
-  ],
-  tools: ['Figma', 'Unity WebGL', 'React', 'GPT-4']
-};
+// Contenu réel des études de cas : source de vérité dans constants/caseStudies.ts,
+// partagée avec les pages dédiées /etudes-de-cas/:slug.
+const featuredCase = FEATURED_CASE;
+const otherUseCases = OTHER_CASE_STUDIES;
 
 // Écrans comparables (avant/après). Pour ajouter un slot, ajoute une entrée ici
 // avec son wireframe (before) et sa version finale (after).
@@ -56,8 +25,8 @@ const compareScreens = [
   {
     label: 'Catalogue',
     sublabel: 'Liste des simulations',
-    before: featuredCase.imageBefore,
-    after: featuredCase.imageAfter,
+    before: FEATURED_CASE_COMPARE_IMAGES.before,
+    after: FEATURED_CASE_COMPARE_IMAGES.after,
   },
   {
     label: 'Analyses',
@@ -65,67 +34,6 @@ const compareScreens = [
     before: neurolaboAnalysesWireframe,
     after: neurolaboAnalysesOptimise,
   },
-];
-
-const otherUseCases = [
-  {
-    tag: 'Application web SaaS',
-    title: 'Parcours d’activation simplifié',
-    image: 'https://images.unsplash.com/photo-1646708198974-4c4893e8a2d7?auto=format&fit=crop&q=80&w=1080',
-    problemShort: 'Onboarding trop complexe',
-    actionShort: 'Parcours raccourci + templates',
-    resultShort: 'Parcours d’activation simplifié et points de friction prioritaires corrigés',
-    scope: 'Onboarding',
-    duration: '6 semaines',
-    metrics: [
-      { label: 'Parcours recentré sur les étapes essentielles', positive: true },
-      { label: 'Templates pré-configurés ajoutés', positive: true }
-    ],
-    deliverables: [
-      { name: 'Audit heuristique' },
-      { name: 'Prototype Figma' },
-      { name: 'Tests utilisateurs' },
-      { name: 'UI specs' }
-    ],
-    iaNote: 'IA : synthèse de 12 interviews + variantes CTA',
-    challenge: 'Les utilisateurs abandonnaient face à un formulaire trop long et complexe.',
-    solution: 'Simplification du parcours recentré sur les étapes essentielles et ajout de templates pré-configurés.',
-    results: [
-      'Formulaire d’inscription réduit aux étapes essentielles',
-      'Templates pré-configurés pour démarrer sans configuration',
-      'Parcours validé par tests utilisateurs avant développement'
-    ],
-    tools: ['Figma', 'Notion', 'Hotjar', 'GPT-4']
-  },
-  {
-    tag: 'E-commerce',
-    title: 'Optimisation du tunnel d\'achat',
-    image: image_14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71,
-    problemShort: 'Fort taux d’abandon panier sur mobile',
-    actionShort: 'Checkout one-page + Apple/Google Pay',
-    resultShort: 'Tunnel ramené de 5 pages à un checkout unique, paiements rapides intégrés',
-    scope: 'Checkout',
-    duration: '8 semaines',
-    metrics: [
-      { label: 'Checkout ramené à une seule page', positive: true },
-      { label: 'Apple Pay et Google Pay intégrés', positive: true }
-    ],
-    deliverables: [
-      { name: 'User flow mapping' },
-      { name: 'A/B testing protocol' },
-      { name: 'Checkout redesign' },
-      { name: 'Mobile optimization' }
-    ],
-    iaNote: 'IA : analyse 500+ sessions + états d\'erreur',
-    challenge: 'Le tunnel d\'achat comportait 5 pages avec de nombreux champs obligatoires.',
-    solution: 'Refonte complète en checkout one-page et intégration de méthodes de paiement rapides.',
-    results: [
-      'Tunnel d’achat ramené de 5 pages à un checkout unique',
-      'Champs obligatoires réduits au strict nécessaire',
-      'Apple Pay et Google Pay intégrés au parcours mobile'
-    ],
-    tools: ['Figma', 'Google Analytics', 'Hotjar', 'Claude']
-  }
 ];
 
 /**
@@ -365,14 +273,26 @@ export function UseCases() {
             </div>
           </div>
 
-          {/* CTA */}
+          {/* CTA — vrai lien vers la page dédiée /etudes-de-cas/:slug (indexable
+              par Google), l'aperçu rapide en volet reste l'action par défaut au
+              clic. Reproduit le rendu de ButtonPrimary sur un <a> plutôt qu'un
+              <button> : un bouton imbriqué dans un lien serait un HTML invalide. */}
           <div className="flex justify-center mt-16">
-            <ButtonPrimary
-              onClick={() => setSelectedCase(featuredCase)}
-              size="l"
+            <Link
+              to={`/etudes-de-cas/${featuredCase.slug}`}
+              onClick={(e) => { e.preventDefault(); setSelectedCase(featuredCase); }}
+              className={cn('group/pri font-body', ctaButtonVariants({ intent: 'primary', size: 'l' }))}
             >
-              {CTA.caseStudy}
-            </ButtonPrimary>
+              <span className="relative z-10 inline-flex items-center gap-2">{CTA.caseStudy}</span>
+              <span className="cta-blobs" aria-hidden="true">
+                <span className="cta-blobs__wrap">
+                  <span className="cta-blob" />
+                  <span className="cta-blob" />
+                  <span className="cta-blob" />
+                  <span className="cta-blob" />
+                </span>
+              </span>
+            </Link>
           </div>
         </div>
       </section>
@@ -464,8 +384,11 @@ export function UseCases() {
                       {useCase.resultShort}
                     </p>
 
-                    <button
-                      onClick={() => setSelectedCase(useCase)}
+                    {/* Vrai lien vers /etudes-de-cas/:slug (indexable), anchor
+                        descriptif plutôt que générique — cf. section 5 de l'audit SEO. */}
+                    <Link
+                      to={`/etudes-de-cas/${useCase.slug}`}
+                      onClick={(e) => { e.preventDefault(); setSelectedCase(useCase); }}
                       className="
                         inline-flex items-center gap-2 mt-4
                         font-body text-[13px] font-medium uppercase tracking-widest
@@ -475,8 +398,8 @@ export function UseCases() {
                         rounded-sm min-h-[44px]
                       "
                     >
-                      Détails du cas →
-                    </button>
+                      Voir l’étude de cas : {useCase.title} →
+                    </Link>
                   </div>
 
                   {/* Visuel */}
@@ -526,7 +449,7 @@ export function UseCases() {
                 {/* Image Header */}
                 <div className="relative h-64 md:h-80 overflow-hidden border-b border-border-0">
                   <ImageWithFallback 
-                    src={selectedCase.imageAfter || selectedCase.image} 
+                    src={selectedCase.image} 
                     alt={selectedCase.title} 
                     className="w-full h-full object-cover object-top" 
                   />

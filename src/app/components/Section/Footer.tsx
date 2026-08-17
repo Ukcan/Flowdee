@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router';
 import { Envelope as Mail, Phone, MapPin } from '@phosphor-icons/react';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { CTA } from '../../constants/offer';
@@ -39,7 +40,9 @@ function LogoFlowdee() {
 
 export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: FooterSectionProps) {
   const { t } = useTranslation();
-  
+  const location = useLocation();
+  const onHome = location.pathname === '/';
+
   /* Même nomenclature que la barre de navigation : « À propos » menait à
      « Notre approche » et « Services » aux offres et tarifs. */
   const menuItems = [
@@ -48,7 +51,7 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
     { label: t.nav.approach, id: 'approche' },
     { label: t.nav.contact, id: 'contact' }
   ];
-  
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -94,14 +97,30 @@ export function FooterSection({ onOpenCGV, onOpenPrivacy, onOpenCookies }: Foote
               <h3 className="font-heading text-[13px] font-medium uppercase tracking-[0.08em] text-text-primary">{t.footer.navigation}</h3>
               <nav className="flex flex-col" aria-label="Navigation du pied de page">
                 {menuItems.map((item) => (
-                  <button
+                  /* Vraie ancre crawlable plutôt qu'un bouton pur JS : fonctionne
+                     aussi depuis /audit-ux ou /etudes-de-cas/:slug (navigation
+                     complète vers l'accueil + ancre), et en scroll fluide quand
+                     on est déjà sur l'accueil. */
+                  <a
                     key={item.label}
-                    onClick={() => scrollToSection(item.id)}
+                    href={onHome ? `#${item.id}` : `/#${item.id}`}
+                    onClick={(e) => {
+                      if (onHome) {
+                        e.preventDefault();
+                        scrollToSection(item.id);
+                      }
+                    }}
                     className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
                   >
                     {item.label}
-                  </button>
+                  </a>
                 ))}
+                <a
+                  href="/audit-ux"
+                  className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
+                >
+                  Audit UX (page complète)
+                </a>
                 <a
                   href="https://cv.flowdee.fr/"
                   target="_blank"
