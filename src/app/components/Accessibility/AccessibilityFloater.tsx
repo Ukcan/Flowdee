@@ -36,7 +36,7 @@ import {
  * - la taille du contenu passe par un zoom (voir `useA11ySettings`).
  */
 
-export function AccessibilityFloater() {
+export function AccessibilityFloater({ suppressLauncher = false }: { suppressLauncher?: boolean }) {
   const { settings, update, patch, reset, activeCount } = useA11ySettings();
   const [theme, setTheme] = useSiteTheme();
   const [open, setOpen] = useState(false);
@@ -155,11 +155,15 @@ export function AccessibilityFloater() {
         aria-label={open ? "Fermer le menu d'accessibilité" : "Ouvrir le menu d'accessibilité"}
         aria-expanded={open}
         aria-controls="a11y-panel"
+        aria-hidden={suppressLauncher && !open ? 'true' : undefined}
+        tabIndex={suppressLauncher && !open ? -1 : undefined}
         onClick={toggle}
         /* À l'ouverture, le bouton se décale juste à droite du volet plutôt que
            de rester posé dessus. Le décalage suit la largeur réelle du panneau
            (380px, plafonnée à 92vw) et reste borné pour ne jamais sortir de
-           l'écran sur les petites largeurs. */
+           l'écran sur les petites largeurs.
+           Tant que le bandeau de consentement occupe le bas de l'écran, le
+           bouton s'efface au lieu de lui rester posé dessus (F-15). */
         style={{
           transform: open
             ? 'translateX(min(calc(min(380px, 92vw) + 1rem), calc(100vw - 5.5rem)))'
@@ -170,12 +174,13 @@ export function AccessibilityFloater() {
            il finit régulièrement au-dessus d'un texte de réassurance ou d'un
            CTA au fil du scroll. Un fond translucide laisse deviner ce qu'il
            masque au lieu de l'effacer complètement. */
-        className="
+        className={`
           fixed bottom-6 left-6 z-[10100] grid h-14 w-14 place-items-center rounded-full
           bg-accent-primary/70 backdrop-blur-sm text-on-accent shadow-soft
-          outline-none transition-transform duration-300 ease-out
+          outline-none transition-all duration-300 ease-out
           focus-visible:ring-4 focus-visible:ring-accent-ring
-        "
+          ${suppressLauncher && !open ? 'opacity-0 pointer-events-none' : 'opacity-100'}
+        `}
       >
         {open ? <X size={26} weight="bold" /> : <Icon.Person className="h-7 w-7" aria-hidden="true" />}
         {!open && activeCount > 0 && (

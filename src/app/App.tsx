@@ -51,6 +51,10 @@ export default function App() {
     return true; // Default: Midnight Navy (dark)
   });
   const [forceShowCookies, setForceShowCookies] = useState(false);
+  // Le bouton flottant d'accessibilité (bas-gauche) recouvrait partiellement
+  // le bandeau de consentement sur mobile (diagnostic externe 2026-08-18,
+  // F-15) : il s'efface le temps que la bannière occupe l'écran.
+  const [cookieBannerVisible, setCookieBannerVisible] = useState(false);
   const location = useLocation();
 
   // React Router ne fait rien au scroll lors d'un changement de route en SPA
@@ -226,12 +230,13 @@ export default function App() {
           <ThankYouModal />
 
           {/* Module d'accessibilité — bouton flottant + panneau de réglages */}
-          <AccessibilityFloater />
+          <AccessibilityFloater suppressLauncher={cookieBannerVisible} />
 
           {/* Cookie Consent Banner */}
-          <CookieBanner 
-            forceShow={forceShowCookies} 
-            onClose={() => setForceShowCookies(false)} 
+          <CookieBanner
+            forceShow={forceShowCookies}
+            onClose={() => setForceShowCookies(false)}
+            onVisibleChange={setCookieBannerVisible}
           />
 
           {/* Editable Toggle Button — Disabled per user request */}
