@@ -29,6 +29,13 @@ export interface FaqEntry {
   footnote?: string;
 }
 
+/* Deux questions retirées le 2026-08-18 (revue Adel × Benji) : "Et si je
+   n'ai pas besoin d'une refonte complète ?" et "Le SEO et l'accessibilité
+   sont-ils couverts ?" entraient trop dans le détail d'un projet précis pour
+   un premier contact. Ce niveau de détail se traite dans les échanges qui
+   suivent la prise de contact (progressive disclosure), pas ici — ce qui
+   reste vise les questions vraiment générales : périmètre, livrable, temps,
+   prix, méthode, confidentialité. */
 export const FAQS: FaqEntry[] = [
   {
     question: 'Sur quel périmètre porte l’audit ?',
@@ -37,14 +44,6 @@ export const FAQS: FaqEntry[] = [
   {
     question: 'Qu’est-ce que je reçois concrètement avec l’audit ?',
     answer: 'Un livrable actionnable, pas un PDF théorique : les problèmes UX priorisés, des recommandations actionnables, la microcopy prioritaire réécrite, 1 écran clé corrigé dans Figma et un rapport final priorisé.',
-  },
-  {
-    question: 'Et si je n’ai pas besoin d’une refonte complète ?',
-    answer: 'C’est tout l’intérêt : on cible les frictions qui comptent et on corrige par priorité, sans refonte inutile. Vous gardez votre existant, on optimise ce qui bloque vos conversions.',
-  },
-  {
-    question: 'Le SEO et l’accessibilité sont-ils couverts ?',
-    answer: 'Ce sont des contrôles inclus dans l’audit, pas des audits séparés. Côté SEO UX : titres, structure des contenus, libellés et lisibilité. Côté accessibilité : repérage des principaux écarts WCAG 2.2 AA sur le périmètre audité — contrastes, focus, clavier, labels, alternatives textuelles et cibles interactives. Un audit SEO technique ou une mise en conformité complète relèvent d’une prestation distincte.',
   },
   {
     question: 'Combien de temps ça prend et combien ça coûte ?',

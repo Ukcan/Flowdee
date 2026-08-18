@@ -386,15 +386,28 @@ export function UseCases() {
                       {kpiHero}
                     </p>
 
-                    {/* Problème / Action — filet plutôt que cartouche : moins de conteneurs */}
-                    <dl className="mt-7 space-y-3 border-l border-border-0 pl-5">
-                      <div>
-                        <dt className="font-body text-[10px] uppercase tracking-[0.16em] text-accent-primary font-medium">Problème</dt>
-                        <dd className="font-body text-[14px] leading-[1.6] text-text-secondary mt-1">{useCase.problemShort}</dd>
+                    {/* Problème → Action → Résultat en flux horizontal plutôt
+                        qu'en colonne : c'est une transformation qu'on vend,
+                        pas une liste (revue Adel × Benji du 2026-08-18). Le
+                        résultat, seul temps du flux qui prouve la mesure,
+                        porte l'accent — les deux premiers ne font que mener
+                        jusqu'à lui. */}
+                    <dl className="mt-7 flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-3">
+                      <div className="flex-1 min-w-0">
+                        <dt className="font-body text-[10px] uppercase tracking-[0.16em] text-text-muted font-medium">Problème</dt>
+                        <dd className="font-body text-[14px] leading-[1.6] text-text-secondary mt-1.5">{useCase.problemShort}</dd>
                       </div>
-                      <div>
-                        <dt className="font-body text-[10px] uppercase tracking-[0.16em] text-accent-primary font-medium">Action</dt>
-                        <dd className="font-body text-[14px] leading-[1.6] text-text-secondary mt-1">{useCase.actionShort}</dd>
+                      <ArrowRight size={16} weight="bold" className="hidden sm:block shrink-0 mt-1 text-text-muted" aria-hidden="true" />
+                      <div className="flex-1 min-w-0">
+                        <dt className="font-body text-[10px] uppercase tracking-[0.16em] text-text-muted font-medium">Action</dt>
+                        <dd className="font-body text-[14px] leading-[1.6] text-text-secondary mt-1.5">{useCase.actionShort}</dd>
+                      </div>
+                      <ArrowRight size={16} weight="bold" className="hidden sm:block shrink-0 mt-1 text-accent-primary" aria-hidden="true" />
+                      <div className="flex-1 min-w-0">
+                        <dt className="font-body text-[10px] uppercase tracking-[0.16em] text-accent-primary font-medium">Résultat</dt>
+                        {/* Pleine opacité : à 10px, le modificateur /60 tombait
+                            sous le seuil WCAG AA de 4.5:1. */}
+                        <dd className="font-body text-[14px] leading-[1.6] text-text-primary font-medium mt-1.5">{useCase.resultShort}</dd>
                       </div>
                     </dl>
 
@@ -414,12 +427,6 @@ export function UseCases() {
                         </span>
                       ))}
                     </div>
-
-                    {/* Ligne de synthèse — pleine opacité : à 10px, le modificateur
-                        /60 tombait sous le seuil WCAG AA de 4.5:1. */}
-                    <p className="font-body text-[12px] text-text-muted tracking-wide mt-5">
-                      {useCase.resultShort}
-                    </p>
 
                     {/* Vrai lien vers /etudes-de-cas/:slug (indexable), anchor
                         descriptif plutôt que générique — cf. section 5 de l'audit SEO. */}

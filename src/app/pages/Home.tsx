@@ -35,11 +35,6 @@ export function HomePage() {
       {/* Hero — pas de ScrollTrigger, entre dès le chargement */}
       <HeroSection />
 
-      {/* Logos clients — fade simple, léger */}
-      <ScrollReveal variant="fadeUp" delay={0.1} duration={0.6} threshold="top 92%">
-        <TrustedClientsSection />
-      </ScrollReveal>
-
       {/* Problèmes — stagger sur les cards */}
       <ScrollReveal variant="stagger" staggerAmount={0.18} threshold="top 85%">
         <ProblemsSection />
@@ -54,6 +49,14 @@ export function HomePage() {
       {/* Services — fadeUp standard */}
       <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%">
         <ServicesSection />
+      </ScrollReveal>
+
+      {/* Logos clients + témoignage — déplacés depuis juste après le hero
+          (revue Adel × Benji du 2026-08-18) : la preuve sociale n'a de poids
+          qu'une fois le problème posé et l'offre comprise, pas avant. Ils
+          rejoignent maintenant le bloc de preuve concrète (études de cas). */}
+      <ScrollReveal variant="fadeUp" delay={0.1} duration={0.6} threshold="top 92%">
+        <TrustedClientsSection />
       </ScrollReveal>
 
       {/* Case Studies — stagger sur les cards */}

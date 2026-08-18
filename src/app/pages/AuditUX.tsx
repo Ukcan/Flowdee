@@ -65,7 +65,6 @@ const SEGMENTS = [
 const AUDIT_FAQ_QUESTIONS = [
   'Sur quel périmètre porte l’audit ?',
   'Qu’est-ce que je reçois concrètement avec l’audit ?',
-  'Le SEO et l’accessibilité sont-ils couverts ?',
   'Combien de temps ça prend et combien ça coûte ?',
 ];
 
