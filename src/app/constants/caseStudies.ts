@@ -11,6 +11,11 @@
 import image_14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71 from 'figma:asset/14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71.jpg';
 import image_5d01d94ee99e37b8c24f102a36d51d884f769ccd from 'figma:asset/5d01d94ee99e37b8c24f102a36d51d884f769ccd.jpg';
 import image_527f60f73fe096905f75e234d997f79c2f990c15 from 'figma:asset/527f60f73fe096905f75e234d997f79c2f990c15.jpg';
+// Variantes WebP (F-18) — générées par scripts/generate-webp.mjs, servies via
+// <picture> par ImageWithFallback ; le JPEG ci-dessus reste le repli natif.
+import webp_14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71 from 'figma:asset/14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71.webp';
+import webp_5d01d94ee99e37b8c24f102a36d51d884f769ccd from 'figma:asset/5d01d94ee99e37b8c24f102a36d51d884f769ccd.webp';
+import webp_527f60f73fe096905f75e234d997f79c2f990c15 from 'figma:asset/527f60f73fe096905f75e234d997f79c2f990c15.webp';
 
 export interface CaseStudyMetric {
   label: string;
@@ -22,6 +27,8 @@ export interface CaseStudy {
   tag: string;
   title: string;
   image: string;
+  /** Variante WebP de `image`, quand elle existe (voir ImageWithFallback). */
+  imageWebp?: string;
   problemShort: string;
   actionShort: string;
   resultShort: string;
@@ -45,6 +52,7 @@ export const FEATURED_CASE: CaseStudy = {
   headerTitle: 'APPRENTISSAGE GAMIFIÉ, CORRECTION AUTOMATISÉE',
   headerSubtitle: 'EdTech SaaS B2B2C',
   image: image_5d01d94ee99e37b8c24f102a36d51d884f769ccd,
+  imageWebp: webp_5d01d94ee99e37b8c24f102a36d51d884f769ccd,
   problemShort: 'Apprentissage passif & correction manuelle chronophage',
   actionShort: 'Gamification UX + Dashboard Analytics Professeur',
   resultShort: 'Parcours d’apprentissage gamifié et correction automatisée côté professeur',
@@ -75,7 +83,9 @@ export const FEATURED_CASE: CaseStudy = {
 /** Avant/après réutilisés par le comparateur de la home. */
 export const FEATURED_CASE_COMPARE_IMAGES = {
   before: image_527f60f73fe096905f75e234d997f79c2f990c15,
+  beforeWebp: webp_527f60f73fe096905f75e234d997f79c2f990c15,
   after: image_5d01d94ee99e37b8c24f102a36d51d884f769ccd,
+  afterWebp: webp_5d01d94ee99e37b8c24f102a36d51d884f769ccd,
 };
 
 export const OTHER_CASE_STUDIES: CaseStudy[] = [
@@ -109,6 +119,7 @@ export const OTHER_CASE_STUDIES: CaseStudy[] = [
     tag: 'E-commerce',
     title: 'Optimisation du tunnel d’achat',
     image: image_14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71,
+    imageWebp: webp_14ef1a1437025d46e765d7e8a3c8b8ccb9fe4f71,
     problemShort: 'Fort taux d’abandon panier sur mobile',
     actionShort: 'Checkout one-page + Apple/Google Pay',
     resultShort: 'Tunnel ramené de 5 pages à un checkout unique, paiements rapides intégrés',

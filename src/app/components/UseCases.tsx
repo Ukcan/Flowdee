@@ -1,5 +1,7 @@
 import neurolaboAnalysesWireframe from '../../assets/neurolabo-analyses-wireframe.jpg';
 import neurolaboAnalysesOptimise from '../../assets/neurolabo-analyses-optimise.jpg';
+import neurolaboAnalysesWireframeWebp from '../../assets/neurolabo-analyses-wireframe.webp';
+import neurolaboAnalysesOptimiseWebp from '../../assets/neurolabo-analyses-optimise.webp';
 import React, { useState, useId } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ArrowsHorizontal, X } from '@phosphor-icons/react';
@@ -26,13 +28,17 @@ const compareScreens = [
     label: 'Catalogue',
     sublabel: 'Liste des simulations',
     before: FEATURED_CASE_COMPARE_IMAGES.before,
+    beforeWebp: FEATURED_CASE_COMPARE_IMAGES.beforeWebp,
     after: FEATURED_CASE_COMPARE_IMAGES.after,
+    afterWebp: FEATURED_CASE_COMPARE_IMAGES.afterWebp,
   },
   {
     label: 'Analyses',
     sublabel: 'Heatmap & débriefing',
     before: neurolaboAnalysesWireframe,
+    beforeWebp: neurolaboAnalysesWireframeWebp,
     after: neurolaboAnalysesOptimise,
+    afterWebp: neurolaboAnalysesOptimiseWebp,
   },
 ];
 
@@ -68,7 +74,17 @@ const DRAG_STEP = 0.25;
 const KEY_STEP = 2;
 const PAGE_STEP = 10;
 
-function BeforeAfterSlider({ before, after }: { before: string; after: string }) {
+function BeforeAfterSlider({
+  before,
+  beforeWebp,
+  after,
+  afterWebp,
+}: {
+  before: string;
+  beforeWebp?: string;
+  after: string;
+  afterWebp?: string;
+}) {
   const [sliderPos, setSliderPos] = useState(50);
   const inputId = useId();
   const rounded = Math.round(sliderPos);
@@ -99,7 +115,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
   return (
     <div className="relative w-full aspect-[1600/782] cursor-ew-resize overflow-hidden select-none rounded-[16px] border border-border-0 bg-surface-1 shadow-panel">
       <div className="absolute inset-0">
-        <ImageWithFallback src={after} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-cover" />
+        <ImageWithFallback src={after} srcWebp={afterWebp} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 right-6 z-20">
           <span className="font-body text-[12px] bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
             Après — optimisé
@@ -110,7 +126,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
         className="absolute inset-0 border-r border-accent-primary z-10"
         style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
       >
-        <ImageWithFallback src={before} alt="Interface avant refonte — version initiale" className="w-full h-full object-cover" />
+        <ImageWithFallback src={before} srcWebp={beforeWebp} alt="Interface avant refonte — version initiale" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 left-6 z-20">
           <span className="font-body text-[12px] bg-surface-0/75 backdrop-blur-md text-text-secondary border border-border-0 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
             Avant — wireframe
@@ -224,7 +240,7 @@ export function UseCases() {
                   className={`group flex items-center gap-3 shrink-0 text-left rounded-[14px] border p-2 pr-4 transition-colors duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base ${active ? 'border-accent-primary bg-accent-bg' : 'border-border-0 bg-surface-0 hover:border-border-1'}`}
                 >
                   <span className="block w-14 h-10 rounded-[8px] overflow-hidden border border-border-0 shrink-0">
-                    <ImageWithFallback src={s.after} alt="" className="w-full h-full object-cover" />
+                    <ImageWithFallback src={s.after} srcWebp={s.afterWebp} alt="" className="w-full h-full object-cover" />
                   </span>
                   <span className="min-w-0">
                     <span className={`block font-body text-[13px] font-semibold truncate ${active ? 'text-accent-primary' : 'text-text-primary'}`}>{s.label}</span>
@@ -235,7 +251,7 @@ export function UseCases() {
             })}
           </div>
 
-          <BeforeAfterSlider key={screenIdx} before={screen.before} after={screen.after} />
+          <BeforeAfterSlider key={screenIdx} before={screen.before} beforeWebp={screen.beforeWebp} after={screen.after} afterWebp={screen.afterWebp} />
 
           <div className="flex items-center justify-center gap-4 flex-wrap pt-4">
             <span className="font-body text-[13px] text-text-secondary inline-flex items-center gap-2">
@@ -451,6 +467,7 @@ export function UseCases() {
                     <div className="relative aspect-[4/3] rounded-[20px] overflow-hidden border border-border-0 bg-surface-0">
                       <ImageWithFallback
                         src={useCase.image}
+                        srcWebp={useCase.imageWebp}
                         alt={useCase.title}
                         className="w-full h-full object-cover object-top"
                       />
@@ -492,10 +509,11 @@ export function UseCases() {
               <div className="p-0 relative">
                 {/* Image Header */}
                 <div className="relative h-64 md:h-80 overflow-hidden border-b border-border-0">
-                  <ImageWithFallback 
-                    src={selectedCase.image} 
-                    alt={selectedCase.title} 
-                    className="w-full h-full object-cover object-top" 
+                  <ImageWithFallback
+                    src={selectedCase.image}
+                    srcWebp={selectedCase.imageWebp}
+                    alt={selectedCase.title}
+                    className="w-full h-full object-cover object-top"
                   />
                   <div className="absolute bottom-0 left-0 w-full p-8 md:p-12 bg-surface-0/80 backdrop-blur-md border-t border-border-0">
                     <span className="font-body text-[10px] bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30 font-medium px-4 py-1 mb-4 uppercase tracking-[0.15em] inline-block rounded-full">

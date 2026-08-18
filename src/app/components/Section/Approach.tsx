@@ -1,4 +1,5 @@
 import image_8d0fbd868add68a87847282f9a6dae596b7a8035 from 'figma:asset/8d0fbd868add68a87847282f9a6dae596b7a8035.jpg';
+import webp_8d0fbd868add68a87847282f9a6dae596b7a8035 from 'figma:asset/8d0fbd868add68a87847282f9a6dae596b7a8035.webp';
 import React from 'react';
 import { motion } from 'motion/react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
@@ -96,6 +97,7 @@ export function ApproachSection() {
           <div className="w-[88px] h-[88px] shrink-0 rounded-[20px] overflow-hidden border border-border-0">
             <ImageWithFallback
               src={image_8d0fbd868add68a87847282f9a6dae596b7a8035}
+              srcWebp={webp_8d0fbd868add68a87847282f9a6dae596b7a8035}
               alt="Benjamin, Lead UX/UI Designer chez Flowdee"
               className="w-full h-full object-cover object-top grayscale"
             />

@@ -98,7 +98,7 @@ export function EtudeDeCasPage() {
           {caseStudy.scope} · {caseStudy.duration}
         </p>
         <div className="relative aspect-[16/9] rounded-[20px] overflow-hidden border border-border-0 mt-10">
-          <ImageWithFallback src={caseStudy.image} alt={caseStudy.title} className="w-full h-full object-cover" />
+          <ImageWithFallback src={caseStudy.image} srcWebp={caseStudy.imageWebp} alt={caseStudy.title} className="w-full h-full object-cover" />
         </div>
       </header>
 
