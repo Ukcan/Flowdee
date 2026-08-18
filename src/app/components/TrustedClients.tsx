@@ -71,7 +71,7 @@ export function TrustedClients() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="text-center mt-8"
         >
-          <p className="font-body text-[11px] font-medium uppercase tracking-[0.2em] text-text-muted">
+          <p className="font-body text-[12px] font-medium uppercase tracking-[0.2em] text-text-muted">
             CERTAINES RÉFÉRENCES SOUS NDA
           </p>
         </motion.div>
@@ -88,7 +88,7 @@ export function TrustedClients() {
             <p className="font-body text-[18px] md:text-[22px] text-accent-primary mb-4 leading-snug tracking-wide" style={{ fontWeight: 300 }}>
               "Résultats visibles dès la 2e itération : moins de friction, plus d'activation."
             </p>
-            <p className="font-body text-[11px] uppercase tracking-[0.2em] text-text-primary font-medium">
+            <p className="font-body text-[12px] uppercase tracking-[0.2em] text-text-primary font-medium">
               CEO, Hub LMS
             </p>
           </div>

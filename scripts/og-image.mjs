@@ -1,5 +1,5 @@
 /**
- * Régénère public/og-image.png depuis og-image.html.
+ * Régénère public/og-image.jpg depuis og-image.html.
  *
  * L'image de partage était un PNG committé sans script pour le reproduire :
  * la moindre retouche de marque obligeait à la refaire à la main, et elle a
@@ -7,6 +7,12 @@
  * fichier reproductible.
  *
  *   node scripts/og-image.mjs
+ *
+ * JPEG plutôt que PNG (diagnostic externe 2026-08-18, F-18) : le PNG pesait
+ * 384 Ko et se rechargeait à chaque partage LinkedIn, le canal principal
+ * indiqué par le site. Le contenu est une composition à plat (texte, logo,
+ * aplats) sans dégradé fin ni photo, donc la compression JPEG ne dégrade rien
+ * de visible à l'échelle d'une carte de partage.
  *
  * La typo de l'image est encore Satoshi (chargée depuis Fontshare) alors que
  * le site est passé à Geist — voir la note en fin de fichier. Le script
@@ -20,7 +26,7 @@ import { dirname, resolve } from 'node:path';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const source = resolve(root, 'og-image.html');
-const output = resolve(root, 'public/og-image.png');
+const output = resolve(root, 'public/og-image.jpg');
 const offerFile = resolve(root, 'src/app/constants/offer.ts');
 
 /**
@@ -95,9 +101,9 @@ if (injected.missing) {
   process.exit(1);
 }
 
-await page.locator('.og').screenshot({ path: output });
+await page.locator('.og').screenshot({ path: output, type: 'jpeg', quality: 82 });
 await browser.close();
-console.log(`og-image.png régénéré → ${output}`);
+console.log(`og-image.jpg régénéré → ${output}`);
 console.log(`  prix   : ${offer.price}`);
 console.log(`  délai  : ${offer.delivery}`);
 console.log('  (lus dans src/app/constants/offer.ts)');

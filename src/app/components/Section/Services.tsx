@@ -385,7 +385,7 @@ export function ServicesSection() {
 
                 {/* Timeline eyebrow — muted by default; accent stays punctual, reserved for the recommended card */}
                 <div className="mb-6">
-                  <span className={`font-body text-[10px] font-medium uppercase tracking-[0.2em] ${isFeatured ? 'text-accent-primary' : 'text-text-muted'}`}>
+                  <span className={`font-body text-[12px] font-medium uppercase tracking-[0.2em] ${isFeatured ? 'text-accent-primary' : 'text-text-muted'}`}>
                     {service.timeline}
                   </span>
                 </div>
@@ -445,7 +445,7 @@ export function ServicesSection() {
 
                 {/* Micro-proof */}
                 <p
-                  className="font-body text-[11px] text-text-muted font-normal tracking-[0.02em] mb-5"
+                  className="font-body text-[12px] text-text-muted font-normal tracking-[0.02em] mb-5"
                   aria-label="Preuve de livraison"
                 >
                   {service.microProof}

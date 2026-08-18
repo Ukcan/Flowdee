@@ -101,7 +101,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
       <div className="absolute inset-0">
         <ImageWithFallback src={after} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 right-6 z-20">
-          <span className="font-body text-[10px] bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
+          <span className="font-body text-[12px] bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
             Après — optimisé
           </span>
         </div>
@@ -112,7 +112,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
       >
         <ImageWithFallback src={before} alt="Interface avant refonte — version initiale" className="w-full h-full object-cover" />
         <div className="absolute bottom-6 left-6 z-20">
-          <span className="font-body text-[10px] bg-surface-0/75 backdrop-blur-md text-text-secondary border border-border-0 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
+          <span className="font-body text-[12px] bg-surface-0/75 backdrop-blur-md text-text-secondary border border-border-0 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
             Avant — wireframe
           </span>
         </div>
@@ -228,7 +228,7 @@ export function UseCases() {
                   </span>
                   <span className="min-w-0">
                     <span className={`block font-body text-[13px] font-semibold truncate ${active ? 'text-accent-primary' : 'text-text-primary'}`}>{s.label}</span>
-                    <span className="block font-body text-[11px] text-text-muted truncate">{s.sublabel}</span>
+                    <span className="block font-body text-[12px] text-text-muted truncate">{s.sublabel}</span>
                   </span>
                 </button>
               );
@@ -378,7 +378,7 @@ export function UseCases() {
                       {kpiHero}
                     </h3>
 
-                    <p className="font-body text-[11px] text-text-muted uppercase tracking-widest mt-3">
+                    <p className="font-body text-[12px] text-text-muted uppercase tracking-widest mt-3">
                       {useCase.title}
                     </p>
 
@@ -413,7 +413,7 @@ export function UseCases() {
 
                     {/* Ligne de synthèse — pleine opacité : à 10px, le modificateur
                         /60 tombait sous le seuil WCAG AA de 4.5:1. */}
-                    <p className="font-body text-[11px] text-text-muted tracking-wide mt-5">
+                    <p className="font-body text-[12px] text-text-muted tracking-wide mt-5">
                       {useCase.resultShort}
                     </p>
 
