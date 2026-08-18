@@ -374,12 +374,16 @@ export function UseCases() {
                       </span>
                     </div>
 
-                    <h3 className="font-display text-[30px] md:text-[36px] lg:text-[40px] text-accent-primary leading-[1.1] tracking-[-0.02em] mt-5 text-balance" style={{ fontWeight: 300 }}>
-                      {kpiHero}
+                    {/* Le nom du cas passe avant la métrique : sans lui, la
+                        grosse phrase KPI se lisait comme le titre de
+                        l'article, et on ne savait qu'après coup de quel cas
+                        il s'agissait (retour Adel, revue du 2026-08-18). */}
+                    <h3 className="font-heading text-[22px] md:text-[26px] lg:text-[28px] text-text-primary leading-[1.2] tracking-[-0.01em] mt-5 text-balance" style={{ fontWeight: 500 }}>
+                      {useCase.title}
                     </h3>
 
-                    <p className="font-body text-[12px] text-text-muted uppercase tracking-widest mt-3">
-                      {useCase.title}
+                    <p className="font-display text-[19px] md:text-[22px] text-accent-primary leading-snug tracking-[-0.01em] mt-3 text-balance" style={{ fontWeight: 300 }}>
+                      {kpiHero}
                     </p>
 
                     {/* Problème / Action — filet plutôt que cartouche : moins de conteneurs */}

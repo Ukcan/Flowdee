@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { ButtonPrimary } from '../Button/Primary';
-import { openAuditLink } from '../../constants/links';
 import {
   CTA,
   AUDIT_NAME,
@@ -17,9 +16,15 @@ import {
  * constants/offer, jamais écrits ici).
  * Hiérarchie épurée : un seul H1 (dominant visuellement et sémantiquement),
  * une proposition de valeur, un périmètre en information secondaire, trois
- * preuves concrètes, un seul CTA dominant (achat audit), réassurance couplée,
- * actions secondaires hiérarchisées en liens discrets. Identité, couleurs,
- * fond animé conservés.
+ * preuves concrètes, un seul CTA dominant, réassurance couplée, action
+ * secondaire hiérarchisée en lien discret. Identité, couleurs, fond animé
+ * conservés.
+ *
+ * Le CTA dominant n'affiche plus le prix (revue Adel × Benji du 2026-08-18) :
+ * l'annoncer avant toute conviction construite induit le doute plutôt que de
+ * rassurer. Il mène désormais au détail de l'offre (#deliverables) ; l'achat
+ * reste l'action dominante de la section Offres, plus bas sur la page, une
+ * fois la preuve posée.
  */
 
 const BENEFITS = [AUDIT_SCOPE_SHORT, AUDIT_FIGMA_SCREEN, AUDIT_DELIVERY];
@@ -40,9 +45,6 @@ export function HeroSection() {
       ? {}
       : { initial: { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5, delay } };
 
-  const openAuditCheckout = () => {
-    openAuditLink();
-  };
   const openCalendar = () => {
     window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
   };
@@ -53,10 +55,8 @@ export function HeroSection() {
 
   const focusRing =
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-base)]';
-  const textLink = `inline-flex items-center min-h-[44px] px-1 font-body text-[13px] sm:text-[14px] text-text-secondary underline underline-offset-4 decoration-border-1 hover:text-text-primary rounded transition-colors ${focusRing}`;
-  // Réservation d'appel — ne doit plus rivaliser avec l'achat ni avec le lien
-  // vers l'exemple de livrable : plus petit, plus sourd, underline seulement
-  // au survol/focus plutôt qu'en permanence.
+  // Réservation d'appel — reste secondaire au CTA de découverte : plus petit,
+  // plus sourd, underline seulement au survol/focus plutôt qu'en permanence.
   const textLinkQuiet = `inline-flex items-center min-h-[44px] px-1 font-body text-[12px] sm:text-[13px] text-text-muted underline-offset-4 hover:text-text-secondary hover:underline focus-visible:underline rounded transition-colors ${focusRing}`;
 
   return (
@@ -128,31 +128,24 @@ export function HeroSection() {
             ))}
           </motion.ul>
 
-          {/* Conversion — un seul ordre de priorité : achat, puis exemple de
-              livrable, puis réassurance, puis prise de rendez-vous (la moins
-              engageante, reléguée en bas et visuellement la plus discrète). */}
+          {/* Conversion — un seul ordre de priorité : découvrir l'offre, puis
+              réassurance, puis prise de rendez-vous (la moins engageante,
+              reléguée en bas et visuellement la plus discrète). L'achat
+              reste l'action dominante de la section Offres, plus bas. */}
           <motion.div {...anim(0.34)} className="flex flex-col items-center gap-3 pt-1">
             <ButtonPrimary
-              onClick={openAuditCheckout}
+              onClick={() => scrollToSection('deliverables')}
               size="l"
               className={`px-10 min-w-[17rem] text-[16px] ${focusRing}`}
             >
-              {CTA.audit}
+              {CTA.auditContents}
             </ButtonPrimary>
 
-            {/* Aucune page d'exemple de livrable n'existe sur le site : le lien
-                mène à la section qui détaille réellement le contenu du
-                livrable (#deliverables), seul le libellé change. */}
-            <button type="button" onClick={() => scrollToSection('deliverables')} className={textLink}>
-              {CTA.auditSample}
-            </button>
-
-            {/* La ligne cumulait un délai de confirmation et un délai de
-                livraison ; côte à côte, les deux se lisaient comme une seule
-                fourchette floue. Seul le délai de livraison est engagé ici, le
-                démarrage est détaillé dans la FAQ. */}
+            {/* Sans engagement plutôt que « Paiement sécurisé » : ce CTA mène
+                au détail de l'offre, pas à l'achat — annoncer un paiement
+                avant toute conviction construite induit le doute. */}
             <p className="font-body text-[13px] sm:text-[14px] font-medium text-text-secondary tracking-[0.01em] max-w-[440px]">
-              Paiement sécurisé · {AUDIT_DELIVERY}
+              Sans engagement · {AUDIT_DELIVERY}
             </p>
 
             <button type="button" onClick={openCalendar} className={`${textLinkQuiet} mt-1`}>

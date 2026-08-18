@@ -4,13 +4,16 @@ import { motion } from 'motion/react';
 import { toast } from 'sonner@2.0.3';
 import { TechnicalLabel } from './TechnicalLabel';
 import { ButtonPrimary } from './Button/Primary';
-import { CALENDAR_LINK, openAuditLink, openBlankTab } from '../constants/links';
+import { CALENDAR_LINK, openAuditLink } from '../constants/links';
 import { WEB3FORMS_ACCESS_KEY, WEB3FORMS_ENDPOINT } from '../constants/web3forms';
 import { CTA, AUDIT_SCOPE, AUDIT_DELIVERY, AUDIT_REASSURANCE } from '../constants/offer';
 
 /**
- * Les deux intentions ne partagent que les coordonnées. Tout le reste — titre,
- * accroche, libellé du champ libre, bouton, réassurance — change avec le choix.
+ * Les deux intentions ne partagent plus le formulaire (revue Adel × Benji du
+ * 2026-08-18) : « Commander l'audit » est un achat direct, Stripe recueille
+ * déjà ses propres coordonnées à la caisse — lui faire remplir un formulaire
+ * de contact avant n'ajoutait qu'une friction et brouillait la hiérarchie
+ * avec « Réserver un appel », qui reste le seul chemin de lead generation.
  *
  * Auparavant le formulaire annonçait « Discutons de votre projet pendant
  * 30 minutes » quoi qu'on ait coché, et le bouton d'achat menait à
@@ -71,16 +74,20 @@ export function FinalCTA() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Achat direct : aucune coordonnée à collecter ici, Stripe s'en charge à
+    // la caisse. Pas de formulaire à valider, pas de lead à enregistrer.
+    if (choice === 'audit') {
+      openAuditLink();
+      return;
+    }
+
     if (!isFormValid) {
       setSubmitAttempted(true);
       return;
     }
 
     setIsSubmitting(true);
-
-    // Ouvre l'onglet Stripe tout de suite (geste utilisateur synchrone) — sinon
-    // le navigateur bloque window.open() une fois passé l'`await fetch` ci-dessous.
-    const stripeTab = choice === 'audit' ? openBlankTab() : undefined;
 
     // Enregistre le lead via Web3Forms (n'empêche pas la suite si échec)
     try {
@@ -89,7 +96,7 @@ export function FinalCTA() {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `Nouveau contact Flowdee — ${choice === 'call' ? 'Appel' : 'Audit'}`,
+          subject: 'Nouveau contact Flowdee — Appel',
           name: formData.name,
           email: formData.email,
           company: formData.company,
@@ -98,22 +105,14 @@ export function FinalCTA() {
         }),
       });
     } catch {
-      // on continue quand même vers Calendar / paiement
+      // on continue quand même vers Calendar
     }
 
-    const successMessage = choice === 'call'
-      ? 'Demande envoyée ! Ouverture du calendrier…'
-      : 'Redirection vers le paiement sécurisé...';
-
-    toast.success(successMessage, {
+    toast.success('Demande envoyée ! Ouverture du calendrier…', {
       description: 'Merci de votre intérêt pour mes services.',
     });
 
-    if (choice === 'call') {
-      window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
-    } else {
-      openAuditLink(stripeTab);
-    }
+    window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
 
     setFormData({ name: '', email: '', company: '', message: '' });
     setIsSubmitting(false);
@@ -235,81 +234,89 @@ export function FinalCTA() {
                 </div>
               </fieldset>
               
-              <div className="space-y-2">
-                <label htmlFor="email" className="font-body text-[11px] font-bold uppercase tracking-widest text-text-muted block">EMAIL PROFESSIONNEL *</label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  onBlur={() => handleBlur('email')}
-                  aria-invalid={showEmailError ? 'true' : undefined}
-                  aria-describedby={showEmailError ? 'email-error' : undefined}
-                  className={`w-full h-12 bg-bg-base border-[1.5px] ${showEmailError ? 'border-status-danger' : 'border-border-1'} text-text-primary px-5 font-body rounded-[8px] hover:border-border-2 focus:border-[1.5px] focus:border-accent-primary focus:ring-[4px] focus:ring-accent-bg outline-none transition-all duration-150 placeholder:text-text-muted/60 text-[15px]`}
-                  placeholder="jean@entreprise.com"
-                />
-                {showEmailError && (
-                  <p id="email-error" role="alert" className="font-body text-[12px] text-status-danger">
-                    {emailErrorMessage}
-                  </p>
-                )}
-              </div>
+              {choice === 'call' ? (
+                <>
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="font-body text-[11px] font-bold uppercase tracking-widest text-text-muted block">EMAIL PROFESSIONNEL *</label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      onBlur={() => handleBlur('email')}
+                      aria-invalid={showEmailError ? 'true' : undefined}
+                      aria-describedby={showEmailError ? 'email-error' : undefined}
+                      className={`w-full h-12 bg-bg-base border-[1.5px] ${showEmailError ? 'border-status-danger' : 'border-border-1'} text-text-primary px-5 font-body rounded-[8px] hover:border-border-2 focus:border-[1.5px] focus:border-accent-primary focus:ring-[4px] focus:ring-accent-bg outline-none transition-all duration-150 placeholder:text-text-muted/60 text-[15px]`}
+                      placeholder="jean@entreprise.com"
+                    />
+                    {showEmailError && (
+                      <p id="email-error" role="alert" className="font-body text-[12px] text-status-danger">
+                        {emailErrorMessage}
+                      </p>
+                    )}
+                  </div>
 
-              <div className="space-y-2">
-                <label htmlFor="name" className="font-body text-[11px] font-bold uppercase tracking-widest text-text-muted block">NOM COMPLET *</label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  onBlur={() => handleBlur('name')}
-                  aria-invalid={showNameError ? 'true' : undefined}
-                  aria-describedby={showNameError ? 'name-error' : undefined}
-                  className={`w-full h-12 bg-bg-base border-[1.5px] ${showNameError ? 'border-status-danger' : 'border-border-1'} text-text-primary px-5 font-body rounded-[8px] hover:border-border-2 focus:border-[1.5px] focus:border-accent-primary focus:ring-[4px] focus:ring-accent-bg outline-none transition-all duration-150 placeholder:text-text-muted/60 text-[15px]`}
-                  placeholder="Jean Dupont"
-                />
-                {showNameError && (
-                  <p id="name-error" role="alert" className="font-body text-[12px] text-status-danger">
-                    {nameErrorMessage}
-                  </p>
-                )}
-              </div>
+                  <div className="space-y-2">
+                    <label htmlFor="name" className="font-body text-[11px] font-bold uppercase tracking-widest text-text-muted block">NOM COMPLET *</label>
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      onBlur={() => handleBlur('name')}
+                      aria-invalid={showNameError ? 'true' : undefined}
+                      aria-describedby={showNameError ? 'name-error' : undefined}
+                      className={`w-full h-12 bg-bg-base border-[1.5px] ${showNameError ? 'border-status-danger' : 'border-border-1'} text-text-primary px-5 font-body rounded-[8px] hover:border-border-2 focus:border-[1.5px] focus:border-accent-primary focus:ring-[4px] focus:ring-accent-bg outline-none transition-all duration-150 placeholder:text-text-muted/60 text-[15px]`}
+                      placeholder="Jean Dupont"
+                    />
+                    {showNameError && (
+                      <p id="name-error" role="alert" className="font-body text-[12px] text-status-danger">
+                        {nameErrorMessage}
+                      </p>
+                    )}
+                  </div>
 
-              <div className="space-y-2">
-                <label htmlFor="company" className="font-body text-[11px] font-bold uppercase tracking-widest text-text-muted block">ENTREPRISE</label>
-                <input
-                  id="company"
-                  name="company"
-                  type="text"
-                  value={formData.company}
-                  onChange={handleChange}
-                  className="w-full h-12 bg-bg-base border-[1.5px] border-border-1 text-text-primary px-5 font-body rounded-[8px] hover:border-border-2 focus:border-[1.5px] focus:border-accent-primary focus:ring-[4px] focus:ring-accent-bg outline-none transition-all duration-150 placeholder:text-text-muted/60 text-[15px]"
-                  placeholder="Nom de votre entreprise"
-                />
-              </div>
+                  <div className="space-y-2">
+                    <label htmlFor="company" className="font-body text-[11px] font-bold uppercase tracking-widest text-text-muted block">ENTREPRISE</label>
+                    <input
+                      id="company"
+                      name="company"
+                      type="text"
+                      value={formData.company}
+                      onChange={handleChange}
+                      className="w-full h-12 bg-bg-base border-[1.5px] border-border-1 text-text-primary px-5 font-body rounded-[8px] hover:border-border-2 focus:border-[1.5px] focus:border-accent-primary focus:ring-[4px] focus:ring-accent-bg outline-none transition-all duration-150 placeholder:text-text-muted/60 text-[15px]"
+                      placeholder="Nom de votre entreprise"
+                    />
+                  </div>
 
-              <div className="space-y-2">
-                {/* Le champ libre ne demande pas la même chose selon l'intention :
-                    un besoin à cadrer d'un côté, un périmètre à auditer de
-                    l'autre. */}
-                <label htmlFor="message" className="font-body text-[11px] font-bold uppercase tracking-widest text-text-muted block">{intent.messageLabel}</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full min-h-[120px] bg-bg-base border-[1.5px] border-border-1 text-text-primary p-5 font-body rounded-[12px] hover:border-border-2 focus:border-[1.5px] focus:border-accent-primary focus:ring-[4px] focus:ring-accent-bg outline-none transition-all duration-150 placeholder:text-text-muted/60 resize-none text-[15px]"
-                  placeholder={intent.messagePlaceholder}
-                />
-              </div>
+                  <div className="space-y-2">
+                    <label htmlFor="message" className="font-body text-[11px] font-bold uppercase tracking-widest text-text-muted block">{intent.messageLabel}</label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="w-full min-h-[120px] bg-bg-base border-[1.5px] border-border-1 text-text-primary p-5 font-body rounded-[12px] hover:border-border-2 focus:border-[1.5px] focus:border-accent-primary focus:ring-[4px] focus:ring-accent-bg outline-none transition-all duration-150 placeholder:text-text-muted/60 resize-none text-[15px]"
+                      placeholder={intent.messagePlaceholder}
+                    />
+                  </div>
+                </>
+              ) : (
+                /* Achat direct : pas de champs à remplir ici, Stripe recueille
+                   déjà email et nom à la caisse — les redemander ici serait une
+                   friction gratuite (revue Adel × Benji du 2026-08-18). */
+                <p className="font-body text-[13px] text-text-secondary leading-relaxed bg-bg-base border border-border-1 rounded-[12px] p-4">
+                  Vos coordonnées sont demandées directement au paiement sécurisé — rien à ressaisir ici.
+                </p>
+              )}
 
               <ButtonPrimary
                 type="submit"
-                disabled={isSubmitting || !isFormValid}
+                disabled={isSubmitting || (choice === 'call' && !isFormValid)}
                 /* Le libellé le plus long ("Réserver un créneau (Calendar) →")
                    dépasse la largeur utile en mobile : on autorise le retour à
                    la ligne et une hauteur libre plutôt que de le tronquer. */
@@ -326,14 +333,16 @@ export function FinalCTA() {
                 {intent.footnote}
               </p>
 
-              {/* RGPD demande d'informer au moment de la collecte, pas
-                  seulement dans une page atteignable depuis le pied de page. */}
-              <p className="font-body text-[11px] text-text-muted text-center leading-relaxed">
-                Vos données servent uniquement à traiter cette demande, conservées 3 ans maximum.{' '}
-                <Link to="/politique-de-confidentialite/" className="text-accent-primary underline underline-offset-2">
-                  Politique de confidentialité
-                </Link>.
-              </p>
+              {/* RGPD demande d'informer au moment de la collecte — mais ne
+                  s'applique qu'au chemin appel, seul à collecter des données ici. */}
+              {choice === 'call' && (
+                <p className="font-body text-[11px] text-text-muted text-center leading-relaxed">
+                  Vos données servent uniquement à traiter cette demande, conservées 3 ans maximum.{' '}
+                  <Link to="/politique-de-confidentialite/" className="text-accent-primary underline underline-offset-2">
+                    Politique de confidentialité
+                  </Link>.
+                </p>
+              )}
             </form>
           </motion.div>
         </div>
