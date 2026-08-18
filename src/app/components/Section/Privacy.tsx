@@ -175,7 +175,7 @@ export function PrivacySection() {
                   6. Partage des données
                 </h2>
                 <p className="font-body text-[15px] leading-relaxed text-text-primary/80">
-                  {renderText("Aucune donnée n'est vendue. Nous utilisons des sous-traitants de confiance : **Google** (Analytics, Gmail, Drive), **Notion**, **Slack** et **Cloudflare**. Ils respectent tous les normes du **RGPD**.")}
+                  {renderText("Aucune donnée n'est vendue. Nous utilisons des sous-traitants de confiance : **Google** (Analytics, Gmail, Drive), **Notion**, **Slack**, **Cloudflare**, **Web3Forms** (traitement du formulaire de contact) et **Resend** (envoi d'e-mails transactionnels). Ils respectent tous les normes du **RGPD**.")}
                 </p>
               </div>
             </article>

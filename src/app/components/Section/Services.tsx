@@ -396,9 +396,16 @@ export function ServicesSection() {
                 </h3>
 
                 {/* Price — accent anchor on the recommended card only, standard cards read as primary text */}
-                <div className={`font-display text-[20px] lg:text-[22px] mb-5 tracking-[-0.01em] ${isFeatured ? 'text-accent-primary' : 'text-text-primary'}`} style={{ fontWeight: 300 }}>
+                <div className={`font-display text-[20px] lg:text-[22px] tracking-[-0.01em] ${isFeatured ? 'text-accent-primary' : 'text-text-primary'}`} style={{ fontWeight: 300 }}>
                   {service.price}
                 </div>
+
+                {/* TVA annoncée près du prix, pas seulement aux CGV : un
+                    acheteur professionnel doit savoir avant de payer qu'il ne
+                    récupérera pas de TVA. */}
+                <p className="font-body text-[11px] text-text-muted mb-5">
+                  TVA non applicable, art. 293 B du CGI
+                </p>
 
                 {/* Description */}
                 <p className="body mb-4">

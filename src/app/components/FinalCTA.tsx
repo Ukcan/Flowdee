@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { toast } from 'sonner@2.0.3';
 import { TechnicalLabel } from './TechnicalLabel';
@@ -323,6 +324,15 @@ export function FinalCTA() {
                   sous 24 h à quelqu'un qui allait payer. */}
               <p className="font-body text-[12px] text-text-muted text-center mt-2">
                 {intent.footnote}
+              </p>
+
+              {/* RGPD demande d'informer au moment de la collecte, pas
+                  seulement dans une page atteignable depuis le pied de page. */}
+              <p className="font-body text-[11px] text-text-muted text-center leading-relaxed">
+                Vos données servent uniquement à traiter cette demande, conservées 3 ans maximum.{' '}
+                <Link to="/politique-de-confidentialite/" className="text-accent-primary underline underline-offset-2">
+                  Politique de confidentialité
+                </Link>.
               </p>
             </form>
           </motion.div>
