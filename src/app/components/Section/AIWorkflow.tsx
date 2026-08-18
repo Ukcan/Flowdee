@@ -136,6 +136,20 @@ export function AIWorkflowSection() {
             </p>
           </motion.div>
         </div>
+
+        {/* La formulation la plus concrète du différenciateur restait
+            repliée dans un accordéon de FAQ, en position 6 sur 8 — remontée
+            ici, dans la section qui porte justement cette promesse (F-11,
+            diagnostic externe 2026-08-18). */}
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="font-body text-[14px] md:text-[15px] leading-[1.6] text-text-secondary mt-10 md:mt-12 max-w-[640px]"
+        >
+          L'écran corrigé est livré dans Figma avec des spécifications claires, directement exploitables par votre équipe de développement — et pensé pour être repris facilement par un assistant comme Claude Code afin d'accélérer l'implémentation.
+        </motion.p>
       </div>
     </section>
   );

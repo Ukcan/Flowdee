@@ -9,8 +9,8 @@ import svgPaths from '../imports/svg-sg0ezcs3e9';
 import { LogoFlowdee } from './Brand/LogoFlowdee';
 import { useTranslation } from '../contexts/LanguageContext';
 import { CTA_PRIMARY, CTA_SECONDARY } from '../constants/ctaCopy';
-import { CALENDAR_LINK, openAuditLink } from '../constants/links';
-import { CTA, AUDIT_REASSURANCE } from '../constants/offer';
+import { CALENDAR_LINK } from '../constants/links';
+import { CTA, AUDIT_DELIVERY } from '../constants/offer';
 
 function LogoHomeButton() {
   return (
@@ -53,12 +53,12 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
      `primary` marque celles que la barre desktop peut afficher : elle n'a la
      place que de quatre entrées entre le logo et les deux boutons d'action. */
   const sectionItems = useMemo(() => [
+    { label: t.nav.aiWorkflow, id: 'ia-workflow' },
     { label: t.nav.frictions, id: 'problems' },
     { label: t.nav.deliverables, id: 'deliverables' },
     { label: t.nav.services, id: 'services', primary: true },
     { label: t.nav.caseStudies, id: 'case-studies', primary: true },
     { label: t.nav.approach, id: 'approche', primary: true },
-    { label: t.nav.aiWorkflow, id: 'ia-workflow' },
     { label: t.nav.faq, id: 'faq' },
     { label: t.nav.contact, id: 'contact', primary: true }
   ], [t]);
@@ -140,8 +140,18 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
     window.dispatchEvent(new CustomEvent('flowdee:open-calendar'));
   };
 
-  const openAudit = () => {
-    openAuditLink();
+  /* N'affiche plus le prix ni n'ouvre le paiement directement : même
+     logique que le hero (revue Adel × Benji du 2026-08-18), la barre de
+     navigation est visible dès le premier contact sur chaque page, ce
+     n'est pas l'endroit où annoncer un prix avant toute conviction. Mène
+     au détail de l'offre ; l'achat reste l'action dominante de la section
+     Offres. */
+  const discoverAudit = () => {
+    if (onHome) {
+      scrollToSection('deliverables');
+    } else {
+      window.location.href = '/#deliverables';
+    }
   };
 
   return (
@@ -202,13 +212,13 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
               {CTA.call}
             </button>
 
-            {/* CTA primaire dominant : commander l'audit */}
+            {/* CTA primaire dominant : découvrir l'offre (pas de prix ici) */}
             <ButtonPrimary
-              onClick={openAudit}
+              onClick={discoverAudit}
               size="s"
               className="ml-2"
             >
-              {CTA.audit}
+              {CTA.auditContents}
             </ButtonPrimary>
           </div>
 
@@ -277,19 +287,19 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
             </nav>
             
             <div className="mt-auto space-y-3 relative z-10">
-              {/* CTA primaire dominant : commander l'audit */}
+              {/* CTA primaire dominant : découvrir l'offre (pas de prix ici) */}
               <ButtonPrimary
                 onClick={() => {
-                  openAudit();
+                  discoverAudit();
                   setMobileMenuOpen(false);
                 }}
                 size="l"
                 className="w-full"
               >
-                {CTA.audit}
+                {CTA.auditContents}
               </ButtonPrimary>
               <p className="font-body text-[11px] text-center text-text-muted">
-                {AUDIT_REASSURANCE}
+                Sans engagement · {AUDIT_DELIVERY}
               </p>
               {/* Action secondaire discrète : réserver un appel */}
               <button

@@ -11,12 +11,12 @@ const SECTIONS = [
      gagner de la largeur avait fini par renommer les sections — l'indicateur
      annonçait « Méthode » pour une section intitulée « Notre approche ». */
   { id: 'hero', label: 'Découvrir' },
+  { id: 'ia-workflow', label: 'Optimisation IA' },
   { id: 'problems', label: 'Frictions UX' },
   { id: 'deliverables', label: 'Livrables' },
   { id: 'services', label: 'Offres & tarifs' },
   { id: 'case-studies', label: 'Réalisations' },
   { id: 'approche', label: 'Mon approche' },
-  { id: 'ia-workflow', label: 'Optimisation IA' },
   { id: 'faq', label: 'FAQ' },
   { id: 'contact', label: 'Contact' },
 ] as const;

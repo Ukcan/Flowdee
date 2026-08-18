@@ -35,6 +35,16 @@ export function HomePage() {
       {/* Hero — pas de ScrollTrigger, entre dès le chargement */}
       <HeroSection />
 
+      {/* IA — remontée du dernier tiers de page au premier (revue Adel ×
+          Benji du 2026-08-18, F-11 du diagnostic initial) : le vrai
+          différenciateur (IA + expertise humaine, livrable repris par une
+          équipe dev ou un assistant de code) était en position 8/10, après
+          la section "Signaux" que n'importe quel concurrent pourrait écrire.
+          Il ouvre maintenant la page, juste après la promesse du hero. */}
+      <ScrollReveal variant="fadeLeft" duration={0.75} threshold="top 90%">
+        <AIWorkflowSection />
+      </ScrollReveal>
+
       {/* Problèmes — stagger sur les cards */}
       <ScrollReveal variant="stagger" staggerAmount={0.18} threshold="top 85%">
         <ProblemsSection />
@@ -67,11 +77,6 @@ export function HomePage() {
       {/* Approche — fadeUp : le manifeste s'installe, il ne "pop" pas */}
       <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%">
         <ApproachSection />
-      </ScrollReveal>
-
-      {/* IA — workflow IA ↔ designer, entre depuis la gauche (sens de lecture du flux) */}
-      <ScrollReveal variant="fadeLeft" duration={0.75} threshold="top 82%">
-        <AIWorkflowSection />
       </ScrollReveal>
 
       {/* FAQ — fadeUp, légèrement différé */}
