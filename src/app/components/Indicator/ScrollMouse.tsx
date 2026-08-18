@@ -15,7 +15,7 @@ const SECTIONS = [
   { id: 'deliverables', label: 'Livrables' },
   { id: 'services', label: 'Offres & tarifs' },
   { id: 'case-studies', label: 'Réalisations' },
-  { id: 'approche', label: 'Notre approche' },
+  { id: 'approche', label: 'Mon approche' },
   { id: 'ia-workflow', label: 'Optimisation IA' },
   { id: 'faq', label: 'FAQ' },
   { id: 'contact', label: 'Contact' },

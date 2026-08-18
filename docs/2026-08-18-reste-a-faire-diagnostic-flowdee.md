@@ -61,7 +61,7 @@ aujourd'hui grâce au cache Cloudflare — pas urgent.
 | **F-08** — le site hésite entre « nous »/studio et « je »/personne | L'audit recommande le « je » partout (position forte face aux agences) — à valider. |
 | **F-10** — « Choisir un créneau » n'ouvre pas de créneau, l'agenda réel est ailleurs | Décider si le formulaire doit rediriger directement vers l'agenda Google quand « Réserver un appel » est choisi. |
 | **F-11** — le vrai différenciateur (IA + humain, livrable repris par Claude Code) est en position 9/11, replié dans la FAQ | Remonter cette promesse dans le premier tiers de page, à la place de la section « LES SIGNAUX » trop générique. |
-| **F-12** — Karma Com Solidarité (KCS) et Université de Bordeaux affichés comme « entreprises qui ont fait confiance » | Deux décisions distinctes : (1) renommer l'intitulé du bandeau en « Ils m'ont fait confiance », exact pour les 4 ; (2) **côté KCS** — poser explicitement avec Adel l'autorisation d'usage du logo dans une communication commerciale. |
+| **F-12** — Karma Com Solidarité et Université de Bordeaux affichés comme « entreprises qui ont fait confiance » | ~~Renommer l'intitulé du bandeau en « Ils m'ont fait confiance »~~ **Fait le 2026-08-18.** Reste : poser explicitement avec Adel l'autorisation d'usage du logo Karma Com Solidarité dans une communication commerciale. |
 
 ---
 

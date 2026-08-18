@@ -62,7 +62,7 @@ export function ApproachSection() {
           <h2 id="approach-title">
             <EditableText
               contentKey="approach.title"
-              defaultValue="NOTRE APPROCHE"
+              defaultValue="MON APPROCHE"
               as="span"
               className="font-body text-[10px] font-medium uppercase tracking-[0.25em] text-text-muted"
             />

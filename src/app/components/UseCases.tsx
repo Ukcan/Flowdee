@@ -265,7 +265,7 @@ export function UseCases() {
             {/* Action */}
             <div className="border-l-2 border-border-0 pl-6">
               <h3 className="font-heading text-[13px] text-text-primary uppercase tracking-[0.16em] mb-5" style={{ fontWeight: 500 }}>
-                Notre action
+                Mon action
               </h3>
               <ul className="font-body text-[14px] leading-[1.6] text-text-secondary space-y-3">
                 <li className="flex items-start gap-3">

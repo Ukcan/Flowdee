@@ -302,7 +302,7 @@ export const translations: Record<Language, Translations> = {
       services: 'Offres & tarifs',
       caseStudies: 'Réalisations',
       about: 'À propos',
-      approach: 'Notre approche',
+      approach: 'Mon approche',
       aiWorkflow: 'Optimisation IA',
       faq: 'FAQ',
       contact: 'Contact',
@@ -537,7 +537,7 @@ export const translations: Record<Language, Translations> = {
     },
 
     footer: {
-      tagline: 'Flowdee est un studio UX/UI et Product Design, spécialisé dans la conception et l\'optimisation d\'expériences numériques, de parcours utilisateurs et d\'interfaces.',
+      tagline: 'Je conçois et optimise des expériences numériques, parcours utilisateurs et interfaces — UX/UI & Product Design.',
       navigation: 'Navigation',
       followMe: 'Suivez-moi',
       copyright: '© 2026 Flowdee. Tous droits réservés.',
@@ -601,7 +601,7 @@ export const translations: Record<Language, Translations> = {
       services: 'Plans & Pricing',
       caseStudies: 'Case Studies',
       about: 'About',
-      approach: 'Our Approach',
+      approach: 'My Approach',
       aiWorkflow: 'AI Workflow',
       faq: 'FAQ',
       contact: 'Contact',
@@ -829,7 +829,7 @@ export const translations: Record<Language, Translations> = {
     },
 
     footer: {
-      tagline: 'Flowdee is a UX/UI and Product Design studio, focused on designing and optimizing digital experiences, user journeys and interfaces.',
+      tagline: 'I design and optimize digital experiences, user journeys and interfaces — UX/UI & Product Design.',
       navigation: 'Navigation',
       followMe: 'Follow me',
       copyright: '© 2026 Flowdee. All rights reserved.',
