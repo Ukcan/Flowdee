@@ -15,11 +15,14 @@ import { EditableText } from '../Editable/Text';
  * conservés pour ne pas orpheliner d'éventuels contenus déjà édités.
  */
 
+/* Formulé en bénéfice plutôt qu'en méthode (revue Adel × Benji du
+   2026-08-18) : un visiteur non technique doit comprendre ce que ça change
+   pour lui, pas le nom de la technique employée. */
 const AI_OUTPUTS = [
-  { key: 'interviews', text: "Synthèse d'interviews assistée par IA" },
-  { key: 'microcopy', text: 'Variantes de microcopy optimisées' },
-  { key: 'states', text: "Génération d'états (empty, error, loading)" },
-  { key: 'specs', text: 'Première version des spécifications' },
+  { key: 'interviews', text: 'Vos interviews utilisateurs résumées et exploitables en quelques minutes' },
+  { key: 'microcopy', text: 'Plusieurs textes d’interface testés avant de retenir le meilleur' },
+  { key: 'states', text: 'Aucun écran oublié : les cas limites sont couverts dès le départ' },
+  { key: 'specs', text: 'Un premier jet de spécifications prêt à affiner' },
 ];
 
 export function AIWorkflowSection() {
@@ -54,9 +57,13 @@ export function AIWorkflowSection() {
               className="heading-1 text-text-primary text-balance"
             />
           </h2>
+          {/* Ne jamais qualifier ce que fait l'IA de "faible valeur ajoutée" :
+              ça sape l'argument même qu'on est en train de vendre (revue
+              Adel × Benji du 2026-08-18). Le message est IA + expertise
+              humaine = résultat optimal, jamais IA seule = suffisant. */}
           <EditableText
             contentKey="approach.ia.description"
-            defaultValue="L'IA assiste sur les tâches opérationnelles à faible valeur ajoutée, permettant de consacrer l'expertise à la réflexion stratégique."
+            defaultValue="L'IA accélère l'exécution ; l'expertise humaine garantit que le résultat convertit vraiment. Seule, l'IA ne remplace pas un regard qui a testé ce qui marche."
             as="p"
             className="body mt-6"
             multiline

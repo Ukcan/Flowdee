@@ -111,9 +111,12 @@ export function ApproachSection() {
               as="p"
               className="font-heading text-[16px] md:text-[17px] font-medium text-text-primary tracking-[-0.01em]"
             />
+            {/* "UX" retiré : tout le monde ne sait pas ce que c'est, alors
+                que "Expert Performance" seul dit directement le bénéfice
+                (revue Adel × Benji du 2026-08-18). */}
             <EditableText
               contentKey="approach.authorRole"
-              defaultValue="EXPERT PERFORMANCE UX"
+              defaultValue="EXPERT PERFORMANCE"
               as="p"
               className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-accent-primary mt-1.5"
             />

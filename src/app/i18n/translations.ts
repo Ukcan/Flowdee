@@ -544,8 +544,8 @@ export const translations: Record<Language, Translations> = {
     },
 
     trustedClients: {
-      subtitle: 'Nos clients de confiance',
-      title: 'Entreprises qui ont fait confiance à Flowdee',
+      subtitle: 'Ils m’ont fait confiance',
+      title: 'Ils m’ont fait confiance',
       badge: 'Client vérifié',
     },
 
@@ -836,8 +836,8 @@ export const translations: Record<Language, Translations> = {
     },
 
     trustedClients: {
-      subtitle: 'Our trusted clients',
-      title: 'Companies that have trusted Flowdee',
+      subtitle: 'They’ve trusted me',
+      title: 'They’ve trusted me',
       badge: 'Verified client',
     },
 
