@@ -455,7 +455,7 @@ export function ServicesSection() {
                         service.ctaPrimaryAction === 'calendar'
                           ? () => window.dispatchEvent(new CustomEvent('flowdee:open-calendar', { detail: { context: service.title } }))
                           : service.ctaPrimaryAction === 'audit'
-                          ? openAuditLink
+                          ? () => openAuditLink()
                           : scrollToContact
                       }
                       size="m"
@@ -474,7 +474,7 @@ export function ServicesSection() {
                         service.ctaPrimaryAction === 'calendar'
                           ? () => window.dispatchEvent(new CustomEvent('flowdee:open-calendar', { detail: { context: service.title } }))
                           : service.ctaPrimaryAction === 'audit'
-                          ? openAuditLink
+                          ? () => openAuditLink()
                           : scrollToContact
                       }
                       size="m"
