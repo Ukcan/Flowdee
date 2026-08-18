@@ -1,18 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, useLocation } from 'react-router';
 import { Toaster } from './components/ui/sonner';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { EditableContentProvider } from './contexts/EditableContentContext';
 import { HeaderNav } from './components/Nav/Header';
 import { HomePage } from './pages/Home';
-import { AuditUXPage } from './pages/AuditUX';
-import { EtudeDeCasPage } from './pages/EtudeDeCas';
 import { FooterSection } from './components/Section/Footer';
-import { CGVSection } from './components/Section/CGV';
-import { PrivacySection } from './components/Section/Privacy';
-import { MentionsLegalesSection } from './components/Section/MentionsLegales';
-import { SeRetracterPage } from './pages/SeRetracter';
 import { ScrollToTopButton } from './components/Button/ScrollToTop';
+
+/**
+ * Le même paquet applicatif de 843 Ko était servi à l'identique sur les neuf
+ * pages, y compris /cgv/ et /mentions-legales/ qui ne sont que du texte
+ * statique (diagnostic externe 2026-08-18, F-17). La page d'accueil reste
+ * chargée d'emblée (route la plus visitée) ; les autres routes ne tirent
+ * leur code qu'à la navigation.
+ */
+const AuditUXPage = lazy(() => import('./pages/AuditUX'));
+const EtudeDeCasPage = lazy(() => import('./pages/EtudeDeCas'));
+const SeRetracterPage = lazy(() => import('./pages/SeRetracter'));
+const CGVSection = lazy(() => import('./components/Section/CGV').then((m) => ({ default: m.CGVSection })));
+const PrivacySection = lazy(() => import('./components/Section/Privacy').then((m) => ({ default: m.PrivacySection })));
+const MentionsLegalesSection = lazy(() => import('./components/Section/MentionsLegales').then((m) => ({ default: m.MentionsLegalesSection })));
 import { CookieBanner } from './components/Consent/CookieBanner';
 import { ScrollBarIndicator } from './components/Indicator/ScrollBar';
 import { ScrollMouseIndicator } from './components/Indicator/ScrollMouse';
@@ -200,15 +208,17 @@ export default function App() {
               CGV et Politique de confidentialité sont des pages normales dans
               le flux, comme les autres — plus de calque plein-écran superposé. */}
           <main id="main-content" className="relative z-10">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/audit-ux" element={<AuditUXPage />} />
-              <Route path="/etudes-de-cas/:slug" element={<EtudeDeCasPage />} />
-              <Route path="/cgv" element={<CGVSection />} />
-              <Route path="/politique-de-confidentialite" element={<PrivacySection />} />
-              <Route path="/mentions-legales" element={<MentionsLegalesSection />} />
-              <Route path="/se-retracter" element={<SeRetracterPage />} />
-            </Routes>
+            <Suspense fallback={null}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/audit-ux" element={<AuditUXPage />} />
+                <Route path="/etudes-de-cas/:slug" element={<EtudeDeCasPage />} />
+                <Route path="/cgv" element={<CGVSection />} />
+                <Route path="/politique-de-confidentialite" element={<PrivacySection />} />
+                <Route path="/mentions-legales" element={<MentionsLegalesSection />} />
+                <Route path="/se-retracter" element={<SeRetracterPage />} />
+              </Routes>
+            </Suspense>
           </main>
 
           {/* Footer */}
