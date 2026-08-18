@@ -98,7 +98,7 @@ export function FooterSection({ onOpenCookies }: FooterSectionProps) {
                   </a>
                 ))}
                 <a
-                  href="/audit-ux"
+                  href="/audit-ux/"
                   className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
                 >
                   Audit UX (page complète)
@@ -119,25 +119,25 @@ export function FooterSection({ onOpenCookies }: FooterSectionProps) {
               <h3 className="font-heading text-[13px] font-medium uppercase tracking-[0.08em] text-text-primary">LÉGAL</h3>
               <nav className="flex flex-col" aria-label="Liens légaux">
                 <Link
-                  to="/mentions-legales"
+                  to="/mentions-legales/"
                   className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
                 >
                   Mentions légales
                 </Link>
                 <Link
-                  to="/politique-de-confidentialite"
+                  to="/politique-de-confidentialite/"
                   className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
                 >
                   Politique de confidentialité
                 </Link>
                 <Link
-                  to="/cgv"
+                  to="/cgv/"
                   className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
                 >
                   CGV
                 </Link>
                 <Link
-                  to="/se-retracter"
+                  to="/se-retracter/"
                   className="min-h-[44px] flex items-center text-left font-body text-[13px] font-normal text-text-muted hover:text-accent-primary transition-colors"
                 >
                   Se rétracter

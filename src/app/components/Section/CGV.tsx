@@ -116,7 +116,7 @@ export function CGVSection() {
                 Adresse : <strong className="text-text-primary font-bold">21 avenue du Maréchal Leclerc, 33290 Parempuyre, France</strong><br />
                 SIREN : <strong className="text-text-primary font-bold">890 701 832</strong><br />
                 SIRET : <strong className="text-text-primary font-bold">890 701 832 00010</strong><br />
-                E-mail : <a href="mailto:contact@flowdee.fr" className="text-accent-primary hover:underline">contact@flowdee.fr</a><br />
+                E-mail : <a href="mailto:contact@flowdee.fr" className="text-accent-primary underline underline-offset-2">contact@flowdee.fr</a><br />
                 Téléphone : <strong className="text-text-primary font-bold">06 30 69 92 73</strong>
               </p>
               <p>
@@ -261,7 +261,7 @@ export function CGVSection() {
               />
               <p>
                 La demande peut être envoyée à :{' '}
-                <a href="mailto:contact@flowdee.fr" className="text-accent-primary hover:underline">contact@flowdee.fr</a>
+                <a href="mailto:contact@flowdee.fr" className="text-accent-primary underline underline-offset-2">contact@flowdee.fr</a>
               </p>
               <p>Le consommateur n’a pas à motiver sa décision.</p>
             </Article>
@@ -283,8 +283,8 @@ export function CGVSection() {
                 Lorsqu’une commande soumise au droit de rétractation est conclue au moyen de l’interface en ligne de Flowdee, une fonctionnalité permettant au consommateur d’exercer sa rétractation directement en ligne est mise à disposition à l’adresse suivante :
               </p>
               <p>
-                <a href="https://flowdee.fr/se-retracter" className="text-accent-primary hover:underline">
-                  https://flowdee.fr/se-retracter
+                <a href="https://flowdee.fr/se-retracter/" className="text-accent-primary underline underline-offset-2">
+                  https://flowdee.fr/se-retracter/
                 </a>
               </p>
               <p>Elle permet notamment d’identifier :</p>
@@ -728,7 +728,7 @@ export function CGVSection() {
             <Article n={41} title="Données personnelles">
               <p>
                 Les traitements de données personnelles réalisés par Flowdee sont décrits dans sa Politique de confidentialité accessible sur{' '}
-                <Link to="/politique-de-confidentialite" className="text-accent-primary hover:underline">
+                <Link to="/politique-de-confidentialite/" className="text-accent-primary underline underline-offset-2">
                   flowdee.fr/politique-de-confidentialite
                 </Link>
                 .
@@ -754,7 +754,7 @@ export function CGVSection() {
                 France
               </p>
               <p>
-                E-mail : <a href="mailto:contact@flowdee.fr" className="text-accent-primary hover:underline">contact@flowdee.fr</a>
+                E-mail : <a href="mailto:contact@flowdee.fr" className="text-accent-primary underline underline-offset-2">contact@flowdee.fr</a>
               </p>
               <p>Les parties sont invitées à rechercher en priorité une solution amiable.</p>
             </Article>
@@ -784,7 +784,7 @@ export function CGVSection() {
                 <p>Ce formulaire concerne uniquement les Clients consommateurs bénéficiant d’un droit légal de rétractation.</p>
                 <p>
                   Vous pouvez également exercer votre droit de rétractation directement en ligne depuis notre{' '}
-                  <Link to="/se-retracter" className="text-accent-primary hover:underline">
+                  <Link to="/se-retracter/" className="text-accent-primary underline underline-offset-2">
                     formulaire de rétractation
                   </Link>
                   .
@@ -796,7 +796,7 @@ export function CGVSection() {
                   21 avenue du Maréchal Leclerc<br />
                   33290 Parempuyre<br />
                   France<br />
-                  E-mail : <a href="mailto:contact@flowdee.fr" className="text-accent-primary hover:underline">contact@flowdee.fr</a>
+                  E-mail : <a href="mailto:contact@flowdee.fr" className="text-accent-primary underline underline-offset-2">contact@flowdee.fr</a>
                 </p>
                 <p>Je vous informe par la présente de ma décision de me rétracter du contrat concernant la prestation suivante :</p>
 

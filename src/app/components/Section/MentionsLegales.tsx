@@ -86,7 +86,7 @@ export function MentionsLegalesSection() {
                   Adresse : <strong className="text-text-primary font-bold">21 avenue du Maréchal Leclerc, 33290 Parempuyre, France</strong><br />
                   SIREN : <strong className="text-text-primary font-bold">890 701 832</strong><br />
                   SIRET : <strong className="text-text-primary font-bold">890 701 832 00010</strong><br />
-                  E-mail : <a href="mailto:contact@flowdee.fr" className="text-accent-primary hover:underline">contact@flowdee.fr</a><br />
+                  E-mail : <a href="mailto:contact@flowdee.fr" className="text-accent-primary underline underline-offset-2">contact@flowdee.fr</a><br />
                   Téléphone : <strong className="text-text-primary font-bold">06 30 69 92 73</strong>
                 </p>
                 <p>
@@ -116,7 +116,7 @@ export function MentionsLegalesSection() {
                 Le site est hébergé par :<br />
                 <strong className="text-text-primary font-bold">Cloudflare, Inc.</strong><br />
                 101 Townsend St, San Francisco, CA 94107, États-Unis<br />
-                Site : <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer" className="text-accent-primary hover:underline">cloudflare.com</a>
+                Site : <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer" className="text-accent-primary underline underline-offset-2">cloudflare.com</a>
               </p>
             </article>
 
@@ -147,11 +147,11 @@ export function MentionsLegalesSection() {
               </h2>
               <div className="space-y-3 font-body text-[15px] leading-relaxed text-text-primary/80">
                 <p>
-                  Pour toute demande concernant le site : <a href="mailto:contact@flowdee.fr" className="text-accent-primary hover:underline">contact@flowdee.fr</a>
+                  Pour toute demande concernant le site : <a href="mailto:contact@flowdee.fr" className="text-accent-primary underline underline-offset-2">contact@flowdee.fr</a>
                 </p>
                 <p>
                   Pour toute question relative aux données personnelles, consultez la{' '}
-                  <Link to="/politique-de-confidentialite" className="text-accent-primary hover:underline">
+                  <Link to="/politique-de-confidentialite/" className="text-accent-primary underline underline-offset-2">
                     Politique de confidentialité
                   </Link>.
                 </p>

@@ -356,7 +356,7 @@ export function SeRetracterPage() {
         {!result && (
           <p className="font-body text-[12px] text-text-muted mt-8 leading-relaxed">
             Les informations saisies sont utilisées uniquement pour identifier votre commande et traiter votre demande de rétractation.{' '}
-            <Link to="/politique-de-confidentialite" className="text-accent-primary hover:underline">
+            <Link to="/politique-de-confidentialite/" className="text-accent-primary underline underline-offset-2">
               Politique de confidentialité
             </Link>
             .

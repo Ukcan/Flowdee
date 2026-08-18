@@ -183,7 +183,7 @@ export function EtudeDeCasPage() {
           {CTA.audit}
         </ButtonPrimary>
         <div className="mt-6">
-          <Link to="/audit-ux" className="font-body text-[13px] text-text-secondary hover:text-accent-primary underline underline-offset-4">
+          <Link to="/audit-ux/" className="font-body text-[13px] text-text-secondary hover:text-accent-primary underline underline-offset-4">
             Voir la page complète de l’Audit UX & Conversion
           </Link>
         </div>
