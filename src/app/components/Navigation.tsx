@@ -178,7 +178,6 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
                       : 'text-text-secondary bg-transparent hover:text-accent-primary hover:bg-accent-tint'
                     }
                   `}
-                  aria-label={`Navigate to ${item.label}`}
                   aria-current={isActive ? 'page' : undefined}
                 >
                   <span className="relative z-10">{item.label}</span>
@@ -269,7 +268,7 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
                 </a>
               ))}
               <a
-                href="/audit-ux"
+                href="/audit-ux/"
                 onClick={() => setMobileMenuOpen(false)}
                 className="font-body font-medium text-[20px] text-left py-1.5 transition-colors duration-200 hover:text-accent-primary text-text-primary"
               >

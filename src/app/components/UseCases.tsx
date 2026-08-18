@@ -219,6 +219,7 @@ export function UseCases() {
                   key={s.label}
                   role="tab"
                   aria-selected={active}
+                  aria-label={`${s.label} — ${s.sublabel}`}
                   onClick={() => setScreenIdx(i)}
                   className={`group flex items-center gap-3 shrink-0 text-left rounded-[14px] border p-2 pr-4 transition-colors duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base ${active ? 'border-accent-primary bg-accent-bg' : 'border-border-0 bg-surface-0 hover:border-border-1'}`}
                 >

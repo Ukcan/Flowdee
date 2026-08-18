@@ -56,7 +56,7 @@ export function FAQSection() {
                     style={{ fontWeight: 400 }}
                   >
                     <span className="flex items-center gap-4">
-                       <span className="text-accent-primary font-body text-[12px] font-medium">{index < 9 ? `0${index + 1}` : index + 1}</span>
+                       <span aria-hidden="true" className="text-accent-primary font-body text-[12px] font-medium">{index < 9 ? `0${index + 1}` : index + 1}</span>
                        {faq.question}
                     </span>
                   </AccordionTrigger>
