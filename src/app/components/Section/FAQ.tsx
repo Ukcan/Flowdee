@@ -18,7 +18,7 @@ export function FAQSection() {
   return (
     <section
       id="faq"
-      className="bg-bg-base py-24 md:py-32 overflow-visible relative border-t border-border-1"
+      className="bg-surface-0 py-24 md:py-32 overflow-visible relative border-t border-border-1"
       aria-label="Questions fréquentes"
     >
       <div className="max-w-[800px] mx-auto px-8 md:px-16 relative z-10">
@@ -49,7 +49,7 @@ export function FAQSection() {
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  className="card-surface border-border-0 bg-surface-0 transition-all duration-200 overflow-visible hover:border-border-1 rounded-[24px] px-8"
+                  className="card-surface border-border-0 bg-surface-raised transition-all duration-200 overflow-visible hover:border-border-1 rounded-[24px] px-8"
                 >
                   <AccordionTrigger 
                     className="font-heading text-[15px] md:text-[17px] text-text-primary hover:no-underline py-6 text-left [&>svg]:text-accent-primary tracking-[-0.01em]"

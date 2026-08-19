@@ -70,9 +70,15 @@
   --radius-button: 6px;
   --radius-card: 16px;
 
-  /* Dark Section */
-  --dark-section-bg: #141A24;
-  --dark-section-surface: #1B2330;
+  /* Hiérarchie de sections — au-delà du triplet surface-0/1/2 (carte /
+     section / élevé), deux rôles narratifs supplémentaires :
+     - section-strong : alias direct de surface-2, pour un chapitre qui doit
+       peser plus lourd qu'une simple section teintée (ex. "Les signaux").
+     - section-tint : surface-1 légèrement infusée de l'accent doré, pour un
+       chapitre "offre concrète" qui doit se lire comme affirmé/brand plutôt
+       que neutre (ex. "Livrables"). Dérivé à 100% de tokens existants. */
+  --bg-section-strong: var(--surface-2);
+  --bg-section-tint: color-mix(in srgb, var(--surface-1) 88%, var(--accent-primary) 12%);
 
   /* Logo — la tuile du monogramme appartient au logo, pas au thème : elle
      reste sombre dans les deux modes, comme une icône d'application. Seul le
@@ -133,11 +139,54 @@
   --shadow-soft: 0 10px 36px rgba(0,0,0,0.40);
   --glow-accent: 0 0 0 3px rgba(212, 178, 115, 0.22);
   --inset-topline: inset 0 1px 0 rgba(245, 240, 232, 0.09);
-  --dark-section-bg: #0E131B;
-  --dark-section-surface: #1B2330;
+  --bg-section-strong: var(--surface-2);
+  --bg-section-tint: color-mix(in srgb, var(--surface-1) 88%, var(--accent-primary) 12%);
   /* La tuile (#181B1F) ne tient que 1,15:1 face au navy des surfaces : son
      bord s'évanouit. Le filet clair le redessine sans toucher au logo. */
   --logo-tile-ring: rgba(255, 255, 255, 0.14);
+}
+
+/* Îlot inverse — rupture éditoriale rare (étude de cas phare, contact final).
+   Valeurs identiques à .dark : l'îlot affiche toujours la famille Midnight
+   Navy, qu'on soit en thème clair ou sombre, pour que la rupture reste la
+   même quel que soit le thème actif. Dupliqué plutôt que référencé pour ne
+   pas dépendre de la présence de la classe .dark sur un ancêtre — la surcharge
+   de variable s'applique directement à ce sous-arbre. Tous les utilitaires
+   bg-, text-, border- et accent- déjà en place dans les composants héritent
+   automatiquement de ces valeurs sans qu'aucune classe n'ait à changer. */
+.theme-inverse {
+  --bg-base: #141A24;
+  --bg-depth: #0E131B;
+  --surface-0: #1D2735;
+  --surface-1: #222E3E;
+  --surface-2: #293648;
+  --border-0: #35445A;
+  --border-1: #5E7495;
+  --border-2: #6A81A2;
+  --text-primary: #F3F5F7;
+  --text-secondary: #C1CBD6;
+  --text-tertiary: #98A6B6;
+  --text-muted: #98A6B6;
+  --text-inverse: #18212E;
+  --accent-primary: #D3B376;
+  --accent-bright: #E0C48A;
+  --accent-hover: #E0C48A;
+  --accent-pressed: #B8975A;
+  --accent-tint: rgba(211, 179, 118, 0.10);
+  --accent-eyebrow: #E0C48A;
+  --accent-cta: var(--accent-primary);
+  --accent-border: rgba(211, 179, 118, 0.35);
+  --accent-bg: rgba(211, 179, 118, 0.10);
+  --accent-ring: rgba(211, 179, 118, 0.35);
+  --on-accent: #18212E;
+  --focus-ring: var(--accent-hover);
+  --state-hover-bg: rgba(245, 240, 232, 0.05);
+  --state-pressed: rgba(245, 240, 232, 0.09);
+  --state-disabled: rgba(245, 240, 232, 0.30);
+  --shadow-panel: 0 1px 3px rgba(0,0,0,0.30), 0 8px 24px rgba(0,0,0,0.25);
+  --shadow-soft: 0 10px 36px rgba(0,0,0,0.40);
+  --bg-section-strong: var(--surface-2);
+  --bg-section-tint: color-mix(in srgb, var(--surface-1) 88%, var(--accent-primary) 12%);
 }
 
 @theme inline {
@@ -183,6 +232,8 @@
   --color-bg-section: var(--bg-section);
   --color-surface-card: var(--surface-card);
   --color-surface-raised: var(--surface-raised);
+  --color-bg-section-strong: var(--bg-section-strong);
+  --color-bg-section-tint: var(--bg-section-tint);
 
   --shadow-panel: var(--shadow-panel);
   --shadow-soft: var(--shadow-soft);
@@ -194,9 +245,6 @@
   --color-primary: var(--accent-primary);
   --color-border: var(--border-0);
   --color-muted: var(--text-muted);
-
-  --color-dark-section-bg: var(--dark-section-bg);
-  --color-dark-section-surface: var(--dark-section-surface);
 }
 
 @layer base {
@@ -671,9 +719,11 @@ html {
   }
 }
 
-/* Subtle hairline grid — "technical/precise" calm background (static) */
+/* Subtle hairline grid — "technical/precise" calm background (static).
+   Utilise le palier "section-strong" (Les Signaux) : ce chapitre doit peser
+   plus lourd que le canvas de base, pas s'y fondre. */
 .section-grid {
-  background-color: var(--bg-base);
+  background-color: var(--bg-section-strong);
   background-image:
     linear-gradient(to right, color-mix(in srgb, var(--border-0) 45%, transparent) 1px, transparent 1px),
     linear-gradient(to bottom, color-mix(in srgb, var(--border-0) 45%, transparent) 1px, transparent 1px);

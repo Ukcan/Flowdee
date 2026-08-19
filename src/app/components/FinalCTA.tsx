@@ -131,7 +131,11 @@ export function FinalCTA() {
   return (
     <section
       id="contact"
-      className="relative pt-24 md:pt-28 pb-24 md:pb-28 bg-transparent text-text-primary overflow-hidden border-t border-border-0"
+      /* Rupture finale — même îlot inverse que l'étude de cas phare (cf.
+         .theme-inverse dans globals.css) : "fin de lecture → action". Les
+         panneaux et le formulaire ci-dessous héritent des tons Midnight Navy
+         par cascade, sans changement de classe supplémentaire. */
+      className="theme-inverse relative pt-24 md:pt-28 pb-24 md:pb-28 bg-bg-base text-text-primary overflow-hidden border-t border-border-0"
       aria-labelledby="contact-title"
     >
       {/* Panneau de conversion — la page se referme sur un bloc contenu.

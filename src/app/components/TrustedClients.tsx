@@ -15,9 +15,10 @@ export function TrustedClients() {
 
   return (
     <section
-      /* Rythme volontairement serré : cette section est une respiration entre
-         le hero et le diagnostic, pas un chapitre à part entière. */
-      className="py-16 md:py-20 bg-bg-base border-t border-border-1 relative overflow-hidden"
+      /* Rythme volontairement serré : cette section est une respiration avant
+         l'étude de cas phare, pas un chapitre à part entière — surface subtile
+         pour rester une pause calme entre Offres et la preuve détaillée. */
+      className="py-16 md:py-20 bg-surface-0 border-t border-border-1 relative overflow-hidden"
       aria-label="Ils m’ont fait confiance"
     >
       <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
@@ -49,7 +50,7 @@ export function TrustedClients() {
               <div
                 key={index}
                 aria-hidden={index >= clientSegments.length ? 'true' : undefined}
-                className="card-surface h-[104px] w-[220px] mx-3 shrink-0 flex items-center justify-center bg-surface-0 group"
+                className="card-surface h-[104px] w-[220px] mx-3 shrink-0 flex items-center justify-center bg-surface-raised group"
                 style={{
                   borderColor: 'var(--border-1)',
                   boxShadow: 'var(--shadow-panel), var(--inset-topline)',
@@ -84,7 +85,7 @@ export function TrustedClients() {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="mt-16 max-w-[800px] mx-auto"
         >
-          <div className="bg-surface-0 border border-border-0 p-10 rounded-[24px] text-center">
+          <div className="bg-surface-raised border border-border-0 p-10 rounded-[24px] text-center">
             <p className="font-body text-[18px] md:text-[22px] text-accent-primary mb-4 leading-snug tracking-wide" style={{ fontWeight: 300 }}>
               "Résultats visibles dès la 2e itération : moins de friction, plus d'activation."
             </p>

@@ -234,8 +234,12 @@ export function UseCases() {
            aux réalisations. */
         id="case-studies"
         /* Rythme le plus large de la page : ouverture de l'acte "preuve",
-           la rupture la plus forte du parcours. */
-        className="bg-bg-base py-32 md:py-44 border-b border-border-1 overflow-hidden relative"
+           la rupture la plus forte du parcours — seule vraie bascule vers
+           l'îlot inverse (Midnight Navy fixe, cf. .theme-inverse) avant celle
+           du contact final. Les utilitaires bg-, text-, border- et accent-
+           déjà posés plus bas dans cette section héritent automatiquement des
+           valeurs sombres via la cascade, sans autre changement de classe. */
+        className="theme-inverse bg-bg-base py-32 md:py-44 border-b border-border-1 overflow-hidden relative"
         aria-labelledby="featured-case-title"
       >
         {/* Header — éditorial, aligné à gauche : la section s'annonce, elle ne se centre pas */}
