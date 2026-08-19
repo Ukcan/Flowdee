@@ -21,6 +21,43 @@ import { FEATURED_CASE, FEATURED_CASE_COMPARE_IMAGES, OTHER_CASE_STUDIES } from 
 const featuredCase = FEATURED_CASE;
 const otherUseCases = OTHER_CASE_STUDIES;
 
+/**
+ * Étude de cas phare — une entrée par PUBLIC, pas par étape.
+ *
+ * Le détail se lisait en trois colonnes (Problème / Mon action / Ce qui a
+ * changé), c'est-à-dire dans la forme d'un comparatif alors qu'il s'agit d'une
+ * chaîne causale. Le contenu, lui, ne compte pas trois parties mais deux
+ * personnes : `FEATURED_CASE.metrics` les nomme déjà — « côté étudiant »,
+ * « côté professeur ». Chaque ligne suit donc une personne de gauche à droite.
+ *
+ * Rien n'est inventé ici : chaque phrase provient du bloc précédent, replacée
+ * sous la personne qu'elle concerne. Le résultat final n'est pas recopié, il
+ * est lu dans `metrics` — c'est cette étiquette qui a révélé la structure, et
+ * la source doit rester unique.
+ */
+const VOIX = [
+  {
+    qui: 'L’élève',
+    role: 'Master 1 → Doctorat',
+    avant: 'Apprentissage passif et déconnecté. L’intérêt retombe, le distanciel n’arrange rien.',
+    actions: [
+      'Gamification UX : récompenses et progression',
+      'Interface immersive multi-supports (BYOD)',
+    ],
+    metric: 0,
+  },
+  {
+    qui: 'Le professeur',
+    role: 'Suivi de promotion',
+    avant: 'Correction manuelle, chronophage. Les blocages d’une promotion ne se voient qu’après coup.',
+    actions: [
+      'Dashboard : notes et analytics automatisés',
+      'IA : analyse prédictive des blocages pédagogiques',
+    ],
+    metric: 1,
+  },
+] as const;
+
 // Écrans comparables (avant/après). Pour ajouter un slot, ajoute une entrée ici
 // avec son wireframe (before) et sa version finale (after).
 const compareScreens = [
@@ -264,63 +301,102 @@ export function UseCases() {
         {/* Détails — 3 colonnes à plat, séparées par des filets.
             Plus de carte englobante : moins de conteneurs imbriqués, plus de présence. */}
         <div className="max-w-[1320px] mx-auto px-8 md:px-16 mt-20 md:mt-24 relative z-10">
-          {/* Les trois colonnes tombaient à 182px de large dès 768px : trois
-              colonnes de prose illisibles. Elles n'apparaissent plus qu'à
-              partir de 1024px, où chacune dispose d'une mesure tenable. */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-10 gap-y-12 items-start">
-            {/* Problème */}
-            <div className="border-l-2 border-accent-primary pl-6">
-              <h3 className="font-heading text-[13px] text-accent-primary uppercase tracking-[0.16em] mb-5" style={{ fontWeight: 500 }}>
-                Le problème
-              </h3>
-              <p className="font-body text-[15px] leading-[1.7] text-text-secondary">
-                Apprentissage passif & déconnecté → baisse d'intérêt des élèves. Correction manuelle chronophage pour les professeurs. Besoin d'une solution immersive pour le distanciel.
-              </p>
-            </div>
+          {/* Le bloc présentait Problème / Mon action / Ce qui a changé en
+              trois colonnes égales. Trois colonnes de même largeur, mêmes
+              filets, même ligne de départ, c'est la grammaire d'un
+              COMPARATIF : trois objets de même nature, lisibles dans
+              n'importe quel ordre. Le contenu, lui, est une chaîne causale.
+              Trois coûts mesurables :
+                · le regard remontait deux fois — on lit une colonne, on
+                  revient en haut pour la suivante, ce qu'un flux ne fait
+                  jamais ;
+                · « correction manuelle » et « correction automatisée » sont
+                  la même chose avant/après, et la grille les plaçait aux deux
+                  extrémités de l'écran avec une colonne étrangère au milieu :
+                  le lecteur devait tenir la première en mémoire ;
+                · « Mon action » est la seule des trois qui soit le travail
+                  vendu — le reste appartient au client — et elle recevait
+                  exactement le même budget visuel.
 
-            {/* Action */}
-            <div className="border-l-2 border-border-0 pl-6">
-              <h3 className="font-heading text-[13px] text-text-primary uppercase tracking-[0.16em] mb-5" style={{ fontWeight: 500 }}>
-                Mon action
-              </h3>
-              <ul className="font-body text-[14px] leading-[1.6] text-text-secondary space-y-3">
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-2 shrink-0" />
-                  Gamification UX : récompenses & progression
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-2 shrink-0" />
-                  Dashboard Prof : notes & analytics automatisés
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-2 shrink-0" />
-                  Interface immersive multi-supports (BYOD)
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-2 shrink-0" />
-                  IA : analyse prédictive des blocages pédagogiques
-                </li>
-              </ul>
-            </div>
+              Ce que la grille cachait : ce bloc n'a pas trois parties, il a
+              DEUX PERSONNES. Les résultats le disent déjà dans les données
+              (« côté étudiant », « côté professeur »), le problème en contient
+              une de chaque, et les actions se répartissent pareil. Chaque
+              ligne suit donc une personne, de gauche à droite ; le
+              parallélisme redevient légitime, puisque deux publics SONT
+              parallèles.
 
-            {/* Le bloc affichait « Impact observé » avec « Hausse » et
-                « Réduit » en gros corps : la forme d'une métrique, sans la
-                métrique. Un chiffre absent mis en scène comme un chiffre
-                présent est plus coûteux en crédibilité qu'un simple constat.
-                Il énonce désormais ce qui a été livré. */}
-            <div className="border-l-2 border-border-0 pl-6">
-              <h3 className="font-heading text-[13px] text-accent-primary uppercase tracking-[0.16em] mb-5" style={{ fontWeight: 500 }}>
-                Ce qui a changé
-              </h3>
-              <ul className="space-y-4">
-                {featuredCase.metrics.map((m) => (
-                  <li key={m.label} className="font-body text-[15px] leading-[1.6] text-text-primary">
-                    {m.label}
-                  </li>
-                ))}
-              </ul>
-            </div>
+              Le contenu n'est pas réécrit, il est redistribué : chaque phrase
+              vient du bloc précédent, replacée sous la personne concernée. La
+              contrainte « distanciel » n'appartenait à aucune des deux — elle
+              encadre les deux au lieu de traîner en fin de colonne. */}
+          <p className="max-w-[62ch] font-body text-[15px] md:text-[17px] leading-[1.7] text-text-secondary mb-10 md:mb-14">
+            Une même contrainte pour les deux :{' '}
+            <strong className="font-medium text-text-primary">tout devait tenir à distance</strong>, sur
+            n'importe quel support. Le reste ne se raconte pas ensemble — un élève et un
+            professeur n'avaient pas le même problème, et n'ont pas reçu la même réponse.
+          </p>
+
+          {/* Repères de colonne : affichés UNE fois, pas à chaque ligne. Les
+              répéter ferait réapparaître la grille de comparaison qu'on quitte. */}
+          <div
+            className="hidden lg:grid grid-cols-[0.62fr_1fr_1.35fr_1fr] gap-x-10 pb-3.5 border-b border-border-0"
+            aria-hidden="true"
+          >
+            <span />
+            <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-muted">Avant</span>
+            <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-muted">Mon action</span>
+            <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-accent-primary">Après</span>
           </div>
+
+          {VOIX.map((voix) => (
+            <div
+              key={voix.qui}
+              className="grid grid-cols-1 lg:grid-cols-[0.62fr_1fr_1.35fr_1fr] gap-x-10 gap-y-5 items-start py-8 md:py-10 border-t border-border-0 first-of-type:lg:border-t-0"
+            >
+              {/* La personne, comme un nom de personnage : c'est elle qui parle
+                  sur toute la ligne. */}
+              <p className="font-heading text-[17px] md:text-[22px] leading-[1.25] tracking-[-0.01em] text-text-primary" style={{ fontWeight: 500 }}>
+                {voix.qui}
+                <span className="block mt-1.5 font-body text-[12px] font-normal uppercase tracking-[0.14em] text-[color:var(--accent-eyebrow)]">
+                  {voix.role}
+                </span>
+              </p>
+
+              {/* Trois moments, trois valeurs : sourdine → plein contraste →
+                  accent. C'est cette montée qui porte le sens de lecture, sans
+                  qu'aucune flèche ne l'indique. Une flèche entre deux colonnes
+                  ne crée pas un flux : elle le décrit, et avoue que la mise en
+                  page ne le porte pas.
+
+                  Les repères reviennent en mobile sous forme de vrai texte
+                  (`lg:hidden`) et non de `content` CSS, qui n'est pas restitué
+                  de façon fiable par les lecteurs d'écran. */}
+              <div>
+                <span className="lg:hidden block mb-1.5 font-body text-[10.5px] font-medium uppercase tracking-[0.16em] text-text-muted">Avant</span>
+                <p className="font-body text-[14px] md:text-[15px] leading-[1.7] text-text-muted">{voix.avant}</p>
+              </div>
+
+              <div>
+                <span className="lg:hidden block mb-1.5 font-body text-[10.5px] font-medium uppercase tracking-[0.16em] text-text-muted">Mon action</span>
+                <ul className="font-body text-[14px] md:text-[15px] leading-[1.7] text-text-primary space-y-2.5">
+                  {voix.actions.map((action) => (
+                    <li key={action} className="flex items-start gap-3">
+                      <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-[0.62em] shrink-0" />
+                      {action}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <span className="lg:hidden block mb-1.5 font-body text-[10.5px] font-medium uppercase tracking-[0.16em] text-accent-primary">Après</span>
+                <p className="font-body text-[14px] md:text-[15px] leading-[1.7] font-medium text-accent-primary lg:border-l-2 lg:border-accent-primary lg:pl-[1.1rem]">
+                  {featuredCase.metrics[voix.metric]?.label}
+                </p>
+              </div>
+            </div>
+          ))}
 
           {/* CTA — vrai lien vers la page dédiée /etudes-de-cas/:slug (indexable
               par Google), l'aperçu rapide en volet reste l'action par défaut au
