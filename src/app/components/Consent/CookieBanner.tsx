@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { ButtonPrimary } from '../Button/Primary';
+import { readConsent, writeConsent } from '../../constants/consent';
 import { Cookie, GearSix as Settings, ShieldCheck, CaretLeft as ChevronLeft } from '@phosphor-icons/react';
 import { syncAnalyticsWithConsent } from '../../constants/analytics';
 
@@ -39,7 +40,11 @@ export function CookieBanner({
 
   // Check consent status on mount
   useEffect(() => {
-    const consent = localStorage.getItem('flowdee-cookie-consent');
+    // `readConsent()` renvoie null si le choix est absent, illisible, d'une
+    // version périmée, ou vieux de plus de six mois. Tester la simple présence
+    // de la clé rendait le choix éternel : un refus d'il y a deux ans valait
+    // encore, et un consentement aussi.
+    const consent = readConsent();
     // If consent exists and we are not forcing show, hide it
     if (consent && !forceShow) {
       setShow(false);
@@ -53,20 +58,20 @@ export function CookieBanner({
   }, [show, onVisibleChange]);
 
   const handleAcceptAll = () => {
-    localStorage.setItem('flowdee-cookie-consent', JSON.stringify({ essential: true, analytics: true, marketing: true }));
+    writeConsent({ analytics: true, marketing: true });
     syncAnalyticsWithConsent();
     setShow(false);
     if (onClose) onClose();
   };
 
   const handleRefuseAll = () => {
-    localStorage.setItem('flowdee-cookie-consent', JSON.stringify({ essential: true, analytics: false, marketing: false }));
+    writeConsent({ analytics: false, marketing: false });
     setShow(false);
     if (onClose) onClose();
   };
 
   const handleSaveSettings = () => {
-    localStorage.setItem('flowdee-cookie-consent', JSON.stringify(preferences));
+    writeConsent({ analytics: preferences.analytics, marketing: preferences.marketing });
     syncAnalyticsWithConsent();
     setShow(false);
     setShowSettings(false);
