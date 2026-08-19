@@ -93,8 +93,8 @@
 /* Dark mode — Midnight Navy (gold on deep blue) */
 .dark {
   /* Surface graduation — 4 perceptible steps, same navy family */
-  --bg-base: #18212E;
-  --bg-depth: #0E131B;
+  --bg-base: #08090C;
+  --bg-depth: #000000;
   --surface-0: #1D2735;
   --surface-1: #222E3E;
   --surface-2: #293648;
@@ -133,7 +133,7 @@
   --shadow-soft: 0 10px 36px rgba(0,0,0,0.40);
   --glow-accent: 0 0 0 3px rgba(212, 178, 115, 0.22);
   --inset-topline: inset 0 1px 0 rgba(245, 240, 232, 0.09);
-  --dark-section-bg: #0E131B;
+  --dark-section-bg: #000000;
   --dark-section-surface: #1B2330;
   /* La tuile (#181B1F) ne tient que 1,15:1 face au navy des surfaces : son
      bord s'évanouit. Le filet clair le redessine sans toucher au logo. */
@@ -628,11 +628,11 @@ html {
 .dark .section-aurora {
   background: linear-gradient(
     130deg,
-    #18212E 0%,
+    #08090C 0%,
     #1D2735 25%,
     #293648 50%,
     #222E3E 75%,
-    #18212E 100%
+    #08090C 100%
   );
   background-size: 300% 300%;
 }
