@@ -244,20 +244,22 @@ export function UseCases() {
       >
         {/* Header — éditorial, aligné à gauche : la section s'annonce, elle ne se centre pas */}
         <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
-          <SectionHeader
-            variant="editorial"
-            index="01"
-            eyebrow="Étude de cas"
-            tone="accent"
-            titleId="featured-case-title"
-            title={featuredCase.title}
-            description={
-              <span className="text-metadata mt-1 inline-block">
-                {featuredCase.headerSubtitle}
-                <span className="text-text-muted"> · {featuredCase.scope} · {featuredCase.duration}</span>
-              </span>
-            }
-          />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+          >
+            <p className="text-eyebrow flex items-baseline gap-2">
+              <span className="text-accent-primary">01 ·</span>
+              <span>Étude de cas</span>
+            </p>
+            <h2 id="featured-case-title" className="text-section-title mt-10 max-w-[15ch] text-balance">
+              {featuredCase.title}
+            </h2>
+            <p className="text-lede mt-7 max-w-[60ch]">{featuredCase.headerSubtitle}</p>
+            <p className="text-metadata mt-3">EdTech SaaS B2B2C · {featuredCase.duration}</p>
+          </motion.div>
         </div>
 
         {/* Showcase — le comparateur casse volontairement le container :
