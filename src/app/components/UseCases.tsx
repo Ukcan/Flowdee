@@ -38,7 +38,7 @@ const otherUseCases = OTHER_CASE_STUDIES;
 const VOIX = [
   {
     qui: 'L’élève',
-    role: 'Master 1 → Doctorat',
+    role: 'Lycéen → Universitaires',
     avant: 'Apprentissage passif et déconnecté. L’intérêt retombe, le distanciel n’arrange rien.',
     actions: [
       'Gamification UX : récompenses et progression',
@@ -250,9 +250,9 @@ export function UseCases() {
             eyebrow="Étude de cas"
             tone="accent"
             titleId="featured-case-title"
-            title={featuredCase.headerTitle}
+            title={featuredCase.title}
             description={
-              <span className="font-body text-[12px] md:text-[13px] font-medium text-text-secondary uppercase tracking-[0.2em]">
+              <span className="text-metadata mt-1 inline-block">
                 {featuredCase.headerSubtitle}
                 <span className="text-text-muted"> · {featuredCase.scope} · {featuredCase.duration}</span>
               </span>
@@ -334,7 +334,7 @@ export function UseCases() {
               vient du bloc précédent, replacée sous la personne concernée. La
               contrainte « distanciel » n'appartenait à aucune des deux — elle
               encadre les deux au lieu de traîner en fin de colonne. */}
-          <p className="max-w-[62ch] font-body text-[15px] md:text-[17px] leading-[1.7] text-text-secondary mb-10 md:mb-14">
+          <p className="max-w-[62ch] mx-auto text-center font-body text-[15px] md:text-[17px] leading-[1.7] text-text-secondary mb-10 md:mb-14">
             Une même contrainte pour les deux :{' '}
             <strong className="font-medium text-text-primary">tout devait tenir à distance</strong>, sur
             n'importe quel support. Le reste ne se raconte pas ensemble — un élève et un
@@ -349,7 +349,7 @@ export function UseCases() {
           >
             <span />
             <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-muted">Avant</span>
-            <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-muted">Mon action</span>
+            <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-primary">Notre action</span>
             <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-accent-primary">Après</span>
           </div>
 
@@ -382,7 +382,7 @@ export function UseCases() {
               </div>
 
               <div>
-                <span className="lg:hidden block mb-1.5 font-body text-[10.5px] font-medium uppercase tracking-[0.16em] text-text-muted">Mon action</span>
+                <span className="lg:hidden block mb-1.5 font-body text-[10.5px] font-medium uppercase tracking-[0.16em] text-text-primary">Notre action</span>
                 <ul className="font-body text-[14px] md:text-[15px] leading-[1.7] text-text-primary space-y-2.5">
                   {voix.actions.map((action) => (
                     <li key={action} className="flex items-start gap-3">

@@ -79,7 +79,7 @@ export function StepPath({
         const dir = i % 2 === 0 ? 1 : -1;
         const c1 = y1 + (y2 - y1) * 0.35;
         const c2 = y1 + (y2 - y1) * 0.65;
-        path += ` C ${cx + dir * amplitude} ${c1.toFixed(1)}, ${cx + dir * amplitude} ${c2.toFixed(1)}, ${cx} ${y2.toFixed(1)}`;
+        path += ` L ${cx} ${y2.toFixed(1)}`;
       }
 
       setPath({ d: path, height: Math.ceil(ys[ys.length - 1]) + 2 });
