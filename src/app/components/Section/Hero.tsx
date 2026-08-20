@@ -69,7 +69,7 @@ export function HeroSection() {
         <div className="flex flex-col items-center text-center gap-4 sm:gap-6 md:gap-7">
           {/* Eyebrow — plain text on mobile (a wrapped pill looks broken at that width), full chip from sm+ */}
           <motion.div {...anim(0.05)} className="block sm:inline-block">
-            <span className="block sm:inline max-w-[260px] sm:max-w-none mx-auto font-body text-[10px] sm:text-[11px] px-0 sm:px-5 py-0 sm:py-1.5 bg-transparent sm:bg-accent-tint/50 sm:backdrop-blur-sm text-[color:var(--accent-eyebrow)] font-medium tracking-[0.08em] sm:tracking-[0.12em] uppercase rounded-full sm:border sm:border-accent-primary/25">
+            <span className="block sm:inline max-w-[260px] sm:max-w-none mx-auto font-body text-[12px] px-0 sm:px-5 py-0 sm:py-1.5 bg-transparent sm:bg-accent-tint/50 sm:backdrop-blur-sm text-[color:var(--accent-eyebrow)] font-medium tracking-[0.08em] sm:tracking-[0.12em] uppercase rounded-full sm:border sm:border-accent-primary/25">
               {/* Annonçait « UX & Conversion · SEO UX · Accessibilité ·
                   Microcopy », une liste de compétences plutôt qu'une offre.
                   Nommer l'offre et son délai est l'information qu'un visiteur
