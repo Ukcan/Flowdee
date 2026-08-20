@@ -217,3 +217,85 @@ modifications de celles d'un autre. Le diff tranche, pas le récit.
 
 **Rien n'est poussé.** Branche `design/bandeau-cookies-et-flux-etude-de-cas`, en avance sur
 `origin`, et `main` (donc la production) n'a rien de tout ceci.
+
+---
+
+## 8. Le chantier de preuve, en détail (rang 4)
+
+> Différé sur décision de Benji le 2026-08-20. Cette section existe pour qu'on
+> puisse le reprendre sans refaire l'analyse.
+
+Quatre constats — **F-02, F-04, F-06, F-07** — tous sur l'axe **crédibilité**, et
+tous de la même forme : **le site affirme quelque chose et n'en montre jamais la
+preuve.** Adel le désigne d'une phrase : *« C'est le plus long et c'est celui qui
+change le taux de contact. »*
+
+| | Ce qui manque | Effort |
+|---|---|---|
+| **F-02** | « Voir un exemple de livrable » ne montre aucun livrable — le bouton fait défiler vers une liste à puces qui le *décrit* | M |
+| **F-04** | Trois études de cas, aucun résultat chiffré | M |
+| **F-06** | Le cas SaaS illustré par une photo de banque d'images (voir §5) | S |
+| **F-07** | Un témoignage unique, anonyme, en 11 px | S |
+
+### Pourquoi F-04 est le cœur
+
+Adel l'appelle **« la contradiction la plus coûteuse du site »**. La page affirme
+**trois fois** la mesurabilité — « Décisions guidées par des KPIs mesurables »,
+« IMPACT MESURABLE — des résultats mesurables et vérifiables sur vos KPIs », et
+le titre de section « Résultats observés sur des cas concrets ». Et les trois cas
+ne mesurent rien : ils décrivent des actions et des livraisons. La seule quantité
+du lot (« tunnel ramené de 5 pages à un checkout unique ») décrit un périmètre,
+pas un résultat.
+
+*« Un acheteur attentif, qui est précisément la cible d'un audit de conversion,
+le voit. Un seul chiffre réel, même modeste et bien borné, vaut plus que les
+trois cas actuels réunis. »*
+
+### Comment les quatre s'aggravent entre eux
+
+- **F-06 aggrave F-04** — le constat le dit explicitement. Dans une section qui
+  prétend montrer des cas concrets, la photo de stock est le signal le plus
+  rapide qu'il n'y a peut-être rien derrière : *« le lecteur ne se dit pas
+  "jolie photo", il se dit "il n'a pas d'écran à montrer" »*.
+- **F-02 est le bouton du visiteur qui doute**, celui qui veut vérifier avant de
+  payer 890 €. Il promet une preuve et rend une promesse supplémentaire :
+  *« l'acheteur doit croire sur parole exactement là où il cherchait à arrêter
+  de croire »*.
+- **F-07 peut coûter plus qu'il ne rapporte** : un témoignage non attribuable se
+  lit comme un témoignage fabriqué. Et avec quatre logos seulement, « certaines
+  références sous NDA » se lit comme une justification, pas une réassurance.
+
+### ⚠️ Deux des quatre ne sont PAS bloqués
+
+Le point à ne pas perdre : ce chantier n'attend aucun client pour commencer.
+
+- **F-04** prévoit un repli explicite : *« à défaut de chiffre client
+  communicable, dire explicitement ce qui a été mesuré et pourquoi le chiffre
+  n'est pas publiable, ce qui reste plus crédible que le silence. »* Adel donne
+  même la formulation de secours : *« Trois variantes testées sur 5
+  utilisateurs, celle à une page l'emporte sur le temps d'achèvement. »*
+- **F-07** aussi : *« Si aucune autorisation n'est obtenue, retirer le témoignage
+  plutôt que de le garder anonyme. »* Une décision, pas une négociation.
+
+**Ce chantier n'est pas bloqué, il n'est pas commencé.**
+
+### Répartition du travail
+
+**Seul Benji peut fournir** : les chiffres réels, ou la phrase disant pourquoi ils
+ne le sont pas · l'autorisation nominative d'un client, ou la décision de retirer
+le témoignage · la capture pour F-06 · les pages du rapport pour F-02.
+
+**Faisable par un agent** : la page `/exemple-de-livrable/` avec sa route, son
+prérendu et son balisage (⚠️ sans mur à l'e-mail — le constat insiste : « la
+friction ici coûte plus que le lead qu'elle capture, parce que le visiteur est
+encore en phase de doute ») · l'anonymisation et l'intégration des captures ·
+les schémas de repli en SVG · la reformulation des `metrics` de `caseStudies.ts`
+dès que la matière ou la décision existe · l'activation des contrôles F-06 et
+F-19 du garde-fou dès qu'ils passent.
+
+### Point d'entrée recommandé
+
+**F-04 en version repli.** Aucune dépendance externe, et c'est la contradiction
+que l'acheteur cible voit. Méthode proposée : préparer les trois formulations à
+partir de ce que `caseStudies.ts` contient déjà, puis les faire corriger par
+Benji — plus rapide de le faire réagir à un brouillon que d'écrire depuis rien.
