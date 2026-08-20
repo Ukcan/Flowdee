@@ -4,43 +4,56 @@ name: Vérifier Flowdee
 # Objectif : savoir si le build et les garde-fous passent dans Actions AVANT
 # qu'une fusion vers `main` ne déclenche un déploiement réel.
 #
-# Pourquoi ce besoin : jusqu'ici le dépôt n'avait qu'un workflow, déclenché
-# sur `push` vers `main`. Une pull request ne vérifiait donc rien, et le
-# premier passage réel d'un garde-fou dans Actions était le déploiement
+# Pourquoi ce besoin : jusqu'au 20/08/2026 le dépôt n'avait qu'un workflow,
+# déclenché sur `push` vers `main`. Une pull request ne vérifiait donc rien, et
+# le premier passage réel d'un garde-fou dans Actions était le déploiement
 # lui-même — au moment où un échec coûte le plus cher.
 #
 # Pourquoi un second fichier plutôt qu'un job de plus dans `deploy.yml` :
 # `deploy.yml` porte le secret CLOUDFLARE_API_TOKEN et met en ligne. Le garder
 # strictement dédié au déploiement évite qu'un déclencheur ajouté ici puisse
 # un jour publier quelque chose par accident.
+#
+# ⚠️ Les versions d'actions et la chaîne d'outils doivent rester IDENTIQUES à
+# celles de `deploy.yml` — vérifier avec un pnpm ou un Node différent de celui
+# qui déploie ne prouverait rien sur le déploiement. Voir l'en-tête de
+# `deploy.yml` pour le détail des runtimes node24 et le raisonnement sur les
+# versions.
+
 on:
   pull_request:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+# Une PR poussée plusieurs fois d'affilée n'a pas besoin de vérifier les états
+# intermédiaires : seul le dernier compte.
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      # Avant setup-node, à dessein : `cache: pnpm` a besoin que pnpm existe
+      # déjà pour localiser son magasin.
+      - uses: pnpm/action-setup@v6
         with:
-          # Même version que `deploy.yml` : vérifier avec un pnpm différent de
-          # celui qui déploie ne prouverait rien sur le déploiement.
-          version: 10
+          version: 11
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
 
       - name: Installer les dépendances
         run: pnpm install --frozen-lockfile
 
-      # `--with-deps` installe aussi les librairies système de Chromium : c'est
-      # précisément ce que le build Cloudflare natif ne pouvait pas faire, et
-      # la raison d'être de ce pipeline (voir l'en-tête de `deploy.yml`).
       - name: Installer Chromium + librairies système
         run: pnpm exec playwright install --with-deps chromium
 

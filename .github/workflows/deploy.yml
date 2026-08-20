@@ -4,37 +4,82 @@ name: Déployer Flowdee
 # librairies système de Chromium (pas d'accès root dans son bac à sable).
 # Ce workflow build (avec prérendu Playwright réel) puis déploie
 # directement via wrangler — voir scripts/prerender.mjs pour le détail.
+#
+# ─── VERSIONS : POURQUOI CELLES-LÀ ──────────────────────────────────────────
+#
+# Toutes les actions sont sur un runtime **node24**. Les versions précédentes
+# (checkout@v4, setup-node@v4, action-setup@v4, wrangler-action@v3) ciblaient
+# node20, déprécié : GitHub les forçait déjà sur node24 en émettant un
+# avertissement à chaque run, et le jour où ce repli disparaît le déploiement
+# s'arrête — sans rapport avec ce qu'on aura poussé ce jour-là.
+#
+# Runtimes vérifiés dans le `action.yml` de chaque dépôt, pas supposés :
+#   actions/checkout@v7            → node24
+#   actions/setup-node@v7          → node24
+#   pnpm/action-setup@v6           → node24
+#   cloudflare/wrangler-action@v4  → node24  (v3 était en node20)
+#
+# ⚠️ wrangler-action v4 change aussi le défaut de Wrangler installé : v3 → v4.
+# Ce n'est pas un risque ici, c'est un alignement — le projet déclare déjà
+# `"wrangler": "^4.96.0"`. Aucun `wranglerVersion` n'est donc épinglé : l'action
+# et le dépôt convergent tous deux vers le dernier 4.x. Épingler créerait la
+# dérive qu'on cherche à éviter.
+#
+# pnpm et Node suivent la machine de développement (pnpm 11.9, Node 24) : une
+# CI qui n'utilise pas la même chaîne d'outils que l'auteur ne prouve pas
+# grand-chose sur ce qui partira en production. Le lockfile est en version 9.0,
+# lu par pnpm 9, 10 et 11 — `--frozen-lockfile` reste donc valide.
+
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
+# Le job ne fait que lire le dépôt ; le déploiement passe par un secret, pas
+# par le jeton GitHub. On retire donc tout le reste.
+permissions:
+  contents: read
+
+# Deux poussées rapprochées sur main lançaient deux déploiements concurrents
+# vers le même Worker, dont l'ordre d'arrivée n'était pas garanti. Le plus
+# récent gagne, et le précédent est annulé avant de publier.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      # Avant setup-node, à dessein : `cache: pnpm` a besoin que pnpm existe
+      # déjà pour localiser son magasin.
+      - uses: pnpm/action-setup@v6
         with:
-          version: 10
+          version: 11
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
 
       - name: Installer les dépendances
         run: pnpm install --frozen-lockfile
 
+      # `--with-deps` installe aussi les librairies système de Chromium : c'est
+      # précisément ce que le build Cloudflare natif ne pouvait pas faire.
       - name: Installer Chromium + librairies système
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Build (avec prérendu)
+      # Enchaîne check:offer → vite build → prérendu Playwright →
+      # check:diagnostic. Un garde-fou en échec arrête donc le workflow AVANT
+      # l'étape de déploiement : le site reste sur sa version précédente.
+      - name: Build, prérendu et garde-fous
         run: pnpm run build:prerender
 
       - name: Déployer sur Cloudflare
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           command: deploy
