@@ -161,7 +161,7 @@ export function EtudeDeCasPage() {
             {others.map((c) => (
               <Link
                 key={c.slug}
-                to={`/etudes-de-cas/${c.slug}`}
+                to={`/etudes-de-cas/${c.slug}/`}
                 className="card-surface bg-surface-0 border-border-0 p-6 flex flex-col gap-2 hover:border-border-1 transition-colors"
               >
                 <span className="font-body text-[10px] uppercase tracking-[0.2em] text-text-muted">{c.tag}</span>

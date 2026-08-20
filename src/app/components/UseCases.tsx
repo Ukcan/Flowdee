@@ -410,7 +410,7 @@ export function UseCases() {
               <button> : un bouton imbriqué dans un lien serait un HTML invalide. */}
           <div className="flex justify-center mt-16">
             <Link
-              to={`/etudes-de-cas/${featuredCase.slug}`}
+              to={`/etudes-de-cas/${featuredCase.slug}/`}
               onClick={(e) => { e.preventDefault(); setSelectedCase(featuredCase); }}
               className={cn('group/pri font-body', ctaButtonVariants({ intent: 'primary', size: 'l' }))}
             >
@@ -529,7 +529,7 @@ export function UseCases() {
                     {/* Vrai lien vers /etudes-de-cas/:slug (indexable), anchor
                         descriptif plutôt que générique — cf. section 5 de l'audit SEO. */}
                     <Link
-                      to={`/etudes-de-cas/${useCase.slug}`}
+                      to={`/etudes-de-cas/${useCase.slug}/`}
                       onClick={(e) => { e.preventDefault(); setSelectedCase(useCase); }}
                       className="
                         inline-flex items-center gap-2 mt-4
