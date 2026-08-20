@@ -52,12 +52,20 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
      faisant défiler à l'aveugle.
      `primary` marque celles que la barre desktop peut afficher : elle n'a la
      place que de quatre entrées entre le logo et les deux boutons d'action. */
+  /* ⚠️ L'ORDRE DE CETTE LISTE DOIT SUIVRE L'ORDRE DES SECTIONS DANS Home.tsx.
+     C'est un menu d'ancres : il annonce un parcours, donc il mentirait s'il
+     l'annonçait dans un autre ordre que celui qu'on va lire. « Offres & tarifs »
+     était listé avant « Réalisations » alors qu'il pointe 27 points de page plus
+     loin — le premier item du menu envoyait plus bas que le deuxième (repéré par
+     Benji, 2026-08-20).
+     Toute modification de l'ordre des sections dans Home.tsx doit être répercutée
+     ici. */
   const sectionItems = useMemo(() => [
     { label: t.nav.aiWorkflow, id: 'ia-workflow' },
     { label: t.nav.frictions, id: 'problems' },
     { label: t.nav.deliverables, id: 'deliverables' },
-    { label: t.nav.services, id: 'services', primary: true },
     { label: t.nav.caseStudies, id: 'case-studies', primary: true },
+    { label: t.nav.services, id: 'services', primary: true },
     { label: t.nav.approach, id: 'approche', primary: true },
     { label: t.nav.faq, id: 'faq' },
     { label: t.nav.contact, id: 'contact', primary: true }
