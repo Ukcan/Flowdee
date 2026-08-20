@@ -114,7 +114,11 @@ export function CookieBanner({
             où `--accent-primary` vaut #6B5430 : du texte navy y serait
             illisible. */}
         <div className="pointer-events-auto w-full bg-accent-primary border-t border-[color:var(--on-accent)]/30 shadow-panel">
-          <div className="mx-auto max-w-[1100px] px-5 md:px-8 py-3 md:py-4 flex flex-col md:flex-row items-center gap-3 md:gap-6 min-h-[72px]">
+          {/* Compacté sous md : à 360x640 le bandeau montait à 166px, soit 26 % de
+                l'écran, et repoussait le CTA du hero sous le pli — F-03 du
+                diagnostic, dont la correction demandait « une barre basse
+                compacte avec les trois choix sur une ligne ». */}
+          <div className="mx-auto max-w-[1100px] px-4 md:px-8 py-2.5 md:py-4 flex flex-col md:flex-row items-center gap-2 md:gap-6 min-h-0 md:min-h-[72px]">
             <div className="flex items-center gap-3 flex-1">
               <Cookie size={20} weight="duotone" className="text-[color:var(--on-accent)] shrink-0 hidden sm:block" aria-hidden="true" />
               <p className="text-[color:var(--on-accent)] font-body text-[12px] md:text-[13px] leading-snug text-center md:text-left">
@@ -137,17 +141,27 @@ export function CookieBanner({
                 Rayon unifié sur `--radius-button` : les deux secondaires
                 étaient en `rounded-full` face à un dominant à 6px, soit deux
                 géométries pour une même rangée de commandes. */}
-            <div className="flex items-center gap-2 shrink-0 flex-wrap justify-center">
+            {/* `flex-nowrap` : les trois choix tiennent sur une ligne, y compris à
+                  360px, grâce aux libellés courts ci-dessous. En `flex-wrap` ils
+                  passaient sur deux lignes et doublaient la hauteur du bandeau. */}
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap justify-center">
               <button
                 onClick={() => setShowSettings(true)}
                 className="min-h-[44px] px-2 flex items-center justify-center gap-1.5 bg-transparent border-0 rounded-[var(--radius-button)] text-[color:var(--on-accent)]/80 hover:text-[color:var(--on-accent)] hover:underline underline-offset-4 font-body font-medium text-[12px] transition-all cursor-pointer group"
               >
                 <Settings size={13} className="group-hover:rotate-45 transition-transform" aria-hidden="true" />
-                {texts.settings}
+                {/* UN SEUL nœud, `sr-only` sous sm puis `not-sr-only` au-delà :
+                    l'icône est seule sur petit écran, le libellé reste annoncé
+                    aux lecteurs d'écran, et les trois boutons gardent la même
+                    taille de police (12px), condition du critère de F-15.
+                    ⚠️ Deux spans (un visible, un `sr-only`) doublaient le nom
+                    accessible en « ParamétrerParamétrer » — attrapé par
+                    check:diagnostic, contrôle F-20. */}
+                <span className="sr-only sm:not-sr-only">{texts.settings}</span>
               </button>
               <button
                 onClick={handleRefuseAll}
-                className="min-h-[44px] px-5 flex items-center justify-center bg-transparent hover:bg-[color:var(--on-accent)]/10 border-2 border-[color:var(--on-accent)] rounded-[var(--radius-button)] text-[color:var(--on-accent)] font-body font-semibold text-[12px] transition-all cursor-pointer"
+                className="min-h-[44px] px-3.5 sm:px-5 flex items-center justify-center bg-transparent hover:bg-[color:var(--on-accent)]/10 border-2 border-[color:var(--on-accent)] rounded-[var(--radius-button)] text-[color:var(--on-accent)] font-body font-semibold text-[12px] whitespace-nowrap transition-all cursor-pointer"
               >
                 {texts.refuseAll}
               </button>
@@ -155,7 +169,7 @@ export function CookieBanner({
                   système disparaîtrait sur un bandeau doré. */}
               <button
                 onClick={handleAcceptAll}
-                className="min-h-[44px] px-5 flex items-center justify-center bg-[color:var(--on-accent)] hover:opacity-90 border-2 border-[color:var(--on-accent)] rounded-[var(--radius-button)] text-accent-bright font-body font-semibold text-[12px] tracking-wide transition-all cursor-pointer"
+                className="min-h-[44px] px-3.5 sm:px-5 flex items-center justify-center bg-[color:var(--on-accent)] hover:opacity-90 border-2 border-[color:var(--on-accent)] rounded-[var(--radius-button)] text-accent-bright font-body font-semibold text-[12px] tracking-wide whitespace-nowrap transition-all cursor-pointer"
               >
                 {texts.acceptAll}
               </button>

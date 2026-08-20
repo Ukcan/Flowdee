@@ -61,12 +61,12 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative min-h-[100svh] md:min-h-[100vh] flex items-center py-20 md:py-28 bg-transparent overflow-hidden"
+      className="relative min-h-[100svh] md:min-h-[100vh] flex items-center py-12 sm:py-20 md:py-28 bg-transparent overflow-hidden"
       aria-labelledby="hero-title"
       id="hero"
     >
       <div className="relative z-10 max-w-[1080px] mx-auto px-6 sm:px-8 md:px-16 w-full">
-        <div className="flex flex-col items-center text-center gap-6 md:gap-7">
+        <div className="flex flex-col items-center text-center gap-4 sm:gap-6 md:gap-7">
           {/* Eyebrow — plain text on mobile (a wrapped pill looks broken at that width), full chip from sm+ */}
           <motion.div {...anim(0.05)} className="block sm:inline-block">
             <span className="block sm:inline max-w-[260px] sm:max-w-none mx-auto font-body text-[10px] sm:text-[11px] px-0 sm:px-5 py-0 sm:py-1.5 bg-transparent sm:bg-accent-tint/50 sm:backdrop-blur-sm text-[color:var(--accent-eyebrow)] font-medium tracking-[0.08em] sm:tracking-[0.12em] uppercase rounded-full sm:border sm:border-accent-primary/25">
@@ -91,7 +91,7 @@ export function HeroSection() {
             id="hero-title"
             {...anim(0.1)}
             className="font-display font-bold tracking-[-0.03em] leading-[1.08] text-text-primary text-pretty max-w-[900px]"
-            style={{ fontSize: 'clamp(1.9rem, 0.7rem + 3.1vw, 3.5rem)' }}
+            style={{ fontSize: 'clamp(1.6rem, 0.7rem + 3.1vw, 3.5rem)' }}
           >
             {AUDIT_NAME} : identifiez ce qui bloque vos utilisateurs et freine vos conversions.
           </motion.h1>
@@ -107,7 +107,7 @@ export function HeroSection() {
           {/* Périmètre — plus discret (taille, couleur, largeur) que la
               proposition de valeur au-dessus : il précise l'offre, il ne doit
               jamais rivaliser avec le bénéfice qui la vend. */}
-          <motion.p {...anim(0.2)} className="font-body text-[13px] sm:text-[14px] text-text-muted max-w-[480px] mx-auto -mt-2">
+          <motion.p {...anim(0.2)} className="hidden sm:block font-body text-[13px] sm:text-[14px] text-text-muted max-w-[480px] mx-auto -mt-2">
             {AUDIT_SCOPE_EXAMPLES}
           </motion.p>
 
@@ -117,7 +117,7 @@ export function HeroSection() {
               entre elles). */}
           <motion.ul
             {...anim(0.26)}
-            className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-body text-[13px] sm:text-[14px] text-text-secondary"
+            className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-5 gap-y-1 sm:gap-y-2 font-body text-[12px] sm:text-[14px] leading-[1.35] sm:leading-normal text-text-secondary"
             aria-label="Ce que comprend l'audit"
           >
             {BENEFITS.map((b) => (
