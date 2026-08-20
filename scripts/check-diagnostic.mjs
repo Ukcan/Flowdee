@@ -25,16 +25,22 @@
  *
  * ─── CE QUI EST VÉRIFIÉ ─────────────────────────────────────────────────────
  *
- * Actifs   : F-08, F-13, F-16, F-18, F-20.
+ * Actifs   : F-08, F-13, F-14, F-16, F-18, F-20.
+ *
+ * F-14 est le seul contrôle qui parcourt les neuf routes publiques : son
+ * critère l'exige (« axe-core ne remonte plus aucune violation sur les neuf
+ * pages »). Les autres portent sur l'accueil, où vit la copie commerciale —
+ * et pour F-08 c'est nécessaire : le « nous » des pages légales désigne
+ * l'entité juridique et n'a rien à s'y reprocher.
  * Inactifs : F-06 et F-19 — ils échouent aujourd'hui et leur correction
  *            n'est pas mécanique (une vraie capture à produire pour F-06, un
  *            arbitrage typographique pour F-19). Les brancher maintenant
  *            casserait le build sans rien apprendre à personne. Le code est
  *            écrit et prêt : passer `actif: true` le jour où c'est corrigé.
  *
- * Les constats hors de portée d'un script — F-02, F-04, F-05, F-07, F-14 —
- * n'apparaissent pas ici. Ils demandent du contenu, une configuration Stripe
- * ou un passage axe-core, et rester silencieux à leur sujet vaut mieux que de
+ * Les constats hors de portée d'un script — F-02, F-04, F-05, F-07 —
+ * n'apparaissent pas ici. Ils demandent du contenu ou une configuration
+ * Stripe, et rester silencieux à leur sujet vaut mieux que de
  * laisser croire qu'ils sont couverts.
  *
  * Usage : pnpm run check:diagnostic   (exige un `vite build` préalable)
@@ -69,12 +75,32 @@ const F08_TOLERE = ['Nous utilisons des cookies'];
 const F13_MOTS_ANGLAIS = /\b(reset|default|close|open|back|next|previous|submit|search|toggle|navigate|scroll|loading|dismiss|expand|collapse)\b/i;
 const F13_NOMS_PROPRES = ['LinkedIn'];
 
+/**
+ * F-14 — les neuf pages publiques, dans l'ordre du prérendu. Seule la première
+ * passe par un `goto` : les suivantes par pushState + popstate, que React
+ * Router traite comme une navigation normale. C'est plus rapide et ça évite de
+ * dépendre de la façon dont l'hébergeur sert les chemins profonds.
+ */
+const F14_ROUTES = [
+  '/',
+  '/audit-ux',
+  '/etudes-de-cas/application-edtech-ux',
+  '/etudes-de-cas/optimisation-onboarding-saas',
+  '/etudes-de-cas/optimisation-checkout-ecommerce',
+  '/cgv',
+  '/politique-de-confidentialite',
+  '/mentions-legales',
+  '/se-retracter',
+];
+const F14_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
+
 /** F-18 — plafond fixé par le critère du diagnostic. */
 const F18_POIDS_MAX_KO = 150;
 
 const CONTROLES = [
   { id: 'F-08', actif: true, intitule: 'aucun « nous / notre / nos » désignant l\'équipe' },
   { id: 'F-13', actif: true, intitule: 'aucun nom accessible en anglais' },
+  { id: 'F-14', actif: true, intitule: `aucune violation axe-core sur les ${F14_ROUTES.length} pages publiques` },
   { id: 'F-16', actif: true, intitule: 'liens internes avec barre finale, /se-retracter au sitemap' },
   { id: 'F-18', actif: true, intitule: `og-image sous ${F18_POIDS_MAX_KO} Ko` },
   { id: 'F-20', actif: true, intitule: 'aucun nom accessible aux fragments collés' },
@@ -210,6 +236,50 @@ function verifieFichiers() {
   if (CONTROLES.find((c) => c.id === 'F-16')?.actif) {
     const sitemap = readFileSync(path.join(root, 'public', 'sitemap.xml'), 'utf-8');
     if (!sitemap.includes('se-retracter')) echecs.push('F-16 — /se-retracter absent du sitemap');
+  }
+
+  return echecs;
+}
+
+/**
+ * F-14 — axe-core sur chaque route publique. Rend une ligne d'échec par
+ * violation, page et règle nommées : « il y a des violations » sans dire
+ * lesquelles ni où obligerait à refaire la mesure à la main.
+ */
+async function passeAxe(page, baseUrl) {
+  const axeSource = readFileSync(path.join(root, 'node_modules', 'axe-core', 'axe.min.js'), 'utf-8');
+  const echecs = [];
+
+  for (const [i, route] of F14_ROUTES.entries()) {
+    if (i > 0) {
+      await page.evaluate((chemin) => {
+        window.history.pushState({}, '', chemin);
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }, route);
+      await page.waitForTimeout(1200);
+    } else {
+      await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle', timeout: 20000 });
+    }
+
+    await page.addScriptTag({ content: axeSource });
+    const { violations } = await page.evaluate(
+      (tags) =>
+        window.axe
+          .run(document, { runOnly: { type: 'tag', values: tags } })
+          .then((r) => ({
+            violations: r.violations.map((v) => ({
+              id: v.id,
+              impact: v.impact,
+              nb: v.nodes.length,
+              cible: v.nodes[0]?.target?.join(' ') ?? '',
+            })),
+          })),
+      F14_TAGS
+    );
+
+    for (const v of violations) {
+      echecs.push(`F-14 — ${route} : [${v.impact}] ${v.id}, ${v.nb} nœud(s), ex. ${v.cible}`);
+    }
   }
 
   return echecs;
