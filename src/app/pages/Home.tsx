@@ -30,7 +30,6 @@ export function HomePage() {
           ni la retirer sans un arbitrage explicite de sa part. */}
       <ScrollReveal variant="fadeLeft" duration={0.75} threshold="top 90%"><AIWorkflowSection /></ScrollReveal>
 
-      <ScrollReveal variant="fadeUp" delay={0.1} duration={0.6} threshold="top 92%"><TrustedClientsSection /></ScrollReveal>
       <ScrollReveal variant="stagger" staggerAmount={0.18} threshold="top 85%"><ProblemsSection /></ScrollReveal>
 
       {/* Livrables — SANS wrapper ScrollReveal, et ce n'est pas un oubli.
@@ -49,6 +48,19 @@ export function HomePage() {
           La section anime déjà ses propres éléments (motion whileInView), elle
           n'a besoin de personne au-dessus. */}
       <DeliverablesSection />
+
+      {/* Logos clients + témoignage — placés juste avant les études de cas,
+          et non après le hero. Décision de la revue Adel × Benji du 18/08,
+          réaffirmée par Benji le 20/08 : la preuve sociale n'a de poids
+          qu'une fois le problème posé et l'offre comprise, pas avant. Ici
+          elle ouvre le bloc de preuve concrète au lieu de flotter seule.
+
+          ⚠️ Ce déplacement ne vient PAS du diagnostic externe d'Adel — vérifié,
+          aucun de ses 20 constats ne porte sur la position de ce bandeau (F-12
+          traite son intitulé, F-07 son témoignage). C'est un arbitrage de
+          Benji, à ne pas défaire au motif qu'on ne le retrouve pas dans le
+          document. */}
+      <ScrollReveal variant="fadeUp" delay={0.1} duration={0.6} threshold="top 92%"><TrustedClientsSection /></ScrollReveal>
 
       <ScrollReveal variant="stagger" staggerAmount={0.2} threshold="top 80%"><CaseStudiesSection /></ScrollReveal>
       <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%"><ServicesSection /></ScrollReveal>
