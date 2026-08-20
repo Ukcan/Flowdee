@@ -555,7 +555,6 @@ export function UseCases() {
               commence le texte à chaque ligne. */}
           <div>
             {otherUseCases.map((useCase, index) => {
-              const kpiHero = useCase.metrics[0]?.label || useCase.title;
 
               return (
                 <motion.article
@@ -578,59 +577,56 @@ export function UseCases() {
                       <span className="text-eyebrow">{useCase.tag}</span>
                     </div>
 
-                    {/* Le nom du cas passe avant la métrique : sans lui, la
-                        grosse phrase KPI se lisait comme le titre de
-                        l'article, et on ne savait qu'après coup de quel cas
-                        il s'agissait (retour Adel, revue du 2026-08-18). */}
-                    <h3 className="font-heading text-[22px] md:text-[26px] lg:text-[28px] text-text-primary leading-[1.2] tracking-[-0.01em] mt-5 text-balance" style={{ fontWeight: 500 }}>
+                    <h3 className="font-heading text-[26px] md:text-[32px] lg:text-[36px] text-text-primary leading-[1.15] tracking-[-0.02em] mt-6 text-balance" style={{ fontWeight: 600 }}>
                       {useCase.title}
                     </h3>
 
-                    <p className="font-display text-[19px] md:text-[22px] text-accent-primary leading-snug tracking-[-0.01em] mt-3 text-balance" style={{ fontWeight: 300 }}>
-                      {kpiHero}
-                    </p>
+                    {/* Problème → Action → Résultat en TROIS LIGNES et non en
+                        trois colonnes (design Claude Design « Hiérarchie cas
+                        client », 2026-08-20).
 
-                    {/* Problème → Action → Résultat en flux horizontal plutôt
-                        qu'en colonne : c'est une transformation qu'on vend,
-                        pas une liste (revue Adel × Benji du 2026-08-18). Le
-                        résultat, seul temps du flux qui prouve la mesure,
-                        porte l'accent — les deux premiers ne font que mener
-                        jusqu'à lui. */}
-                    <dl className="mt-7 flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-3">
-                      <div className="flex-1 min-w-0">
-                        <dt className="font-body text-[10px] uppercase tracking-[0.16em] text-text-muted font-medium">Problème</dt>
-                        <dd className="font-body text-[14px] leading-[1.6] text-text-secondary mt-1.5">{useCase.problemShort}</dd>
+                        Le flux horizontal donnait le même poids aux trois
+                        temps, et le résultat — seul à prouver quelque chose —
+                        se retrouvait en 14px dans la troisième colonne, à
+                        égalité avec le contexte qui appartient au client. Ici
+                        la luminosité monte d'une ligne à l'autre (tertiaire →
+                        secondaire → primaire) et le résultat passe au corps de
+                        titre sous un filet d'accent : on lit la transformation
+                        dans le sens de sa valeur.
+
+                        La gouttière de 112px aligne les trois étiquettes, donc
+                        les trois valeurs démarrent au même appui. */}
+                    <dl className="mt-8">
+                      <div className="grid grid-cols-1 sm:grid-cols-[112px_minmax(0,1fr)] gap-x-7 gap-y-1.5 border-t border-border-0 py-5">
+                        <dt className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-muted sm:pt-1">Problème</dt>
+                        <dd className="font-body text-[16px] md:text-[18px] leading-[1.5] text-text-tertiary">{useCase.problemShort}</dd>
                       </div>
-                      <ArrowRight size={16} weight="bold" className="hidden sm:block shrink-0 mt-1 text-text-muted" aria-hidden="true" />
-                      <div className="flex-1 min-w-0">
-                        <dt className="font-body text-[10px] uppercase tracking-[0.16em] text-text-muted font-medium">Action</dt>
-                        <dd className="font-body text-[14px] leading-[1.6] text-text-secondary mt-1.5">{useCase.actionShort}</dd>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-[112px_minmax(0,1fr)] gap-x-7 gap-y-1.5 border-t border-border-0 py-5">
+                        <dt className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-muted sm:pt-1">Action</dt>
+                        <dd className="font-body text-[16px] md:text-[18px] leading-[1.5] text-text-secondary">
+                          {useCase.actionShort}
+                          {/* Les métriques deviennent le détail de l'action, au
+                              lieu des pastilles qui flottaient plus bas : elles
+                              disent COMMENT l'action a été menée, elles n'ont
+                              pas de sens hors de ce contexte. */}
+                          {useCase.metrics.length > 0 && (
+                            <span className="mt-2.5 flex flex-col gap-1.5 font-body text-[14px] md:text-[15px] leading-[1.5] text-text-muted">
+                              {useCase.metrics.map((metric, idx) => (
+                                <span key={idx}>{metric.label}</span>
+                              ))}
+                            </span>
+                          )}
+                        </dd>
                       </div>
-                      <ArrowRight size={16} weight="bold" className="hidden sm:block shrink-0 mt-1 text-accent-primary" aria-hidden="true" />
-                      <div className="flex-1 min-w-0">
-                        <dt className="font-body text-[10px] uppercase tracking-[0.16em] text-accent-primary font-medium">Résultat</dt>
-                        {/* Pleine opacité : à 10px, le modificateur /60 tombait
-                            sous le seuil WCAG AA de 4.5:1. */}
-                        <dd className="font-body text-[14px] leading-[1.6] text-text-primary font-medium mt-1.5">{useCase.resultShort}</dd>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-[112px_minmax(0,1fr)] gap-x-7 gap-y-1.5 border-t-2 border-accent-primary pt-6">
+                        <dt className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-accent-primary sm:pt-2">Résultat</dt>
+                        <dd className="font-heading text-[20px] md:text-[24px] lg:text-[26px] leading-[1.32] tracking-[-0.01em] text-text-primary text-pretty" style={{ fontWeight: 500 }}>
+                          {useCase.resultShort}
+                        </dd>
                       </div>
                     </dl>
-
-                    <div className="flex flex-wrap gap-2 mt-6">
-                      {useCase.metrics.map((metric, idx) => (
-                        <span
-                          key={idx}
-                          className="
-                            inline-flex items-center gap-1.5
-                            font-body text-[10px] font-medium text-text-secondary
-                            bg-transparent border border-border-0
-                            px-3 py-1 rounded-full tracking-[0.06em]
-                          "
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-accent-primary shrink-0" />
-                          {metric.label}
-                        </span>
-                      ))}
-                    </div>
 
                     {/* Vrai lien vers /etudes-de-cas/:slug (indexable), anchor
                         descriptif plutôt que générique — cf. section 5 de l'audit SEO. */}
@@ -638,9 +634,10 @@ export function UseCases() {
                       to={`/etudes-de-cas/${useCase.slug}/`}
                       onClick={(e) => { e.preventDefault(); setSelectedCase(useCase); }}
                       className="
-                        inline-flex items-center gap-2 mt-4
-                        font-body text-[13px] font-medium uppercase tracking-widest
-                        text-accent-primary hover:underline transition-all
+                        inline-flex items-center gap-2 mt-8
+                        font-body text-[13px] font-medium uppercase tracking-[0.1em]
+                        text-accent-primary border-b border-accent-primary/40
+                        hover:border-accent-primary transition-all
                         outline-none focus-visible:ring-2 focus-visible:ring-accent-ring
                         focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base
                         rounded-sm min-h-[44px]
