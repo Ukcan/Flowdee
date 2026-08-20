@@ -647,28 +647,34 @@ export function UseCases() {
                       </div>
                     </dl>
 
-                    {/* Vrai lien vers /etudes-de-cas/:slug (indexable), anchor
-                        descriptif plutôt que générique — cf. section 5 de l'audit SEO. */}
+                    {/* CTA — bouton secondaire du système, et non un lien
+                        souligné maison. Le filet de la version précédente était
+                        posé au bas d'une boîte de 44px (la cible tactile) : il
+                        flottait donc à 44px sous le texte au lieu de le
+                        souligner, et l'ensemble ne ressemblait à aucun autre
+                        bouton du site (repéré par Benji, 2026-08-20).
+
+                        Même patron que le CTA du cas phare : `ctaButtonVariants`
+                        appliqué à un <a> plutôt qu'un <button>, car un bouton
+                        imbriqué dans un lien serait un HTML invalide. Le lien
+                        reste indexable ; le clic ouvre l'aperçu en volet.
+
+                        Taille `s` et non `l` : c'est l'action d'une carte, elle
+                        ne doit pas concurrencer le CTA principal de la section.
+
+                        Libellé court à l'écran, mention complète en `sr-only` —
+                        l'anchor descriptif plutôt que générique était un parti
+                        pris de l'audit SEO, section 5. */}
                     <Link
                       to={`/etudes-de-cas/${useCase.slug}/`}
                       onClick={(e) => { e.preventDefault(); setSelectedCase(useCase); }}
-                      className="
-                        inline-flex items-center gap-2 mt-8
-                        font-body text-[13px] font-medium uppercase tracking-[0.1em]
-                        text-accent-primary border-b border-accent-primary/40
-                        hover:border-accent-primary transition-all
-                        outline-none focus-visible:ring-2 focus-visible:ring-accent-ring
-                        focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base
-                        rounded-sm min-h-[44px]
-                      "
+                      className={cn('group/sec font-body mt-8', ctaButtonVariants({ intent: 'secondary', size: 's' }))}
                     >
-                      {/* Libellé court à l'écran (design), mention complète
-                          conservée pour les lecteurs d'écran et l'indexation :
-                          un anchor descriptif plutôt que générique était un
-                          parti pris de l'audit SEO, section 5. Le `sr-only`
-                          garde les deux sans les afficher. */}
-                      <span aria-hidden="true">Voir l’étude de cas →</span>
-                      <span className="sr-only">Voir l’étude de cas : {useCase.title}</span>
+                      <span className="relative z-10 inline-flex items-center gap-2">
+                        <span aria-hidden="true">Voir l’étude de cas</span>
+                        <ArrowRight size={16} weight="bold" aria-hidden="true" />
+                        <span className="sr-only">Voir l’étude de cas : {useCase.title}</span>
+                      </span>
                     </Link>
                   </div>
 
