@@ -1,0 +1,51 @@
+name: Vérifier Flowdee
+
+# Miroir exact des étapes de build de `deploy.yml`, SANS l'étape wrangler.
+# Objectif : savoir si le build et les garde-fous passent dans Actions AVANT
+# qu'une fusion vers `main` ne déclenche un déploiement réel.
+#
+# Pourquoi ce besoin : jusqu'ici le dépôt n'avait qu'un workflow, déclenché
+# sur `push` vers `main`. Une pull request ne vérifiait donc rien, et le
+# premier passage réel d'un garde-fou dans Actions était le déploiement
+# lui-même — au moment où un échec coûte le plus cher.
+#
+# Pourquoi un second fichier plutôt qu'un job de plus dans `deploy.yml` :
+# `deploy.yml` porte le secret CLOUDFLARE_API_TOKEN et met en ligne. Le garder
+# strictement dédié au déploiement évite qu'un déclencheur ajouté ici puisse
+# un jour publier quelque chose par accident.
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          # Même version que `deploy.yml` : vérifier avec un pnpm différent de
+          # celui qui déploie ne prouverait rien sur le déploiement.
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Installer les dépendances
+        run: pnpm install --frozen-lockfile
+
+      # `--with-deps` installe aussi les librairies système de Chromium : c'est
+      # précisément ce que le build Cloudflare natif ne pouvait pas faire, et
+      # la raison d'être de ce pipeline (voir l'en-tête de `deploy.yml`).
+      - name: Installer Chromium + librairies système
+        run: pnpm exec playwright install --with-deps chromium
+
+      # `build:prerender` enchaîne : check:offer → vite build → prérendu
+      # Playwright → check:diagnostic. Un échec de l'un des deux garde-fous
+      # fait donc échouer la vérification, et la PR avec — avant toute fusion.
+      - name: Build, prérendu et garde-fous
+        run: pnpm run build:prerender
