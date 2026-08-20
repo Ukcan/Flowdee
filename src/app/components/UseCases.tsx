@@ -547,12 +547,15 @@ export function UseCases() {
             className="mb-4"
           />
 
-          {/* Lignes éditoriales alternées — mouvement vertical plutôt qu'une
-              nouvelle grille de cards qui rimerait avec le pricing. */}
+          {/* Lignes éditoriales, toutes bâties pareil : texte à gauche, visuel
+              à droite. L'alternance gauche/droite a été retirée (décision Benji,
+              2026-08-20) — elle mettait en miroir deux cas de poids égal, ce qui
+              est de l'asymétrie décorative : la variété se joue entre sections,
+              pas entre pairs. Elle obligeait aussi le lecteur à rechercher où
+              commence le texte à chaque ligne. */}
           <div>
             {otherUseCases.map((useCase, index) => {
               const kpiHero = useCase.metrics[0]?.label || useCase.title;
-              const visualFirst = index % 2 === 1;
 
               return (
                 <motion.article
@@ -563,8 +566,9 @@ export function UseCases() {
                   transition={{ duration: 0.55 }}
                   className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center py-14 md:py-20 border-t border-border-0"
                 >
-                  {/* Texte — reste premier dans le DOM, l'ordre visuel alterne via `order` */}
-                  <div className={visualFirst ? 'md:order-2' : ''}>
+                  {/* Texte — premier dans le DOM comme à l'écran, sur toutes
+                      les lignes : plus d'utilitaire `order` à maintenir. */}
+                  <div>
                     <div className="flex items-baseline gap-4">
                       {/* Décalé du nombre de cas déjà numérotés en amont : le
                           cas phare occupe 01, ceux-ci poursuivent la série. */}
@@ -647,7 +651,7 @@ export function UseCases() {
                   </div>
 
                   {/* Visuel */}
-                  <div className={visualFirst ? 'md:order-1' : ''}>
+                  <div>
                     <div className="relative aspect-[4/3] rounded-[20px] overflow-hidden border border-border-0 bg-surface-0">
                       <ImageWithFallback
                         src={useCase.image}
