@@ -4,6 +4,8 @@ import { ParallaxHeading } from './Decor/ParallaxHeading';
 import { ButtonPrimary } from './Button/Primary';
 import { ButtonSecondary } from './Button/Secondary';
 import { CTA } from '../constants/offer';
+import { AuditCheckDiagram } from './Diagram/AuditCheck';
+import type { AuditCheckVariant } from './Diagram/AuditCheck';
 
 const SIGNALS = [
   {
@@ -32,11 +34,19 @@ const SIGNALS = [
   },
 ] as const;
 
+/* Chaque axe reprend, dans l'ordre, le signal 01/02/03 énoncé plus haut. La
+   correspondance existait déjà dans la copie mais rien ne la montrait : le
+   schéma la rend visible, en cotant ce que l'audit relève — une distance,
+   un compte, un ordre. */
 const AUDIT_CHECKS = [
-  { label: 'CLARTÉ', question: 'L’offre est-elle comprise rapidement ?' },
-  { label: 'EFFORT', question: 'L’action demande-t-elle trop d’étapes ?' },
-  { label: 'CONFIANCE', question: 'Les preuves arrivent-elles avant la décision ?' },
-] as const;
+  { label: 'CLARTÉ', question: 'L’offre est-elle comprise rapidement ?', diagram: 'clarity' },
+  { label: 'EFFORT', question: 'L’action demande-t-elle trop d’étapes ?', diagram: 'effort' },
+  { label: 'CONFIANCE', question: 'Les preuves arrivent-elles avant la décision ?', diagram: 'trust' },
+] as const satisfies ReadonlyArray<{
+  label: string;
+  question: string;
+  diagram: AuditCheckVariant;
+}>;
 
 export function ProblemCards() {
   const scrollToSection = (id: string) => {
@@ -110,13 +120,20 @@ export function ProblemCards() {
           </p>
           <div className="mt-6 grid grid-cols-1 gap-7 md:grid-cols-3 md:gap-10">
             {AUDIT_CHECKS.map((check) => (
-              <div key={check.label}>
+              <div key={check.label} className="flex flex-col">
                 <p className="font-body text-[12px] font-semibold uppercase tracking-[0.1em] text-accent-primary">
                   {check.label}
                 </p>
                 <p className="mt-2 max-w-[28ch] font-body text-[15px] leading-[1.55] text-text-primary">
                   {check.question}
                 </p>
+                {/* `mt-auto` et non une marge fixe : les questions ne font pas
+                    toutes le même nombre de lignes selon le breakpoint, et les
+                    trois schémas doivent rester alignés entre eux. */}
+                <AuditCheckDiagram
+                  variant={check.diagram}
+                  className="mt-auto block h-auto w-full max-w-[320px] pt-7"
+                />
               </div>
             ))}
           </div>
