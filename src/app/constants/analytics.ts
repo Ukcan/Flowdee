@@ -1,3 +1,4 @@
+import { hasAnalyticsConsent } from './consent';
 // Google Analytics 4 — Measurement ID (format G-XXXXXXXXXX).
 // Tant que cette valeur est vide, aucun script gtag ne se charge :
 // pas d'ID assigné pour l'instant.
@@ -29,14 +30,12 @@ function injectGtag() {
   window.gtag('config', GA_MEASUREMENT_ID, { anonymize_ip: true });
 }
 
-function readAnalyticsConsent(): boolean {
-  try {
-    const raw = localStorage.getItem('flowdee-cookie-consent');
-    return raw ? JSON.parse(raw)?.analytics === true : false;
-  } catch {
-    return false;
-  }
-}
+/**
+ * Délégué à `constants/consent` : cette lecture ignorait la version et la
+ * date, donc gtag se serait rechargé sur un consentement périmé — la moitié
+ * seulement de l'expiration aurait été appliquée.
+ */
+const readAnalyticsConsent = hasAnalyticsConsent;
 
 /**
  * À appeler au montage de l'app et juste après toute écriture du

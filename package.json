@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/check-offer.mjs && vite build",
-    "build:prerender": "playwright install chromium && node scripts/check-offer.mjs && vite build && node scripts/prerender.mjs",
+    "build:prerender": "playwright install chromium && node scripts/check-offer.mjs && vite build && node scripts/prerender.mjs && node scripts/check-diagnostic.mjs",
     "dev": "vite",
     "check:offer": "node scripts/check-offer.mjs",
     "og-image": "node scripts/og-image.mjs",
     "deploy": "pnpm run build && wrangler deploy",
-    "preview": "pnpm run build && wrangler dev"
+    "preview": "pnpm run build && wrangler dev",
+    "check:diagnostic": "node scripts/check-diagnostic.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -80,6 +81,7 @@
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.1",
     "@vitejs/plugin-react": "4.7.0",
+    "axe-core": "^4.13.0",
     "playwright": "^1.62.1",
     "tailwindcss": "4.1.12",
     "typescript": "5.6.3",

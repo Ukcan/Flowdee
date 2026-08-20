@@ -1,52 +1,54 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ParallaxHeading } from './Decor/ParallaxHeading';
-import { useTranslation } from '../contexts/LanguageContext';
-import { TechnicalLabel } from './TechnicalLabel';
 import { ButtonPrimary } from './Button/Primary';
 import { ButtonSecondary } from './Button/Secondary';
 import { CTA } from '../constants/offer';
+import { AuditCheckDiagram } from './Diagram/AuditCheck';
+import type { AuditCheckVariant } from './Diagram/AuditCheck';
 
-/**
- * Signaux — liste numérotée éditoriale (remplace la grille de 3 cartes).
- * Décalage horizontal en zigzag sur desktop (01/03 à gauche, 02 décalé à
- * droite) : la ligne sous le numéro va toujours jusqu'au bord droit de la
- * section, quel que soit le décalage — d'où la colonne "spacer" en % plutôt
- * qu'une simple marge.
- */
 const SIGNALS = [
   {
     number: '01',
     offset: 0,
-    statement: 'Votre offre n’est pas comprise assez vite.',
-    label: 'Offre floue',
-    description: 'Le visiteur part avant d’avoir compris.',
+    title: 'Votre offre n’est pas comprise assez vite.',
+    signal: 'SIGNAL · OFFRE FLOUE',
+    description: 'Le visiteur doit chercher ce que vous faites et pour qui.',
+    consequence: 'hésitation avant l’action',
   },
   {
     number: '02',
     offset: 24,
-    statement: 'Vos parcours demandent trop d’effort.',
-    label: 'Trop d’étapes',
-    description: 'Hésitation. Friction. Abandon.',
+    title: 'Vos parcours demandent trop d’effort.',
+    signal: 'SIGNAL · TROP D’ÉTAPES',
+    description: 'Les actions essentielles sont noyées dans des choix ou étapes secondaires.',
+    consequence: 'abandon ou report',
   },
   {
     number: '03',
     offset: 0,
-    statement: (
-      <>
-        Du trafic.
-        <br />
-        Peu de conversions.
-      </>
-    ),
-    label: 'Preuve tardive',
-    description: 'La confiance arrive après la décision.',
+    title: 'Du trafic. Peu de conversions.',
+    signal: 'SIGNAL · PREUVE TARDIVE',
+    description: 'Les éléments qui rassurent arrivent après le moment où l’utilisateur doit décider.',
+    consequence: 'confiance insuffisante',
   },
 ] as const;
 
-export function ProblemCards() {
-  const { t } = useTranslation();
+/* Chaque axe reprend, dans l'ordre, le signal 01/02/03 énoncé plus haut. La
+   correspondance existait déjà dans la copie mais rien ne la montrait : le
+   schéma la rend visible, en cotant ce que l'audit relève — une distance,
+   un compte, un ordre. */
+const AUDIT_CHECKS = [
+  { label: 'CLARTÉ', question: 'L’offre est-elle comprise rapidement ?', diagram: 'clarity' },
+  { label: 'EFFORT', question: 'L’action demande-t-elle trop d’étapes ?', diagram: 'effort' },
+  { label: 'CONFIANCE', question: 'Les preuves arrivent-elles avant la décision ?', diagram: 'trust' },
+] as const satisfies ReadonlyArray<{
+  label: string;
+  question: string;
+  diagram: AuditCheckVariant;
+}>;
 
+export function ProblemCards() {
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
@@ -58,100 +60,106 @@ export function ProblemCards() {
   return (
     <section
       id="problems"
-      className="relative py-24 md:py-32 section-grid overflow-hidden"
-      aria-label="Frictions UX fréquentes"
+      className="relative overflow-hidden py-24 md:py-32 section-grid"
+      aria-labelledby="signals-title"
     >
-      <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
-        <div className="flex flex-col items-center mb-16">
-          {/* <TechnicalLabel sectionId="PROBLEMS_01" /> */}
+      <div className="relative z-10 mx-auto max-w-[1320px] px-8 md:px-16">
+        <header className="mb-16 flex flex-col items-center md:mb-20">
           <ParallaxHeading>
             <motion.h2
+              id="signals-title"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="heading-1 text-center text-text-primary mt-4"
+              className="max-w-[650px] text-center font-display text-[clamp(2.25rem,3vw,2.625rem)] font-medium leading-[1.08] tracking-[-0.025em] text-text-primary"
             >
-              LES SIGNAUX
+              Votre parcours freine la conversion quand…
             </motion.h2>
           </ParallaxHeading>
-        </div>
+        </header>
 
-        {/* Liste numérotée — 01/03 pleine largeur à gauche, 02 décalé à
-            droite sur desktop via une colonne "spacer" en % (la ligne sous le
-            numéro, en flex-1, atteint alors toujours le même bord droit,
-            quel que soit le décalage). Une seule colonne sur mobile : le
-            décalage ne s'applique qu'à partir de lg. */}
-        <div className="flex flex-col gap-14 md:gap-16 w-full">
-          {SIGNALS.map((signal, i) => (
-            <motion.div
+        <div className="flex w-full flex-col gap-16 md:gap-20">
+          {SIGNALS.map((signal, index) => (
+            <motion.article
               key={signal.number}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 * (i + 1) }}
-              className={`grid grid-cols-1 w-full ${signal.offset > 0 ? 'lg:grid-cols-[24%_1fr]' : ''}`}
+              transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
+              className={`grid w-full grid-cols-1 ${signal.offset > 0 ? 'lg:grid-cols-[24%_minmax(0,1fr)]' : ''}`}
             >
               {signal.offset > 0 && <div aria-hidden="true" />}
-              <div>
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="font-body text-[13px] tracking-[0.15em] text-text-muted tabular-nums shrink-0">
+              <div className="max-w-[420px]">
+                <div className="mb-6 flex items-center gap-4">
+                  <span className="shrink-0 font-body text-[13px] tracking-[0.15em] text-text-muted tabular-nums">
                     {signal.number}
                   </span>
                   <span className="h-px flex-1 bg-border-1" aria-hidden="true" />
                 </div>
-                <p className="font-display font-bold tracking-[-0.02em] leading-[1.15] text-text-primary text-[clamp(1.5rem,3vw,2.25rem)] max-w-[560px]">
-                  {signal.statement}
+                <h3 className="font-display text-[clamp(1.5rem,2vw,1.875rem)] font-semibold leading-[1.17] tracking-[-0.02em] text-text-primary">
+                  {signal.title}
+                </h3>
+                <p className="mt-4 font-body text-[12px] font-semibold uppercase leading-[1.3] tracking-[0.08em] text-accent-primary">
+                  {signal.signal}
                 </p>
-                <p className="font-heading text-[15px] font-semibold uppercase tracking-[0.08em] text-accent-primary mt-5">
-                  {signal.label}
+                <p className="mt-2 font-body text-[15px] leading-[1.6] text-text-secondary">
+                  {signal.description}
                 </p>
-                <p className="font-body text-[14px] text-text-muted mt-1.5">{signal.description}</p>
+                <p className="mt-3 font-body text-[14px] font-medium leading-[1.45] text-text-secondary">
+                  <span className="text-text-primary">Conséquence</span> → {signal.consequence}
+                </p>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
 
-        {/* New Centered CTA Button */}
-        <div className="flex flex-col items-center justify-center mt-16 gap-8">
+        <div className="mt-20 border-y border-border-0 py-8 md:mt-24 md:py-10">
+          <p className="font-body text-[12px] font-semibold uppercase tracking-[0.1em] text-text-muted">
+            L’audit vérifie
+          </p>
+          <div className="mt-6 grid grid-cols-1 gap-7 md:grid-cols-3 md:gap-10">
+            {AUDIT_CHECKS.map((check) => (
+              <div key={check.label} className="flex flex-col">
+                <p className="font-body text-[12px] font-semibold uppercase tracking-[0.1em] text-accent-primary">
+                  {check.label}
+                </p>
+                <p className="mt-2 max-w-[28ch] font-body text-[15px] leading-[1.55] text-text-primary">
+                  {check.question}
+                </p>
+                {/* `mt-auto` et non une marge fixe : les questions ne font pas
+                    toutes le même nombre de lignes selon le breakpoint, et les
+                    trois schémas doivent rester alignés entre eux. */}
+                <AuditCheckDiagram
+                  variant={check.diagram}
+                  className="mt-auto block h-auto w-full max-w-[320px] pt-7"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <footer className="mt-12 flex flex-col items-center justify-center gap-8 md:mt-14">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="text-center space-y-6"
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="space-y-6 text-center"
           >
-            <p className="font-body text-[16px] text-text-secondary max-w-[700px] mx-auto font-normal">
-              Si un seul de ces points vous parle, l’audit est le moyen le plus rapide de le corriger.
+            <p className="mx-auto max-w-[62ch] font-body text-[16px] leading-[1.55] text-text-secondary">
+              Si un seul de ces points vous parle, l’audit permet d’identifier ce qui bloque et quoi corriger en priorité.
             </p>
-            {/* Une seule paire d'actions, identique a toutes les largeurs.
-                Les deux branches precedentes ne differaient pas que par la
-                mise en page : sur mobile le bouton principal ouvrait le
-                paiement, sur desktop il descendait au formulaire, sous un
-                libelle encore different. Trois variantes pour une meme zone.
-
-                L'action retenue mene au detail du livrable plutot qu'au
-                paiement : on vient de reconnaitre un probleme, on n'a pas
-                encore choisi une solution. L'achat reste dominant dans le hero
-                et dans la section Offres. */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-[360px] sm:max-w-none mx-auto">
-              <ButtonPrimary
-                onClick={() => scrollToSection('deliverables')}
-                size="m"
-                className="w-full sm:w-auto sm:px-[32px]"
-              >
+            <div className="mx-auto flex w-full max-w-[360px] flex-col items-center justify-center gap-3 sm:max-w-none sm:flex-row sm:gap-4">
+              <ButtonPrimary onClick={() => scrollToSection('deliverables')} size="m" className="w-full sm:w-auto sm:px-[32px]">
                 {CTA.auditContents}
               </ButtonPrimary>
-              <ButtonSecondary
-                onClick={openCalendar}
-                size="m"
-                className="w-full sm:w-auto"
-              >
+              <ButtonSecondary onClick={openCalendar} size="m" className="w-full sm:w-auto">
                 {CTA.call}
               </ButtonSecondary>
             </div>
           </motion.div>
-        </div>
+        </footer>
       </div>
     </section>
   );

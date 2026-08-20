@@ -25,17 +25,17 @@ import { EditableText } from '../Editable/Text';
 const defaultPillars = [
   {
     key: 'conversion',
-    title: 'CONVERSION & ACTIVATION',
+    title: 'Conversion & activation',
     description: 'Décisions guidées par des KPIs mesurables. On ne lance pas sans hypothèses testables.',
   },
   {
     key: 'ia-ux',
-    title: 'IA + EXPERTISE UX',
+    title: 'Recherche, IA & arbitrage UX',
     description: 'IA accélère la prod (interviews → JSON structuré). UX décide (heuristiques, tests).',
   },
   {
     key: 'impact',
-    title: 'IMPACT MESURABLE',
+    title: 'Impact mesurable',
     description: 'Des résultats orientés conversion, mesurables et vérifiables sur vos KPIs.',
   },
 ];
@@ -63,7 +63,7 @@ export function ApproachSection() {
           <h2 id="approach-title">
             <EditableText
               contentKey="approach.title"
-              defaultValue="MON APPROCHE"
+              defaultValue="MÉTHODE"
               as="span"
               className="font-body text-[10px] font-medium uppercase tracking-[0.25em] text-text-muted"
             />

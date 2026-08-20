@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { ButtonPrimary } from '../Button/Primary';
+import { readConsent, writeConsent } from '../../constants/consent';
 import { Cookie, GearSix as Settings, ShieldCheck, CaretLeft as ChevronLeft } from '@phosphor-icons/react';
 import { syncAnalyticsWithConsent } from '../../constants/analytics';
 
@@ -39,7 +40,11 @@ export function CookieBanner({
 
   // Check consent status on mount
   useEffect(() => {
-    const consent = localStorage.getItem('flowdee-cookie-consent');
+    // `readConsent()` renvoie null si le choix est absent, illisible, d'une
+    // version périmée, ou vieux de plus de six mois. Tester la simple présence
+    // de la clé rendait le choix éternel : un refus d'il y a deux ans valait
+    // encore, et un consentement aussi.
+    const consent = readConsent();
     // If consent exists and we are not forcing show, hide it
     if (consent && !forceShow) {
       setShow(false);
@@ -53,20 +58,20 @@ export function CookieBanner({
   }, [show, onVisibleChange]);
 
   const handleAcceptAll = () => {
-    localStorage.setItem('flowdee-cookie-consent', JSON.stringify({ essential: true, analytics: true, marketing: true }));
+    writeConsent({ analytics: true, marketing: true });
     syncAnalyticsWithConsent();
     setShow(false);
     if (onClose) onClose();
   };
 
   const handleRefuseAll = () => {
-    localStorage.setItem('flowdee-cookie-consent', JSON.stringify({ essential: true, analytics: false, marketing: false }));
+    writeConsent({ analytics: false, marketing: false });
     setShow(false);
     if (onClose) onClose();
   };
 
   const handleSaveSettings = () => {
-    localStorage.setItem('flowdee-cookie-consent', JSON.stringify(preferences));
+    writeConsent({ analytics: preferences.analytics, marketing: preferences.marketing });
     syncAnalyticsWithConsent();
     setShow(false);
     setShowSettings(false);
@@ -102,31 +107,58 @@ export function CookieBanner({
         className="fixed inset-x-0 bottom-0 z-[10000] pointer-events-none"
         style={{ isolation: 'isolate' }}
       >
-        <div className="pointer-events-auto w-full bg-surface-0 border-t border-border-0 shadow-panel">
+        {/* Bandeau inversé : surface d'accent, encre sombre. On utilise la
+            PAIRE de tokens `accent-primary` / `on-accent`, conçue pour aller
+            ensemble — en navy elle donne or + encre presque noire, en ivoire
+            brun profond + ivoire. Écrire l'or en dur casserait le thème clair,
+            où `--accent-primary` vaut #6B5430 : du texte navy y serait
+            illisible. */}
+        <div className="pointer-events-auto w-full bg-accent-primary border-t border-[color:var(--on-accent)]/30 shadow-panel">
           <div className="mx-auto max-w-[1100px] px-5 md:px-8 py-3 md:py-4 flex flex-col md:flex-row items-center gap-3 md:gap-6 min-h-[72px]">
             <div className="flex items-center gap-3 flex-1">
-              <Cookie size={20} weight="duotone" className="text-accent-primary shrink-0 hidden sm:block" aria-hidden="true" />
-              <p className="text-text-secondary font-body text-[12px] md:text-[13px] leading-snug text-center md:text-left">
+              <Cookie size={20} weight="duotone" className="text-[color:var(--on-accent)] shrink-0 hidden sm:block" aria-hidden="true" />
+              <p className="text-[color:var(--on-accent)] font-body text-[12px] md:text-[13px] leading-snug text-center md:text-left">
                 {texts.description}
               </p>
             </div>
+            {/* Hiérarchie à DEUX niveaux, et non trois boutons pairs.
+                « Tout refuser » traité en filet discret face à un « Tout
+                accepter » plein est le motif que la CNIL sanctionne : refuser
+                doit être aussi simple qu'accepter. Les deux décisions ont donc
+                la même hauteur (44px, la cible tactile de ButtonPrimary), le
+                même filet de 2px et la même respiration horizontale — l'une en
+                aplat, l'autre en contour.
+
+                « Paramétrer » n'est pas une décision mais l'ouverture d'un
+                panneau : il perd son filet et devient un lien. Auparavant il
+                était visuellement identique à « Tout refuser », seule l'icône
+                les distinguait.
+
+                Rayon unifié sur `--radius-button` : les deux secondaires
+                étaient en `rounded-full` face à un dominant à 6px, soit deux
+                géométries pour une même rangée de commandes. */}
             <div className="flex items-center gap-2 shrink-0 flex-wrap justify-center">
               <button
                 onClick={() => setShowSettings(true)}
-                className="h-10 px-4 flex items-center justify-center gap-1.5 bg-transparent hover:bg-state-hover-bg border border-border-0 rounded-full text-text-primary font-body font-medium text-[12px] transition-all cursor-pointer group"
+                className="min-h-[44px] px-2 flex items-center justify-center gap-1.5 bg-transparent border-0 rounded-[var(--radius-button)] text-[color:var(--on-accent)]/80 hover:text-[color:var(--on-accent)] hover:underline underline-offset-4 font-body font-medium text-[12px] transition-all cursor-pointer group"
               >
                 <Settings size={13} className="group-hover:rotate-45 transition-transform" aria-hidden="true" />
                 {texts.settings}
               </button>
               <button
                 onClick={handleRefuseAll}
-                className="h-10 px-4 flex items-center justify-center bg-transparent hover:bg-state-hover-bg border border-border-1 rounded-full text-text-primary font-body font-medium text-[12px] transition-all cursor-pointer"
+                className="min-h-[44px] px-5 flex items-center justify-center bg-transparent hover:bg-[color:var(--on-accent)]/10 border-2 border-[color:var(--on-accent)] rounded-[var(--radius-button)] text-[color:var(--on-accent)] font-body font-semibold text-[12px] transition-all cursor-pointer"
               >
                 {texts.refuseAll}
               </button>
-              <ButtonPrimary onClick={handleAcceptAll} className="h-10 px-4 text-[12px] font-medium tracking-wide">
+              {/* Aplat d'encre plutôt que `ButtonPrimary` : le bouton doré du
+                  système disparaîtrait sur un bandeau doré. */}
+              <button
+                onClick={handleAcceptAll}
+                className="min-h-[44px] px-5 flex items-center justify-center bg-[color:var(--on-accent)] hover:opacity-90 border-2 border-[color:var(--on-accent)] rounded-[var(--radius-button)] text-accent-bright font-body font-semibold text-[12px] tracking-wide transition-all cursor-pointer"
+              >
                 {texts.acceptAll}
-              </ButtonPrimary>
+              </button>
             </div>
           </div>
         </div>

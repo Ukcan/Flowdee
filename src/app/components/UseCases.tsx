@@ -2,7 +2,7 @@ import neurolaboAnalysesWireframe from '../../assets/neurolabo-analyses-wirefram
 import neurolaboAnalysesOptimise from '../../assets/neurolabo-analyses-optimise.jpg';
 import neurolaboAnalysesWireframeWebp from '../../assets/neurolabo-analyses-wireframe.webp';
 import neurolaboAnalysesOptimiseWebp from '../../assets/neurolabo-analyses-optimise.webp';
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ArrowsHorizontal, X } from '@phosphor-icons/react';
 import { Link } from 'react-router';
@@ -20,6 +20,43 @@ import { FEATURED_CASE, FEATURED_CASE_COMPARE_IMAGES, OTHER_CASE_STUDIES } from 
 // partagée avec les pages dédiées /etudes-de-cas/:slug.
 const featuredCase = FEATURED_CASE;
 const otherUseCases = OTHER_CASE_STUDIES;
+
+/**
+ * Étude de cas phare — une entrée par PUBLIC, pas par étape.
+ *
+ * Le détail se lisait en trois colonnes (Problème / Mon action / Ce qui a
+ * changé), c'est-à-dire dans la forme d'un comparatif alors qu'il s'agit d'une
+ * chaîne causale. Le contenu, lui, ne compte pas trois parties mais deux
+ * personnes : `FEATURED_CASE.metrics` les nomme déjà — « côté étudiant »,
+ * « côté professeur ». Chaque ligne suit donc une personne de gauche à droite.
+ *
+ * Rien n'est inventé ici : chaque phrase provient du bloc précédent, replacée
+ * sous la personne qu'elle concerne. Le résultat final n'est pas recopié, il
+ * est lu dans `metrics` — c'est cette étiquette qui a révélé la structure, et
+ * la source doit rester unique.
+ */
+const VOIX = [
+  {
+    qui: 'L’élève',
+    role: 'Lycéen → Universitaires',
+    avant: 'Apprentissage passif et déconnecté. L’intérêt retombe, le distanciel n’arrange rien.',
+    actions: [
+      'Gamification UX : récompenses et progression',
+      'Interface immersive multi-supports (BYOD)',
+    ],
+    metric: 0,
+  },
+  {
+    qui: 'Le professeur',
+    role: 'Suivi de promotion',
+    avant: 'Correction manuelle, chronophage. Les blocages d’une promotion ne se voient qu’après coup.',
+    actions: [
+      'Dashboard : notes et analytics automatisés',
+      'IA : analyse prédictive des blocages pédagogiques',
+    ],
+    metric: 1,
+  },
+] as const;
 
 // Écrans comparables (avant/après). Pour ajouter un slot, ajoute une entrée ici
 // avec son wireframe (before) et sa version finale (after).
@@ -68,6 +105,11 @@ const compareScreens = [
  * inutilisables — d'où `handleKeyDown`, qui leur redonne un pas utile.
  */
 
+/* Les réalisations forment UNE seule suite numérotée : le cas phare prend 01,
+   les autres continuent en 02, 03… Passer par une constante évite que le
+   décalage se désynchronise si un second cas phare apparaissait un jour. */
+const FEATURED_CASE_COUNT = 1;
+
 /* Pas du glisser : assez fin pour être fluide, assez grand pour rester discret. */
 const DRAG_STEP = 0.25;
 /* Pas au clavier : ~50 pressions pour traverser l'image. */
@@ -86,10 +128,45 @@ function BeforeAfterSlider({
   afterWebp?: string;
 }) {
   const [sliderPos, setSliderPos] = useState(50);
+  const [dragging, setDragging] = useState(false);
+  const trackRef = useRef<HTMLDivElement>(null);
   const inputId = useId();
   const rounded = Math.round(sliderPos);
 
   const clamp = (value: number) => Math.min(100, Math.max(0, value));
+
+  /* Glisser par la poignée. Ce n'est PAS le retour du survol qui avait été
+     retiré (voir la note ci-dessus) : là, le rideau suivait le curseur sans
+     qu'on presse rien, depuis le conteneur entier, et écrasait le glisser
+     natif. Ici la capture est demandée au pressé sur la seule poignée et
+     rendue au relâché — presser, déplacer, relâcher.
+
+     `setPointerCapture` est ce qui rend le geste fiable : le pointeur reste
+     lié à la poignée même si le doigt sort de l'image, et le relâchement est
+     garanti, y compris hors fenêtre. C'est exactement ce qui manquait à
+     l'ancien `onMouseMove` sur window. */
+  const setFromClientX = (clientX: number) => {
+    const rect = trackRef.current?.getBoundingClientRect();
+    if (!rect || rect.width === 0) return;
+    setSliderPos(clamp(((clientX - rect.left) / rect.width) * 100));
+  };
+
+  const onHandlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.currentTarget.setPointerCapture(e.pointerId);
+    setDragging(true);
+  };
+
+  const onHandlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
+    setFromClientX(e.clientX);
+  };
+
+  const onHandlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
+    setDragging(false);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const steps: Record<string, number> = {
@@ -113,12 +190,20 @@ function BeforeAfterSlider({
   };
 
   return (
-    <div className="relative w-full aspect-[1600/782] cursor-ew-resize overflow-hidden select-none rounded-[16px] border border-border-0 bg-surface-1 shadow-panel">
+    <div
+      ref={trackRef}
+      className="relative w-full aspect-[1600/782] cursor-ew-resize overflow-hidden select-none rounded-[16px] border border-border-0 bg-surface-1 shadow-panel"
+    >
       <div className="absolute inset-0">
         <ImageWithFallback src={after} srcWebp={afterWebp} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-cover" />
-        <div className="absolute bottom-6 right-6 z-20">
-          <span className="font-body text-[12px] bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
-            Après — optimisé
+        {/* Libellé raccourci sous 640px : à 343px de large, les deux pastilles
+            se chevauchaient au milieu de l'image et « Avant — wireframe » se
+            faisait recouvrir. La mention complète revient dès qu'il y a la
+            place. */}
+        <div className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 z-20">
+          <span className="font-body text-[11px] sm:text-[12px] bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30 font-medium px-3 py-1 sm:px-4 sm:py-1.5 uppercase tracking-[0.15em] rounded-full whitespace-nowrap">
+            <span className="sm:hidden">Après</span>
+            <span className="hidden sm:inline">Après — optimisé</span>
           </span>
         </div>
       </div>
@@ -127,19 +212,62 @@ function BeforeAfterSlider({
         style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
       >
         <ImageWithFallback src={before} srcWebp={beforeWebp} alt="Interface avant refonte — version initiale" className="w-full h-full object-cover" />
-        <div className="absolute bottom-6 left-6 z-20">
-          <span className="font-body text-[12px] bg-surface-0/75 backdrop-blur-md text-text-secondary border border-border-0 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
-            Avant — wireframe
+        <div className="absolute bottom-3 left-3 sm:bottom-6 sm:left-6 z-20">
+          <span className="font-body text-[11px] sm:text-[12px] bg-surface-0/75 backdrop-blur-md text-text-secondary border border-border-0 font-medium px-3 py-1 sm:px-4 sm:py-1.5 uppercase tracking-[0.15em] rounded-full whitespace-nowrap">
+            <span className="sm:hidden">Avant</span>
+            <span className="hidden sm:inline">Avant — wireframe</span>
           </span>
         </div>
       </div>
+      {/* Poignée — au-dessus de la commande (z-40), et seul endroit de l'image
+          qui capte le pointeur. Partout ailleurs le geste continue d'aller à
+          l'input, qui garde le clavier, la sémantique et le glisser natif.
+
+          Sur mobile, c'est ce qui rend le glisser fiable : `touch-action: none`
+          sur la poignée seule empêche le navigateur de confisquer un geste un
+          peu diagonal pour faire défiler la page. Le reste de l'image garde
+          `pan-y`, donc la lecture verticale n'est jamais bloquée. */}
       <div
-        className="absolute top-0 bottom-0 w-[2px] bg-accent-primary z-20 pointer-events-none flex items-center justify-center"
+        className="absolute top-0 bottom-0 z-40 flex w-[2px] items-center justify-center bg-accent-primary pointer-events-none"
         style={{ left: `${sliderPos}%` }}
       >
-        <div className="w-10 h-10 bg-surface-0 shadow-panel rounded-full flex items-center justify-center gap-1 border border-accent-primary">
-          <div className="w-[1px] h-4 bg-accent-primary" />
-          <div className="w-[1px] h-4 bg-accent-primary" />
+        {/* Zone de préhension de 64px autour d'un disque de 44 : la cible
+            tactile dépasse largement le visuel au lieu de l'alourdir. 44px est
+            aussi le plancher retenu ailleurs dans le projet pour les cibles. */}
+        <div
+          role="presentation"
+          onPointerDown={onHandlePointerDown}
+          onPointerMove={onHandlePointerMove}
+          onPointerUp={onHandlePointerUp}
+          onPointerCancel={onHandlePointerUp}
+          /* `shrink-0` : le parent ne fait que 2px de large, et flexbox comprimait
+             la zone de 64 à 44px — la cible tactile se réduisait au disque. */
+          className="pointer-events-auto flex h-16 w-16 shrink-0 cursor-ew-resize items-center justify-center"
+          style={{ touchAction: 'none' }}
+        >
+          {/* Accent plein plutôt qu'une surface translucide : la poignée se
+              superpose à deux images quelconques, l'une claire l'autre sombre.
+              Un fond de surface se fondait dans le côté sombre. La paire
+              --accent-primary / --on-accent est celle que le projet a déjà
+              mesurée pour porter du texte, dans les deux thèmes — elle garantit
+              le contraste sans dépendre de ce qu'il y a dessous. */}
+          <span
+            className={cn(
+              'flex h-11 w-11 md:h-12 md:w-12 items-center justify-center rounded-full',
+              'bg-accent-primary border border-[color:var(--on-accent)]/30',
+              'transition-[transform,box-shadow] duration-200 ease-out',
+              dragging ? 'scale-110 shadow-[0_0_0_7px_var(--accent-ring)]' : 'shadow-panel'
+            )}
+          >
+            {/* Une flèche double dit « ça se tire horizontalement » ; les deux
+                filets de 1px d'avant ne disaient rien de la direction. */}
+            <ArrowsHorizontal
+              size={20}
+              weight="bold"
+              className="text-[color:var(--on-accent)]"
+              aria-hidden="true"
+            />
+          </span>
         </div>
       </div>
 
@@ -197,26 +325,36 @@ export function UseCases() {
            aux réalisations. */
         id="case-studies"
         /* Rythme le plus large de la page : ouverture de l'acte "preuve",
-           la rupture la plus forte du parcours. */
-        className="bg-bg-base py-32 md:py-44 border-b border-border-1 overflow-hidden relative"
+           la rupture la plus forte du parcours — seule vraie bascule vers
+           l'îlot inverse (Midnight Navy fixe, cf. .theme-inverse) avant celle
+           du contact final. Les utilitaires bg-, text-, border- et accent-
+           déjà posés plus bas dans cette section héritent automatiquement des
+           valeurs sombres via la cascade, sans autre changement de classe. */
+        className="theme-inverse bg-bg-base py-32 md:py-44 border-b border-border-1 overflow-hidden relative"
         aria-labelledby="featured-case-title"
       >
         {/* Header — éditorial, aligné à gauche : la section s'annonce, elle ne se centre pas */}
         <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
-          <SectionHeader
-            variant="editorial"
-            index="01"
-            eyebrow="Étude de cas"
-            tone="accent"
-            titleId="featured-case-title"
-            title={featuredCase.headerTitle}
-            description={
-              <span className="font-body text-[12px] md:text-[13px] font-medium text-text-secondary uppercase tracking-[0.2em]">
-                {featuredCase.headerSubtitle}
-                <span className="text-text-muted"> · {featuredCase.scope} · {featuredCase.duration}</span>
-              </span>
-            }
-          />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+          >
+            {/* Le numéro ouvre la série et domine son étiquette : il situe le
+                lecteur, l'étiquette ne fait que qualifier. Il était à la même
+                taille que l'étiquette (12px), soit quatre fois plus petit que
+                le titre qu'il était censé repérer. */}
+            <p className="flex items-baseline gap-4">
+              <span className="text-case-index">01</span>
+              <span className="text-eyebrow">Étude de cas</span>
+            </p>
+            <h2 id="featured-case-title" className="text-section-title mt-6 max-w-[15ch] text-balance">
+              {featuredCase.title}
+            </h2>
+            <p className="text-lede mt-7 max-w-[60ch]">{featuredCase.headerSubtitle}</p>
+            <p className="text-metadata mt-3">EdTech SaaS B2B2C · {featuredCase.duration}</p>
+          </motion.div>
         </div>
 
         {/* Showcase — le comparateur casse volontairement le container :
@@ -264,63 +402,102 @@ export function UseCases() {
         {/* Détails — 3 colonnes à plat, séparées par des filets.
             Plus de carte englobante : moins de conteneurs imbriqués, plus de présence. */}
         <div className="max-w-[1320px] mx-auto px-8 md:px-16 mt-20 md:mt-24 relative z-10">
-          {/* Les trois colonnes tombaient à 182px de large dès 768px : trois
-              colonnes de prose illisibles. Elles n'apparaissent plus qu'à
-              partir de 1024px, où chacune dispose d'une mesure tenable. */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-10 gap-y-12 items-start">
-            {/* Problème */}
-            <div className="border-l-2 border-accent-primary pl-6">
-              <h3 className="font-heading text-[13px] text-accent-primary uppercase tracking-[0.16em] mb-5" style={{ fontWeight: 500 }}>
-                Le problème
-              </h3>
-              <p className="font-body text-[15px] leading-[1.7] text-text-secondary">
-                Apprentissage passif & déconnecté → baisse d'intérêt des élèves. Correction manuelle chronophage pour les professeurs. Besoin d'une solution immersive pour le distanciel.
-              </p>
-            </div>
+          {/* Le bloc présentait Problème / Mon action / Ce qui a changé en
+              trois colonnes égales. Trois colonnes de même largeur, mêmes
+              filets, même ligne de départ, c'est la grammaire d'un
+              COMPARATIF : trois objets de même nature, lisibles dans
+              n'importe quel ordre. Le contenu, lui, est une chaîne causale.
+              Trois coûts mesurables :
+                · le regard remontait deux fois — on lit une colonne, on
+                  revient en haut pour la suivante, ce qu'un flux ne fait
+                  jamais ;
+                · « correction manuelle » et « correction automatisée » sont
+                  la même chose avant/après, et la grille les plaçait aux deux
+                  extrémités de l'écran avec une colonne étrangère au milieu :
+                  le lecteur devait tenir la première en mémoire ;
+                · « Mon action » est la seule des trois qui soit le travail
+                  vendu — le reste appartient au client — et elle recevait
+                  exactement le même budget visuel.
 
-            {/* Action */}
-            <div className="border-l-2 border-border-0 pl-6">
-              <h3 className="font-heading text-[13px] text-text-primary uppercase tracking-[0.16em] mb-5" style={{ fontWeight: 500 }}>
-                Mon action
-              </h3>
-              <ul className="font-body text-[14px] leading-[1.6] text-text-secondary space-y-3">
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-2 shrink-0" />
-                  Gamification UX : récompenses & progression
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-2 shrink-0" />
-                  Dashboard Prof : notes & analytics automatisés
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-2 shrink-0" />
-                  Interface immersive multi-supports (BYOD)
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-2 shrink-0" />
-                  IA : analyse prédictive des blocages pédagogiques
-                </li>
-              </ul>
-            </div>
+              Ce que la grille cachait : ce bloc n'a pas trois parties, il a
+              DEUX PERSONNES. Les résultats le disent déjà dans les données
+              (« côté étudiant », « côté professeur »), le problème en contient
+              une de chaque, et les actions se répartissent pareil. Chaque
+              ligne suit donc une personne, de gauche à droite ; le
+              parallélisme redevient légitime, puisque deux publics SONT
+              parallèles.
 
-            {/* Le bloc affichait « Impact observé » avec « Hausse » et
-                « Réduit » en gros corps : la forme d'une métrique, sans la
-                métrique. Un chiffre absent mis en scène comme un chiffre
-                présent est plus coûteux en crédibilité qu'un simple constat.
-                Il énonce désormais ce qui a été livré. */}
-            <div className="border-l-2 border-border-0 pl-6">
-              <h3 className="font-heading text-[13px] text-accent-primary uppercase tracking-[0.16em] mb-5" style={{ fontWeight: 500 }}>
-                Ce qui a changé
-              </h3>
-              <ul className="space-y-4">
-                {featuredCase.metrics.map((m) => (
-                  <li key={m.label} className="font-body text-[15px] leading-[1.6] text-text-primary">
-                    {m.label}
-                  </li>
-                ))}
-              </ul>
-            </div>
+              Le contenu n'est pas réécrit, il est redistribué : chaque phrase
+              vient du bloc précédent, replacée sous la personne concernée. La
+              contrainte « distanciel » n'appartenait à aucune des deux — elle
+              encadre les deux au lieu de traîner en fin de colonne. */}
+          <p className="max-w-[62ch] mx-auto text-center font-body text-[15px] md:text-[17px] leading-[1.7] text-text-secondary mb-10 md:mb-14">
+            Une même contrainte pour les deux :{' '}
+            <strong className="font-medium text-text-primary">tout devait tenir à distance</strong>, sur
+            n'importe quel support. Le reste ne se raconte pas ensemble — un élève et un
+            professeur n'avaient pas le même problème, et n'ont pas reçu la même réponse.
+          </p>
+
+          {/* Repères de colonne : affichés UNE fois, pas à chaque ligne. Les
+              répéter ferait réapparaître la grille de comparaison qu'on quitte. */}
+          <div
+            className="hidden lg:grid grid-cols-[0.62fr_1fr_1.35fr_1fr] gap-x-10 pb-3.5 border-b border-border-0"
+            aria-hidden="true"
+          >
+            <span />
+            <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-muted">Avant</span>
+            <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-primary">Mon action</span>
+            <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-accent-primary">Après</span>
           </div>
+
+          {VOIX.map((voix) => (
+            <div
+              key={voix.qui}
+              className="grid grid-cols-1 lg:grid-cols-[0.62fr_1fr_1.35fr_1fr] gap-x-10 gap-y-5 items-start py-8 md:py-10 border-t border-border-0 first-of-type:lg:border-t-0"
+            >
+              {/* La personne, comme un nom de personnage : c'est elle qui parle
+                  sur toute la ligne. */}
+              <p className="font-heading text-[17px] md:text-[22px] leading-[1.25] tracking-[-0.01em] text-text-primary" style={{ fontWeight: 500 }}>
+                {voix.qui}
+                <span className="block mt-1.5 font-body text-[12px] font-normal uppercase tracking-[0.14em] text-[color:var(--accent-eyebrow)]">
+                  {voix.role}
+                </span>
+              </p>
+
+              {/* Trois moments, trois valeurs : sourdine → plein contraste →
+                  accent. C'est cette montée qui porte le sens de lecture, sans
+                  qu'aucune flèche ne l'indique. Une flèche entre deux colonnes
+                  ne crée pas un flux : elle le décrit, et avoue que la mise en
+                  page ne le porte pas.
+
+                  Les repères reviennent en mobile sous forme de vrai texte
+                  (`lg:hidden`) et non de `content` CSS, qui n'est pas restitué
+                  de façon fiable par les lecteurs d'écran. */}
+              <div>
+                <span className="lg:hidden block mb-1.5 font-body text-[10.5px] font-medium uppercase tracking-[0.16em] text-text-muted">Avant</span>
+                <p className="font-body text-[14px] md:text-[15px] leading-[1.7] text-text-muted">{voix.avant}</p>
+              </div>
+
+              <div>
+                <span className="lg:hidden block mb-1.5 font-body text-[10.5px] font-medium uppercase tracking-[0.16em] text-text-primary">Mon action</span>
+                <ul className="font-body text-[14px] md:text-[15px] leading-[1.7] text-text-primary space-y-2.5">
+                  {voix.actions.map((action) => (
+                    <li key={action} className="flex items-start gap-3">
+                      <span className="w-1.5 h-1.5 bg-accent-primary rounded-full mt-[0.62em] shrink-0" />
+                      {action}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <span className="lg:hidden block mb-1.5 font-body text-[10.5px] font-medium uppercase tracking-[0.16em] text-accent-primary">Après</span>
+                <p className="font-body text-[14px] md:text-[15px] leading-[1.7] font-medium text-accent-primary lg:border-l-2 lg:border-accent-primary lg:pl-[1.1rem]">
+                  {featuredCase.metrics[voix.metric]?.label}
+                </p>
+              </div>
+            </div>
+          ))}
 
           {/* CTA — vrai lien vers la page dédiée /etudes-de-cas/:slug (indexable
               par Google), l'aperçu rapide en volet reste l'action par défaut au
@@ -328,7 +505,7 @@ export function UseCases() {
               <button> : un bouton imbriqué dans un lien serait un HTML invalide. */}
           <div className="flex justify-center mt-16">
             <Link
-              to={`/etudes-de-cas/${featuredCase.slug}`}
+              to={`/etudes-de-cas/${featuredCase.slug}/`}
               onClick={(e) => { e.preventDefault(); setSelectedCase(featuredCase); }}
               className={cn('group/pri font-body', ctaButtonVariants({ intent: 'primary', size: 'l' }))}
             >
@@ -350,16 +527,23 @@ export function UseCases() {
       <section
         id="case-studies-list"
         className="py-24 md:py-32 bg-bg-base border-b border-border-1 relative overflow-hidden"
-        aria-label="Autres réalisations"
+        aria-labelledby="other-cases-title"
       >
         <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
-          {/* Header compact : ces cas sont subordonnés au cas phare ci-dessus,
-              la hiérarchie doit se voir avant même de lire. */}
+          {/* Plus de « 02 · Autres réalisations ». Cet en-tête ouvrait une
+              SECONDE série numérotée repartant de 01 : la page comptait donc
+              deux « 01 », et les réalisations se lisaient comme deux lots
+              séparés. Elles forment désormais une seule suite — le cas phare
+              est 01, ceux-ci continuent en 02 et 03 (décision Benji,
+              2026-08-20).
+
+              Le titre reste : il introduit la suite, il ne rouvre plus un
+              chapitre. ⚠️ Cela renverse le parti pris précédent, qui voulait
+              ces cas visiblement « subordonnés au cas phare ». */}
           <SectionHeader
             variant="inline"
-            index="02"
-            eyebrow="Autres réalisations"
             title="Résultats observés sur des cas concrets"
+            titleId="other-cases-title"
             className="mb-4"
           />
 
@@ -382,12 +566,12 @@ export function UseCases() {
                   {/* Texte — reste premier dans le DOM, l'ordre visuel alterne via `order` */}
                   <div className={visualFirst ? 'md:order-2' : ''}>
                     <div className="flex items-baseline gap-4">
-                      <span className="font-display text-[13px] tabular-nums tracking-[0.16em] text-accent-primary">
-                        {String(index + 1).padStart(2, '0')}
+                      {/* Décalé du nombre de cas déjà numérotés en amont : le
+                          cas phare occupe 01, ceux-ci poursuivent la série. */}
+                      <span className="text-case-index">
+                        {String(index + 1 + FEATURED_CASE_COUNT).padStart(2, '0')}
                       </span>
-                      <span className="font-body text-[10px] uppercase tracking-[0.2em] text-text-muted">
-                        {useCase.tag}
-                      </span>
+                      <span className="text-eyebrow">{useCase.tag}</span>
                     </div>
 
                     {/* Le nom du cas passe avant la métrique : sans lui, la
@@ -447,7 +631,7 @@ export function UseCases() {
                     {/* Vrai lien vers /etudes-de-cas/:slug (indexable), anchor
                         descriptif plutôt que générique — cf. section 5 de l'audit SEO. */}
                     <Link
-                      to={`/etudes-de-cas/${useCase.slug}`}
+                      to={`/etudes-de-cas/${useCase.slug}/`}
                       onClick={(e) => { e.preventDefault(); setSelectedCase(useCase); }}
                       className="
                         inline-flex items-center gap-2 mt-4

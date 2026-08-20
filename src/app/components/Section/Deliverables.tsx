@@ -85,7 +85,7 @@ export function DeliverablesSection() {
          le conteneur de reference du rail sticky, qui se retrouvait pousse de
          74px vers le bas et desaligne de la colonne de droite. `clip` protege
          d'un debordement horizontal sans creer de conteneur de defilement. */
-      className="relative py-28 md:py-40 bg-surface-0 border-t border-border-0 overflow-x-clip"
+      className="relative py-28 md:py-40 bg-bg-section-tint border-t border-border-0 overflow-x-clip"
     >
       <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
         <StickySplit
@@ -171,7 +171,7 @@ export function DeliverablesSection() {
                 <div className="flex justify-center" aria-hidden="true">
                   <span
                     data-step-node
-                    className="relative z-10 mt-[5px] grid h-11 w-11 shrink-0 place-items-center rounded-full bg-surface-1 text-accent-primary ring-4 ring-surface-0 border border-border-1 transition-transform duration-300 group-hover:scale-110"
+                    className="relative z-10 mt-[5px] grid h-11 w-11 shrink-0 place-items-center rounded-full bg-surface-raised text-accent-primary ring-4 ring-bg-section-tint border border-border-1 transition-transform duration-300 group-hover:scale-110"
                   >
                     {d.icon}
                   </span>

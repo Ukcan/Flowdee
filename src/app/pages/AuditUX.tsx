@@ -213,7 +213,7 @@ export function AuditUXPage() {
                   </p>
                   {relatedCase && (
                     <Link
-                      to={`/etudes-de-cas/${relatedCase.slug}`}
+                      to={`/etudes-de-cas/${relatedCase.slug}/`}
                       className="inline-flex items-center gap-1.5 mt-5 font-body text-[13px] font-medium text-accent-primary hover:underline"
                     >
                       Voir l’étude de cas : {relatedCase.title}

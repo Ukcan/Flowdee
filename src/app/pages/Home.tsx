@@ -1,95 +1,61 @@
 import React from 'react';
 import { HeroSection } from '../components/Section/Hero';
+import { AIWorkflowSection } from '../components/Section/AIWorkflow';
 import { TrustedClientsSection } from '../components/Section/TrustedClients';
 import { ProblemsSection } from '../components/Section/Problems';
 import { DeliverablesSection } from '../components/Section/Deliverables';
 import { CaseStudiesSection } from '../components/Section/CaseStudies';
 import { ServicesSection } from '../components/Section/Services';
 import { ApproachSection } from '../components/Section/Approach';
-import { AIWorkflowSection } from '../components/Section/AIWorkflow';
 import { FAQSection } from '../components/Section/FAQ';
 import { FinalCTASection } from '../components/Section/FinalCTA';
 import { ScrollReveal } from '../components/Decor/ScrollReveal';
 import { useSeo } from '../hooks/useSeo';
 
-/**
- * Page d'accueil. Le contenu (sections + animations ScrollReveal) est
- * inchangé — seul son emplacement change : il vivait directement dans
- * `App.tsx`, qui devient une coquille de routes.
- *
- * Le title/description/canonical posés ici doivent rester identiques à ceux
- * figés dans `index.html` (voir le commentaire là-bas) : cette fonction ne
- * fait que les réappliquer si le visiteur revient sur "/" après avoir
- * navigué côté client vers une autre route.
- */
 export function HomePage() {
-  useSeo({
-    title: 'Audit UX & Conversion pour sites et SaaS | Flowdee',
-    description:
-      "Flowdee audite vos parcours, landing pages et produits SaaS pour identifier les frictions UX, prioriser les corrections et améliorer la conversion.",
-    canonical: 'https://flowdee.fr/',
-  });
-
+  useSeo({ title: 'Audit UX & Conversion pour sites et SaaS | Flowdee', description: 'Flowdee audite vos parcours, landing pages et produits SaaS pour identifier les frictions UX, prioriser les corrections et améliorer la conversion.', canonical: 'https://flowdee.fr/' });
   return (
     <>
-      {/* Hero — pas de ScrollTrigger, entre dès le chargement */}
       <HeroSection />
 
-      {/* IA — remontée du dernier tiers de page au premier (revue Adel ×
-          Benji du 2026-08-18, F-11 du diagnostic initial) : le vrai
-          différenciateur (IA + expertise humaine, livrable repris par une
-          équipe dev ou un assistant de code) était en position 8/10, après
-          la section "Signaux" que n'importe quel concurrent pourrait écrire.
-          Il ouvre maintenant la page, juste après la promesse du hero. */}
-      <ScrollReveal variant="fadeLeft" duration={0.75} threshold="top 90%">
-        <AIWorkflowSection />
-      </ScrollReveal>
+      {/* IA — position 2, juste après la promesse du hero. Décision de la revue
+          Adel × Benji du 2026-08-18 (F-11 du diagnostic) : le vrai
+          différenciateur (IA + expertise humaine, livrable repris par une équipe
+          dev ou un assistant de code) était en position 8/10, après la section
+          « Signaux » que n'importe quel concurrent pourrait écrire.
 
-      {/* Problèmes — stagger sur les cards */}
-      <ScrollReveal variant="stagger" staggerAmount={0.18} threshold="top 85%">
-        <ProblemsSection />
-      </ScrollReveal>
+          ⚠️ Cette section a déjà été retirée une fois de la page par mégarde
+          (commit 040d09c, 19/08) : elle est restée orpheline — fichier présent,
+          montée nulle part — jusqu'à ce que Benji le repère. Ne pas la déplacer
+          ni la retirer sans un arbitrage explicite de sa part. */}
+      <ScrollReveal variant="fadeLeft" duration={0.75} threshold="top 90%"><AIWorkflowSection /></ScrollReveal>
 
-      {/* Livrables — pas de wrapper ScrollReveal ici : GSAP laisse un
-          transform residuel sur le wrapper, et un ancetre transforme
-          neutralise le position: sticky du rail de gauche. La section
-          anime deja ses propres elements (motion whileInView). */}
+      <ScrollReveal variant="fadeUp" delay={0.1} duration={0.6} threshold="top 92%"><TrustedClientsSection /></ScrollReveal>
+      <ScrollReveal variant="stagger" staggerAmount={0.18} threshold="top 85%"><ProblemsSection /></ScrollReveal>
+
+      {/* Livrables — SANS wrapper ScrollReveal, et ce n'est pas un oubli.
+          La colonne de gauche de cette section est en `position: sticky`
+          (Layout/StickySplit). Or un élément sticky se cale sur son premier
+          ancêtre porteur d'un `transform`, et sur la fenêtre seulement à
+          défaut : il suffit qu'un parent en ait un — fût-il l'identité — pour
+          que le rail décroche.
+
+          ScrollReveal anime en GSAP (`gsap.from(ref, { x: 0, y: 0, scale: 1 })`,
+          hooks/useScrollReveal.ts) et le hook n'appelle jamais `clearProps` :
+          le `transform` inline reste posé sur le wrapper une fois l'animation
+          terminée. L'envelopper casserait donc le rail — sans erreur, sans
+          avertissement, sans rien en console.
+
+          La section anime déjà ses propres éléments (motion whileInView), elle
+          n'a besoin de personne au-dessus. */}
       <DeliverablesSection />
 
-      {/* Services — fadeUp standard */}
-      <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%">
-        <ServicesSection />
-      </ScrollReveal>
-
-      {/* Logos clients + témoignage — déplacés depuis juste après le hero
-          (revue Adel × Benji du 2026-08-18) : la preuve sociale n'a de poids
-          qu'une fois le problème posé et l'offre comprise, pas avant. Ils
-          rejoignent maintenant le bloc de preuve concrète (études de cas). */}
-      <ScrollReveal variant="fadeUp" delay={0.1} duration={0.6} threshold="top 92%">
-        <TrustedClientsSection />
-      </ScrollReveal>
-
-      {/* Case Studies — stagger sur les cards */}
-      <ScrollReveal variant="stagger" staggerAmount={0.2} threshold="top 80%">
-        <CaseStudiesSection />
-      </ScrollReveal>
-
-      {/* Approche — fadeUp : le manifeste s'installe, il ne "pop" pas */}
-      <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%">
-        <ApproachSection />
-      </ScrollReveal>
-
-      {/* FAQ — fadeUp, légèrement différé */}
-      <ScrollReveal variant="fadeUp" delay={0.05} duration={0.7} threshold="top 85%">
-        <FAQSection />
-      </ScrollReveal>
-
-      {/* Final CTA — fadeIn + scale, impact maximal */}
-      <ScrollReveal variant="scaleUp" duration={0.9} threshold="top 80%">
-        <FinalCTASection />
-      </ScrollReveal>
+      <ScrollReveal variant="stagger" staggerAmount={0.2} threshold="top 80%"><CaseStudiesSection /></ScrollReveal>
+      <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%"><ServicesSection /></ScrollReveal>
+      <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%"><ApproachSection /></ScrollReveal>
+      <ScrollReveal variant="fadeUp" delay={0.05} duration={0.7} threshold="top 85%"><FAQSection /></ScrollReveal>
+      <ScrollReveal variant="scaleUp" duration={0.9} threshold="top 80%"><FinalCTASection /></ScrollReveal>
     </>
   );
 }
-
 export default HomePage;

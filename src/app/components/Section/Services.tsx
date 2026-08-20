@@ -302,7 +302,7 @@ export function ServicesSection() {
   return (
     <section
       id="services"
-      className="services-blueprint-section relative py-24 md:py-32 overflow-hidden bg-surface-1 border-t border-border-0"
+      className="services-blueprint-section relative py-24 md:py-32 overflow-hidden bg-bg-base border-t border-border-0"
       aria-label="Offres et tarifs"
     >
       {/* Container resserré face à Deliverables (1320) : la comparaison se lit

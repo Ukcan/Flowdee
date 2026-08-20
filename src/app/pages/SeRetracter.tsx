@@ -1,5 +1,6 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
+import { ArrowLeft } from '@phosphor-icons/react';
 import { ButtonPrimary } from '../components/Button/Primary';
 import { ButtonSecondary } from '../components/Button/Secondary';
 import { useSeo } from '../hooks/useSeo';
@@ -194,6 +195,16 @@ export function SeRetracterPage() {
           <li className="text-text-secondary" aria-current="page">Se rétracter</li>
         </ol>
       </nav>
+
+      <div className="max-w-[720px] mx-auto px-8 md:px-16 mt-6">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-3 rounded-2xl border border-border-0 bg-surface-1 px-5 py-2.5 font-body text-[14px] font-bold text-text-primary transition-all hover:text-accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
+        >
+          <ArrowLeft className="w-5 h-5" aria-hidden="true" />
+          <span>Retour</span>
+        </Link>
+      </div>
 
       <div className="max-w-[720px] mx-auto px-8 md:px-16 py-12 md:py-16">
         <div className="space-y-6 mb-10">
