@@ -91,7 +91,12 @@
      En ivoire elle assombrit DEUX FOIS : la surface la plus sombre du thème,
      plus un accent qui y est sombre (#6B5430). À 6 % le texte courant tombait
      à 4,51:1, soit le seuil AA franchi de 0,01 — trop juste pour être stable.
-     La part descend donc à 3 % dans cette seule portée. */
+     La part descend donc à 3 % dans cette seule portée.
+     Second assombrissement le 20/08 : le navy passe de surface-0 à bg-base,
+     l'ivoire reste au plancher — surface-2 EST sa surface la plus sombre, et
+     descendre plus bas passerait par l'accent brun, ce qui referait tomber le
+     texte sous 4,5:1. Les deux thèmes ne peuvent donc pas s'assombrir
+     symétriquement. */
   --bg-section-tint: color-mix(in srgb, var(--surface-2) 97%, var(--accent-primary) 3%);
 
   /* Logo — la tuile du monogramme appartient au logo, pas au thème : elle
@@ -154,7 +159,7 @@
   --glow-accent: 0 0 0 3px rgba(212, 178, 115, 0.22);
   --inset-topline: inset 0 1px 0 rgba(245, 240, 232, 0.09);
   --bg-section-strong: var(--surface-2);
-  --bg-section-tint: color-mix(in srgb, var(--surface-0) 94%, var(--accent-primary) 6%);
+  --bg-section-tint: color-mix(in srgb, var(--bg-base) 95%, var(--accent-primary) 5%);
   /* La tuile (#181B1F) ne tient que 1,15:1 face au navy des surfaces : son
      bord s'évanouit. Le filet clair le redessine sans toucher au logo. */
   --logo-tile-ring: rgba(255, 255, 255, 0.14);
@@ -200,7 +205,7 @@
   --shadow-panel: 0 1px 3px rgba(0,0,0,0.30), 0 8px 24px rgba(0,0,0,0.25);
   --shadow-soft: 0 10px 36px rgba(0,0,0,0.40);
   --bg-section-strong: var(--surface-2);
-  --bg-section-tint: color-mix(in srgb, var(--surface-0) 94%, var(--accent-primary) 6%);
+  --bg-section-tint: color-mix(in srgb, var(--bg-base) 95%, var(--accent-primary) 5%);
 }
 
 @theme inline {

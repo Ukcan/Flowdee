@@ -85,7 +85,7 @@ export function DeliverablesSection() {
          le conteneur de reference du rail sticky, qui se retrouvait pousse de
          74px vers le bas et desaligne de la colonne de droite. `clip` protege
          d'un debordement horizontal sans creer de conteneur de defilement. */
-      className="relative py-28 md:py-40 bg-bg-section-tint border-t border-border-0 overflow-x-clip"
+      className="relative py-20 md:py-28 bg-bg-section-tint border-t border-border-0 overflow-x-clip"
     >
       <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
         <StickySplit
@@ -154,7 +154,7 @@ export function DeliverablesSection() {
                    doit pouvoir s'y caler de façon déterministe. Élargie de 32 à
                    44px pour accueillir la pastille (voir `gutter` sur
                    StepPath). */
-                className={`group grid grid-cols-[44px_minmax(0,1fr)] gap-x-4 md:gap-x-6 pb-12 md:pb-16 last:pb-0 duration-500 ease-out ${reveal}`}
+                className={`group grid grid-cols-[44px_minmax(0,1fr)] gap-x-4 md:gap-x-6 pb-7 md:pb-9 last:pb-0 duration-500 ease-out ${reveal}`}
               >
                 {/* Jalon posé sur le tracé. Il portait un simple point de 11px
                     et le pictogramme vivait devant le titre, où il coupait la
@@ -171,7 +171,7 @@ export function DeliverablesSection() {
                 <div className="flex justify-center" aria-hidden="true">
                   <span
                     data-step-node
-                    className="relative z-10 mt-[5px] grid h-11 w-11 shrink-0 place-items-center rounded-full bg-surface-raised text-accent-primary ring-4 ring-bg-section-tint border border-border-1 transition-transform duration-300 group-hover:scale-110"
+                    className="relative z-10 mt-[3px] grid h-12 w-12 shrink-0 place-items-center rounded-full bg-surface-raised text-accent-primary ring-4 ring-bg-section-tint border border-accent-primary/25 shadow-panel transition-transform duration-300 group-hover:scale-110"
                   >
                     {d.icon}
                   </span>
