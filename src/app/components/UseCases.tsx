@@ -341,13 +341,15 @@ export function UseCases() {
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
           >
-            {/* Le numéro ouvre la série et domine son étiquette : il situe le
-                lecteur, l'étiquette ne fait que qualifier. Il était à la même
-                taille que l'étiquette (12px), soit quatre fois plus petit que
-                le titre qu'il était censé repérer. */}
+            {/* Même surtitre que les cartes 02 et 03 : la série 01/02/03 doit
+                se lire d'une seule graisse. Le numéro avait été grossi le
+                matin du 20/08 parce qu'il se perdait sous un titre plus gros
+                que lui ; ce n'est plus le problème depuis que le RÉSULTAT
+                porte le poids de chaque cas. Le repère situe, il ne domine
+                plus (arbitrage Benji, 2026-08-20). */}
             <p className="flex items-baseline gap-4">
-              <span className="text-case-index">01</span>
-              <span className="text-eyebrow">Étude de cas</span>
+              <span className="font-body text-[12px] font-medium uppercase tracking-[0.18em] tabular-nums text-accent-primary">01</span>
+              <span className="font-body text-[12px] font-medium uppercase tracking-[0.18em] text-text-muted">Étude de cas</span>
             </p>
             <h2 id="featured-case-title" className="text-section-title mt-6 max-w-[15ch] text-balance">
               {featuredCase.title}
@@ -563,21 +565,38 @@ export function UseCases() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.55 }}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center py-14 md:py-20 border-t border-border-0"
+                  /* Plus de filet séparateur entre les lignes : chaque cas est
+                     désormais posé dans sa propre carte, c'est elle qui le
+                     délimite. Deux délimitations feraient redondance. */
+                  className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center py-8 md:py-10"
                 >
                   {/* Texte — premier dans le DOM comme à l'écran, sur toutes
-                      les lignes : plus d'utilitaire `order` à maintenir. */}
-                  <div>
+                      les lignes : plus d'utilitaire `order` à maintenir.
+
+                      Encadré, comme sur le design : la carte tient le cas
+                      ensemble et le détache du fond de section. Rayon aligné
+                      sur les 20px du visuel voisin, et non sur les 6px du
+                      canevas — les deux blocs d'une même ligne doivent se
+                      répondre. */}
+                  <div className="rounded-[20px] border border-border-0 bg-surface-0 p-7 md:p-9 lg:p-11">
+                    {/* Le numéro redevient un surtitre en ligne avec
+                        l'étiquette (design « Hiérarchie cas client », 2026-08-20).
+                        Il avait été grossi le matin même parce qu'il se perdait
+                        sous un titre plus gros que lui ; ce n'est plus le
+                        problème depuis que le RÉSULTAT porte le poids de la
+                        carte. Le repère situe, il n'a plus à dominer.
+                        Décalé du nombre de cas déjà numérotés en amont : le cas
+                        phare occupe 01, ceux-ci poursuivent la série. */}
                     <div className="flex items-baseline gap-4">
-                      {/* Décalé du nombre de cas déjà numérotés en amont : le
-                          cas phare occupe 01, ceux-ci poursuivent la série. */}
-                      <span className="text-case-index">
+                      <span className="font-body text-[12px] font-medium uppercase tracking-[0.18em] tabular-nums text-accent-primary">
                         {String(index + 1 + FEATURED_CASE_COUNT).padStart(2, '0')}
                       </span>
-                      <span className="text-eyebrow">{useCase.tag}</span>
+                      <span className="font-body text-[12px] font-medium uppercase tracking-[0.18em] text-text-muted">
+                        {useCase.tag}
+                      </span>
                     </div>
 
-                    <h3 className="font-heading text-[26px] md:text-[32px] lg:text-[36px] text-text-primary leading-[1.15] tracking-[-0.02em] mt-6 text-balance" style={{ fontWeight: 600 }}>
+                    <h3 className="font-heading text-[28px] md:text-[34px] lg:text-[40px] text-text-primary leading-[1.15] tracking-[-0.02em] mt-5 text-balance" style={{ fontWeight: 600 }}>
                       {useCase.title}
                     </h3>
 
@@ -643,7 +662,13 @@ export function UseCases() {
                         rounded-sm min-h-[44px]
                       "
                     >
-                      Voir l’étude de cas : {useCase.title} →
+                      {/* Libellé court à l'écran (design), mention complète
+                          conservée pour les lecteurs d'écran et l'indexation :
+                          un anchor descriptif plutôt que générique était un
+                          parti pris de l'audit SEO, section 5. Le `sr-only`
+                          garde les deux sans les afficher. */}
+                      <span aria-hidden="true">Voir l’étude de cas →</span>
+                      <span className="sr-only">Voir l’étude de cas : {useCase.title}</span>
                     </Link>
                   </div>
 
