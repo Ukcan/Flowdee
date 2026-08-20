@@ -565,20 +565,21 @@ export function UseCases() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.55 }}
-                  /* Plus de filet séparateur entre les lignes : chaque cas est
-                     désormais posé dans sa propre carte, c'est elle qui le
-                     délimite. Deux délimitations feraient redondance. */
-                  className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center py-8 md:py-10"
-                >
-                  {/* Texte — premier dans le DOM comme à l'écran, sur toutes
-                      les lignes : plus d'utilitaire `order` à maintenir.
+                  /* La carte englobe le cas ENTIER, texte et visuel (demande
+                     Benji, 2026-08-20). Elle encadrait d'abord la seule colonne
+                     de texte, l'image restant dehors dans son propre cadre :
+                     deux blocs bordés côte à côte, sans rien qui dise qu'ils
+                     parlent du même cas. Un seul contenant le dit.
 
-                      Encadré, comme sur le design : la carte tient le cas
-                      ensemble et le détache du fond de section. Rayon aligné
-                      sur les 20px du visuel voisin, et non sur les 6px du
-                      canevas — les deux blocs d'une même ligne doivent se
-                      répondre. */}
-                  <div className="rounded-[20px] border border-border-0 bg-surface-0 p-7 md:p-9 lg:p-11">
+                     Plus de filet séparateur entre les lignes non plus : la
+                     carte délimite déjà, deux délimitations feraient redondance.
+                     Le `py` ne sert plus qu'à espacer les cartes entre elles. */
+                  className="py-6 md:py-8"
+                >
+                  <div className="rounded-[20px] border border-border-0 bg-surface-0 p-7 md:p-9 lg:p-11 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
+                  {/* Texte — premier dans le DOM comme à l'écran, sur toutes
+                      les lignes : plus d'utilitaire `order` à maintenir. */}
+                  <div>
                     {/* Le numéro redevient un surtitre en ligne avec
                         l'étiquette (design « Hiérarchie cas client », 2026-08-20).
                         Il avait été grossi le matin même parce qu'il se perdait
@@ -678,9 +679,13 @@ export function UseCases() {
                     </Link>
                   </div>
 
-                  {/* Visuel */}
+                  {/* Visuel — sans bordure ni fond propres : il vit désormais
+                      DANS la carte, qui les porte déjà. Rayon plus petit que
+                      celui du contenant (14 contre 20px), comme le veut
+                      l'emboîtement : un rayon égal donnerait deux courbes
+                      concentriques mal ajustées. */}
                   <div>
-                    <div className="relative aspect-[4/3] rounded-[20px] overflow-hidden border border-border-0 bg-surface-0">
+                    <div className="relative aspect-[4/3] rounded-[14px] overflow-hidden bg-bg-base">
                       <ImageWithFallback
                         src={useCase.image}
                         srcWebp={useCase.imageWebp}
@@ -688,6 +693,7 @@ export function UseCases() {
                         className="w-full h-full object-cover object-top"
                       />
                     </div>
+                  </div>
                   </div>
                 </motion.article>
               );
