@@ -390,7 +390,9 @@
   .text-body-lg { font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.65; color: var(--text-secondary); }
   .text-body { font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--text-secondary); }
   .text-eyebrow { font-family: var(--font-body); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; line-height: 1.3; text-transform: uppercase; color: var(--text-muted); }
-  .text-metadata { font-family: var(--font-body); font-size: 0.875rem; font-weight: 500; letter-spacing: 0.04em; line-height: 1.45; color: var(--text-muted); }`r`n  /* === BG Mercury (clean ivory) === */
+  .text-metadata { font-family: var(--font-body); font-size: 0.875rem; font-weight: 500; letter-spacing: 0.04em; line-height: 1.45; color: var(--text-muted); }
+
+  /* === BG Mercury (clean ivory) === */
   .bg-grid-container {
     @apply fixed inset-0 z-[-1] pointer-events-none overflow-hidden;
     background-color: var(--bg-base);
