@@ -49,9 +49,13 @@ motivé le garde-fou du §2.
 
 ### Partiels
 
-- **F-03** — à 390 × 844 le bandeau ne recouvre plus le CTA. **À 360 × 640, aucun CTA
-  n'est visible** à l'arrivée, et le prix n'apparaît dans aucun des deux formats. Le
-  critère nomme les deux tailles. Le bandeau fait 166 px, contre les 72–96 px demandés.
+- **F-03** — ⏳ **volet CTA réglé le 20/08** (`627cfbd`). Mesuré en production : le CTA
+  est entièrement visible au-dessus du pli dans les deux formats du critère —
+  360 × 640 (pli 534, CTA 456→504, marge 30 px) et 390 × 844 (marge 135 px). Le
+  bandeau est passé de **166 à 106 px**, ses trois choix sur une ligne, comme le
+  demandait la correction. F-15 revérifié : 12 px, 44 px de haut, tous cliquables.
+  **Reste la moitié du critère** : le prix, absent du hero. C'est une décision
+  commerciale, pas une correction de mise en page.
   ➡️ Dernier P1 encore à portée du code. Deux voies au choix dans le document : barre
   compacte à trois choix sur une ligne, ou bandeau retardé au premier défilement.
   Recommandation : la barre compacte — retarder ressemble à une esquive. Mais ça touche
@@ -73,6 +77,7 @@ motivé le garde-fou du §2.
 | **F-06** | Voir §5 — brief complet, en attente de Benji. |
 | **F-07** | « CEO, Hub LMS » : toujours anonyme. Un témoignage nommé, ou le retirer. |
 | **F-17** | Voir §3 — mesuré, mauvais échange en l'état. |
+| **Dette CI** | ✅ **réglée le 20/08** (`91cc934`) — les quatre actions GitHub sont passées en runtime node24, versions lues dans leur `action.yml`. Zéro annotation Node 20 sur le run de déploiement, et la CI tourne désormais avec la même chaîne d'outils que la machine de développement (pnpm 11, Node 24, wrangler 4.96.0 constaté dans le journal). |
 | **F-19** | 44 textes sous 12 px. Arbitrage typographique : lesquels sont porteurs de sens. Le constat cite nommément les attributions, les étiquettes de comparateur et les métadonnées d'offre. |
 
 ### Hors de portée d'ici
