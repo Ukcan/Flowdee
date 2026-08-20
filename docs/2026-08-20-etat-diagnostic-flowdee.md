@@ -49,13 +49,17 @@ motivé le garde-fou du §2.
 
 ### Partiels
 
-- **F-03** — ⏳ **volet CTA réglé le 20/08** (`627cfbd`). Mesuré en production : le CTA
+- **F-03** — ✅ **réglé le 20/08** (`627cfbd`). Mesuré en production : le CTA
   est entièrement visible au-dessus du pli dans les deux formats du critère —
   360 × 640 (pli 534, CTA 456→504, marge 30 px) et 390 × 844 (marge 135 px). Le
   bandeau est passé de **166 à 106 px**, ses trois choix sur une ligne, comme le
   demandait la correction. F-15 revérifié : 12 px, 44 px de haut, tous cliquables.
-  **Reste la moitié du critère** : le prix, absent du hero. C'est une décision
-  commerciale, pas une correction de mise en page.
+  ✅ **Volet prix réglé le 20/08** (`9ef5aaf`) : l'accroche du hero devient
+  « Audit UX & Conversion · **890 €** · Sous 5 jours ouvrés », composée depuis
+  `AUDIT_PRICE` et non écrite à la main — `check:offer` propage donc tout
+  changement de tarif. L'accroche passe de 10/11 à 12 px au passage, ce qui sert
+  aussi F-19 (« les métadonnées d'offre »). Mesuré en production : prix 48→88,
+  CTA 463→511, pli 534. **Le critère de F-03 est entièrement rempli.**
   ➡️ Dernier P1 encore à portée du code. Deux voies au choix dans le document : barre
   compacte à trois choix sur une ligne, ou bandeau retardé au premier défilement.
   Recommandation : la barre compacte — retarder ressemble à une esquive. Mais ça touche
