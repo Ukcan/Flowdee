@@ -105,6 +105,11 @@ const compareScreens = [
  * inutilisables — d'où `handleKeyDown`, qui leur redonne un pas utile.
  */
 
+/* Les réalisations forment UNE seule suite numérotée : le cas phare prend 01,
+   les autres continuent en 02, 03… Passer par une constante évite que le
+   décalage se désynchronise si un second cas phare apparaissait un jour. */
+const FEATURED_CASE_COUNT = 1;
+
 /* Pas du glisser : assez fin pour être fluide, assez grand pour rester discret. */
 const DRAG_STEP = 0.25;
 /* Pas au clavier : ~50 pressions pour traverser l'image. */
@@ -336,11 +341,15 @@ export function UseCases() {
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
           >
-            <p className="text-eyebrow flex items-baseline gap-2">
-              <span className="text-accent-primary">01 ·</span>
-              <span>Étude de cas</span>
+            {/* Le numéro ouvre la série et domine son étiquette : il situe le
+                lecteur, l'étiquette ne fait que qualifier. Il était à la même
+                taille que l'étiquette (12px), soit quatre fois plus petit que
+                le titre qu'il était censé repérer. */}
+            <p className="flex items-baseline gap-4">
+              <span className="text-case-index">01</span>
+              <span className="text-eyebrow">Étude de cas</span>
             </p>
-            <h2 id="featured-case-title" className="text-section-title mt-10 max-w-[15ch] text-balance">
+            <h2 id="featured-case-title" className="text-section-title mt-6 max-w-[15ch] text-balance">
               {featuredCase.title}
             </h2>
             <p className="text-lede mt-7 max-w-[60ch]">{featuredCase.headerSubtitle}</p>
@@ -518,16 +527,23 @@ export function UseCases() {
       <section
         id="case-studies-list"
         className="py-24 md:py-32 bg-bg-base border-b border-border-1 relative overflow-hidden"
-        aria-label="Autres réalisations"
+        aria-labelledby="other-cases-title"
       >
         <div className="max-w-[1320px] mx-auto px-8 md:px-16 relative z-10">
-          {/* Header compact : ces cas sont subordonnés au cas phare ci-dessus,
-              la hiérarchie doit se voir avant même de lire. */}
+          {/* Plus de « 02 · Autres réalisations ». Cet en-tête ouvrait une
+              SECONDE série numérotée repartant de 01 : la page comptait donc
+              deux « 01 », et les réalisations se lisaient comme deux lots
+              séparés. Elles forment désormais une seule suite — le cas phare
+              est 01, ceux-ci continuent en 02 et 03 (décision Benji,
+              2026-08-20).
+
+              Le titre reste : il introduit la suite, il ne rouvre plus un
+              chapitre. ⚠️ Cela renverse le parti pris précédent, qui voulait
+              ces cas visiblement « subordonnés au cas phare ». */}
           <SectionHeader
             variant="inline"
-            index="02"
-            eyebrow="Autres réalisations"
             title="Résultats observés sur des cas concrets"
+            titleId="other-cases-title"
             className="mb-4"
           />
 
@@ -550,12 +566,12 @@ export function UseCases() {
                   {/* Texte — reste premier dans le DOM, l'ordre visuel alterne via `order` */}
                   <div className={visualFirst ? 'md:order-2' : ''}>
                     <div className="flex items-baseline gap-4">
-                      <span className="font-display text-[13px] tabular-nums tracking-[0.16em] text-accent-primary">
-                        {String(index + 1).padStart(2, '0')}
+                      {/* Décalé du nombre de cas déjà numérotés en amont : le
+                          cas phare occupe 01, ceux-ci poursuivent la série. */}
+                      <span className="text-case-index">
+                        {String(index + 1 + FEATURED_CASE_COUNT).padStart(2, '0')}
                       </span>
-                      <span className="font-body text-[10px] uppercase tracking-[0.2em] text-text-muted">
-                        {useCase.tag}
-                      </span>
+                      <span className="text-eyebrow">{useCase.tag}</span>
                     </div>
 
                     {/* Le nom du cas passe avant la métrique : sans lui, la
