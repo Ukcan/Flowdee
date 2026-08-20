@@ -62,7 +62,13 @@ export const AUDIT_DIMENSIONS_SENTENCE =
  * pour une commande du vendredi alors que l'engagement réel est le vendredi
  * suivant — deux jours calendaires d'écart, dans la ligne qui sert de promesse.
  */
-export const AUDIT_EYEBROW = `${AUDIT_NAME} · ${AUDIT_DELIVERY_SHORT}`;
+/* Le prix entre dans l'accroche (décision Benji, 2026-08-20) : le critère de
+   F-03 demande que « le prix ET le CTA principal soient visibles » à l'arrivée,
+   en 360×640 comme en 390×844. Le volet CTA était réglé, le prix n'apparaissait
+   nulle part avant la section Offres, à 70 % de la page.
+   Composé depuis AUDIT_PRICE et non écrit à la main : `check:offer` garantit
+   alors qu'un changement de tarif se propage ici sans intervention. */
+export const AUDIT_EYEBROW = `${AUDIT_NAME} · ${AUDIT_PRICE} · ${AUDIT_DELIVERY_SHORT}`;
 
 /** Repris à l'identique dans les livrables détaillés et dans les bénéfices du hero. */
 export const AUDIT_FIGMA_SCREEN = '1 écran clé corrigé dans Figma';
