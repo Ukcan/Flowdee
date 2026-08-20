@@ -63,8 +63,18 @@ export function HomePage() {
       <ScrollReveal variant="fadeUp" delay={0.1} duration={0.6} threshold="top 92%"><TrustedClientsSection /></ScrollReveal>
 
       <ScrollReveal variant="stagger" staggerAmount={0.2} threshold="top 80%"><CaseStudiesSection /></ScrollReveal>
-      <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%"><ServicesSection /></ScrollReveal>
+      {/* Approche AVANT les offres, et non après. L'offre est la demande ;
+          tout ce qui la précède doit construire le dossier. Réalisations =
+          la preuve, Approche = comment je travaille, Offres = combien. Poser
+          le prix avant la méthode revient à demander de l'argent avant d'avoir
+          expliqué le travail (décision Benji, 2026-08-20).
+
+          Va dans le sens du compte rendu de la réunion Adel × Benji, [10:58] :
+          « tu demandes déjà un engagement alors que t'as pas fini de
+          convaincre ». Le tarif reste accessible tôt par le hero, dont le
+          diagnostic dit que la place est juste. */}
       <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%"><ApproachSection /></ScrollReveal>
+      <ScrollReveal variant="fadeUp" duration={0.8} threshold="top 82%"><ServicesSection /></ScrollReveal>
       <ScrollReveal variant="fadeUp" delay={0.05} duration={0.7} threshold="top 85%"><FAQSection /></ScrollReveal>
       <ScrollReveal variant="scaleUp" duration={0.9} threshold="top 80%"><FinalCTASection /></ScrollReveal>
     </>
