@@ -65,8 +65,8 @@ export function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
     { label: t.nav.frictions, id: 'problems' },
     { label: t.nav.deliverables, id: 'deliverables' },
     { label: t.nav.caseStudies, id: 'case-studies', primary: true },
-    { label: t.nav.services, id: 'services', primary: true },
     { label: t.nav.approach, id: 'approche', primary: true },
+    { label: t.nav.services, id: 'services', primary: true },
     { label: t.nav.faq, id: 'faq' },
     { label: t.nav.contact, id: 'contact', primary: true }
   ], [t]);

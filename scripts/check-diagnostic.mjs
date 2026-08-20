@@ -64,7 +64,24 @@ const root = path.resolve(__dirname, '..');
  * la formulation attendue d'un bandeau RGPD, la changer nuirait à sa clarté.
  * Toute autre occurrence doit échouer.
  */
-const F08_TOLERE = ['Nous utilisons des cookies'];
+const F08_TOLERE = [
+  /* Bandeau de consentement : il parle au nom de l'entité juridique, pas d'une
+     équipe. C'est la formulation attendue d'un bandeau RGPD. La phrase entière
+     est tolérée — la version précédente ne couvrait que son début et laissait
+     « analyser notre trafic » déclencher le contrôle. */
+  'Nous utilisons des cookies pour améliorer votre expérience et analyser notre trafic',
+  /* ⚠️ EXEMPTION ASSUMÉE, décision de Benji du 2026-08-20 : le libellé de
+     navigation « Notre approche » (en-tête ET pied de page, même clé i18n).
+     Elle va CONTRE la recommandation de F-08, qui demande d'assumer le « je »
+     partout — « le "je" est ici la position forte, pas la position modeste ».
+     Le reste du site garde le « je » (« Mon action » dans les cartes de cas a
+     justement été rétabli le matin même). Conséquence : le site mêle de
+     nouveau les deux personnes sur ce point précis, ce que le constat décrit
+     comme « une incohérence visible qui donne l'impression d'une façade ».
+     Retirer cette ligne fera de nouveau échouer le contrôle — c'est voulu, il
+     faut alors renommer le libellé, pas l'exempter deux fois. */
+  'Notre approche',
+];
 
 /**
  * F-13 — mots qui trahissent un intitulé anglais. Liste de mots-outils plutôt
@@ -134,14 +151,19 @@ const RELEVE_DOM = `() => {
     return (copie.textContent || '').replace(/\\s+/g, ' ').trim();
   };
 
-  const principal = document.querySelector('main') || document.body;
+  /* Tout le texte rendu, en-tête et pied de page COMPRIS. La version
+     précédente recomposait le contenu de main, puis les frères de body qui ne
+     contenaient pas main : or l'app monte header, main et footer dans un même
+     div, donc ce filtre excluait l'en-tête et le pied. Le contrôle F-08 ne
+     voyait que le corps, et a laissé passer un « Notre approche » posé dans le
+     menu. Trou trouvé le 20/08/2026 en éprouvant le contrôle sur un cas réel.
+     ⚠️ Pas d'accent grave dans ce commentaire : il vit dans un littéral de
+     gabarit, un accent grave y fermerait la chaîne. */
 
   return {
-    texteMain: (principal.innerText || '').replace(/\\s+/g, ' '),
-    texteBandeaux: [...document.querySelectorAll('body > *')]
-      .filter((e) => !e.contains(principal))
-      .map((e) => (e.innerText || '').replace(/\\s+/g, ' '))
-      .join(' '),
+    texteMain: (document.body.innerText || '').replace(/\\s+/g, ' '),
+    texteBandeaux: '',
+
     ariaLabels: [...document.querySelectorAll('[aria-label]')].map((e) => e.getAttribute('aria-label')),
     nomsInteractifs: [...document.querySelectorAll('button, a, [role="tab"], summary')]
       .map(nomAccessible)
