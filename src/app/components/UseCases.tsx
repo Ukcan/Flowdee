@@ -2,7 +2,7 @@ import neurolaboAnalysesWireframe from '../../assets/neurolabo-analyses-wirefram
 import neurolaboAnalysesOptimise from '../../assets/neurolabo-analyses-optimise.jpg';
 import neurolaboAnalysesWireframeWebp from '../../assets/neurolabo-analyses-wireframe.webp';
 import neurolaboAnalysesOptimiseWebp from '../../assets/neurolabo-analyses-optimise.webp';
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ArrowsHorizontal, X } from '@phosphor-icons/react';
 import { Link } from 'react-router';
@@ -123,10 +123,45 @@ function BeforeAfterSlider({
   afterWebp?: string;
 }) {
   const [sliderPos, setSliderPos] = useState(50);
+  const [dragging, setDragging] = useState(false);
+  const trackRef = useRef<HTMLDivElement>(null);
   const inputId = useId();
   const rounded = Math.round(sliderPos);
 
   const clamp = (value: number) => Math.min(100, Math.max(0, value));
+
+  /* Glisser par la poignée. Ce n'est PAS le retour du survol qui avait été
+     retiré (voir la note ci-dessus) : là, le rideau suivait le curseur sans
+     qu'on presse rien, depuis le conteneur entier, et écrasait le glisser
+     natif. Ici la capture est demandée au pressé sur la seule poignée et
+     rendue au relâché — presser, déplacer, relâcher.
+
+     `setPointerCapture` est ce qui rend le geste fiable : le pointeur reste
+     lié à la poignée même si le doigt sort de l'image, et le relâchement est
+     garanti, y compris hors fenêtre. C'est exactement ce qui manquait à
+     l'ancien `onMouseMove` sur window. */
+  const setFromClientX = (clientX: number) => {
+    const rect = trackRef.current?.getBoundingClientRect();
+    if (!rect || rect.width === 0) return;
+    setSliderPos(clamp(((clientX - rect.left) / rect.width) * 100));
+  };
+
+  const onHandlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.currentTarget.setPointerCapture(e.pointerId);
+    setDragging(true);
+  };
+
+  const onHandlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
+    setFromClientX(e.clientX);
+  };
+
+  const onHandlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
+    setDragging(false);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const steps: Record<string, number> = {
@@ -150,12 +185,20 @@ function BeforeAfterSlider({
   };
 
   return (
-    <div className="relative w-full aspect-[1600/782] cursor-ew-resize overflow-hidden select-none rounded-[16px] border border-border-0 bg-surface-1 shadow-panel">
+    <div
+      ref={trackRef}
+      className="relative w-full aspect-[1600/782] cursor-ew-resize overflow-hidden select-none rounded-[16px] border border-border-0 bg-surface-1 shadow-panel"
+    >
       <div className="absolute inset-0">
         <ImageWithFallback src={after} srcWebp={afterWebp} alt="Interface après refonte UX — version corrigée" className="w-full h-full object-cover" />
-        <div className="absolute bottom-6 right-6 z-20">
-          <span className="font-body text-[12px] bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
-            Après — optimisé
+        {/* Libellé raccourci sous 640px : à 343px de large, les deux pastilles
+            se chevauchaient au milieu de l'image et « Avant — wireframe » se
+            faisait recouvrir. La mention complète revient dès qu'il y a la
+            place. */}
+        <div className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 z-20">
+          <span className="font-body text-[11px] sm:text-[12px] bg-surface-0/75 backdrop-blur-md text-accent-primary border border-accent-primary/30 font-medium px-3 py-1 sm:px-4 sm:py-1.5 uppercase tracking-[0.15em] rounded-full whitespace-nowrap">
+            <span className="sm:hidden">Après</span>
+            <span className="hidden sm:inline">Après — optimisé</span>
           </span>
         </div>
       </div>
@@ -164,19 +207,62 @@ function BeforeAfterSlider({
         style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
       >
         <ImageWithFallback src={before} srcWebp={beforeWebp} alt="Interface avant refonte — version initiale" className="w-full h-full object-cover" />
-        <div className="absolute bottom-6 left-6 z-20">
-          <span className="font-body text-[12px] bg-surface-0/75 backdrop-blur-md text-text-secondary border border-border-0 font-medium px-4 py-1.5 uppercase tracking-[0.15em] rounded-full">
-            Avant — wireframe
+        <div className="absolute bottom-3 left-3 sm:bottom-6 sm:left-6 z-20">
+          <span className="font-body text-[11px] sm:text-[12px] bg-surface-0/75 backdrop-blur-md text-text-secondary border border-border-0 font-medium px-3 py-1 sm:px-4 sm:py-1.5 uppercase tracking-[0.15em] rounded-full whitespace-nowrap">
+            <span className="sm:hidden">Avant</span>
+            <span className="hidden sm:inline">Avant — wireframe</span>
           </span>
         </div>
       </div>
+      {/* Poignée — au-dessus de la commande (z-40), et seul endroit de l'image
+          qui capte le pointeur. Partout ailleurs le geste continue d'aller à
+          l'input, qui garde le clavier, la sémantique et le glisser natif.
+
+          Sur mobile, c'est ce qui rend le glisser fiable : `touch-action: none`
+          sur la poignée seule empêche le navigateur de confisquer un geste un
+          peu diagonal pour faire défiler la page. Le reste de l'image garde
+          `pan-y`, donc la lecture verticale n'est jamais bloquée. */}
       <div
-        className="absolute top-0 bottom-0 w-[2px] bg-accent-primary z-20 pointer-events-none flex items-center justify-center"
+        className="absolute top-0 bottom-0 z-40 flex w-[2px] items-center justify-center bg-accent-primary pointer-events-none"
         style={{ left: `${sliderPos}%` }}
       >
-        <div className="w-10 h-10 bg-surface-0 shadow-panel rounded-full flex items-center justify-center gap-1 border border-accent-primary">
-          <div className="w-[1px] h-4 bg-accent-primary" />
-          <div className="w-[1px] h-4 bg-accent-primary" />
+        {/* Zone de préhension de 64px autour d'un disque de 44 : la cible
+            tactile dépasse largement le visuel au lieu de l'alourdir. 44px est
+            aussi le plancher retenu ailleurs dans le projet pour les cibles. */}
+        <div
+          role="presentation"
+          onPointerDown={onHandlePointerDown}
+          onPointerMove={onHandlePointerMove}
+          onPointerUp={onHandlePointerUp}
+          onPointerCancel={onHandlePointerUp}
+          /* `shrink-0` : le parent ne fait que 2px de large, et flexbox comprimait
+             la zone de 64 à 44px — la cible tactile se réduisait au disque. */
+          className="pointer-events-auto flex h-16 w-16 shrink-0 cursor-ew-resize items-center justify-center"
+          style={{ touchAction: 'none' }}
+        >
+          {/* Accent plein plutôt qu'une surface translucide : la poignée se
+              superpose à deux images quelconques, l'une claire l'autre sombre.
+              Un fond de surface se fondait dans le côté sombre. La paire
+              --accent-primary / --on-accent est celle que le projet a déjà
+              mesurée pour porter du texte, dans les deux thèmes — elle garantit
+              le contraste sans dépendre de ce qu'il y a dessous. */}
+          <span
+            className={cn(
+              'flex h-11 w-11 md:h-12 md:w-12 items-center justify-center rounded-full',
+              'bg-accent-primary border border-[color:var(--on-accent)]/30',
+              'transition-[transform,box-shadow] duration-200 ease-out',
+              dragging ? 'scale-110 shadow-[0_0_0_7px_var(--accent-ring)]' : 'shadow-panel'
+            )}
+          >
+            {/* Une flèche double dit « ça se tire horizontalement » ; les deux
+                filets de 1px d'avant ne disaient rien de la direction. */}
+            <ArrowsHorizontal
+              size={20}
+              weight="bold"
+              className="text-[color:var(--on-accent)]"
+              aria-hidden="true"
+            />
+          </span>
         </div>
       </div>
 
