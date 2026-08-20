@@ -351,7 +351,7 @@ export function UseCases() {
           >
             <span />
             <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-muted">Avant</span>
-            <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-primary">Notre action</span>
+            <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-primary">Mon action</span>
             <span className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-accent-primary">Après</span>
           </div>
 
@@ -384,7 +384,7 @@ export function UseCases() {
               </div>
 
               <div>
-                <span className="lg:hidden block mb-1.5 font-body text-[10.5px] font-medium uppercase tracking-[0.16em] text-text-primary">Notre action</span>
+                <span className="lg:hidden block mb-1.5 font-body text-[10.5px] font-medium uppercase tracking-[0.16em] text-text-primary">Mon action</span>
                 <ul className="font-body text-[14px] md:text-[15px] leading-[1.7] text-text-primary space-y-2.5">
                   {voix.actions.map((action) => (
                     <li key={action} className="flex items-start gap-3">
